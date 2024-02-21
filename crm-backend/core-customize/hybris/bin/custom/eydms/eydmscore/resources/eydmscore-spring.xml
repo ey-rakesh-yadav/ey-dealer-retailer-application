@@ -1,0 +1,1827 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			   http://www.springframework.org/schema/beans/spring-beans.xsd
+			   http://www.springframework.org/schema/context
+			   http://www.springframework.org/schema/context/spring-context.xsd
+               http://www.springframework.org/schema/util
+		       http://www.springframework.org/schema/util/spring-util.xsd">
+    <context:annotation-config/>
+
+    <!-- Spring Integration -->
+    <!--  <import resource="classpath:/eydmscore/integration/hot-folder-store-electronics-spring.xml"/>
+      <import resource="classpath:/eydmscore/integration/hot-folder-store-apparel-spring.xml"/>
+     -->
+    <import resource="classpath:/eydmscore/integration/hot-folder-common-spring.xml"/>
+    <import resource="spring-security-config.xml"/>
+    <import resource="classpath:/eydmscore/processes/sms-process-spring.xml"/>
+    <import resource="classpath:/eydmscore/processes/eydmsAddress-process-spring.xml"/>
+    <import resource="classpath:/eydmscore/processes/eydmsOrderCancel-process-spring.xml"/>
+    <import resource="classpath:/eydmscore/processes/eydmsOrderLineCancel-process-spring.xml"/>
+    <import resource="classpath:/eydmscore/processes/eydmsBranding-process-spring.xml"/>
+    <import resource="classpath:/eydmscore/integration/hot-folder-deliverysla-spring.xml"/>
+
+    <!-- SystemSetup for the EyDmsCore -->
+    <bean id="acceleratorCoreSystemSetup" class="com.eydms.core.setup.CoreSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <util:map id="endCustomerSortCodeToQueryAlias">
+        <entry key="requestraiseddate" value="n"/>
+        <entry key="requestraisedtime" value="n"/>
+        <entry key="requestid" value="n"/>
+        <entry key="modifiedtime" value="n"/>
+        <entry key="status" value="n"/>
+    </util:map>
+
+    <util:map id="technicalAssistanceSortCodeToQueryAlias">
+        <entry key="requestdate" value="t"/>
+        <entry key="name" value="t"/>
+        <entry key="requestno" value="t"/>
+        <entry key="modifiedtime" value="t"/>
+    </util:map>
+
+    <!-- Solr field value providers -->
+
+    <bean id="volumeAwareProductPriceValueProvider"
+          class="com.eydms.core.search.solrfacetsearch.provider.impl.VolumeAwareProductPriceValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="priceService" ref="priceService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="sessionService" ref="sessionService"/>
+        <property name="userService" ref="userService"/>
+        <property name="priceComparator" ref="volumePriceComparator"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+    </bean>
+
+    <bean id="volumePriceComparator" class="com.eydms.core.comparators.VolumeAwarePriceInformationComparator"
+          scope="singleton"/>
+
+    <bean id="productVolumePricesProvider"
+          class="com.eydms.core.search.solrfacetsearch.provider.impl.ProductVolumePricesProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="priceService" ref="priceService"/>
+    </bean>
+
+
+    <!--  <bean id="electronicsCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="1"/>
+          &lt;!&ndash; '1' is the root icecat category &ndash;&gt;
+      </bean>
+      <bean id="electronicsBrandCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="brands"/>
+          &lt;!&ndash; 'brands' is the root of the brands hierarchy &ndash;&gt;
+      </bean>
+
+      <bean id="apparelCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="categories"/>
+          &lt;!&ndash; 'categories' is the root apparel category &ndash;&gt;
+      </bean>
+      <bean id="apparelBrandCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="brands"/>
+          &lt;!&ndash; 'brands' is the root of the brands hierarchy &ndash;&gt;
+      </bean>
+      <bean id="apparelCollectionCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory"
+                    value="collections"/> &lt;!&ndash; 'collections' is the root of the collections hierarchy &ndash;&gt;
+      </bean>-->
+
+    <bean id="abstractCategoryCodeValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    <bean id="abstractCategoryNameValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!--  <bean id="electronicsCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+          <property name="categorySource" ref="electronicsCategorySource"/>
+      </bean>
+      <bean id="electronicsBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+          <property name="categorySource" ref="electronicsBrandCategorySource"/>
+      </bean>
+      <bean id="electronicsCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+          <property name="categorySource" ref="electronicsCategorySource"/>
+      </bean>
+      <bean id="electronicsBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+          <property name="categorySource" ref="electronicsBrandCategorySource"/>
+      </bean>-->
+
+    <!--    <bean id="apparelCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelCategorySource"/>
+        </bean>
+        <bean id="apparelBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelBrandCategorySource"/>
+        </bean>
+        <bean id="apparelCollectionCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelCollectionCategorySource"/>
+        </bean>
+        <bean id="apparelCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelCategorySource"/>
+        </bean>
+        <bean id="apparelBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelBrandCategorySource"/>
+        </bean>
+        <bean id="apparelCollectionCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelCollectionCategorySource"/>
+        </bean>-->
+
+    <bean id="image515ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="515Wx515H"/>
+    </bean>
+    <bean id="image300ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="300Wx300H"/>
+    </bean>
+    <bean id="image96ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="96Wx96H"/>
+    </bean>
+    <bean id="image65ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="65Wx65H"/>
+    </bean>
+    <bean id="image30ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="30Wx30H"/>
+    </bean>
+
+    <bean id="productUrlValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.ProductUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="urlResolver" ref="productModelUrlResolver"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="i18nService" ref="i18nService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean id="promotionCodeValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PromotionCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="promotionsService" ref="promotionsService"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="promotionImageValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PrimaryPromotionImageValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="promotionsService" ref="promotionsService"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <!--   <bean id="colorFacetValueProvider"
+             class="com.eydms.core.search.solrfacetsearch.provider.impl.ColorFacetValueProvider"
+             parent="abstractPropertyFieldValueProvider">
+           <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+       </bean>-->
+
+    <bean id="colorFacetDisplayNameProvider"
+          class="com.eydms.core.search.solrfacetsearch.provider.impl.ColorFacetDisplayNameProvider"
+    >
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="i18nService" ref="i18nService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!-- <bean id="apparelPointOfServiceFacetDisplayNameProvider"
+           class="com.eydms.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
+     >
+         <property name="pointOfServiceService" ref="pointOfServiceService"/>
+     </bean>
+
+     <bean id="electronicsPointOfServiceFacetDisplayNameProvider"
+           class="com.eydms.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
+     >
+         <property name="pointOfServiceService" ref="pointOfServiceService"/>
+     </bean>-->
+
+    <!--   <bean id="genderValueProvider"
+             class="com.eydms.core.search.solrfacetsearch.provider.impl.GenderValueProvider"
+             parent="abstractPropertyFieldValueProvider">
+           <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+       </bean>
+
+       <bean id="genderFacetDisplayNameProvider"
+             class="com.eydms.core.search.solrfacetsearch.provider.impl.GenderFacetDisplayNameProvider"
+       >
+           <property name="enumerationService" ref="enumerationService"/>
+           <property name="i18nService" ref="i18nService"/>
+           <property name="commonI18NService" ref="commonI18NService"/>
+       </bean>-->
+
+    <!--
+        Event listeners are singletons, therefore the dependency for a bean in tenant-scope
+        must be configured with a lookup method.
+    -->
+    <bean id="orderCancelledEventListener"
+          class="com.eydms.core.event.OrderCancelledEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="orderRefundEventListener"
+          class="com.eydms.core.event.OrderRefundEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="customerRegistrationEventListener"
+          class="com.eydms.core.event.RegistrationEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="forgottenPasswordEventListener"
+          class="com.eydms.core.event.ForgottenPasswordEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="submitOrderEventListener" class="com.eydms.core.event.SubmitOrderEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="baseStoreService" ref="baseStoreService"/>
+    </bean>
+    <bean id="orderConfirmationEventListener"
+          class="com.eydms.core.event.OrderConfirmationEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendDeliveryMessageEventListener"
+          class="com.eydms.core.event.SendDeliveryMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendReadyForPickupMessageEventListener"
+          class="com.eydms.core.event.SendReadyForPickupMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendOrderPartiallyCanceledMessageEventListener"
+          class="com.eydms.core.event.SendOrderPartiallyCanceledMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendOrderPartiallyRefundedMessageEventListener"
+          class="com.eydms.core.event.SendOrderPartiallyRefundedMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendNotPickedUpConsignmentCanceledMessageEventListener"
+          class="com.eydms.core.event.SendNotPickedUpConsignmentCanceledMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="orderCompletedEventListener" class="com.eydms.core.event.OrderCompletedEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <!-- Process resources definition -->
+
+    <bean id="customerRegistrationEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/customerRegistrationEmailProcess.xml"/>
+    </bean>
+    <bean id="forgottenPasswordEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/forgottenPasswordEmailProcess.xml"/>
+    </bean>
+    <bean id="orderConfirmationEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/orderConfirmationEmailProcess.xml"/>
+    </bean>
+    <bean id="sendDeliveryEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendDeliveryEmailProcess.xml"/>
+    </bean>
+    <bean id="sendReadyForPickupEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendReadyForPickupEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderCancelledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendOrderCancelledEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderRefundEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendOrderRefundEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderPartiallyCanceledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendOrderPartiallyCanceledEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderPartiallyRefundedEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendOrderPartiallyRefundedEmailProcess.xml"/>
+    </bean>
+    <bean id="sendNotPickedUpConsignmentCanceledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource"
+                  value="classpath:/eydmscore/processes/sendNotPickedUpConsignmentCanceledEmailProcess.xml"/>
+    </bean>
+    <bean id="ledgerReportEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/ledgerReportEmailProcess.xml"/>
+    </bean>
+
+    <!-- Actions -->
+    <bean id="abstractAction" class="de.hybris.platform.processengine.action.AbstractAction"
+          abstract="true">
+        <property name="modelService" ref="modelService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="sendEmail" class="de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction"
+          parent="abstractAction">
+        <property name="emailService" ref="emailService"/>
+    </bean>
+
+    <bean id="abstractGenerateEmailAction"
+          class="de.hybris.platform.acceleratorservices.process.email.actions.GenerateEmailAction"
+          parent="abstractAction" abstract="true">
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsEmailPageService" ref="cmsEmailPageService"/>
+        <property name="contextResolutionStrategy" ref="processContextResolutionStrategy"/>
+        <property name="emailGenerationService" ref="emailGenerationService"/>
+    </bean>
+
+    <bean id="generateCustomerRegistrationEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="CustomerRegistrationEmailTemplate"/>
+    </bean>
+
+    <bean id="generateForgottenPasswordEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ForgottenPasswordEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderConfirmationEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderConfirmationEmailTemplate"/>
+    </bean>
+
+    <bean id="generateDeliverySentEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="DeliverySentEmailTemplate"/>
+    </bean>
+
+    <bean id="generateReadyForPickupEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ReadyForPickupEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderCancelledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderCancelledEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderRefundEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderRefundEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderPartiallyCanceledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderPartiallyCanceledEmailTemplate"/>
+    </bean>
+    <bean id="generateOrderPartiallyRefundedEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderPartiallyRefundedEmailTemplate"/>
+    </bean>
+    <bean id="generateNotPickedUpConsignmentCanceledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="NotPickedUpConsignmentCanceledEmailTemplate"/>
+    </bean>
+
+    <bean id="removeSentEmail"
+          class="de.hybris.platform.acceleratorservices.process.email.actions.RemoveSentEmailAction"
+          parent="abstractAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="markQuoteNotificationAsSent"
+          class="com.eydms.core.actions.quote.MarkQuoteNotificationAsSentAction"
+          parent="abstractAction" abstract="true">
+        <property name="quoteService" ref="quoteService"/>
+    </bean>
+
+    <bean id="findProsDealerApproversAction"
+          class="com.eydms.core.actions.prosdealer.FindProsDealerApproversAction"
+          parent="abstractAction">
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+    <bean id="sendNotificationForDlrAck"
+          class="com.eydms.core.actions.prosdealer.SendNotificationForDlrAck"
+          parent="abstractAction"/>
+
+    <bean id="checkDealerAckStatus"
+          class="com.eydms.core.actions.prosdealer.CheckAcknowledgementStatus"
+          parent="abstractAction"/>
+
+    <bean id="startSOApprovalWorkflow"
+          class="com.eydms.core.actions.prosdealer.StartSOApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+    <bean id="startSHApprovalWorkflow"
+          class="com.eydms.core.actions.prosdealer.StartSHApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+
+    <bean id="startProsDealerApprovalWorkflow"
+          class="com.eydms.core.actions.prosdealer.StartProsDealerApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+
+    <!-- Simple Suggestion Service -->
+    <alias alias="simpleSuggestionService" name="defaultSimpleSuggestionService"/>
+    <bean id="defaultSimpleSuggestionService"
+          class="com.eydms.core.suggestion.impl.DefaultSimpleSuggestionService">
+        <property name="simpleSuggestionDao" ref="simpleSuggestionDao"/>
+    </bean>
+    <alias alias="simpleSuggestionDao" name="defaultSimpleSuggestionDao"/>
+    <bean id="defaultSimpleSuggestionDao"
+          class="com.eydms.core.suggestion.dao.impl.DefaultSimpleSuggestionDao"
+          parent="abstractItemDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <!-- Product Reference Lookup Strategies-->
+    <!--    <alias name="apparelCrossSellingProductReferenceTargetStrategy" alias="crossSellingProductReferenceTargetStrategy"/>
+        <bean id="apparelCrossSellingProductReferenceTargetStrategy"
+              parent="defaultCrossSellingProductReferenceTargetStrategy">
+            <property name="productReferenceTargetStrategies">
+                <list merge="true">
+                    <ref bean="apparelSizeProductReferenceTargetStrategy"/>
+                </list>
+            </property>
+        </bean>
+
+        <bean id="apparelSizeProductReferenceTargetStrategy"
+              class="com.eydms.core.strategies.impl.ApparelSizeProductReferenceTargetStrategy">
+            <property name="commerceCategoryService" ref="commerceCategoryService"/>
+            <property name="rootCategoryCode" value="categories"/>
+        </bean>-->
+
+    <!-- Sales quote process actions -->
+
+    <!-- quote-->
+    <bean id="quoteBuyerSubmitEventListener" class="com.eydms.core.event.QuoteBuyerSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteSalesRepSubmitEventListener" class="com.eydms.core.event.QuoteSalesRepSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteSellerApprovalSubmitEventListener" class="com.eydms.core.event.QuoteSellerApprovalSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteBuyerOrderPlacedEventListener" class="com.eydms.core.event.QuoteBuyerOrderPlacedEventListener"
+          parent="abstractEventListener">
+        <property name="commerceQuoteService" ref="commerceQuoteService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="quoteToExpireSoonEventListener" class="com.eydms.core.event.QuoteToExpireSoonEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteExpiredEventListener" class="com.eydms.core.event.QuoteExpiredEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteCancelEventListener" class="com.eydms.core.event.QuoteCancelEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteBuyerProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-buyer-process.xml"/>
+    </bean>
+
+    <bean id="quoteSalesRepProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-salesrep-process.xml"/>
+    </bean>
+
+
+    <bean id="quoteSellerApprovalProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-seller-approval-process.xml"/>
+    </bean>
+
+    <bean id="quotePostCancellationProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-post-cancellation-process.xml"/>
+    </bean>
+
+    <bean id="quoteToExpireSoonProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-to-expire-soon-email-process.xml"/>
+    </bean>
+
+    <bean id="quoteExpiredProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/quote/quote-expired-email-process.xml"/>
+    </bean>
+
+    <!-- Quotes email notification jobs -->
+    <bean id="quoteToExpireSoonJobPerformable"
+          class="com.eydms.core.job.QuoteToExpireSoonJobPerformable"
+          parent="abstractJobPerformable">
+        <property name="supportedQuoteStatuses">
+            <set value-type="de.hybris.platform.core.enums.QuoteState">
+                <value>BUYER_OFFER</value>
+            </set>
+        </property>
+        <property name="commerceQuoteDao" ref="commerceQuoteDao"/>
+        <property name="eventService" ref="eventService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <bean id="quoteExpiredJobPerformable"
+          class="com.eydms.core.job.QuoteExpiredJobPerformable"
+          parent="abstractJobPerformable">
+        <property name="supportedQuoteStatuses">
+            <set value-type="de.hybris.platform.core.enums.QuoteState">
+                <value>BUYER_OFFER</value>
+            </set>
+        </property>
+        <property name="commerceQuoteDao" ref="commerceQuoteDao"/>
+        <property name="eventService" ref="eventService"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <import resource="/eydmscore/processes/quote/quote-buyer-process-spring.xml"/>
+    <import resource="/eydmscore/processes/quote/quote-salesrep-process-spring.xml"/>
+    <import resource="/eydmscore/processes/quote/quote-seller-approval-process-spring.xml"/>
+
+    <import resource="/eydmscore/processes/quote/quote-to-expire-soon-email-process-spring.xml"/>
+    <import resource="/eydmscore/processes/quote/quote-expired-email-process-spring.xml"/>
+
+    <import resource="/eydmscore/processes/quote/quote-post-cancellation-process-spring.xml"/>
+
+    <!-- Customer cleanup -->
+    <alias name="defaultCustomerCleanupRelatedObjectsAction" alias="customerCleanupRelatedObjectsAction"/>
+    <bean id="defaultCustomerCleanupRelatedObjectsAction"
+          class="com.eydms.core.retention.impl.DefaultCustomerCleanupRelatedObjectsAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="customerCleanupHooks"/>
+    </bean>
+
+    <!-- Cleanup the customers not owning any order currently and the current date has past deactivation date+retention date. Also removes customers audit records. -->
+    <alias name="defaultCustomerNotOwningOrdersRemoveCleanupAction" alias="customerNotOwningOrdersRemoveCleanupAction"/>
+    <bean id="defaultCustomerNotOwningOrdersRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="customerCleanupHooks"/>
+    </bean>
+
+    <!-- Order cleanup -->
+    <!-- Cleanup the order related objects and then remove order and its audit records. -->
+    <alias name="defaultOrderRemoveCleanupAction" alias="orderRemoveCleanupAction"/>
+    <bean id="defaultOrderRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="orderCleanupHooks"/>
+    </bean>
+
+    <!-- CsTicket Remove action -->
+    <alias name="defaultCSTicketRemoveCleanupAction" alias="csTicketRemoveCleanupAction"/>
+    <bean id="defaultCSTicketRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="csTicketCleanupHooks"/>
+    </bean>
+
+    <!-- CsTicket Stagnation action -->
+    <alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>
+    <bean id="defaultCSTicketStagnationAction" class="com.eydms.core.retention.impl.DefaultCSTicketStagnationAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="csTicketRetentionHooks"/>
+        <property name="ticketBusinessService" ref="ticketBusinessService"/>
+    </bean>
+
+    <alias name="defaultEyDmsLeadService" alias="eydmsLeadService"/>
+    <bean id="defaultEyDmsLeadService" class="com.eydms.core.lead.services.impl.DefaultEyDmsLeadService"/>
+
+    <alias name="defaultEyDmsLeadDao" alias="eydmsLeadDao"/>
+    <bean id="defaultEyDmsLeadDao" class="com.eydms.core.lead.dao.impl.DefaultEyDmsLeadDao"/>
+
+    <!-- Order count services and daos starts-->
+    <alias name="defaultEyDmsOrderCountDao" alias="eydmsOrderCountDao"/>
+    <bean id="defaultEyDmsOrderCountDao" class="com.eydms.core.order.dao.impl.DefaultEyDmsOrderCountDao"/>
+
+    <alias name="defaultEyDmsOrderService" alias="eydmsOrderService"/>
+    <bean id="defaultEyDmsOrderService" class="com.eydms.core.order.services.impl.DefaultEyDmsOrderService">
+        <property name="userService" ref="userService"/>
+        <property name="eydmsOrderCountDao" ref="eydmsOrderCountDao"/>
+    </bean>
+    <!-- Order count services and daos ends-->
+
+    <alias name="defaultEyDmsCustomerAccountService" alias="customerAccountService"/>
+    <bean id="defaultEyDmsCustomerAccountService"
+          class="com.eydms.core.customer.services.impl.DefaultEyDmsCustomerAccountService" parent="defaultCustomerAccountService">
+        <property name="eydmsCustomerAccountDao" ref="eydmsCustomerAccountDao"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultEyDmsCustomerAccountDao" alias="eydmsCustomerAccountDao"/>
+    <bean id="defaultEyDmsCustomerAccountDao" class="com.eydms.core.customer.dao.impl.DefaultEyDmsCustomerAccountDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="defaultEyDmsFeedbackService" alias="eydmsFeedbackService"/>
+    <bean id="defaultEyDmsFeedbackService" class="com.eydms.core.feedback.services.impl.DefaultEyDmsFeedbackService">
+        <property name="modelService" ref="modelService"/>
+        <property name="eydmsFeedbackDao" ref="eydmsFeedbackDao"/>
+    </bean>
+
+    <alias name="defaultEyDmsFeedbackDao" alias="eydmsFeedbackDao"/>
+    <bean id="defaultEyDmsFeedbackDao" class="com.eydms.core.feedback.dao.impl.DefaultEyDmsFeedbackDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultEyDmsCustomerService" alias="eydmsCustomerService"/>
+    <bean id="defaultEyDmsCustomerService" class="com.eydms.core.customer.services.impl.DefaultEyDmsCustomerService">
+        <property name="userService" ref="userService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultProsDealerDao" alias="prosDealerDao"/>
+    <bean id="defaultProsDealerDao" class="com.eydms.core.prosdealer.dao.impl.DefaultProsDealerDao"/>
+
+    <alias name="defaultProsDealerService" alias="prosDealerService"/>
+    <bean id="defaultProsDealerService" class="com.eydms.core.prosdealer.service.impl.DefaultProsDealerService">
+        <property name="prosDealerDao" ref="prosDealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+        <property name="eventService" ref="eventService" />
+    </bean>
+
+    <!--Process Definition-->
+    <bean id="prosDealerOnboardingProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/dealer/prosDealerOnboardingProcess.xml"/>
+    </bean>
+
+
+    <bean id="prosDealerApprovalWorkflowTemplateStrategy" class="com.eydms.core.strategies.impl.ProsDealerApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+
+    <bean id="afterApproveOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.AfterApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterRejectOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.AfterRejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="approveOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.ApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="rejectOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.RejectOnboardingDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkOnboardingApprovalResult" class="com.eydms.core.process.approval.action.CheckOnboardingApprovalResult" parent="abstractAction">
+
+    </bean>
+    <!--FOR SO START-->
+    <bean id="prosDealerSOApprovalWorkflowTemplateStrategy" class="com.eydms.core.strategies.impl.ProsDealerSOApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+
+    <bean id="afterSOApprovalWorkflowAction" class="com.eydms.core.actions.prosdealer.AfterSOApprovalWorkflowAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="afterSOApproveOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.salesofficer.AfterSOApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterSORejectOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.salesofficer.AfterSORejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="soApproveOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.salesofficer.SOApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="soRejectOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.salesofficer.SORejectOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkSOApprovalWorkflowResult" class="com.eydms.core.process.approval.action.salesofficer.CheckSOApprovalWorkflowResult" parent="abstractAction">
+    </bean>
+
+    <!--FOR SO END-->
+
+    <!--FOR SH START-->
+    <bean id="prosDealerSHApprovalWorkflowTemplateStrategy" class="com.eydms.core.strategies.impl.ProsDealerSHApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+    <bean id="afterSHApprovalWorkflowAction" class="com.eydms.core.actions.prosdealer.AfterSHApprovalWorkflowAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="afterSHApproveOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.saleshead.AfterSHApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterSHRejectOnboardingWorkflowDecisionAction" class="com.eydms.core.process.approval.action.saleshead.AfterSHRejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="shApproveOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.saleshead.SHApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="shRejectOnboardingDecisionAutomatedAction" class="com.eydms.core.process.approval.action.saleshead.SHRejectOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkSHApprovalWorkflowResult" class="com.eydms.core.process.approval.action.saleshead.CheckSHApprovalWorkflowResult" parent="abstractAction">
+    </bean>
+    <!--FOR SH END-->
+    <!--FOR CONTACT NUMBER UPDATE-->
+    <bean id="updateContactEventListener" class="com.eydms.core.event.UpdateContactNumberEventListener" parent="abstractEventListener">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="contactNumberApprovalWorkflowTemplateStrategy" class="com.eydms.core.strategies.impl.ContactNumberApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+    <bean id="afterContactNumberApprovalWorkflowAction" class="com.eydms.core.actions.user.AfterContactNumberApprovalWorkflowAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="afterContactNumberApprovalWorkflowDecisionAction" class="com.eydms.core.actions.user.AfterContactNumberApprovalWorkflowDecisionAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="afterContactNumberRejectWorkflowDecisionAction" class="com.eydms.core.actions.user.AfterContactNumberRejectWorkflowDecisionAction">
+    </bean>
+
+    <bean id="customerQueryAcknowledgeAlertJob" class="com.eydms.core.job.CustomerQueryAcknowledgeAlertJob"
+          parent="abstractJobPerformable" />
+
+    <bean id="customCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.custom.code.name}"/>
+        <property name="digits" value="${keygen.custom.code.digits}"/>
+        <property name="start" value="${keygen.custom.code.start}"/>
+        <property name="numeric" value="${keygen.custom.code.numeric}"/>
+        <property name="template" value="${keygen.custom.code.template}"/>
+    </bean>
+
+    <bean id="brandCustomCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customBrand.code.name}"/>
+        <property name="digits" value="${keygen.customBrand.code.digits}"/>
+        <property name="start" value="${keygen.customBrand.code.start}"/>
+        <property name="numeric" value="${keygen.customBrand.code.numeric}"/>
+        <property name="template" value="${keygen.customBrand.code.template}"/>
+    </bean>
+    <bean id="brandImageCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.brandImageCode.code.name}"/>
+        <property name="digits" value="${keygen.brandImageCode.code.digits}"/>
+        <property name="start" value="${keygen.brandImageCode.code.start}"/>
+        <property name="numeric" value="${keygen.brandImageCode.code.numeric}"/>
+        <property name="template" value="${keygen.brandImageCode.code.template}"/>
+    </bean>
+
+    <bean id="salesSummaryCustomCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customSalesSummary.code.name}"/>
+        <property name="digits" value="${keygen.customSalesSummary.code.digits}"/>
+        <property name="start" value="${keygen.customSalesSummary.code.start}"/>
+        <property name="numeric" value="${keygen.customSalesSummary.code.numeric}"/>
+        <property name="template" value="${keygen.customSalesSummary.code.template}"/>
+    </bean>
+
+
+    <bean id="crmCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.crm.code.name}"/>
+        <property name="digits" value="${keygen.crm.code.digits}"/>
+        <property name="start" value="${keygen.crm.code.start}"/>
+        <property name="numeric" value="${keygen.crm.code.numeric}"/>
+        <property name="template" value="${keygen.crm.code.template}"/>
+    </bean>
+    <bean id="applicationNumberGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.application.number.name}"/>
+        <property name="digits" value="${keygen.application.number.digits}"/>
+        <property name="start" value="${keygen.application.number.start}"/>
+        <property name="numeric" value="${keygen.application.number.numeric}"/>
+        <property name="template" value="${keygen.application.number.template}"/>
+    </bean>
+
+    <bean id="requestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.request.number.name}"/>
+        <property name="digits" value="${keygen.request.number.digits}"/>
+        <property name="start" value="${keygen.request.number.start}"/>
+        <property name="numeric" value="${keygen.request.number.numeric}"/>
+        <property name="template" value="${keygen.request.number.template}"/>
+    </bean>
+
+    <alias name="tradeOrderService" alias="tradeOrderService" />
+    <bean id="tradeOrderService" class="com.eydms.core.tradeOrder.service.impl.TradeOrderServiceImpl">
+    </bean>
+
+    <alias name="brandService" alias="brandService" />
+    <bean id="brandService" class="com.eydms.core.brand.service.impl.BrandServiceImpl">
+    </bean>
+
+    <alias name="regionService" alias="regionService" />
+    <bean id="regionService" class="com.eydms.core.region.service.impl.RegionServiceImpl">
+    </bean>
+
+    <alias name="brandDao" alias="brandDao" />
+    <bean id="brandDao" class="com.eydms.core.brand.dao.impl.BrandDaoImpl">
+    </bean>
+
+    <alias name="stateDao" alias="stateDao" />
+    <bean id="stateDao" class="com.eydms.core.region.dao.impl.StateDaoImpl">
+    </bean>
+
+    <alias name="districtDao" alias="districtDao" />
+    <bean id="districtDao" class="com.eydms.core.region.dao.impl.DistrictDaoImpl">
+    </bean>
+
+    <alias name="talukaDao" alias="talukaDao" />
+    <bean id="talukaDao" class="com.eydms.core.region.dao.impl.TalukaDaoImpl">
+    </bean>
+
+    <alias name="cityDao" alias="cityDao" />
+    <bean id="cityDao" class="com.eydms.core.region.dao.impl.CityDaoImpl">
+    </bean>
+
+    <bean id="smsOtpService" class="com.eydms.core.services.impl.SmsOtpServiceImpl">
+    </bean>
+
+    <bean id="sendSMSEventListener" class="com.eydms.core.event.SendSMSEventListener" parent="abstractEventListener">
+    </bean>
+
+
+    <bean id="smsProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sms-process.xml"/>
+    </bean>
+
+    <bean id="eydmsCommerceCheckoutService" class="com.eydms.core.checkout.impl.DefaultEyDmsCommerceCheckoutService">
+        <property name="modelService" ref="modelService"/>
+        <property name="commerceCartCalculationStrategy" ref="checkoutCartCalculationStrategy"/>
+    </bean>
+
+    <alias name="defaultEYDMSB2BDeliveryAddressesLookupStrategy" alias="eydmsB2BDeliveryAddressesLookupStrategy"/>
+    <bean id="defaultEYDMSB2BDeliveryAddressesLookupStrategy" class="com.eydms.core.strategies.impl.DefaultEYDMSB2BDeliveryAddressesLookupStrategy" >
+        <property name="fallbackDeliveryAddressesLookupStrategy" ref="b2bDeliveryAddressesLookupStrategy"/>
+    </bean>
+
+    <alias alias="b2bDeliveryService" name="defaultB2BDeliveryService"/>
+    <bean id="defaultB2BDeliveryService" parent="deliveryService">
+        <property name="deliveryAddressesLookupStrategy" ref="eydmsB2BDeliveryAddressesLookupStrategy"/>
+    </bean>
+
+
+
+
+    <bean id="eydmsOrderHistoryService" class="com.eydms.core.orderhistory.service.impl.OrderHistoryServiceImpl">
+        <property name="orderHistoryDao" ref="orderHistoryDao"/>
+        <property name="userService" ref="userService"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+    </bean>
+
+    <bean id="orderHistoryDao" class="com.eydms.core.orderhistory.dao.impl.OrderHistoryDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+
+    </bean>
+
+    <bean id="depotOperationsDao" class="com.eydms.core.depot.operations.dao.impl.DepotOperationsDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="depotOperationsService" class="com.eydms.core.depot.operations.service.impl.DepotOperationsServiceImpl">
+        <property name="depotOperationsDao" ref="depotOperationsDao"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <alias name="defaultEYDMSB2BOrderService" alias="b2bOrderService"/>
+    <bean id="defaultEYDMSB2BOrderService" class="com.eydms.core.order.impl.DefaultEYDMSB2BOrderService" parent="defaultB2BOrderService" >
+        <property name="i18NService" ref="i18NService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="eydmsMastersDao" ref="eydmsMastersDao"/>
+        <property name="submitOrderStrategies">
+            <list>
+                <!-- implementation that sends SubmitOrderEvent -->
+                <ref bean="eventPublishingSubmitOrderStrategy"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="dynamicAttributesOrderStageStatusDisplay" name="dynamicAttributesOrderStageStatusDisplayByEnum"/>
+    <bean id="dynamicAttributesOrderStageStatusDisplayByEnum" class="com.eydms.core.orderhandler.DynamicAttributesOrderStageStatusDisplayByEnum">
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+    <alias alias="dynamicAttributesOrderEntryStatusDisplay" name="dynamicAttributesOrderEntryStatusDisplayByEnum"/>
+    <bean id="dynamicAttributesOrderEntryStatusDisplayByEnum" class="com.eydms.core.orderhandler.DynamicAttributesOrderEntryStatusDisplayByEnum">
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <bean id="entryMergeFilterDeliveryWindow" class="com.eydms.core.strategies.impl.EntryMergeFilterDeliveryWindow"/>
+
+    <bean id="addEntryMergeFilterDeliveryWindow"
+          depends-on="commerceCartEntryMergeFilters" parent="listMergeDirective">
+        <property name="add" ref="entryMergeFilterDeliveryWindow" />
+    </bean>
+
+    <!--  <alias name="eydmsCommerceAddToCartStrategy" alias="commerceAddToCartStrategy"/>
+    <bean id="eydmsCommerceAddToCartStrategy"
+          class="com.eydms.core.strategies.impl.EyDmsCommerceAddToCartStrategy"
+          parent="selectiveCartAddToCartStrategy">
+        <property name="commerceAddToCartMethodHooks" ref="commerceAddToCartMethodHooks"/>
+        <property name="entryMergeStrategy" ref="entryMergeStrategy"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="selectiveCartService" ref="selectiveCartService"/>
+    </bean> -->
+    <bean id="oldPasswordPolicy" class="com.eydms.core.user.impl.OldPasswordPolicy">
+        <constructor-arg name="policyName" value="old"/>
+        <property name="l10NService" ref="l10nService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+
+    <alias alias="territoryUnitService" name="territoryUnitService"/>
+    <bean id="territoryUnitService" class="com.eydms.core.territory.impl.DefaultTerritoryUnitService">
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+    </bean>
+
+    <alias alias="destinationSourceMasterDao" name="destinationSourceMasterDao"/>
+    <bean id="destinationSourceMasterDao" class="com.eydms.core.source.dao.impl.DefaultDestinationSourceMasterDao">
+    </bean>
+
+    <alias alias="eydmsCartService" name="eydmsCartService"/>
+    <bean id="eydmsCartService" class="com.eydms.core.cart.service.impl.EyDmsCartServiceImpl">
+        <property name="districtDao" ref="districtDao"/>
+        <property name="eydmsERPCityDao" ref="eydmsERPCityDao"/>
+        <property name="warehouseService" ref="warehouseService"/>
+        <property name="productService" ref="productService"/>
+        <property name="eydmsSalesOrderDeliverySLADao" ref="eydmsSalesOrderDeliverySLADao"/>
+    </bean>
+
+    <bean id="djpVisitService" class="com.eydms.core.services.impl.DJPVisitServiceImpl">
+    </bean>
+
+    <bean id="salesPlanningService" class="com.eydms.core.services.impl.SalesPlanningServiceImpl">
+        <property name="userService" ref="userService"/>
+        <property name="productService" ref="productService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="salesPlanningDao" ref="salesPlanningDao"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+    </bean>
+
+    <alias name="salesPlanningDao" alias="salesPlanningDao" />
+    <bean id="salesPlanningDao" class="com.eydms.core.dao.impl.SalesPlanningDaoImpl">
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+
+
+    <alias name="brandingDao" alias="brandingDao" />
+    <bean id="brandingDao" class="com.eydms.core.dao.impl.BrandingDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="brandingService" alias="brandingService"/>
+    <bean id="brandingService" class="com.eydms.core.services.impl.BrandingServiceImpl">
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="i18NService" ref="i18NService"/>
+        <property name="brandingDao" ref="brandingDao"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="brandCustomCodeGenerator" ref="brandCustomCodeGenerator"/>
+        <property name="userService" ref="userService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="geographicalRegionDao" ref="geographicalRegionDao"/>
+    </bean>
+
+    <alias name="counterVisitDao" alias="counterVisitDao" />
+    <bean id="counterVisitDao" class="com.eydms.core.dao.impl.CounterVisitMasterDaoImpl">
+    </bean>
+
+    <alias name="orderValidationProcessDao" alias="orderValidationProcessDao" />
+    <bean id="orderValidationProcessDao" class="com.eydms.core.order.dao.impl.OrderValidationProcessDaoImpl">
+    </bean>
+
+    <alias name="orderValidationProcessService" alias="orderValidationProcessService" />
+    <bean id="orderValidationProcessService" class="com.eydms.core.order.services.impl.OrderValidationProcessServiceImpl">
+        <property name="orderValidationProcessDao" ref="orderValidationProcessDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <alias name="erpCityDao" alias="erpCityDao" />
+    <bean id="erpCityDao" class="com.eydms.core.region.dao.impl.ERPCityDaoImpl">
+    </bean>
+
+    <bean id="eydmsWarehouseDao" class="com.eydms.core.cart.dao.impl.DefaultEyDmsWarehouseDao">
+    </bean>
+
+    <alias name="eydmsB2BCartDao" alias="eydmsB2BCartDao" />
+    <bean id="eydmsB2BCartDao" class="com.eydms.core.cart.dao.impl.EyDmsB2BCartDaoImpl">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="eydmsB2BCartService" alias="eydmsB2BCartService" />
+    <bean id="eydmsB2BCartService" class="com.eydms.core.cart.service.impl.EyDmsB2BCartServiceImpl">
+        <property name="eydmsB2BCartDao" ref="eydmsB2BCartDao"/>
+    </bean>
+
+    <alias name="defaultEYDMSMastersDao" alias="eydmsMastersDao"/>
+    <bean id="defaultEYDMSMastersDao" class="com.eydms.core.dao.impl.DefaultEYDMSMastersDao" parent="abstractItemDao">
+    </bean>
+
+    <alias alias="eydmsERPCityDao" name="defaultEYDMSERPCityDao"/>
+    <bean id="defaultEYDMSERPCityDao" class="com.eydms.core.cart.dao.impl.DefaultEyDmsERPCityDao">
+    </bean>
+
+    <alias name="defaultEYDMSSalesOrderDeliverySLADao" alias="eydmsSalesOrderDeliverySLADao"/>
+    <bean id="defaultEYDMSSalesOrderDeliverySLADao" class="com.eydms.core.cart.dao.impl.DefaultEyDmsSalesOrderDeliverySLADao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultEYDMSModifyOrderStrategy" alias="eydmsModifyOrderStrategy"/>
+    <bean id="defaultEYDMSModifyOrderStrategy" class="com.eydms.core.order.strategy.impl.DefaultEyDmsModifyOrderStrategy" parent="defaultCommerceAddToCartStrategy">
+        <property name="forceInStockMaxQuantity" value="2147483647"/>
+    </bean>
+
+
+    <bean id="eydmsapprovalProcess" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/eydmsb2borderapproval.xml"/>
+    </bean>
+
+    <alias name="eydmsB2BApprovalBusinessProcessStrategy" alias="b2bApprovalBusinessProcessStrategy"/>
+    <bean id="eydmsB2BApprovalBusinessProcessStrategy"
+          parent="defaultB2BApprovalBusinessProcessStrategy">
+        <property name="processCode" value="eydmsapproval"/>
+        <property name="processName" value="CREATED"/>
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+        <property name="processCodeGenerator" ref="b2bProcessCodeGenerator"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="djpVisitDao" class="com.eydms.core.dao.impl.DJPVisitDaoImpl">
+    </bean>
+
+
+    <bean id="eydmsTruckDao" class="com.eydms.core.cart.dao.impl.EyDmsTruckDaoImpl">
+    </bean>
+
+    <alias name="eydmsDjpRouteScoreDao" alias="djpRouteScoreDao"/>
+    <bean id="eydmsDjpRouteScoreDao" class="com.eydms.core.dao.impl.DjpRouteScoreDaoImpl"/>
+
+    <alias name="defaultDjpRouteDao" alias="djpRouteDao"/>
+    <bean id="defaultDjpRouteDao" class="com.eydms.core.dao.impl.DefaultDjpRouteDao"/>
+
+    <alias name="eydmsObjectiveDao" alias="objectiveDao"/>
+    <bean id="eydmsObjectiveDao" class="com.eydms.core.dao.impl.ObjectiveDaoImpl"/>
+
+    <alias name="eydmsDjpCounterScoreDao" alias="djpCounterScoreDao"/>
+    <bean id="eydmsDjpCounterScoreDao" class="com.eydms.core.dao.impl.DjpCounterScoreDaoImpl"/>
+
+    <alias name="eydmsDjpRunDao" alias="djpRunDao"/>
+    <bean id="eydmsDjpRunDao" class="com.eydms.core.dao.impl.DjpRunDaoImpl"/>
+
+    <alias name="eydmsVisitMasterDao" alias="visitMasterDao"/>
+    <bean id="eydmsVisitMasterDao" class="com.eydms.core.dao.impl.VisitMasterDaoImpl"/>
+
+    <bean id="competitorProductDao" class="com.eydms.core.dao.impl.CompetitorProductDaoImpl">
+    </bean>
+
+    <bean id="marketMappingService" class="com.eydms.core.services.impl.MarketMappingServiceImpl">
+    </bean>
+
+    <bean id="geographicalRegionDao" class="com.eydms.core.region.dao.impl.GeographicalRegionDaoImpl">
+    </bean>
+
+    <bean id="geographicalRegionService" class="com.eydms.core.region.service.impl.GeographicalRegionServiceImpl">
+    </bean>
+
+    <bean id="deliverySlotMasterDao" class="com.eydms.core.dao.impl.DeliverySlotMasterDaoImpl"/>
+
+    <bean id="eydmsAddressProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/eydmsAddress-process.xml"/>
+    </bean>
+
+    <bean id="eydmsAddressEventListener" class="com.eydms.core.event.EyDmsAddressEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="eydmsOrderCancelProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/eydmsOrderCancel-process.xml"/>
+    </bean>
+
+    <bean id="eydmsOrderCancelEventListener" class="com.eydms.core.event.EyDmsOrderCancelEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="eydmsOrderLineCancelProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/eydmsOrderLineCancel-process.xml"/>
+    </bean>
+
+    <bean id="eydmsOrderLineCancelEventListener" class="com.eydms.core.event.EyDmsOrderLineCancelEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="updateDlrRetMappingEventListener" class="com.eydms.core.event.UpdateDealerRetailerMappingEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="billingPriceMasterDao" class="com.eydms.core.dao.impl.BillingPriceMasterDaoImpl">
+    </bean>
+
+    <bean id="territoryManagementService" class="com.eydms.core.services.impl.TerritoryManagementServiceImpl">
+    </bean>
+
+    <bean id="territoryManagementDao" class="com.eydms.core.dao.impl.TerritoryManagementDaoImpl">
+    </bean>
+
+    <bean id="territoryManagementService1" class="com.eydms.core.services.impl.TerritoryManagementServiceImpl1">
+    </bean>
+
+    <bean id="territoryManagementDao1" class="com.eydms.core.dao.impl.TerritoryManagementDaoImpl1">
+    </bean>
+
+    <alias alias="dynamicAttributesOrderEntryQtyMT" name="dynamicAttributesOrderEntryQtyMT"/>
+    <bean id="dynamicAttributesOrderEntryQtyMT" class="com.eydms.core.orderhandler.DynamicAttributesOrderEntryQtyMT">
+    </bean>
+
+    <bean id="eydmsUserService" class="com.eydms.core.user.impl.EYDMSUserServiceImpl">
+    </bean>
+
+    <bean id="eydmsUserDao" class="com.eydms.core.dao.impl.EyDmsUserDaoImpl">
+    </bean>
+
+    <alias name="defaultEYDMSISODeliverySLADao" alias="eydmsISODeliverySLADao"/>
+    <bean id="defaultEYDMSISODeliverySLADao" class="com.eydms.core.cart.dao.impl.DefaultEyDmsISODeliverySLADao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultCounterRouteMappingDao" alias="eydmsCounterRouteMappingDao"/>
+    <bean id="defaultCounterRouteMappingDao" class="com.eydms.core.dao.impl.CounterRouteMappingDaoImpl">
+    </bean>
+
+    <alias name="defaultEyDmsSiteMessageDao" alias="siteMessageDao"/>
+    <bean id="defaultEyDmsSiteMessageDao" class="com.eydms.core.notifications.dao.impl.DefaultEyDmsSiteMessageDao" parent="defaultSiteMessageDao">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="siteMessageSortCodeToQueryAlias" ref="siteMessageSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="eydmsNotificationDao" class="com.eydms.core.notifications.dao.impl.EyDmsNotificationDaoImpl">
+    </bean>
+
+    <bean id="eydmsNotificationService" class="com.eydms.core.notifications.service.impl.EyDmsNotificationServiceImpl">
+    </bean>
+
+    <alias name="defaultDealerVehicleDetailsDao" alias="dealerVehicleDetailsDao"/>
+    <bean id="defaultDealerVehicleDetailsDao" class="com.eydms.core.order.dao.impl.DefaultDealerVehicleDetailsDao">
+    </bean>
+
+    <alias name="defaultDealerDriverDetailsDao" alias="dealerDriverDetailsDao"/>
+    <bean id="defaultDealerDriverDetailsDao" class="com.eydms.core.order.dao.impl.DefaultDealerDriverDetailsDao">
+    </bean>
+
+    <alias name="defaultDealerTransitService" alias="dealerTransitService"/>
+    <bean id="defaultDealerTransitService" class="com.eydms.core.order.services.impl.DefaultDealerTransitService">
+    </bean>
+
+    <alias name="defaultSchemeDetailsDao" alias="schemeDetailsDao"/>
+    <bean id="defaultSchemeDetailsDao" class="com.eydms.core.dao.impl.DefaultSchemeDetailsDao">
+    </bean>
+
+    <bean id="eydmsCustomerDao" class="com.eydms.core.customer.dao.impl.EyDmsCustomerDaoImpl">
+    </bean>
+
+    <bean id="eydmsCustomerNetworkTypeUpdateJob" class="com.eydms.core.job.EyDmsCustomerNetworkTypeUpdateJob">
+    </bean>
+
+    <bean id="eydmsCustomerUpdateNetworktypeCronJob" class="com.eydms.core.job.EyDmsCustomerUpdateNetworktypeCronJob">
+        <property name="modelService" ref="modelService"/>
+        <property name="eydmsCustomerDao" ref="eydmsCustomerDao"/>
+    </bean>
+
+    <bean id="updateRetailerInfluencerNetworkTypeJob" class="com.eydms.core.job.UpdateRetailerInfluencerNetworkTypeJob">
+        <property name="eydmsCustomerDao" ref="eydmsCustomerDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="salesSummaryDao" alias="salesSummaryDao" />
+    <bean id="salesSummaryDao" class="com.eydms.core.dao.impl.SalesSummaryDaoImpl">
+    </bean>
+
+    <bean id="salesSummaryJob" class="com.eydms.core.job.SalesSummaryJob">
+        <property name="salesSummaryDao" ref="salesSummaryDao"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="salesSummaryCustomCodeGenerator" ref="salesSummaryCustomCodeGenerator"/>
+        <property name="userService" ref="userService"/>
+        <property name="eydmsUserDao" ref="eydmsUserDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="autoCancellingRequestRaisedByInfluencerJob" class="com.eydms.core.job.AutoCancellingRequestRaisedByInfluencerJob">
+        <property name="autoCancellingRequestRaisedByInfluencerDao" ref="autoCancellingRequestRaisedByInfluencerDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="getInfluencerListForDealer" class="com.eydms.core.job.GetInfluencerListForDealer">
+
+    </bean>
+
+    <bean id="getInfluencerListForRetailer" class="com.eydms.core.job.GetInfluencerListForRetailer">
+
+    </bean>
+
+    <bean id="getRetailerListForDealerJob" class="com.eydms.core.job.GetRetailerListForDealerJob">
+
+    </bean>
+    <bean id="eydmsCancelOrderEntryUnProcessingOrdersJob" class="com.eydms.core.job.EyDmsCancelOrderEntryUnProcessingOrdersJob">
+    </bean>
+
+    <bean id="eydmsCancelOrderUnProcessingOrdersJob" class="com.eydms.core.job.EyDmsCancelOrderUnProcessingOrdersJob">
+    </bean>
+
+    <alias name="defaultRouteMasterDao" alias="routeMasterDao"/>
+    <bean id="defaultRouteMasterDao" class="com.eydms.core.dao.impl.RouteMasterDaoImpl">
+    </bean>
+
+    <bean id="updateEyDmsCustomerMappingStatusJob" class="com.eydms.core.job.UpdateEyDmsCustomerMappingStatusJob">
+    </bean>
+
+    <bean id="updateDealerToRetailerAndInfluencerMappingJob" class="com.eydms.core.job.UpdateDealerToRetailerAndInfluencerMappingJob">
+    </bean>
+
+    <alias name="defaultEfficacyReportDao" alias="efficacyReportDao"/>
+    <bean id="defaultEfficacyReportDao" class="com.eydms.core.dao.impl.EfficacyReportDaoImpl">
+    </bean>
+
+    <alias name="defaultEfficacyReportService" alias="efficacyReportService"/>
+    <bean id="defaultEfficacyReportService" class="com.eydms.core.services.impl.EfficacyReportServiceImpl">
+    </bean>
+
+    <bean id="efficacyReportUpdateJob" class="com.eydms.core.job.EfficacyReportUpdateJob">
+    </bean>
+
+    <bean id="newProductReportUpdateJob" class="com.eydms.core.job.NewProductReportUpdateJob">
+    </bean>
+
+    <bean id="reinclusionObsoleteCounterReportUpdateJob" class="com.eydms.core.job.ReinclusionObsoleteCounterReportUpdateJob">
+    </bean>
+
+    <bean id="marketIntelligenceReportUpdateJob" class="com.eydms.core.job.MarketIntelligenceReportUpdateJob">
+    </bean>
+
+    <bean id="collectionService" class="com.eydms.core.services.impl.CollectionServiceImpl">
+    </bean>
+
+    <bean id="collectionDao" class="com.eydms.core.dao.impl.CollectionDaoImpl">
+    </bean>
+
+    <bean id="generateLedgerReportEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="LedgerReportEmailTemplate"/>
+    </bean>
+
+    <alias alias="emailGenerationService" name="customEmailGenerationService"/>
+    <bean id="customEmailGenerationService" class="com.eydms.core.services.impl.CustomEmailGenerationService"
+          parent="defaultEmailGenerationService"/>
+
+    <bean id="collectionLostDiscountCalculationJob" class="com.eydms.core.job.CollectionLostDiscountCalculationJob">
+    </bean>
+
+    <bean id="collectionAvailedDiscountCalculationJob" class="com.eydms.core.job.CollectionAvailedDiscountCalculationJob">
+    </bean>
+
+    <bean id="eydmsGenericDao" class="com.eydms.core.dao.impl.EYDMSGenericDaoImpl"/>
+
+
+    <alias name="defaultSchemesAndDiscountService" alias="schemesAndDiscountService"/>
+    <bean id="defaultSchemesAndDiscountService" class="com.eydms.core.services.impl.SchemesAndDiscountServiceImpl">
+    </bean>
+
+    <alias name="defaultSchemesAndDiscountDao" alias="schemesAndDiscountDao"/>
+    <bean id="defaultSchemesAndDiscountDao" class="com.eydms.core.dao.impl.SchemesAndDiscountDaoImpl">
+        <property name="giftOrderSortCodeToQueryAlias" ref="giftOrderSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="bulkGoodsService" class="com.eydms.core.services.impl.BulkGoodsServiceImpl">
+    </bean>
+
+    <bean id="bulkGoodsDao" class="com.eydms.core.dao.impl.BulkGoodsDaoImpl">
+    </bean>
+
+    <bean id="grnNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.grn.code.name}"/>
+        <property name="digits" value="${keygen.grn.code.digits}"/>
+        <property name="start" value="${keygen.grn.code.start}"/>
+        <property name="numeric" value="${keygen.grn.code.numeric}"/>
+        <property name="template" value="${keygen.grn.code.template}"/>
+    </bean>
+
+    <alias name="defaultSlctCrmIntegrationDao" alias="slctCrmIntegrationDao"/>
+    <bean id="defaultSlctCrmIntegrationDao" class="com.eydms.core.dao.impl.SlctCrmIntegrationDaoImpl">
+    </bean>
+
+    <alias name="defaultSlctCrmIntegrationService" alias="slctCrmIntegrationService"/>
+    <bean id="defaultSlctCrmIntegrationService" class="com.eydms.core.services.impl.SlctCrmIntegrationServiceImpl">
+        <property name="keyGenerator" ref="orderCodeGenerator"/>
+    </bean>
+    <bean id="networkService" class="com.eydms.core.services.impl.NetworkServiceImpl">
+        <property name="counterVisitDao" ref="counterVisitDao"/>
+        <property name="salesPerformanceDao" ref="salesPerformanceDao"/>
+
+    </bean>
+    <bean id="networkDao" class="com.eydms.core.dao.impl.NetworkDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="searchRestrictionService" ref="searchRestrictionService"/>
+    </bean>
+    <bean id="salesPerformanceService" class="com.eydms.core.services.impl.SalesPerformanceServiceImpl">
+        <property name="salesPerformanceDao" ref="salesPerformanceDao"/>
+        <property name="networkService" ref="networkService"/>
+        <property name="userService" ref="userService"/>
+        <property name="eydmsUserDao" ref="eydmsUserDao"/>
+        <property name="influencerSummarySalesPerformanceConverter" ref="influencerSummarySalesPerformanceConverter"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="djpVisitDao" ref="djpVisitDao"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="europe1.manager" class="com.eydms.core.jalo.EyDmsCatalogAwareEurope1PriceFactory" init-method="init" destroy-method="destroy">
+        <property name="retrieveChannelStrategy" ref="retrieveChannelStrategy"/>
+    </bean>
+
+    <bean id="salesPerformanceDao" class="com.eydms.core.dao.impl.SalesPerformanceDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="districtMasterDao" ref="districtMasterDao"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+    </bean>
+
+    <bean id="giftStockUpdateJob" class="com.eydms.core.job.GiftStockUpdateJob">
+    </bean>
+    <bean id="transferGoodsService" class="com.eydms.core.services.impl.TransferGoodsServiceImpl">
+    </bean>
+
+    <bean id="transferGoodsDao" class="com.eydms.core.dao.impl.TransferGoodsDaoImpl">
+    </bean>
+
+    <bean id="technicalAssistanceService" class="com.eydms.core.services.impl.TechnicalAssistanceServiceImpl">
+    </bean>
+
+    <bean id="technicalAssistanceDao" class="com.eydms.core.dao.impl.TechnicalAssistanceDaoImpl">
+        <property name="endCustomerSortCodeToQueryAlias" ref="endCustomerSortCodeToQueryAlias"/>
+        <property name="technicalAssistanceSortCodeToQueryAlias" ref="technicalAssistanceSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="amountFormatService" class="com.eydms.core.services.impl.AmountFormatServiceImpl">
+    </bean>
+
+    <bean id="visitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.visit.code.name}"/>
+        <property name="digits" value="${keygen.visit.code.digits}"/>
+        <property name="start" value="${keygen.visit.code.start}"/>
+        <property name="numeric" value="${keygen.visit.code.numeric}"/>
+        <property name="template" value="${keygen.visit.code.template}"/>
+    </bean>
+
+    <bean id="counterVisitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.counterVisit.code.name}"/>
+        <property name="digits" value="${keygen.counterVisit.code.digits}"/>
+        <property name="start" value="${keygen.counterVisit.code.start}"/>
+        <property name="numeric" value="${keygen.counterVisit.code.numeric}"/>
+        <property name="template" value="${keygen.counterVisit.code.template}"/>
+    </bean>
+
+    <bean id="marketIntelligenceIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.marketIntelligence.code.name}"/>
+        <property name="digits" value="${keygen.marketIntelligence.code.digits}"/>
+        <property name="start" value="${keygen.marketIntelligence.code.start}"/>
+        <property name="numeric" value="${keygen.marketIntelligence.code.numeric}"/>
+        <property name="template" value="${keygen.marketIntelligence.code.template}"/>
+    </bean>
+
+    <bean id="eydmsProductUtility" class="com.eydms.core.utility.EyDmsProductUtility">
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="sSOLoginService" class="com.eydms.core.services.impl.SSOLoginServiceImpl">
+    </bean>
+
+    <bean id="influencerService" class="com.eydms.core.services.impl.InfluencerServiceImpl">
+    </bean>
+
+    <bean id="influencerDao" class="com.eydms.core.dao.impl.InfluencerDaoImpl">
+        <property name="leadMasterSortCodeToQueryAlias" ref="leadMasterSortCodeToQueryAlias"/>
+        <property name="scheduleMeetingSortCodeToQueryAlias" ref="scheduleMeetingSortCodeToQueryAlias"/>
+        <property name="eydmsCustomerSortCodeToQueryAlias" ref="eydmsCustomerSortCodeToQueryAlias"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="retailerSalesSummaryDao" alias="retailerSalesSummaryDao" />
+    <bean id="retailerSalesSummaryDao" class="com.eydms.core.dao.impl.RetailerSalesSummaryDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="retailerSalesSummaryService" alias="retailerSalesSummaryService" />
+    <bean id="retailerSalesSummaryService" class="com.eydms.core.services.impl.RetailerSalesSummaryServiceImpl">
+        <property name="retailerSalesSummaryDao" ref="retailerSalesSummaryDao"/>
+    </bean>
+
+    <bean id="dealersCreditLimitBreachUpdateJob" class="com.eydms.core.job.DealersCreditLimitBreachUpdateJob">
+    </bean>
+
+    <bean id="epodPendingStatusAlertJob" class="com.eydms.core.job.EpodPendingStatusAlertNotificationJob">
+    </bean>
+
+    <alias name="orderRequisitionDao" alias="orderRequisitionDao"/>
+    <bean id="orderRequisitionDao" class="com.eydms.core.dao.impl.OrderRequisitionDaoImpl">
+    </bean>
+
+    <alias name="orderRequisitionService" alias="orderRequisitionService"/>
+    <bean id="orderRequisitionService" class="com.eydms.core.services.impl.OrderRequisitionServiceImpl">
+    </bean>
+
+    <bean id="orderRequisitionIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.orderRequisition.id.name}"/>
+        <property name="digits" value="${keygen.orderRequisition.id.digits}"/>
+        <property name="start" value="${keygen.orderRequisition.id.start}"/>
+        <property name="numeric" value="${keygen.orderRequisition.id.numeric}"/>
+        <property name="template" value="${keygen.orderRequisition.id.template}"/>
+    </bean>
+
+    <bean id="pointRequisitionIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.pointRequisition.id.name}"/>
+        <property name="digits" value="${keygen.pointRequisition.id.digits}"/>
+        <property name="start" value="${keygen.pointRequisition.id.start}"/>
+        <property name="numeric" value="${keygen.pointRequisition.id.numeric}"/>
+        <property name="template" value="${keygen.pointRequisition.id.template}"/>
+    </bean>
+
+    <alias name="pointRequisitionDao" alias="pointRequisitionDao"/>
+    <bean id="pointRequisitionDao" class="com.eydms.core.dao.impl.PointRequisitionDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="dataConstraintDao" alias="dataConstraintDao"/>
+    <bean id="dataConstraintDao" class="com.eydms.core.dao.impl.DataConstraintDaoImpl">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="autoCancellingRequestRaisedByInfluencerDao" alias="autoCancellingRequestRaisedByInfluencerDao"/>
+    <bean id="autoCancellingRequestRaisedByInfluencerDao" class="com.eydms.core.dao.impl.AutoCancellingRequestRaisedByInfluencerDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="pointRequisitionService" alias="pointRequisitionService"/>
+    <bean id="pointRequisitionService" class="com.eydms.core.services.impl.PointRequisitionServiceImpl">
+    </bean>
+
+    <bean id="dealerService" class="com.eydms.core.services.impl.DealerServiceImpl">
+    </bean>
+
+    <bean id="dealerDao" class="com.eydms.core.dao.impl.DealerDaoImpl">
+    </bean>
+
+    <bean id="districtMasterDao" class="com.eydms.core.region.dao.impl.DistrictMasterDaoImpl">
+    </bean>
+
+    <bean id="regionMasterDao" class="com.eydms.core.region.dao.impl.RegionMasterDaoImpl">
+    </bean>
+
+    <bean id="stateMasterDao" class="com.eydms.core.region.dao.impl.StateMasterDaoImpl">
+    </bean>
+
+    <bean id="tsoSiteManagementService" class="com.eydms.core.services.impl.TSOSiteManagementServiceImpl">
+        <property name="userService" ref="userService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="productService" ref="productService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="customerAccountService" ref="customerAccountService"/>
+        <property name="tsoSiteManagementDao" ref="tsoSiteManagementDao"/>
+    </bean>
+
+    <bean id="tsoSiteManagementDao" class="com.eydms.core.dao.impl.TSOSiteManagementDaoImpl">
+    </bean>
+
+    <bean id="materialTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.materialTest.code.name}"/>
+        <property name="digits" value="${keygen.materialTest.code.digits}"/>
+        <property name="start" value="${keygen.materialTest.code.start}"/>
+        <property name="numeric" value="${keygen.materialTest.code.numeric}"/>
+        <property name="template" value="${keygen.materialTest.code.template}"/>
+    </bean>
+
+    <bean id="concreteTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.concreteTest.code.name}"/>
+        <property name="digits" value="${keygen.concreteTest.code.digits}"/>
+        <property name="start" value="${keygen.concreteTest.code.start}"/>
+        <property name="numeric" value="${keygen.concreteTest.code.numeric}"/>
+        <property name="template" value="${keygen.concreteTest.code.template}"/>
+    </bean>
+
+    <bean id="otherTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.otherTest.code.name}"/>
+        <property name="digits" value="${keygen.otherTest.code.digits}"/>
+        <property name="start" value="${keygen.otherTest.code.start}"/>
+        <property name="numeric" value="${keygen.otherTest.code.numeric}"/>
+        <property name="template" value="${keygen.otherTest.code.template}"/>
+    </bean>
+
+    <alias name="eydmsNewNetworkService" alias="eydmsNewNetworkService"/>
+    <bean id="eydmsNewNetworkService" class="com.eydms.core.services.impl.EYDMSNewNetworkServiceImpl">
+    </bean>
+
+    <bean id="siteDemoIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.siteDemo.code.name}"/>
+        <property name="digits" value="${keygen.siteDemo.code.digits}"/>
+        <property name="start" value="${keygen.siteDemo.code.start}"/>
+        <property name="numeric" value="${keygen.siteDemo.code.numeric}"/>
+        <property name="template" value="${keygen.siteDemo.code.template}"/>
+    </bean>
+
+    <bean id="autoCompletingDjpVisitsJob" class="com.eydms.core.job.AutoCompletingDjpVisitsJob">
+    </bean>
+
+    <bean id="autoPopulatingEtaDateJob" class="com.eydms.core.job.AutoPopulatingEtaDateJob">
+    </bean>
+
+    <alias name="eydmsAppBuildMasterDao" alias="appBuildMasterDao"/>
+    <bean id="eydmsAppBuildMasterDao" class="com.eydms.core.dao.impl.AppBuildMasterDaoImpl"/>
+
+    <bean id="autoCancellingOrderRequisitionJob" class="com.eydms.core.job.AutoCancellingOrderRequisitionJob">
+    </bean>
+
+    <bean id="eydmsWorkflowService" class="com.eydms.core.services.impl.EyDmsWorkflowServiceImpl">
+    </bean>
+
+    <bean id="eydmsWorkflowDao" class="com.eydms.core.dao.impl.EyDmsWorkFlowDaoImpl">
+    </bean>
+
+    <bean id="eydmsWorkflowCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.eydmsWorkflow.code.name}"/>
+        <property name="digits" value="${keygen.eydmsWorkflow.code.digits}"/>
+        <property name="start" value="${keygen.eydmsWorkflow.code.start}"/>
+        <property name="numeric" value="${keygen.eydmsWorkflow.code.numeric}"/>
+        <property name="template" value="${keygen.eydmsWorkflow.code.template}"/>
+    </bean>
+
+    <bean id="workflowActionIndexGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.workflowActionIndex.code.name}"/>
+        <property name="digits" value="${keygen.workflowActionIndex.code.digits}"/>
+        <property name="start" value="${keygen.workflowActionIndex.code.start}"/>
+        <property name="numeric" value="${keygen.workflowActionIndex.code.numeric}"/>
+        <property name="template" value="${keygen.workflowActionIndex.code.template}"/>
+    </bean>
+
+    <bean id="eydmsEndCustomerService" class="com.eydms.core.customer.services.impl.DefaultEyDmsEndCustomerServiceImpl">
+    </bean>
+
+    <bean id="eydmsEndCustomerDao" class="com.eydms.core.customer.dao.impl.EyDmsEndCustomerDaoImpl">
+    </bean>
+
+    <bean id="djpUnflaggedApprovalSLAJob" class="com.eydms.core.job.DJPUnflaggedApprovalSLAJob">
+    </bean>
+
+    <bean id="notificationForConfirmGoodsReceivedJob" class="com.eydms.core.job.NotificationForConfirmGoodsReceivedJob">
+    </bean>
+
+    <bean id="pendingRequisitionsConfirmationJob" class="com.eydms.core.job.PendingRequisitionsConfirmationJob">
+    </bean>
+
+    <bean id="orderReachedLocationConfirmationJob" class="com.eydms.core.job.OrderReachedLocationConfirmationJob">
+    </bean>
+
+    <alias name="eydmsCustomerAppBuildMasterDao" alias="customerAppBuildMasterDao"/>
+    <bean id="eydmsCustomerAppBuildMasterDao" class="com.eydms.core.dao.impl.CustomerAppBuildMasterDaoImpl"/>
+
+    <!-- eydms Branding Process -->
+    <bean id="eydmsBrandingEventListener" class="com.eydms.core.event.EyDmsBrandingEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="eydmsBrandingProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/eydmsBranding-Process.xml"/>
+    </bean>
+
+    <!--<bean id="sendEndCustomerComplaintProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/eydmscore/processes/sendEndCustomerComplaint-Process.xml"/>
+    </bean>-->
+
+
+    <bean id="fileRequestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.FileRequest.Number.name}"/>
+        <property name="digits" value="${keygen.FileRequest.Number.digits}"/>
+        <property name="start" value="${keygen.FileRequest.Number.start}"/>
+        <property name="numeric" value="${keygen.FileRequest.Number.numeric}"/>
+        <property name="template" value="${keygen.FileRequest.Number.template}"/>
+    </bean>
+
+    <bean id="customerActiveStatusUpdateJob" class="com.eydms.core.job.CustomerActiveStatusUpdateJob">
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="salesVolumeGrowthReportJob" class="com.eydms.core.job.SalesVolumeGrowthReportJob">
+    </bean>
+
+    <bean id="eydmsCustomerTranslator" class="com.eydms.core.translator.EyDmsCustomerTranslator">
+        <property name="customCodeGenerator" ref="customCodeGenerator"/>
+    </bean>
+
+    <alias name="siteManagementService" alias="siteManagementService"/>
+    <bean id="siteManagementService" class="com.eydms.core.services.impl.SiteManagementServiceImpl"/>
+
+
+    <alias name="siteManagementDao" alias="siteManagementDao"/>
+    <bean id="siteManagementDao" class="com.eydms.core.dao.impl.SiteManagementDaoImpl">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="siteMasterSortCodeToQueryAlias" ref="siteMasterSortCodeToQueryAlias"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+    </bean>
+
+    <util:map id="siteMasterSortCodeToQueryAlias">
+        <entry key="uid" value="sm"/>
+        <entry key="name" value="sm"/>
+        <entry key="currentmonthsale" value="sm"/>
+        <entry key="currentmonthsitevisit" value="sm"/>
+        <entry key="lastvisittime" value="sm"/>
+        <entry key="nextslabcasting" value="sm"/>
+    </util:map>
+
+    <bean id="complaintmeetIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintmeet.id.name}"/>
+        <property name="digits" value="${keygen.complaintmeet.id.digits}"/>
+        <property name="start" value="${keygen.complaintmeet.id.start}"/>
+        <property name="numeric" value="${keygen.complaintmeet.id.numeric}"/>
+        <property name="template" value="${keygen.complaintmeet.id.template}"/>
+    </bean>
+
+    <bean id="siteVisitNotRequiredIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.siteVisitNotRequired.id.name}"/>
+        <property name="digits" value="${keygen.siteVisitNotRequired.id.digits}"/>
+        <property name="start" value="${keygen.siteVisitNotRequired.id.start}"/>
+        <property name="numeric" value="${keygen.siteVisitNotRequired.id.numeric}"/>
+        <property name="template" value="${keygen.siteVisitNotRequired.id.template}"/>
+    </bean>
+
+    <bean id="complaintDispatchedDetailsGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintDispatchDetails.id.name}"/>
+        <property name="digits" value="${keygen.complaintDispatchDetails.id.digits}"/>
+        <property name="start" value="${keygen.complaintDispatchDetails.id.start}"/>
+        <property name="numeric" value="${keygen.complaintDispatchDetails.id.numeric}"/>
+        <property name="template" value="${keygen.complaintDispatchDetails.id.template}"/>
+    </bean>
+
+    <bean id="nextVisitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintNextVisit.code.name}"/>
+        <property name="digits" value="${keygen.complaintNextVisit.code.digits}"/>
+        <property name="start" value="${keygen.complaintNextVisit.code.start}"/>
+        <property name="numeric" value="${keygen.complaintNextVisit.code.numeric}"/>
+        <property name="template" value="${keygen.complaintNextVisit.code.template}"/>
+    </bean>
+
+    <bean id="detailsFromSiteIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintDetailsFromSiteId.code.name}"/>
+        <property name="digits" value="${keygen.complaintDetailsFromSiteId.code.digits}"/>
+        <property name="start" value="${keygen.complaintDetailsFromSiteId.code.start}"/>
+        <property name="numeric" value="${keygen.complaintDetailsFromSiteId.code.numeric}"/>
+        <property name="template" value="${keygen.complaintDetailsFromSiteId.code.template}"/>
+    </bean>
+
+    <alias alias="dynamicAttributesSiteActive" name="dynamicAttributesSiteActive"/>
+    <bean id="dynamicAttributesSiteActive" class="com.eydms.core.customer.handler.DynamicAttributesSiteActive"/>
+
+    <bean id="complaintRootCauseIdentifiedGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintRootCauseIdentified.id.name}"/>
+        <property name="digits" value="${keygen.complaintRootCauseIdentified.id.digits}"/>
+        <property name="start" value="${keygen.complaintRootCauseIdentified.id.start}"/>
+        <property name="numeric" value="${keygen.complaintRootCauseIdentified.id.numeric}"/>
+        <property name="template" value="${keygen.complaintRootCauseIdentified.id.template}"/>
+    </bean>
+
+    <bean id="scheduleNextVisitGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.scheduleNextVisit.id.name}"/>
+        <property name="digits" value="${keygen.scheduleNextVisit.id.digits}"/>
+        <property name="start" value="${keygen.scheduleNextVisit.id.start}"/>
+        <property name="numeric" value="${keygen.scheduleNextVisit.id.numeric}"/>
+        <property name="template" value="${keygen.scheduleNextVisit.id.template}"/>
+    </bean>
+
+    <bean id="meetingFormIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.meetingFormId.id.name}"/>
+        <property name="digits" value="${keygen.meetingFormId.id.digits}"/>
+        <property name="start" value="${keygen.meetingFormId.id.start}"/>
+        <property name="numeric" value="${keygen.meetingFormId.id.numeric}"/>
+        <property name="template" value="${keygen.meetingFormId.id.template}"/>
+    </bean>
+
+    <bean id="complaintTestPerformedGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintTestPerformed.id.name}"/>
+        <property name="digits" value="${keygen.complaintTestPerformed.id.digits}"/>
+        <property name="start" value="${keygen.complaintTestPerformed.id.start}"/>
+        <property name="numeric" value="${keygen.complaintTestPerformed.id.numeric}"/>
+        <property name="template" value="${keygen.complaintTestPerformed.id.template}"/>
+    </bean>
+
+    <bean id="routeMasterCreationJob" class="com.eydms.core.job.RouteMasterCreationJob">
+    </bean>
+
+    <util:map id="leadMasterSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="l"/>
+        <entry key="name" value="l"/>
+        <entry key="creationtime" value="l"/>
+        <entry key="leadId" value="l"/>
+    </util:map>
+
+    <util:map id="scheduleMeetingSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="m"/>
+        <entry key="eventdate" value="m"/>
+        <entry key="startdate" value="m"/>
+        <entry key="creationtime" value="m"/>
+        <entry key="meetingscheduleid" value="m"/>
+    </util:map>
+
+    <util:map id="giftOrderSortCodeToQueryAlias">
+        <entry key="scheme" value="o"/>
+        <entry key="creationtime" value="o"/>
+        <entry key="modifiedtime" value="o"/>
+        <entry key="status" value="o"/>
+    </util:map>
+
+    <util:map id="eydmsCustomerSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="c"/>
+        <entry key="applicationdate" value="c"/>
+        <entry key="uid" value="c"/>
+        <entry key="name" value="c"/>
+        <entry key="creationtime" value="c"/>
+        <entry key="dateofjoining" value="c"/>
+    </util:map>
+
+</beans>

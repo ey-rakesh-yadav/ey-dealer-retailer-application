@@ -1,0 +1,173 @@
+#EYDMS CPI Integration Configurations
+$username=sb-f18576b1-1979-4ae4-bd07-cc8ea01b53b3!b7292|it-rt-dev-cpi-001-785gayb0!b114
+$password=c2679a31-865d-422b-9921-1a1b3e3387c5$Y9vxzddypox3VQjCo8JBienZiCpQw7snkXvC7m_MpeI=
+
+#Order Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-ordercreate-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiOrderCreateEndpointQA      ; v1               ;EYDMS Order Create Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/OrderCreate_Header_Commerce_To_ERP_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-ordercreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiOrderDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/OrderCreate_Header_Commerce_To_ERP_QA; eydmsScpiOrderCreateEndpointQA:v1   ; qa-ordercreate-cpi; qa-ordercreate-cpi-target
+
+#Order Cancel Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-ordercancel-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiOrderCancelEndpointQA      ; v1               ;EYDMS Order Cancel Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/OracleOrderCancellation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-ordercancel-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiOrderCancelDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/OracleOrderCancellation_QA ; eydmsScpiOrderCancelEndpointQA:v1   ; qa-ordercancel-cpi; qa-ordercancel-cpi-target
+
+#ShipTo Party Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-shiptopartyaddress-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiShipToPartyAddressEndpointQA      ; v1               ;EYDMS Order Create Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CustomerConsigneeCreation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-shiptopartyaddress-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsShipToPartyAddressDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CustomerConsigneeCreation_QA; eydmsScpiOrderCreateEndpointQA:v1   ; qa-shiptopartyaddress-cpi; qa-shiptopartyaddress-cpi-target
+
+
+#ISO Order Create Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-isoordercreate-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiIsoOrderCreateEndpointQA      ; v1               ;EYDMS ISO Order Create Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderCreation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-isoordercreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiISOOrderDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderCreation_QA; eydmsScpiIsoOrderCreateEndpointQA:v1   ; qa-isoordercreate-cpi; qa-isoordercreate-cpi-target
+
+#ISO Order Cancel Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-isoordercancel-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiIsoOrderCancelEndpointQA      ; v1               ;EYDMS ISO Order Cancel Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderLineCancellation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-isoordercancel-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiOrderCancelISODestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderLineCancellation_QA; eydmsScpiIsoOrderCancelEndpointQA:v1   ; qa-isoordercancel-cpi; qa-isoordercancel-cpi-target
+
+
+#EYDMS Price Inbound
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiPriceCreateEndpointQA      ; v1               ;EYDMS Price Create Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/Pricefunction_Dev
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-pricecreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiPriceDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/Pricefunction_Dev; eydmsScpiPriceCreateEndpointQA:v1   ; qa-ordercreate-cpi; qa-pricecreate-cpi-target
+
+#Branding Requisition Punch Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-brandingreq-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiBrandingReqEndpointQA      ; v1               ;EYDMS Branding Requisition Punch Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/PunchBrandingRequest
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-brandingreq-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiBrandingRequisitionDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/PunchBrandingRequest; eydmsScpiBrandingReqEndpointQA:v1   ; qa-brandingreq-cpi; qa-brandingreq-cpi-target
+
+#Branding Requisition Cancel Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-brandingreqcancel-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiBrandingReqCancelEndpointQA      ; v1               ;EYDMS Branding Requisition Cancel Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CancelBrandingRequest
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-brandingreqcancel-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiBrandingRequisitionCancelDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CancelBrandingRequest; eydmsScpiBrandingReqCancelEndpointQA:v1   ; qa-brandingreqcancel-cpi; qa-brandingreqcancel-cpi-target
+
+#Branding Requisition Feedback Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-brandingreqfeedback-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiBrandingReqFeedbackEndpointQA      ; v1               ;EYDMS Branding Requisition Feedback Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/BrandingRequestFeedback
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-brandingreqfeedback-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; eydmsScpiBrandingRequisitionDestinationFeedback ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/BrandingRequestFeedback; eydmsScpiBrandingReqFeedbackEndpointQA:v1   ; qa-brandingreqfeedback-cpi; qa-brandingreqfeedback-cpi-target
+
+#Order Sales Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; qa-ordersalesreplication-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; eydmsScpiOrderReplicationEndpointQA      ; v1               ;EYDMS Order Replication Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/LineItemBatchUpdate
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; qa-ordersalesreplication-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; EyDmsOutboundLineItemIdDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/LineItemBatchUpdate; eydmsScpiOrderReplicationEndpointQA:v1   ; qa-ordersalesreplication-cpi; qa-ordersalesreplication-cpi-target
+
+#Inbound Channel Configuration
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;EyDmsOutboundCancelISOOrder
+                                         ;EyDmsOutboundISOOrder
+                                         ;EyDmsOutboundShipToPartyAddress
+                                         ;EyDmsOutboundCancelOrder
+                                         ;InboundShipToPartyAddress
+                                         ;EyDmsOutboundOrder
+                                         ;MarketMappingInbound
+                                         ;InboundDJPRunMaster
+                                         ;InboundDJPRouteScoreMaster
+                                         ;InboundDJPCounterScoreMaster
+                                         ;InboundDJPVisit
+                                         ;InboundDJPCounterVisit
+                                         ;InboundBillingPriceMaster
+                                         ;InboundCreditAndOutstanding
+                                         ;InboundDepotStockMaster
+                                         ;InboundDestinationSourceMaster
+                                         ;InboundDailyAverageSales
+                                         ;InboundProspectiveNetworksList
+                                         ;InboundOrderFlow
+                                         ;InboundOrderLineScheduler
+                                         ;InboundEyDmsCustomerMarketMapping
+                                         ;InboundSalesPlanningBottomUp
+                                         ;InboundProductMaster
+                                         ;InboundStockLevel
+                                         ;InboundProductPriceRow
+                                         ;InboundBottomUpAnnualSalesPlanning
+                                         ;InboundDealerMonthlyTargets
+                                         ;SiteConvertedPremiumInbound
+                                         ;SiteVisitTargetMasterInbound
+                                         ;TargetSiteConvertedPremiumInbound
+                                         ;CustomerCategorisationInbound
+                                         ;EndCustomerComplaintInbound
+                                         ;InboundPointRequistition
+                                         ;InboundInfluencerOnboarding                                  
+                                         ;MeetingScheduleInbound
+                                         ;InfluencerVisitInbound
+                                         ;InboundSiteMaster
+                                         ;InboundGiftRedemption

@@ -1,0 +1,20 @@
+import de.hybris.platform.servicelayer.search.FlexibleSearchQuery;
+import de.hybris.platform.servicelayer.search.FlexibleSearchService;
+import de.hybris.platform.servicelayer.search.SearchResult;
+import de.hybris.platform.webservicescommons.model.OAuthAccessTokenModel;
+import java.util.List;
+flexibleSearchService = spring.getBean("flexibleSearchService");
+modelService = spring.getBean("modelService");
+searchQuery = new FlexibleSearchQuery("SELECT {oauth.pk}from {OAuthAccessToken as oauth join user as u on {oauth.user}={u.pk}} where {u.uid}!='admin' and {u.uid}!='crmslctintegrationuser' and {u.uid}!='BackofficeIntegrationAgent' and {u.uid}!='BackofficeIntegrationAdministrator' and {u.uid}!='CustomerSupportAgent' and {u.uid}!='CustomerSupportAdministrator'");
+final SearchResult<OAuthAccessTokenModel> oAuthTokenList = flexibleSearchService.search(searchQuery);
+List<OAuthAccessTokenModel> list=oAuthTokenList.getResult();
+for(OAuthAccessTokenModel oAuth : list)
+{
+modelService.remove(oAuth);
+}
+
+
+=======================================================================================================================================================
+
+INSERT_UPDATE B2BCustomer;uid[unique=true];loginDisabled
+"#% impex.exportItemsFlexibleSearch( "" select {c.pk} from {SclCustomer as c} where {c.loginDisabled} =0 "");"

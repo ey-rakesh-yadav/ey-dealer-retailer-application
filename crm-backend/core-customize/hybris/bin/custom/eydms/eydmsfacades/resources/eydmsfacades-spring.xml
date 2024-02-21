@@ -1,0 +1,1727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+		
+	<context:annotation-config/> 
+
+	<alias alias="simpleSuggestionFacade" name="defaultSimpleSuggestionFacade"/>
+	<bean id="defaultSimpleSuggestionFacade" class="com.eydms.facades.suggestion.impl.DefaultSimpleSuggestionFacade" >
+		<property name="simpleSuggestionService" ref="simpleSuggestionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="categoryService" ref="categoryService"/>
+		<property name="productService" ref="productService"/>
+		<property name="productConverter" ref="carouselProductConverter"/>
+		<property name="cartService" ref="cartService"/>
+	</bean>
+	
+	<bean id="carouselProductConverter" parent="defaultProductConverter">
+		<property name="populators">
+			<list merge="true">
+				<ref bean="productPricePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="acceleratorVariantOptionDataConverter" alias="variantOptionDataConverter"/> 
+	<bean id="acceleratorVariantOptionDataConverter" parent="abstractPopulatingConverter">
+		<lookup-method name="createTarget" bean="variantOptionData"/>
+		<property name="populators">
+			<list>
+				<ref bean="acceleratorVariantOptionDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultAcceleratorVariantOptionDataPopulator" alias="acceleratorVariantOptionDataPopulator"/>
+	<bean id="defaultAcceleratorVariantOptionDataPopulator"  class="com.eydms.facades.populators.AcceleratorVariantOptionDataPopulator"
+	      parent="variantOptionDataPopulator" >
+		<property name="mediaService" ref="mediaService"/>
+		<property name="mediaContainerService" ref="mediaContainerService"/>
+		<property name="typeService" ref="typeService"/>
+		<property name="imageFormatMapping" ref="imageFormatMapping"/>
+		<property name="variantAttributeMapping">
+			<map>
+				<entry key="ApparelStyleVariantProduct.style" value="styleSwatch"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<alias name="acceleratorGenderConverter" alias="genderConverter"/> 
+	<bean id="acceleratorGenderConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.product.data.GenderData"/>
+			<property name="populators">
+				<list>
+					<ref bean="genderDataPopulator"/>
+				</list>
+			</property>
+	</bean>
+
+	<alias name="defaultGenderDataPopulator" alias="genderDataPopulator"/>
+	<bean id="defaultGenderDataPopulator" class="com.eydms.facades.populators.GenderDataPopulator" >
+		<property name="typeService" ref="typeService"/>
+	</bean>
+
+<!--	<bean id="apparelProductPopulator" class="com.eydms.facades.populators.ApparelProductPopulator" >
+		<property name="genderConverter" ref="genderConverter"/>
+	</bean>-->
+
+	<!-- Add the apparelProductPopulator to the productConverter -->
+<!--
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="apparelProductPopulator"/>
+	</bean>
+-->
+
+	<!-- accelerator Image Format Mappings -->
+	<alias name="acceleratorImageFormatMapping" alias="imageFormatMapping"/>
+	<bean id="acceleratorImageFormatMapping" parent="defaultImageFormatMapping">
+		<property name="mapping">
+			<map>
+				<entry key="superZoom" value="1200Wx1200H"/>
+				<entry key="zoom" value="515Wx515H"/>
+				<entry key="store" value="365Wx246H"/>
+				<entry key="product" value="300Wx300H"/>
+				<entry key="thumbnail" value="96Wx96H"/>
+				<entry key="cartIcon" value="65Wx65H"/>
+				<entry key="styleSwatch" value="30Wx30H"/>
+			</map>
+		</property>
+	</bean>
+
+	<alias name="acceleratorProductPrimaryImagePopulator" alias="productPrimaryImagePopulator" />
+	<bean id="acceleratorProductPrimaryImagePopulator" parent="defaultProductPrimaryImagePopulator">
+		<property name="imageFormats">
+			<list>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+				<value>cartIcon</value>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="acceleratorProductGalleryImagesPopulator" alias="productGalleryImagesPopulator" />
+	<bean id="acceleratorProductGalleryImagesPopulator" parent="defaultProductGalleryImagesPopulator">
+		<property name="imageFormats">
+			<list>
+				<value>superZoom</value>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerEmailContext" class="com.eydms.facades.process.email.context.CustomerEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="customerConverter" ref="customerConverter"/>
+	</bean>
+
+	<bean id="forgottenPasswordEmailContext" class="com.eydms.facades.process.email.context.ForgottenPasswordEmailContext" parent="customerEmailContext" scope="prototype" >
+		<property name="customerConverter" ref="customerConverter"/>
+	</bean>
+
+	<bean id="orderNotificationEmailContext" class="com.eydms.facades.process.email.context.OrderNotificationEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+
+	<bean id="quoteNotificationEmailContext" class="com.eydms.facades.process.email.context.QuoteNotificationEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="quoteService" ref="quoteService"/>
+		<property name="quoteConverter" ref="quoteConverter"/>
+	</bean>
+	
+	<bean id="deliverySentEmailContext" class="com.eydms.facades.process.email.context.DeliverySentEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+	
+	<bean id="readyForPickupEmailContext" class="com.eydms.facades.process.email.context.ReadyForPickupEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+	
+	<bean id="orderCancelledEmailContext" class="com.eydms.facades.process.email.context.OrderCancelledEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+	
+	<bean id="orderRefundEmailContext" class="com.eydms.facades.process.email.context.OrderRefundEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+	<bean id="consignmentCollectionReminderEmailContext" class="com.eydms.facades.process.email.context.ConsignmentCollectionReminderEmailContext" parent="abstractEmailContext" scope="prototype">
+        <property name="consignmentConverter" ref="consignmentConverter"/>
+        <property name="formatFactory" ref="formatFactory"/>
+        <property name="customerServiceUncollectedConsignmentStrategy" ref="customerServiceUncollectedConsignmentStrategy" />
+        <property name="orderConverter" ref="orderConverter"/>
+    </bean>
+
+	<bean id="orderPartiallyModifiedEmailContext" class="com.eydms.facades.process.email.context.OrderPartiallyModifiedEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+		<property name="orderEntryConverter" ref="orderEntryConverter"/>
+		<property name="priceDataFactory" ref="priceDataFactory"/>		
+	</bean>
+
+	<bean id="orderPartiallyCanceledEmailContext" class="com.eydms.facades.process.email.context.OrderPartiallyCanceledEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	</bean>
+
+	<bean id="orderPartiallyRefundedEmailContext" class="com.eydms.facades.process.email.context.OrderPartiallyRefundedEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	</bean>
+
+	<bean id="notPickedUpConsignmentCanceledEmailContext" class="com.eydms.facades.process.email.context.NotPickedUpConsignmentCanceledEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+		<property name="priceDataFactory" ref="priceDataFactory"/>
+	</bean>
+
+	<bean id="ledgerReportEmailContext" class="com.eydms.facades.process.email.context.LedgerReportEmailContext" parent="abstractEmailContext" scope="prototype" >
+	</bean>
+	
+	<alias name="yacceleratorSearchPagePointOfServiceDistancePopulator" alias="searchPagePointOfServiceDistancePopulator" />
+	<bean id="yacceleratorSearchPagePointOfServiceDistancePopulator" class="com.eydms.facades.storefinder.populators.SearchPagePointOfServiceDistancePopulator" >
+		<property name="pointOfServiceDistanceConverter" ref="pointOfServiceDistanceConverter"/>
+	</bean>
+
+	<bean id="genderData" class="com.eydms.facades.product.data.GenderData" scope="prototype"/>
+
+	<alias name="defaultEyDmsLeadReverseConverter" alias="eydmsLeadReverseConverter"/>
+	<bean id="defaultEyDmsLeadReverseConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.lead.data.LeadData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsLeadReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsLeadReversePopulator" class="com.eydms.facades.populators.lead.EyDmsLeadReversePopulator" >
+	</bean>
+
+	<alias name="defaultEyDmsLeadConverter" alias="eydmsLeadConverter"/>
+	<bean id="defaultEyDmsLeadConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.core.model.LeadModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsLeadPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsLeadPopulator" class="com.eydms.facades.populators.lead.EyDmsLeadPopulator" >
+	</bean>
+
+	<alias name="defaultEyDmsLeadFacade" alias="eydmsLeadFacade" />
+	<bean id="defaultEyDmsLeadFacade" class="com.eydms.facades.lead.impl.DefaultEyDmsLeadFacade">
+		<property name="modelService" ref="modelService"/>
+		<property name="eydmsLeadService" ref="eydmsLeadService"/>
+		<property name="eydmsLeadReverseConverter" ref="eydmsLeadReverseConverter"/>
+		<property name="eydmsLeadConverter" ref="eydmsLeadConverter"/>
+	</bean>
+
+	<alias name="defaultEyDmsCustomerFacade" alias="eydmsCustomerFacade" />
+	<bean id="defaultEyDmsCustomerFacade" class="com.eydms.facades.customer.impl.DefaultEyDmsCustomerFacade" parent="defaultB2BCustomerFacade">
+		<property name="eydmsCustomerAccountService" ref="customerAccountService"/>
+		<property name="userService" ref="userService"/>
+		<property name="baseStoreService" ref="baseStoreService"/>
+		<property name="eydmsCustomerService" ref="eydmsCustomerService"/>
+		<property name="prosDealerListConverter" ref="prosDealerListConverter"/>
+		<property name="prosDealerService" ref="prosDealerService"/>
+		<property name="prosDealerDetailsConverter" ref="prosDealerDetailsConverter"/>
+		<property name="eydmsCustomerReversePopulator" ref="eydmsCustomerReversePopulator"/>
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="passwordEncoding" value="#{configurationService.configuration.getProperty('default.password.encoding')}"/>
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="regionService" ref="regionService"/>
+	</bean>
+
+	<alias name="defaultEyDmsFeedbackFacade" alias="eydmsFeedbackFacade" />
+	<bean id="defaultEyDmsFeedbackFacade" class="com.eydms.facades.feedback.impl.DefaultEyDmsFeedbackFacade">
+		<property name="eydmsFeedbackService" ref="eydmsFeedbackService"/>
+		<property name="b2bOrderService" ref="b2bOrderService"/>
+		<property name="userService" ref="userService"/>
+		<property name="configurationService" ref="configurationService"/>
+		<property name="productService" ref="productService"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+		<property name="customerReviewConverter" ref="customerReviewConverter"/>
+	</bean>
+	
+	<!-- Order count facades -->
+	<alias name="defaultEyDmsOrderFacade" alias="eydmsOrderFacade" />
+	<bean id="defaultEyDmsOrderFacade" class="com.eydms.facades.order.impl.DefaultEyDmsOrderFacade">
+		<property name="eydmsOrderService" ref="eydmsOrderService"/>
+	</bean>
+
+	<bean id="EyDmsFeedbackPopulator" class="com.eydms.facades.populators.feedback.EyDmsFeedbackPopulator" >
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerReviewConverter"/>
+		<property name="add" ref="EyDmsFeedbackPopulator"/>
+	</bean>
+
+	<bean id="prosDealerExtPopulator" class="com.eydms.facades.populators.prosdealer.ProspectiveDealerExtPopulator">
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+	<bean id="prosDealerBasicPopulator" class="com.eydms.facades.populators.prosdealer.ProspectiveDealerBasicPopulator" />
+
+	<bean id="dealerDocumentPopulator" class="com.eydms.facades.populators.prosdealer.DealerDocumentsPopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	<bean id="applicantDetailsPopulator" class="com.eydms.facades.populators.prosdealer.ApplicantDetailsPopulator">
+	</bean>
+	<bean id="prosDealerBusinessDetailsPopulator" class="com.eydms.facades.populators.prosdealer.ProsDealerBusinessDetailsPopulator">
+	</bean>
+	<bean id="ProsDealerFinancialDetailsPopulator" class="com.eydms.facades.populators.prosdealer.ProsDealerFinancialDetailsPopulator">
+	</bean>
+	<alias name="defaultProsDealerListConverter" alias="prosDealerListConverter"/>
+	<bean id="defaultProsDealerListConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.prosdealer.data.ProsDealerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prosDealerBasicPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultProsDealerDetailsConverter" alias="prosDealerDetailsConverter"/>
+	<bean id="defaultProsDealerDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.prosdealer.data.ProsDealerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prosDealerBasicPopulator"/>
+				<ref bean="prosDealerExtPopulator"/>
+				<ref bean="dealerDocumentPopulator"/>
+				<ref bean="applicantDetailsPopulator"/>
+				<ref bean="prosDealerBusinessDetailsPopulator"/>
+				<ref bean="ProsDealerFinancialDetailsPopulator"/>
+
+				<!--Add More populator for details data-->
+			</list>
+		</property>
+	</bean>
+
+	
+ <bean id="dealerAddressPopulator"
+          class="com.eydms.facades.populators.DealerAddressPopulator">
+    </bean>
+    
+
+    <bean parent="modifyPopulatorList">
+     <property name="list" ref="defaultAddressConverter" />
+      <property name="add" ref="dealerAddressPopulator" />
+</bean>
+ 
+
+    <alias name="dealerAddressReversePopulator" alias="addressReversePopulator"/>
+    <bean id="dealerAddressReversePopulator"
+          class="com.eydms.facades.populators.DealerAddressReversePopulator"
+          parent="defaultAddressReversePopulator">
+    </bean>
+      
+    <bean id="dealerAddressDataErrorsPopulator"
+          class="com.eydms.facades.populators.DealerAddressDataErrorsPopulator">
+    </bean>
+ 
+ <bean id="productMinAndMaxQuantityPopulator"
+          class="com.eydms.facades.populators.ProductMinAndMaxQuantityPopulator">
+    </bean>
+    
+<bean parent="modifyPopulatorList">
+     <property name="list" ref="defaultProductConverter" />
+      <property name="add" ref="productMinAndMaxQuantityPopulator" />
+</bean>
+
+	<alias name="defaultProsDealerFacade" alias="prosDealerFacade" />
+	<bean id="defaultProsDealerFacade" class="com.eydms.facades.prosdealer.impl.DefaultProsDealerFacade">
+		<property name="prosDealerService" ref="prosDealerService"/>
+	</bean>
+
+	<alias name="regionFacade" alias="regionFacade" />
+	<bean id="regionFacade" class="com.eydms.facades.region.impl.RegionFacadeImpl">
+	</bean>
+	
+	<alias name="brandFacade" alias="brandFacade" />
+	<bean id="brandFacade" class="com.eydms.facades.brand.impl.BrandFacadeImpl">
+	</bean>
+	
+	<alias name="tradeOrderFacade" alias="tradeOrderFacade" />
+	<bean id="tradeOrderFacade" class="com.eydms.facades.tradeOrder.impl.TradeOrderFacadeImpl">
+	</bean>
+	
+	<alias name="smsOtpFacade" alias="smsOtpFacade" />
+	<bean id="smsOtpFacade" class="com.eydms.facades.otp.impl.SmsOtpFacadeImpl">
+	</bean>
+
+	<bean id="orderStagesPopulator" class="com.eydms.facades.populators.order.DefaultOrderStagesPopulator">
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="orderConverter"/>
+		<property name="add" ref="orderStagesPopulator"/>
+	</bean>
+	<bean id="eydmsOrderPopulator" class="com.eydms.facades.populators.order.DefaultEyDmsOrderPopulator">
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="orderConverter"/>
+		<property name="add" ref="eydmsOrderPopulator"/>
+	</bean>
+	<alias name="deliveryModesFacade" alias="deliveryModesFacade" />
+	<bean id="deliveryModesFacade" class="com.eydms.facades.delivery.impl.DeliveryModesFacadeImpl">
+	</bean>
+	
+	<bean id="eydmsCartFacade" class="com.eydms.facades.cart.impl.DefaultEyDmsCartFacade" parent="defaultCartFacade">
+		<property name="modelService" ref="modelService"/>
+	</bean>
+
+ 	<alias name="eydmsOrderHistoryConverter" alias="orderHistoryConverter"/>
+    <bean id="eydmsOrderHistoryConverter" parent="defaultOrderHistoryConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.OrderHistoryData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="eydmsOrderHistoryPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="eydmsOrderHistoryPopulator" alias="eydmsOrderHistoryPopulator"/>
+    <bean id="eydmsOrderHistoryPopulator"
+          class="com.eydms.facades.populators.EyDmsOrderHistoryPopulator">
+    </bean>
+
+	
+	<bean id="deliverySlotsFacade" class="com.eydms.facades.delivery.impl.DeliverySlotsFacadeImpl">
+	</bean>	<bean id="defaultEYDMSPlaceOrderMethodHook" class="com.eydms.facades.hook.DefaultEYDMSPlaceOrderMethodHook">
+		<property name="sessionService" ref="sessionService"/>
+		<property name="modelService" ref="modelService" />
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean id="addEYDMSPlaceOrderMethodHooksMergeDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+		<property name="add" ref="defaultEYDMSPlaceOrderMethodHook"/>
+	</bean>
+
+	<bean id="defaultEYDMSB2BCheckoutFacade" class="com.eydms.facades.order.impl.DefaultEYDMSB2BCheckoutFacade" parent="defaultB2BAcceleratorCheckoutFacade" >
+	</bean>
+
+	<bean id="defaultEYDMSOrderEntryCardPopulator" class="com.eydms.facades.populators.order.DefaultEYDMSOrderEntryCardPopulator">
+		<property name="productConverter" ref="productConverter"/>
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="trackingDetailsOnEntryPopulator" ref="defaultEYDMSTrackingDetailsOnEntryPopulator"/>
+		<property name="trackingDetailsOnOrderPopulator" ref="defaultEYDMSTrackingDetailsOnOrderPopulator"/>
+	</bean>
+	<bean id="defaultEYDMSOrderCardPopulator" class="com.eydms.facades.populators.order.DefaultEYDMSOrderCardPopulator">
+		<property name="productConverter" ref="productConverter"/>
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="trackingDetailsOnEntryPopulator" ref="defaultEYDMSTrackingDetailsOnEntryPopulator"/>
+		<property name="trackingDetailsOnOrderPopulator" ref="defaultEYDMSTrackingDetailsOnOrderPopulator"/>
+	</bean>
+	<bean id="defaultEYDMSTrackingDetailsOnEntryPopulator" class="com.eydms.facades.populators.order.DefaultEYDMSTrackingDetailsOnEntryPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+	<bean id="defaultEYDMSTrackingDetailsOnOrderPopulator" class="com.eydms.facades.populators.order.DefaultEYDMSTrackingDetailsOnOrderPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+
+	<bean id="eydmsOrderEntryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.order.data.EYDMSOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="defaultEYDMSOrderEntryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsOrderCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.order.data.EYDMSOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="defaultEYDMSOrderCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultEYDMSB2BOrderFacade" alias="orderFacade"/>
+	<bean id="defaultEYDMSB2BOrderFacade" class="com.eydms.facades.order.impl.DefaultEYDMSB2BOrderFacade" parent="defaultB2BOrderFacade" >
+		<property name="eydmsB2BOrderService" ref="b2bOrderService"/>
+		<property name="eydmsOrderEntryCardConverter" ref="eydmsOrderEntryCardConverter"/>
+		<property name="eydmsOrderCardConverter" ref="eydmsOrderCardConverter"/>
+		<property name="eydmsCustomerAccountService" ref="customerAccountService"/>
+	</bean>
+
+	<bean id="dealerBasicPopulator" class="com.eydms.facades.populators.DealerBasicPopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+    </bean>
+    
+    <bean id="dealerBasicConverter" parent="abstractPopulatingConverter" >
+        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+        <property name="populators">
+            <list>
+                <ref bean="dealerBasicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="orderHistoryFacade" class="com.eydms.facades.orderhistory.impl.OrderHistoryFacadeImpl" >
+    	<property name="eydmsOrderHistoryService" ref="eydmsOrderHistoryService"/> 
+	</bean>
+	
+	<bean id="depotOperationsFacade" class="com.eydms.facades.depot.operations.impl.DepotOperationsFacadeImpl" >
+		<property name="depotOperationsService" ref="depotOperationsService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+
+	<alias name="defaultEyDmsCustomerReverseConverter" alias="eydmsCustomerReverseConverter"/>
+	<bean id="defaultEyDmsCustomerReverseConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsCustomerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsCustomerReversePopulator" class="com.eydms.facades.populators.EyDmsCustomerReversePopulator" >
+	</bean>
+	
+	<alias name="eydmsCartParameterConverter" alias="commerceCartParameterConverter"/>
+    <bean name="eydmsCartParameterConverter" parent="defaultCommerceCartParameterConverter">
+        <property name="populators">
+            <list merge="true">
+                <ref bean="eydmsCartParameterPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="eydmsCartParameterPopulator"  class="com.eydms.facades.populators.EyDmsCartParameterPopulator">
+    </bean>
+    
+    <alias name="eydmsB2BCartFacade" alias="b2bCartFacade"/>
+	<bean id="eydmsB2BCartFacade" class="com.eydms.facades.impl.EyDmsB2BCartFacadeImpl" parent="defaultB2BCartFacade">
+		<property name="cartService" ref="b2bCartService"/>
+		<property name="checkoutFacade" ref="b2bCheckoutFacade"/>
+		<property name="b2bProductFacade" ref="productVariantFacade" />
+		<property name="cartFacade" ref="cartFacade" />
+		<property name="groupCartModificationListConverter" ref="groupCartModificationListConverter" />
+		<property name="eydmsB2BCartService" ref="eydmsB2BCartService"/>	
+		<property name="userService" ref="userService"/>
+		<!--<property name="cartConverter" ref="cartConverter"/>  -->
+	</bean>
+	<bean id="eydmsCustomerPopulator" class="com.eydms.facades.populators.EyDmsCustomerPopulator" >
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerConverter"/>
+		<property name="add" ref="eydmsCustomerPopulator"/>
+	</bean>
+
+	<alias name="destinationSourceConverter" alias="destinationSourceConverter"/>
+	<bean id="destinationSourceConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.DestinationSourceMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="destinationSourcePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="destinationSourcePopulator" class="com.eydms.facades.populators.DestinationSourcePopulator">
+	</bean>
+	
+	    <alias name="eydmsCartConverter" alias="cartConverter"/>
+    <bean id="eydmsCartConverter" parent="accExtendedCartConverter">
+        <property name="populators">
+            <list merge="true">
+                <ref bean="eydmsCartPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="eydmsCartPopulator" class="com.eydms.facades.populators.EyDmsCartPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>  
+    	<property name="commonI18NService" ref="commonI18NService"/> 
+    	<property name="orderEntryConverter" ref="orderEntryConverter"/> 
+    </bean>	
+    
+    <bean id="eydmsOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CartData"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsOrderDetailPopulator"/>
+            </list>
+        </property>
+    </bean>
+ 
+    <bean id="eydmsOrderDetailPopulator" class="com.eydms.facades.populators.EyDmsOrderPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>  
+    	<property name="commonI18NService" ref="commonI18NService"/>  
+    	<property name="orderEntryConverter" ref="orderEntryConverter"/>
+    </bean>	   
+    
+    <alias name="eydmsOrderEntryPopulator" alias="orderEntryPopulator"/>
+    <bean id="eydmsOrderEntryPopulator"
+          class="com.eydms.facades.populators.EyDmsOrderEntryPopulator" parent="defaultOrderEntryPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+        <property name="productConverter" ref="orderEntryProductConverter"/>
+        <property name="priceDataFactory" ref="priceDataFactory"/>
+        <property name="entryOrderChecker" ref="commerceOrderEntryModifiableChecker"/>
+        <property name="deliveryModeConverter" ref="deliveryModeConverter"/>
+        <property name="pointOfServiceConverter" ref="pointOfServiceConverter"/>
+        <property name="productConfigurationConverter" ref="orderEntryProductInfoConverter"/>
+        <property name="entryGroupService" ref="entryGroupService"/>
+        <property name="orderCommentConverter" ref="orderCommentConverter"/>		
+    </bean>
+    
+    <alias name="djpVisitFacade" alias="djpVisitFacade" />
+	<bean id="djpVisitFacade" class="com.eydms.facades.impl.DJPVisitFacadeImpl">
+		<property name="baseSiteService" ref="baseSiteService"/>
+	</bean>
+
+	<alias name="salesPlanningFacade" alias="salesPlanningFacade" />
+	<bean id="salesPlanningFacade" class="com.eydms.facades.impl.SalesPlanningFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="salesPlanningService" ref="salesPlanningService"/>
+		<property name="salesPerformanceService" ref="salesPerformanceService"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="salesPlanningDao" ref="salesPlanningDao"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+	</bean>
+
+	<alias name="brandingFacade" alias="brandingFacade"/>
+	<bean id="brandingFacade" class="com.eydms.facades.impl.BrandingFacadeImpl">
+		<property name="brandingService" ref="brandingService"/>
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="imageConverter" ref="imageConverter"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+		<property name="eydmsBrandingReqTrackerConverter" ref="eydmsBrandingReqTrackerConverter"/>
+	</bean>
+
+	<!-- order history -->
+	<bean id="eydmsOrderEntryHistoryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.order.data.EyDmsOrderHistoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsOrderEntryHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsOrderHistoryCardConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.order.data.EyDmsOrderHistoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsOrderHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--<bean id="eydmsOrderEntryHistoryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.order.data.EYDMSOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsOrderEntryHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsOrderHistoryCardConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.order.data.EYDMSOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsOrderHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>-->
+
+	<bean id="eydmsOrderEntryHistoryCardPopulator" class="com.eydms.facades.populators.order.EyDmsOrderEntryHistoryCardPopulator">
+	</bean>
+
+	<bean id="eydmsOrderHistoryCardPopulator" class="com.eydms.facades.populators.order.EyDmsOrderHistoryCardPopulator">
+	</bean>
+
+	<bean id="commerceOrderParameterBasicPopulator"
+		  class="com.eydms.facades.populators.order.CommerceOrderParameterBasicPopulator">
+	</bean>
+
+	<alias name="defaultCommerceOrderParameterConverter" alias="commerceOrderParameterConverter"/>
+	<bean name="defaultCommerceOrderParameterConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.service.data.CommerceCartParameter"/>
+		<property name="populators">
+			<list>
+				<ref bean="commerceOrderParameterBasicPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="visitDataPopulator"
+		  class="com.eydms.facades.populators.djp.VisitDataPopulator">
+	</bean>
+	
+	<bean id="visitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.VisitMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="visitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="counterVisitDataPopulator"
+		  class="com.eydms.facades.populators.djp.CounterVisitDataPopulator">
+	</bean>
+	
+	<bean id="counterVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.CounterVisitData"/>
+		<property name="populators">
+			<list>
+				<ref bean="counterVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="siteVisitDataPopulator"
+		  class="com.eydms.facades.populators.djp.SiteVisitDataPopulator">
+	</bean>
+	
+	<bean id="siteVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.SiteVisitFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="siteVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="reviewLogsVisitDataPopulator"
+		  class="com.eydms.facades.populators.djp.ReviewLogsVisitDataPopulator">
+	</bean>
+	
+	<bean id="reviewLogsVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.VisitMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="reviewLogsVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="counterMappingReversePopulator"
+		  class="com.eydms.facades.populators.djp.CounterMappingReversePopulator">
+	</bean>
+	
+	<bean id="marketMappingFacade" class="com.eydms.facades.impl.MarketMappingFacadeImpl">
+	</bean>
+	
+	<bean id="geographicalRegionFacade" class="com.eydms.facades.region.impl.GeographicalRegionFacadeImpl">
+	</bean>
+	
+	<bean id="counterVisitMasterDataPopulator"
+		  class="com.eydms.facades.populators.djp.CounterVisitMasterDataPopulator">
+	</bean>
+	
+	<bean id="dealerFleetDetailsPopulator"
+		  class="com.eydms.facades.populators.DealerFleetDetailsPopulator">
+	</bean>
+	
+	<bean id="dealerFleetDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.DealerFleetData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerFleetDetailsPopulator"/>
+			</list>
+		</property>
+	</bean> 
+	
+	<bean id="eydmsSitePopulator"
+		  class="com.eydms.facades.populators.djp.EyDmsSitePopulator">
+	</bean>
+
+	<bean id="viewDealerPlannedAnnualSalesPopulator"
+		  class="com.eydms.facades.populators.sales.ViewDealerPlannedAnnualSalesPopulator">
+	</bean>
+
+	<bean id="viewDealerPlannedMonthlySalesPopulator"
+		  class="com.eydms.facades.populators.sales.ViewDealerPlannedMonthlySalesPopulator">
+	</bean>
+
+	<bean id="viewRetailerPlannedAnnualSalesPopulator"
+		  class="com.eydms.facades.populators.sales.ViewRetailerPlannedAnnualSalesPopulator">
+	</bean>
+	
+	<bean id="eydmsSiteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EyDmsSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsSitePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="territoryManagementFacade" class="com.eydms.facades.impl.TerritoryManagementFacadeImpl">
+	</bean>
+
+	<alias name="defaultEYDMSUserFacade" alias="userFacade"/>
+	<bean id="defaultEYDMSUserFacade" class="com.eydms.facades.user.impl.DefaultEYDMSUserFacade" parent="defaultUserFacade">
+	</bean>
+
+	<bean id="eydmsUserFacade" class="com.eydms.facades.user.impl.DefaultEYDMSUserFacade">
+		<property name="userService" ref="userService" />
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<bean id="eydmsSiteMessagePopulator" class="com.eydms.facades.populators.EyDmsSiteMessagePopulator">
+	</bean>
+
+	<bean parent="modifyPopulatorList">
+	<property name="list" ref="siteMessageConverter"/>
+	<property name="add" ref="eydmsSiteMessagePopulator"/>
+	</bean>
+
+	<bean id="schemeDetailsReversePopulator"
+		  class="com.eydms.facades.populators.djp.SchemeDetailsReversePopulator">
+	</bean>
+
+	<bean id="eydmsNotificationFacade" class="com.eydms.facades.impl.EyDmsNotificationFacadeImpl">
+	</bean>
+
+	<bean id="dealerVehicleDetailsPopulator" class="com.eydms.facades.populators.order.DealerVehicleDetailsPopulator">
+	</bean>
+
+	<bean id="dealerVehicleDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.order.vehicle.DealerVehicleDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerVehicleDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dealerDriverDetailsPopulator" class="com.eydms.facades.populators.order.DealerDriverDetailsPopulator">
+	</bean>
+
+	<bean id="dealerDriverDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.order.vehicle.DealerDriverDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDriverDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dealerVehicleDetailsReversePopulator" class="com.eydms.facades.populators.order.DealerVehicleDetailsReversePopulator">
+	</bean>
+	<bean id="dealerDriverDetailsReversePopulator" class="com.eydms.facades.populators.order.DealerDriverDetailsReversePopulator">
+	</bean>
+
+	<alias name="defaultDealerTransitFacade" alias="dealerTransitFacade"/>
+	<bean id="defaultDealerTransitFacade" class="com.eydms.facades.order.impl.DefaultDealerTransitFacade">
+	</bean>
+
+	<alias name="defaultEfficacyReportFacade" alias="efficacyReportFacade"/>
+	<bean id="defaultEfficacyReportFacade" class="com.eydms.facades.efficacy.report.impl.EfficacyReportFacadeImpl">
+		<property name="efficacyReportService" ref="efficacyReportService"/>
+		<property name="efficacyReportConverter" ref="efficacyReportConverter"/>
+		<property name="marketIntelligenceReportConverter" ref="marketIntelligenceReportConverter"/>
+		<property name="outstandingDueReportConverter" ref="outstandingDueReportConverter"/>
+	</bean>
+
+	<bean id="efficacyReportPopulator" class="com.eydms.facades.populators.efficacyreport.EfficacyReportPopulator"/>
+
+	<bean id="efficacyReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.EfficacyReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="efficacyReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="marketIntelligenceReportPopulator" class="com.eydms.facades.populators.marketreport.MarketIntelligenceReportPopulator"/>
+
+	<bean id="marketIntelligenceReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.MarketIntelligenceData"/>
+		<property name="populators">
+			<list>
+				<ref bean="marketIntelligenceReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="outstandingDueReportPopulator" class="com.eydms.facades.populators.outstandingreport.OutstandingDueReportPopulator"/>
+
+	<bean id="outstandingDueReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.OutstandingDueReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="outstandingDueReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="collectionFacade" class="com.eydms.facades.impl.CollectionFacadeImpl">
+	</bean>
+	
+	<bean id="obsoleteCountersReportPopulator" class="com.eydms.facades.populators.efficacyreport.ObsoleteCountersReportPopulator"/>
+	
+	<bean id="obsoleteCountersReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.ObsoleteCounterReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="obsoleteCountersReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="efficacyNewProductReportPopulator" class="com.eydms.facades.populators.efficacyreport.EfficacyNewProductReportPopulator"/>
+	
+	<bean id="efficacyNewProductReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.NewProductReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="efficacyNewProductReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ledgerPopulator" class="com.eydms.facades.populators.LedgerPopulator"/>
+	
+	<bean id="ledgerConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.CollectionLedgerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="ledgerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="eydmsDealPlannMonthSaleConvertor" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.MonthlySalesTargetSettingData"/>
+		<property name="populators">
+			<list>
+				<ref bean="viewDealerPlannedMonthlySalesPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsRetailerReversePopulator" class="com.eydms.facades.populators.EYDMSRetailerReversePopulator"/>
+	<bean id="eydmsRetailerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EyDmsCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsRetailerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsRetailerPopulator" class="com.eydms.facades.populators.EYDMSRetailerPopulator"/>
+	<bean id="eydmsRetailerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSRetailerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsRetailerPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsMediaReversePopulator" class="com.eydms.facades.populators.EYDMSMediaReversePopulator"/>
+	<bean id="eydmsMediaReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.catalog.model.CatalogUnawareMediaModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsMediaReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsAddressReversePopulator" class="com.eydms.facades.populators.EYDMSAddressReversePopulator"/>
+	<bean id="eydmsAddressReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.core.model.user.AddressModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsAddressReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsAddressPopulator" class="com.eydms.facades.populators.EYDMSAddressPopulator"/>
+	<bean id="eydmsAddressConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSAddressData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsAddressPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsDirectorReversePopulator" class="com.eydms.facades.populators.EYDMSDirectorReversePopulator"/>
+	<bean id="eydmsDirectorReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.ProsDealerCompanyModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsDirectorReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="eydmsDirectorPopulator" class="com.eydms.facades.populators.EYDMSDirectorPopulator"/>
+	<bean id="eydmsDirectorConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSDirectorData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsDirectorPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsPartnerReversePopulator" class="com.eydms.facades.populators.EYDMSPartnerReversePopulator"/>
+	<bean id="eydmsPartnerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.PartnershipModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsPartnerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsPartnerPopulator" class="com.eydms.facades.populators.EYDMSPartnerPopulator"/>
+	<bean id="eydmsPartnerConverter" parent="abstractPopulatingConverter">
+	<property name="targetClass" value="com.eydms.facades.data.EYDMSPartnerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsPartnerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+    <bean id="eydmsBrandWiseSaleReversePopulator" class="com.eydms.facades.populators.EYDMSBrandWiseSaleReversePopulator"/>
+    <bean id="brandWiseSaleReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.core.model.BrandWiseSaleModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsBrandWiseSaleReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsBrandWiseSalePopulator" class="com.eydms.facades.populators.EYDMSBrandWiseSalePopulator"/>
+    <bean id="brandWiseSaleConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.facades.prosdealer.data.BrandWiseSaleData"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsBrandWiseSalePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsVehicleDetailsReversePopulator" class="com.eydms.facades.populators.EYDMSVehicleDetailsReversePopulator"/>
+    <bean id="vehicleDetailsReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.core.model.DealerVehicleDetailsModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsVehicleDetailsReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsVehicleDetailsPopulator" class="com.eydms.facades.populators.EYDMSVehicleDetailsPopulator"/>
+    <bean id="vehicleDetailsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.facades.data.order.vehicle.DealerVehicleDetailsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsVehicleDetailsPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsDriveDetailsReversePopulator" class="com.eydms.facades.populators.EYDMSDriverDetailsReversePopulator"/>
+    <bean id="driveDetailsReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.core.model.DealerDriverDetailsModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsDriveDetailsReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsDriveDetailsPopulator" class="com.eydms.facades.populators.EYDMSDriverDetailsPopulator"/>
+    <bean id="driveDetailsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.facades.data.order.vehicle.DealerDriverDetailsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsDriveDetailsPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="eydmsNominationReversePopulator" class="com.eydms.facades.populators.EYDMSNominationReversePopulator"/>
+    <bean id="nominationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.eydms.core.model.NominationModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="eydmsNominationReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultSchemesAndDiscountFacade" alias="schemesAndDiscountFacade"/>
+	<bean id="defaultSchemesAndDiscountFacade" class="com.eydms.facades.impl.SchemesAndDiscountFacadeImpl">
+		<property name="categoryDataConverter" ref="cmsCategoryDataConverter" />
+		<property name="cartFacade" ref="commerceCheckoutCartFacade"/>
+        <property name="commerceCheckoutService" ref="commerceCheckoutService"/>
+        <property name="cartService" ref="cartService"/>
+        <property name="imageConverter" ref="imageConverter"/>
+        <property name="productConverter" ref="productConverter"/>
+        <property name="productConfiguredPopulator" ref="productConfiguredPopulator"/>        
+	</bean>	
+	
+	<bean id="eydmsNetworkFacade" class="com.eydms.facades.network.impl.EYDMSNetworkFacadeImpl"/>
+	<bean id="networkDao" class="com.eydms.core.dao.impl.NetworkDaoImpl"/>
+	<bean id="salesPerformanceDao" class="com.eydms.core.dao.impl.SalesPerformanceDaoImpl"/>
+	<bean id="networkAdditionPlanReversePopulator"
+		  class="com.eydms.facades.populators.NetworkAdditionPlanReversePopulator"/>
+	<bean id="networkAdditionPlanReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.NetworkAdditionPlanModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="networkAdditionPlanReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="networkAdditionPlanPopulator" class="com.eydms.facades.populators.NetworkAdditionPlanPopulator"/>
+	<bean id="networkAdditionPlanConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSNetworkAdditionPlanData"/>
+		<property name="populators">
+			<list>
+				<ref bean="networkAdditionPlanPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerReversePopulator" class="com.eydms.facades.populators.InfluencerReversePopulator"/>
+	<bean id="influencerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EyDmsCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerComplaintReversePopulator" class="com.eydms.facades.populators.CustomerComplaintReversePopulator"/>
+	<bean id="customerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EndCustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="endCustomerComplaintReversePopulator" class="com.eydms.facades.populators.EndCustomerComplaintReversePopulator"/>
+	<bean id="endCustomerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EndCustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="endCustomerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="influencerPopulator" class="com.eydms.facades.populators.InfluencerPopulator"/>
+	<bean id="influncerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.InfluencerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerFinancialsReversePopulator"
+		  class="com.eydms.facades.populators.InfluencerFinancialsReversePopulator"/>
+	<bean id="influencerFinancialsPopulator"
+		  class="com.eydms.facades.populators.InfluencerFinancialsPopulator"/>
+	<bean id="uidMediaReversePopulator" class="com.eydms.facades.populators.UidMediaReversePopulator"/>
+	<bean id="uidMediaReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.UidMediaModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="uidMediaReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+  
+  <bean id="bulkGoodsFacade" class="com.eydms.facades.impl.BulkGoodsFacadeImpl">
+	</bean>
+	
+	<bean id="purchaseOrderPopulator" class="com.eydms.facades.populators.PurchaseOrderPopulator"/>
+	
+	<bean id="purchaseOrderConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.PurchaseOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="purchaseOrderPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="genericMediaUtil" class="com.eydms.facades.util.GenericMediaUtil"/>
+
+	<alias name="defaultSlctCrmIntegrationFacade" alias="slctCrmIntegrationFacade"/>
+	<bean id="defaultSlctCrmIntegrationFacade" class="com.eydms.facades.impl.SlctCrmIntegrationFacadeImpl">			
+	</bean>	
+	
+
+	<bean id="influencerSummaryPopulator" class="com.eydms.facades.populators.InfluencerSummaryPopulator"/>
+	<bean id="influencerSummaryConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.InfluencerSummaryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerSummaryPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerSummarySalesPerformancePopulator" class="com.eydms.facades.populators.InfluencerSummarySalesPerformancePopulator"/>
+	<bean id="influencerSummarySalesPerformanceConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.SalesPerformNetworkDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerSummarySalesPerformancePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="meetScheduleReversePopulator" class="com.eydms.facades.populators.MeetScheduleReversePopulator"/>
+	<bean id="meetScheduleReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.MeetingScheduleModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetScheduleReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="meetingCompletionFormReversePopulator" class="com.eydms.facades.populators.MeetingCompletionFormReversePopulator"/>
+	<bean id="meetingCompletionFormReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.MeetingCompletionFormModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetingCompletionFormReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scheduledMeetPopulator" class="com.eydms.facades.populators.ScheduledMeetPopulator"/>
+	<bean id="scheduledMeetConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ScheduledMeetData"/>
+		<property name="populators">
+			<list>
+				<ref bean="scheduledMeetPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="meetingCompletionFormPopulator" class="com.eydms.facades.populators.MeetingCompletionFormPopulator"/>
+	<bean id="meetingCompletionFormConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.MeetingCompletionFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetingCompletionFormPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<alias name="salesPerformanceFacade" alias="salesPerformanceFacade" />
+	<bean id="salesPerformanceFacade" class="com.eydms.facades.impl.SalesPerformanceFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="salesPerformanceService" ref="salesPerformanceService"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+		<property name="geographicalRegionFacade" ref="geographicalRegionFacade"/>
+	</bean>
+
+	<bean id="eydmsImagePopulator" class="com.eydms.facades.populators.EYDMSImagePopulator"/>
+	<bean id="eydmsImageConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSImageData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsImagePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="prospectiveNetworkPopulator" class="com.eydms.facades.populators.ProspectiveNetworkPopulator"/>
+	<bean id="prospectiveNetworkConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ProspectiveNetworkData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prospectiveNetworkPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="siteDataPopulator" class="com.eydms.facades.populators.SiteDataPopulator"/>
+	<bean id="siteDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.SiteDetailData"/>
+		<property name="populators">
+			<list>
+				<ref bean="siteDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="transferGoodsFacade" class="com.eydms.facades.impl.TransferGoodsFacadeImpl">
+	</bean>
+	
+	<bean id="eydmsUserPopulator" class="com.eydms.facades.populators.EyDmsUserPopulator"/>
+	
+	<bean id="eydmsUserConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.EyDmsUserData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsUserPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="technicalAssistanceFacade" class="com.eydms.facades.impl.TechnicalAssistanceFacadeImpl">
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="customerComplaintReverseConverter" ref="customerComplaintReverseConverter"/>
+		<property name="invoiceMasterDataConverter" ref="invoiceMasterDataConverter"/>
+		<property name="eydmsCustomerService" ref="eydmsCustomerService"/>
+	</bean>
+
+	<bean id="customerCardDataPopulator" class="com.eydms.facades.populators.CustomerCardDataPopulator"/>
+	<bean id="customerCardDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.CustomerCardData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerCardDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerStagingDataPopulator" class="com.eydms.facades.populators.CustomerStagingDataPopulator"/>
+	<bean id="customerStagingDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.CustomerStagingData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerStagingDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="dealerDetails360Populator" class="com.eydms.facades.populators.DealerDetails360Populator"/>
+	<bean id="dealerDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.DealerDetails360Data"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="influencerDetails360Populator" class="com.eydms.facades.populators.InfluencerDetails360Populator"/>
+	<bean id="influencerDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.InfluencersDetails360WsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ongoingSchemesPopulator" class="com.eydms.facades.populators.OngoingSchemesPopulator"/>
+	<bean id="ongoingSchemeConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.OngoingSchemeDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="ongoingSchemesPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="dealerDetailsFormPopulator" class="com.eydms.facades.populators.DealerDetailsFormPopulator"/>
+	<bean id="dealerDetailsFormConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.DealerDetailsFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDetailsFormPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="technicalAssistancePopulator" class="com.eydms.facades.populators.TechnicalAssistancePopulator"/>
+	
+	<bean id="technicalAssistanceConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.TechnicalAssistanceData"/>
+		<property name="populators">
+			<list>
+				<ref bean="technicalAssistancePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultCustomerComplaintReversePopulator" alias="customerComplaintReversePopulator"/>
+	<bean id="defaultCustomerComplaintReversePopulator" class="com.eydms.facades.populators.complaints.CustomerComplaintReversePopulator">
+		<property name="eydmsAddressReverseConverter" ref="eydmsAddressReverseConverter"/>
+		<property name="userService" ref="userService"/>
+		<property name="eydmsCustomerService" ref="eydmsCustomerService"/>
+		<property name="customerComplaintRequestNoGenerator" ref="customerComplaintRequestNoGenerator"/>
+	</bean>
+
+	<alias name="defaultEndCustomerComplaintReversePopulator" alias="endCustomerComplaintReversePopulator"/>
+	<bean id="defaultEndCustomerComplaintReversePopulator" class="com.eydms.facades.populators.complaints.EndCustomerComplaintReversePopulator">
+	</bean>
+
+	<alias name="defaultCustomerComplaintReverseConverter" alias="customerComplaintReverseConverter"/>
+	<bean id="defaultCustomerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.CustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultInvoicePopulator" alias="invoicePopulator"/>
+	<bean id="defaultInvoicePopulator" class="com.eydms.facades.populators.invoice.InvoicePopulator"/>
+
+	<alias name="defaultInvoiceMasterDataConverter" alias="invoiceMasterDataConverter"/>
+	<bean name="defaultInvoiceMasterDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.InvoiceMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="invoicePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerComplaintRequestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+		<property name="key" value="${keygen.customer.complaint.request.name}"/>
+		<property name="digits" value="${keygen.customer.complaint.request.digits}"/>
+		<property name="start" value="${keygen.customer.complaint.request.start}"/>
+		<property name="type" value="${keygen.customer.complaint.request.type}"/>
+		<property name="template" value="${keygen.customer.complaint.request.template}"/>
+	</bean>
+
+	<bean id="customerAssistancePopulator" class="com.eydms.facades.populators.CustomerAssistancePopulator"/>
+
+	<bean id="customerAssistanceConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.CustomerComplaintData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerAssistancePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="uidMediaPopulator" class="com.eydms.facades.populators.UidMediaPopulator"/>
+	<bean id="uidMediaConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.UIDData"/>
+		<property name="populators">
+			<list>
+				<ref bean="uidMediaPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsNominationPopulator" class="com.eydms.facades.populators.EYDMSNominationPopulator"/>
+	<bean id="nominationsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.prosdealer.data.NominationData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsNominationPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="financialInfoPopulator" class="com.eydms.facades.populators.FinancialInfoPopulator"/>
+	<bean id="financialInfoConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EYDMSFinancialInfoData"/>
+		<property name="populators">
+			<list>
+				<ref bean="financialInfoPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerDetailedDataPopulator" class="com.eydms.facades.populators.CustomerDetailedDataPopulator"/>
+	<bean id="customerDetailedDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.CustomerDetailedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerDetailedDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="leadSummaryPopulator" class="com.eydms.facades.populators.LeadSummaryPopulator"/>
+	<bean name="leadSummaryConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.LeadSummaryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="leadSummaryPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="isoVisibilityPopulator" class="com.eydms.facades.populators.ISOVisibilityPopulator"/>
+	<bean name="isoVisibilityConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ISOVisibilityData"/>
+		<property name="populators">
+			<list>
+				<ref bean="isoVisibilityPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sSOLoginFacade" class="com.eydms.facades.impl.SSOLoginFacadeImpl">
+	</bean>
+
+	<alias name="annualTargetSettingDataConverter" alias="annualTargetSettingDataConverter"/>
+	<bean id="annualTargetSettingDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.AnnualSalesTargetSettingData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="annualTargetSettingDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="annualTargetSettingDataPopulator" alias="annualTargetSettingDataPopulator"/>
+	<bean id="annualTargetSettingDataPopulator"
+		  class="com.eydms.facades.populators.AnnualTargetSettingDataPopulator">
+	</bean>
+
+	<alias name="selfCounterSaleDataConverter" alias="selfCounterSaleDataConverter"/>
+	<bean id="selfCounterSaleDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.SelfCounterSaleData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="selfCounterSaleDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="selfCounterSaleDataPopulator" alias="selfCounterSaleDataPopulator"/>
+	<bean id="selfCounterSaleDataPopulator"
+		  class="com.eydms.facades.populators.SelfCounterSaleDataPopulator">
+	</bean>
+
+	<alias name="retailerDetailsDataConverter" alias="retailerDetailsDataConverter"/>
+	<bean id="retailerDetailsDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.RetailerDetailsData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="retailerDetailsDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="retailerDetailsDataPopulator" alias="retailerDetailsDataPopulator"/>
+	<bean id="retailerDetailsDataPopulator"
+		  class="com.eydms.facades.populators.RetailerDetailsDataPopulator">
+	</bean>
+
+	<bean id="spDetails360Populator" class="com.eydms.facades.populators.SPDetails360Populator"/>
+	<bean id="spDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.SalesPromoterDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="spDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+  
+  <bean id="influencerFacade" class="com.eydms.facades.impl.InfluencerFacadeImpl">
+
+	</bean>
+
+	<alias name="orderRequisitionFacade" alias="orderRequisitionFacade"/>
+	<bean id="orderRequisitionFacade" class="com.eydms.facades.impl.OrderRequisitionFacadeImpl">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+
+	<alias name="pointRequisitionFacade" alias="pointRequisitionFacade"/>
+	<bean id="pointRequisitionFacade" class="com.eydms.facades.impl.PointRequisitionFacadeImpl">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	
+	<bean id="eydmsDealerReversePopulator" class="com.eydms.facades.populators.EYDMSDealerReversePopulator"/>
+	<bean id="eydmsDealerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EyDmsCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsDealerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dealerFacade" class="com.eydms.facades.impl.DealerFacadeImpl">
+	</bean>
+
+	<alias name="tsoSiteManagementFacade" alias="tsoSiteManagementFacade"/>
+	<bean id="tsoSiteManagementFacade" class="com.eydms.facades.impl.TSOSiteManagementFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="tsoSiteManagementService" ref="tsoSiteManagementService"/>
+	</bean>
+
+	<alias name="eydmsNewNetworkFacade" alias="eydmsNewNetworkFacade"/>
+	<bean id="eydmsNewNetworkFacade" class="com.eydms.facades.network.impl.EYDMSNewNetworkFacadeImpl">
+	</bean>
+
+	<bean id="eydmsSalesPromoterReversePopulator" class="com.eydms.facades.populators.EYDMSSalesPromoterReversePopulator"/>
+	<bean id="eydmsSalesPromoterReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.core.model.EyDmsCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsSalesPromoterReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsEndCustomerFacade" class="com.eydms.facades.customer.impl.EyDmsEndCustomerFacadeImpl">
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<alias name="eydmsBrandingReqTrackerConverter" alias="eydmsBrandingReqTrackerConverter"/>
+	<bean id="eydmsBrandingReqTrackerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.order.data.BrandingTrackingData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="eydmsBrandingReqTrackerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="eydmsBrandingReqTrackerPopulator" alias="eydmsBrandingReqTrackerPopulator"/>
+	<bean id="eydmsBrandingReqTrackerPopulator"
+		  class="com.eydms.facades.populators.EyDmsBrandingRequisitionTrackerPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+	<alias name="siteManagementFacade" alias="siteManagementFacade"/>
+	<bean id="siteManagementFacade" class="com.eydms.facades.network.impl.SiteManagementFacadeImpl">
+		<property name="siteManagementService" ref="siteManagementService"/>
+	</bean>
+
+	<bean id="siteReversePopulator"
+		  class="com.eydms.facades.populators.SiteReversePopulator"/>
+  
+	<bean id="eydmsComplaintDispatchDetailsPopulator"
+		  class="com.eydms.facades.populators.EyDmsComplaintDispatchDetailsPopulator"/>
+  
+	<bean id="eydmsComplaintDispatchDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ComplaintDispatchDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsComplaintDispatchDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="eydmsSiteMasterPopulator"
+		  class="com.eydms.facades.populators.EyDmsSiteMasterPopulator">
+	<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+	<bean id="eydmsSiteMasterConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.EyDmsSiteMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="eydmsSiteMasterPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="siteVisitReversePopulator"
+		  class="com.eydms.facades.populators.SiteVisitReversePopulator"/>
+
+	<bean id="complaintRootCauseIdentifiedPopulator"
+		  class="com.eydms.facades.populators.ComplaintRootCauseIdentifiedPopulator"/>
+
+	<bean id="complaintRootCauseIdentifiedConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ComplaintRootCauseIndentifiedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintRootCauseIdentifiedPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scheduleNextVisitDataPopulator"
+		  class="com.eydms.facades.populators.ScheduleNextVisitDataPopulator"/>
+
+	<bean id="scheduleNextVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ScheduleNextVisitData"/>
+		<property name="populators">
+			<list>
+				<ref bean="scheduleNextVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="complaintSiteVisitNotRequiredPopulator"
+		  class="com.eydms.facades.populators.ComplaintSiteVisitNotRequiredPopulator"/>
+
+	<bean id="complaintSiteVisitNotRequiredConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ComplaintSiteVisitNotRequiredData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintSiteVisitNotRequiredPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="detailsFromSitePopulator"
+		  class="com.eydms.facades.populators.DetailsFromSitePopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+
+	<bean id="detailsFromSiteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.DetailsFromSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="detailsFromSitePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="sitePopulator"
+		  class="com.eydms.facades.populators.SitePopulator">
+	</bean>
+
+	<bean id="siteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.MapNewSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sitePopulator"/>
+        </list>
+		</property>
+	</bean>
+
+	<bean id="complaintTestperformedPopulator"
+		  class="com.eydms.facades.populators.ComplaintTestPerformedPopulator"/>
+
+	<bean id="complaintTestperformedConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.eydms.facades.data.ComplaintTestPerformedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintTestperformedPopulator"/>
+
+			</list>
+		</property>
+	</bean>
+
+	<alias name="leadMasterConverter" alias="leadMasterConverter"/>
+	<bean id="leadMasterConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.eydms.facades.data.EyDmsLeadData"/>
+		<property name="populators">
+			<list>
+				<ref bean="leadMasterPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="leadMasterPopulator" class="com.eydms.facades.populators.LeadMasterPopulator" >
+		<property name="userService" ref="userService"/>
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<bean id="eydmsSearchResultProductPopulator" class="com.eydms.facades.populators.EyDmsSearchResultProductPopulator">
+	</bean>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter"/>
+		<property name="add" ref="eydmsSearchResultProductPopulator"/>
+	</bean>
+</beans>

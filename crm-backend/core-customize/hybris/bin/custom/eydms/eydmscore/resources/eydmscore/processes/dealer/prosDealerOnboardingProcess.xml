@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<process xmlns="http://www.hybris.de/xsd/processdefinition"
+         start="findProsDealerApprovers" name="prosDealerOnboarding"
+         processClass="com.eydms.core.model.ProsDealerOnboardingProcessModel">
+
+    <action id="findProsDealerApprovers" bean="findProsDealerApproversAction">
+        <transition name="OK" to="sendNotificationForDealerAcknowledment" />
+        <transition name="NOK" to="failed" />
+    </action>
+
+    <action id="sendNotificationForDealerAcknowledment" bean="sendNotificationForDlrAck">
+        <transition name="OK" to="dealerAcknowledgementWaitProcess" /><!--Add the escalation in OK condition-->
+        <transition name="NOK" to="failed" />
+    </action>
+
+    <wait id="dealerAcknowledgementWaitProcess" then="checkDealerAcknowledgementStatus">
+        <event>PROS_DEALER_ACKNOWLEDGED_EVENT</event>
+    </wait>
+
+    <action id="checkDealerAcknowledgementStatus" bean="checkDealerAckStatus">
+        <transition name="OK" to="waitForFormFillingProcess" />
+        <transition name="NOK" to="failed" />
+    </action>
+    <!--<action id="canDealerfillTheForm" bean="canDealerfillTheForm">
+        <transition name="OK" to="sendLinkForFormFilling" />
+        <transition name="NOK" to="waitForFormFillingProcess" />
+    </action>
+
+    <action id="sendLinkForFormFilling" bean="sendLinkForFormFilling">
+        <transition name="OK" to="waitForFormFillingProcess"  />
+    </action>-->
+
+    <wait id="waitForFormFillingProcess" then="startSOApprovalWorkflow">
+        <event>PROS_DEALER_FORM_FILLED_EVENT</event>
+    </wait>
+
+
+    <action id="startSOApprovalWorkflow" bean="startSOApprovalWorkflow">
+        <transition name="OK" to="waitForSOApproval" />
+    </action>
+    <wait id="waitForSOApproval" then="checkSOApprovalWorkflowResult">
+        <event>SO_APPROVAL_WORKFLOW_COMPLETE_EVENT</event>
+    </wait>
+
+    <!--Payment Flow Start-->
+
+    <action id="checkSOApprovalWorkflowResult" bean="checkSOApprovalWorkflowResult">
+        <!--<transition name="OK" to="checkIfPaymentModeOnline" />-->
+        <transition name="OK" to="startSHApprovalWorkflow" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <!--<action id="checkIfPaymentModeOnline" bean="checkIfPaymentModeOnline">
+        <transition name="OK" to="sendApprovalNotificationToSH" />
+        <transition name="NOK" to="checkForpayment"/>
+    </action>
+
+    <action id="checkForpayment" bean="checkForpayment">
+        <transition name="OK" to="sendApprovalNotificationToSH" />
+        <transition name="NOK" to="waitForPaymentProcess" />
+    </action>
+    <wait id="waitForPaymentProcess" then="checkForpayment">
+        <event>PAYMENT_RECEIVED_EVENT</event>
+    </wait>-->
+
+    <!--Payment Flow End-->
+
+    <!--<action id="sendApprovalNotificationToSH" bean="sendApprovalNotificationToSH">
+        <transition name="OK" to="startSHApprovalWorkflow" />
+    </action>-->
+
+
+    <action id="startSHApprovalWorkflow" bean="startSHApprovalWorkflow">
+        <transition name="OK" to="waitForSHApproval" />
+    </action>
+    <wait id="waitForSHApproval" then="checkSHApprovalWorkflowResult">
+        <event>SH_APPROVAL_WORKFLOW_COMPLETE_EVENT</event>
+    </wait>
+
+    <action id="checkSHApprovalWorkflowResult" bean="checkSHApprovalWorkflowResult">
+        <transition name="OK" to="success" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <!--<action id="notifySAForDocumentVerification" bean="notifySAForDocumentVerification">
+        <transition name="OK" to="startOnlineDocVerification" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <wait id="startOnlineDocVerification" then="checkDocumentverificationStatus">
+        <event>SA_DOCUMENT_VERIFICATION_WORKFLOW_COMPLETE_EVENT</event>
+    </wait>
+
+    <action id="checkDocumentverificationStatus" bean="checkDocumentverificationStatus">
+        <transition name="OK" to="sendApprovalNotificationToPM" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <action id="sendApprovalNotificationToPM" bean="sendApprovalNotificationToPM">
+        <transition name="OK" to="startPMApprovalWorkflow" />
+    </action>
+
+    <action id="startPMApprovalWorkflow" bean="startPMApprovalWorkflow">
+        <transition name="OK" to="waitForPMApproval" />
+    </action>
+
+    <wait id="waitForPMApproval" then="checkPMApprovalWorkflowResult">
+        <event>PM_APPROVAL_WORKFLOW_COMPLETE_EVENT</event>
+    </wait>
+
+    <action id="checkPMApprovalWorkflowResult" bean="checkPMApprovalWorkflowResult">
+        <transition name="OK" to="checkForLetterHeadCopy" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <action id="checkForLetterHeadCopy" bean="checkForLetterHeadCopy">
+        <transition name="OK" to="submitDealerToERP" />
+        <transition name="NOK" to="checkAlertConditions"/>
+    </action>
+
+    <action id="checkAlertConditions" bean="checkAlertConditions">&lt;!&ndash;Alert condition: if alert not  sent for three times&ndash;&gt;
+        <transition name="OK" to="sendAlertToSalesOfficer" />
+        <transition name="NOK" to="failed"/>
+    </action>
+
+    <action id="sendAlertToSalesOfficer" bean="sendAlertToSalesOfficer">
+        <transition name="OK" to="waitForLetterHeadCopy" />&lt;!&ndash;Add logic to create a trigger task to fire WAIT_FOR_ONE_DAY_STATIC_EVENT &ndash;&gt;
+    </action>
+
+    <wait id="waitForLetterHeadCopy" then="checkForLetterHeadCopy">
+        <event>WAIT_FOR_ONE_DAY_STATIC_EVENT</event>
+    </wait>
+
+    <action id="submitDealerToERP" bean="submitDealerToERP">
+        <transition name="OK" to="success" />
+    </action>-->
+
+    <end id="error" state="ERROR">All went wrong.</end>
+    <end id="failed" state="FAILED">Onboarding  process failed.</end>
+    <end id="success" state="SUCCEEDED">Onboarding process finished.</end>
+</process>

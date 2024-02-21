@@ -1,0 +1,2333 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<!--
+	ATTENTION: This is just an example file. You have to edit it according to your needs.
+-->
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="beans.xsd">
+
+	<bean class="com.eydms.dto.lead.LeadWsDTO">
+		<property name="leadId" type="String">
+			<description>leadId of the Lead</description>
+		</property>
+		<property name="title" type="String">
+			<description>title of the Lead</description>
+		</property>
+		<property name="firstName" type="String">
+			<description>firstName of the Lead</description>
+		</property>
+		<property name="lastName" type="String">
+			<description>lastName of the Lead</description>
+		</property>
+		<property name="company" type="String">
+			<description>company of the Lead</description>
+		</property>
+		<property name="leadSource" type="String">
+			<description>leadSource of the Lead</description>
+		</property>
+		<property name="industryType" type="String">
+			<description>industryType of the Lead</description>
+		</property>
+		<property name="annualRevenue" type="String">
+			<description>sap of the Lead</description>
+		</property>
+		<property name="phone" type="String">
+			<description>phone of the Lead</description>
+		</property>
+		<property name="mobile" type="String">
+			<description>mobile of the Lead</description>
+		</property>
+		<property name="fax" type="String">
+			<description>fax of the Lead</description>
+		</property>
+		<property name="email" type="String">
+			<description>email of the Lead</description>
+		</property>
+		<property name="website" type="String">
+			<description>website of the Lead</description>
+		</property>
+
+		<property name="leadStatus" type="String">
+			<description>leadStatus of the Lead</description>
+		</property>
+		<property name="leadQualificationLevel" type="String">
+			<description>leadQualificationLevel of the Lead</description>
+		</property>
+		<property name="noOfEmployees" type="String">
+			<description>noOfEmployees of the Lead</description>
+		</property>
+		<property name="campaignSource" type="String">
+			<description>campaignSource of the Lead</description>
+		</property>
+		<property name="createdBy" type="String">
+			<description>createdBy of the Lead</description>
+		</property>
+		<property name="modifiedBy" type="String">
+			<description>modifiedBy of the Lead</description>
+		</property>
+		<!--<property name="street" type="String">
+			<description>street of the Lead</description>
+		</property>
+
+		<property name="city" type="String">
+			<description>city of the Lead</description>
+		</property>
+		<property name="state" type="String">
+			<description>state of the Lead</description>
+		</property>
+		<property name="zipCode" type="String">
+			<description>zipCode of the Lead</description>
+		</property>
+		<property name="country" type="String">
+			<description>country of the Lead</description>
+		</property>-->
+		<property name="description" type="String">
+			<description>description of the Lead</description>
+		</property>
+		<property name="address" type="String">
+			<description>address of the Lead</description>
+		</property>
+		<property name="quantity" type="String">
+			<description>quantity of the Lead</description>
+		</property>
+		<property name="price" type="String">
+			<description>price of the Lead</description>
+		</property>
+		<property name="accountName" type="String">
+			<description>accountName of the Lead</description>
+		</property>
+		<property name="accountId" type="String">
+			<description>accountId of the Lead</description>
+		</property>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO">
+		<property name="productPortfolio" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>">
+			<description>List of products</description>
+		</property>
+		<property name="sapCode" type="String">
+			<description>sap code of the user</description>
+		</property>
+		<property name="leads" type="java.util.List&lt;com.eydms.dto.lead.LeadWsDTO>">
+			<description>leads of the user</description>
+		</property>
+		<property name="employeeId" type="String">
+			<description>employee Id of the user</description>
+		</property>
+		<property name="dateOfJoining" type="String">
+			<description>date of joining of the user</description>
+		</property>
+
+		<property name="contactNumber" type="String">
+			<description>contact Number of the user</description>
+		</property>
+		<property name="profilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO">
+			<description>Profile picture of User</description>
+		</property>
+		<property name="lastVisitDate" type="String"/>
+		<property name="isShreeSite" type="Boolean"/>
+		<property name="isBangurSite" type="Boolean"/>
+		<property name="isRockstrongSite" type="Boolean"/>
+		<property name="influencerType" type="String"/>
+		<property name="contactPersonName" type="String"/>
+		<property name="contactPersonContact" type="String"/>
+		<property name="customerNo" type="String"/>
+		<property name="state" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.b2bwebservicescommons.dto.company.OrgCustomerCreationWsDTO">
+		<property name="sapCode" type="String">
+			<description>sap code of the user</description>
+		</property>
+		<property name="productPortfolio" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>">
+			<description>List of products</description>
+		</property>
+		<property name="leads" type="java.util.List&lt;com.eydms.dto.lead.LeadWsDTO>">
+			<description>leads of the user</description>
+		</property>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO">
+	<description>Extended attributes for Representation of a Review</description>
+	<property name="orderCode" type="String">
+		<description>Identifier of order</description>
+	</property>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.ProsDealerWsDTO">
+		<property name="site" type="String" />
+		<property name="securityDepositAmt" type="Integer"/>
+		<property name="paymentType" type="String"/>
+		<property name="transactionID" type="String"/>
+		<property name="transactionDate" type="java.util.Date"/>
+		<property name="ddNo" type="Integer"/>
+		<property name="dated" type="java.util.Date"/>
+		<property name="drawnOn" type="java.util.Date"/>
+		<property name="isDealerContacted" type="Boolean"/>
+		<property name="isDealerCapableForFormFilling" type="Boolean"/>
+		<property name="isSmsTriggeredToUploadDoc" type="Boolean"/>
+		<property name="panCardDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="gstDetailsDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="ddDeailsDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="godownSpaceDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="bankStatementDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="blankChequeDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="letterHeadCopyDoc" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="basicDetails" type="com.eydms.occ.dto.prosdealer.BasicProsDealerWsDTO"/>
+		<property name="applicantDetails" type="com.eydms.occ.dto.prosdealer.ApplicantProsDealerWsDTO"/>
+		<property name="finanicialDetails" type="com.eydms.occ.dto.prosdealer.FinancialDetailsWsDTO"/>
+		<property name="businessDetails" type="com.eydms.occ.dto.prosdealer.DealerBusinessDetailsWsDTO"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.prosdealer.ProsDealerListWsDTO">
+		<description>Representation of  Pros Dealer List</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">ProsDealerList</hint>
+		</hints>
+		<property name="prosDealers"
+				  type="java.util.List&lt;com.eydms.occ.dto.prosdealer.ProsDealerWsDTO>">
+			<description>List of Prospective Dealers</description>
+		</property>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO">
+		<property name="state" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="pinCode" type="String" />
+		<property name="mobileNo" type="String"/>
+		<property name="alternateMobileNo" type="String"/>
+		<property name="latitude" type="Double" />
+		<property name="longitude" type="Double" />
+		<property name="erpCity" type="String" />
+		<property name="createdDate" type="String"/>
+		<property name="modifiedDate" type="String"/>
+		<property name="retailerUid" type="String"/>
+		<property name="retailerName" type="String"/>
+		<property name="isPrimaryAddress" type="Boolean"/>
+		<property name="accountName" type="String"/>
+		<property name="erpId" type="String"/>
+		<property name="retailerAddressPk" type="String"/>
+		<property name="city" type="String" />
+	</bean>
+	
+
+	<bean class="com.eydms.occ.dto.prosdealer.StateWsDTO">
+		<description>Representation of  State</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">State</hint>
+		</hints>
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.EyDmsDistrictWsDTO">
+		<description>Representation of  District</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">State</hint>
+		</hints>
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.TalukaWsDTO">
+		<description>Representation of  District</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">Taluka</hint>
+		</hints>
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.EyDmsCityWsDTO">
+		<description>Representation of  City</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">City</hint>
+		</hints>
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.ProsDealerCompanyWsDTO">
+		<description>Representation of  Company of Pros Dealer</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">COMPANY</hint>
+		</hints>
+		<property name="companyID" type="String"/>
+		<property name="nameOfDirector" type="String"/>
+		<property name="fathersName" type="String"/>
+		<property name="address" type="String"/> <!-- address data or string -->
+		<property name="panNo" type="String"/>
+		<property name="dinNo" type="String"/>
+		<property name="banker" type="String" />
+		<property name="uiStatus" type="String" />
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.PartnershipWsDTO">
+		<description>Representation of  Partnership of Pros Dealer</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">PARTNERSHIP</hint>
+		</hints>
+		<property name="partnerID" type="String"/>
+		<property name="nameOfPartner" type="String"/>
+		<property name="relation" type="String"/>
+		<property name="uiStatus" type="String" />
+	</bean>
+
+	<bean class="com.eydms.occ.dto.UIDWsDTO">
+		<property name="uidNumber" type="String"/>
+		<property name="image" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="realFileName" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.prosdealer.NominationWsDTO">
+		<property name="nomineeID" type="String"/>
+		<property name="name" type="String"/>
+		<property name="fathersName" type="String"/>
+		<property name="relation" type="String"/>
+		<property name="panCard" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="aadharCard" type="com.eydms.occ.dto.EYDMSImageWsDTO" />
+		<property name="proofId" type="String"/>
+		<property name="uiStatus" type="String" />
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="city" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="panDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="uids" type="java.util.List&lt;com.eydms.occ.dto.UIDWsDTO>" />
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.PresentBusinessWsDTO">
+		<property name="nameOfBusiness" type="String"/>
+		<property name="natureOfBusiness" type="String"/>
+		<property name="startingYear" type="String"/>
+		<property name="currentYearTurnover" type="String"/>
+		<property name="capital" type="String" />
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.StorageAndInfraStructureWsDTO">
+		<property name="vehicleType" type="String"/>
+		<property name="noOfVehicles" type="Integer"/>
+		<property name="uiStatus" type="String" /> <!-- new,edit,delete, noChange -->
+		<property name="storageID" type="String"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.prosdealer.BasicProsDealerWsDTO">
+		<property name="name" type="String"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="stateCode" type="String"/>
+		<property name="districtCode" type="String"/>
+		<property name="talukaCode" type="String"/>
+		<property name="cityCode" type="String"/>
+		<property name="pinCode" type="String" />
+		<property name="mobileNo" type="String"/>
+		<property name="email" type="String"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.prosdealer.ApplicantProsDealerWsDTO">
+		<property name="code" type="String" />
+		<property name="statusOfApplicant" type="String" />
+		<property name="companies" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.ProsDealerCompanyWsDTO>"/>
+		<property name="partnerships" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.PartnershipWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.FinancialDetailsWsDTO">
+		<property name="code" type="String" />
+		<property name="panNumber" type="String" />
+		<property name="gstIN" type="String" />
+		<property name="stateOfRegistration" type="String"/>
+		<property name="accountNo" type="String"/>
+		<property name="ifscCode" type="String"/>
+		<property name="nominees" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.NominationWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.BrandWiseSaleWsDTO">
+		<property name="brandWiseSaleID" type="String" />
+		<property name="brandCode" type="String"/>
+		<property name="saleInMT" type="Integer"/>
+		<property name="uiStatus" type="String" /> <!-- new,edit,delete, noChange -->
+		<property name="wholeSale" type="Integer"/>
+		<property name="retailSale" type="Integer"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.prosdealer.BrandWsDTO">
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.BrandListWsDTO">
+		<property name="brands" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.BrandWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.prosdealer.DealerBusinessDetailsWsDTO">
+		<property name="code" type="String"/>
+		<property name="warehouseSpace" type="String"/>
+		<property name="brandWiseSale" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.BrandWiseSaleWsDTO>"/>
+		<property name="storage" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.StorageAndInfraStructureWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.OrderStagesWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="index" type="Integer"/>
+		<property name="estimatedTime" type="java.util.Date"/>
+		<property name="actualTime" type="java.util.Date"/>
+		<property name="stageCompleted" type="Boolean"/>
+		<property name="subStages" type="java.util.List&lt;com.eydms.occ.dto.order.OrderSubStagesWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.order.OrderSubStagesWsDTO" extends="com.eydms.occ.dto.order.OrderStagesWsDTO">
+	</bean>
+
+	<!-- confirm order details - add to cart -->
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.AbstractOrderWsDTO">
+		<property name="orderType" type="String" />
+		<property name="orderSource" type="String"/> <!-- to do -->
+		<property name="isDealerProvideOwnTransport" type="Boolean"/>
+		<property name="customerCategory" type="String"/>
+		<property name="totalQuantity" type="Double"/>
+		<property name="productName" type="String"/>
+		<property name="productCode" type="String"/>
+		<property name="retailerName" type="String"/>
+		<property name="retailerCode" type="String"/>
+		<property name="warehouse" type="de.hybris.platform.warehousingwebservices.dto.store.WarehouseWsDto"/>
+		<property name="erpCityCode" type="String"/>
+		<property name="destination" type="String"/>
+		<property name="rejectionReasons" type="java.util.List&lt;String>"/>				
+		<property name="suggestionMap" type="java.util.Map&lt;String,String>"/>
+		<property name="modificationReason" type="String"/>
+		<property name="uiStatus" type="String"/>
+		<property name="routeId" type="String"/>
+		<property name="erpOrderNo" type="String"/>
+		<property name="destinationName" type="String"/>
+		<property name="orderRequistions" type="java.util.List&lt;String>"/>
+		<property name="stateCode" type="String"/>
+		<property name="districtCode" type="String" />
+		<property name="regionCode" type="String" />
+		<property name="subAreaCode" type="String" />
+		<property name="placedBy" type="String" />
+		<property name="creditLimitBreached" type="Boolean" />
+		<property name="spApprovalStatus" type="String" />
+		<property name="requestedDeliveryDate" type="String"/>
+		<property name="requestedDeliverySlot" type="String"/>
+		<property name="showApprovalButton" type="Boolean"/>
+		<property name="requestDeliverySlotName" type="String"/>
+		<property name="isSLABreached" type="Boolean"/>
+	</bean>
+	
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO">
+		<property name="minOrderQuantity" type="Integer" />
+		<property name="maxOrderQuantity" type="Integer" />
+		<property name="premium" type="String"/>
+	</bean>
+
+ 	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderHistoryWsDTO">
+        <property name="counterCode" type="String"/>
+		<property name="counterName" type="String"/>
+		<property name="deliveryAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="productCode" type="String"/>
+	    <property name="productName" type="String"/>
+	    <property name="quantity" type="Long"/>
+	    <property name="entryNumber" type="Integer"/>
+	    <property name="rejectionReason" type="String"/>
+	    <property name="transporterName" type="String"/>
+	    <property name="truckNumber" type="String"/>
+	    <property name="driverName" type="String"/>
+    </bean>
+
+    <bean class="com.eydms.occ.dto.dealer.DealerWsDTO">
+		<property name="uid" type="String" />
+		<property name="name" type="String" />
+		<property name="email" type="String" />
+		<property name="contactNumber" type="String" />
+		<property name="customerId" type="String" />
+		<property name="state" type="String"/>
+		<property name="partnerType" type="String"/>
+		<property name="potential" type="Double"/>
+		<property name="lastVisit" type="String"/>
+		<property name="dealerCategory" type="String"/>
+		<property name="flaggedDate" type="java.util.Date"/>
+		<property name="flaggedBy" type="String"/>
+		<property name="flaggedReason" type="String"/>
+		<property name="dealerName" type="String"/>
+		<property name="dealerCode" type="String"/>
+		<property name="dealerContactNumber" type="String"/>
+		<property name="defaultAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="unFlagRequestTime" type="java.util.Date"/>
+		<property name="counterVisitIdforUnFlag" type="String"/>
+		<property name="influencerType" type="String"/>
+	</bean>
+	
+		<bean class="com.eydms.occ.dto.dealer.DealerListWsDTO">
+		<description>Representation of Dealer List</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">DealerList</hint>
+		</hints>
+		<property name="dealers"
+				  type="java.util.List&lt;com.eydms.occ.dto.dealer.DealerWsDTO>">
+			<description>List of Dealers</description>
+		</property>
+		</bean>
+
+	<bean class="com.eydms.occ.dto.success.SuccessWsDTO">
+		<description>Success message</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">success</hint>
+		</hints>
+		<property name="message" type="String">
+			<description>Descriptive, human readable error message.</description>
+		</property>
+		<property name="success" type="Boolean">
+			<description>Is Success</description>
+		</property>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO">
+		<property name="truckNo" type="String"/>
+		<property name="driverContactNo" type="String"/>	
+		<property name="selectedDeliveryDate" type="String"/>
+		<property name="selectedDeliverySlot" type="String"/>
+		<property name="calculatedDeliveryDate" type="String"/>
+		<property name="calculatedDeliverySlot" type="String"/>			
+		<property name="sequence" type="Integer"/>
+		<property name="isDateReduced" type="Boolean"/>			
+		<property name="uiAction" type="String"/>
+		<property name="truckDispatchDate" type="java.util.Date"/>
+		<property name="erpOrderNo" type="String"/>
+		<property name="erpLineItemId" type="String"/>
+		<property name="quantityMT" type="Double"/>
+		<property name="warehouseCode" type="String"/>
+		<property name="warehouseName" type="String"/>
+		<property name="status" type="String"/>
+		<property name="routeId" type="String"/>
+		<property name="deliveryQty" type="Double"/>
+		<property name="remarks" type="String"/>	
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.EYDMSOrderWSDTO">
+		<property name="code" type="String"/>
+		<property name="entryNumber" type="String"/>
+		<property name="products" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO>"/>
+		<property name="deliveryAddress" type="de.hybris.platform.commercefacades.user.data.AddressData"/>
+		<property name="status" type="String"/>
+		<property name="quantity" type="Double"/>
+		<property name="estimatedDeliveryDate" type="java.util.Date"/>
+		<property name="trackingDetails" type="java.util.List&lt;com.eydms.occ.dto.order.TrackingWSDTO>"/>
+		<property name="user" type="de.hybris.platform.commercewebservicescommons.dto.user.PrincipalWsDTO"/>
+		<property name="dealerProfilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="erpOrderNo" type="String"/>
+		<property name="erpLineItemId" type="String"/>
+		<property name="destinationCode" type="String"/>
+		<property name="destinationName" type="String"/>
+		<property name="subAreaMasterId" type="String"/>
+		<property name="expectedDeliveryDate" type="java.util.Date"/>
+		<property name="showApprovalButton" type="Boolean"/>
+		<property name="orderRequisitionId" type="String"/>
+		<property name="erpEtaDate" type="java.util.Date"/>
+		<property name="erpVehicleNumber" type="String"/>
+        <property name="isGpsEnabled" type="Boolean"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.TrackingWSDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="actualTime" type="java.util.Date"/>
+		<property name="comment" type="java.util.List&lt;String>" />
+		<property name="index" type="Integer"/>
+		<property name="parent" type="String"/>
+		<property name="estimatedTime" type="java.util.Date"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.source.DestinationSourceMasterWsDTO">
+		<property name="city" type="String"/>
+		<property name="priority" type="Integer"/>
+		<property name="sourceType" type="String"/>
+		<property name="ncrCost" type="Double"/>
+		<property name="sla" type="Integer"/>
+		<property name="sourceCode" type="String"/>
+		<property name="sourceName" type="String"/>
+		<property name="deliveryMode" type="String"/>
+		<property name="routeId" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.source.DestinationSourceListWsDTO">
+		<property name="destinationSourceDataList" type="java.util.List&lt;com.eydms.occ.dto.source.DestinationSourceMasterWsDTO>"/>
+		<property name="defaultSource" type="com.eydms.occ.dto.source.DestinationSourceMasterWsDTO"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.address.ERPCityWsDTO">
+		<description>Representation of  ERP City</description>
+		<hints>
+			<hint name="wsRelated"/>
+			<hint name="alias">ERP City</hint>
+		</hints>
+		<property name="isocode" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CompetitorProductWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="grade" type="String"/>
+		<property name="packaging" type="String"/>
+		<property name="state" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.CompetitorProductListWsDTO">
+		<property name="competitorProductList" type="java.util.List&lt;com.eydms.occ.dto.CompetitorProductWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.MarketMappingDetailsWsDTO">
+		<property name="id" type="String"/>
+		<property name="brand" type="com.eydms.occ.dto.prosdealer.BrandWsDTO"/>
+		<property name="product" type="com.eydms.occ.dto.CompetitorProductWsDTO"/>
+		<property name="wholesalePrice" type="Double"/>
+		<property name="retailsalePrice" type="Double"/>
+		<property name="discount" type="Double"/>
+		<property name="billing" type="Double"/>
+		<property name="stock" type="Double"/>
+		<property name="wholeSales" type="Double"/>
+		<property name="retailSales" type="Double"/>
+		<property name="counterVisitId" type="com.eydms.occ.dto.visit.CounterVisitMasterWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.CounterVisitMasterWsDTO">
+		<property name="id" type="String"/>
+		<property name="counterId" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+		<property name="counterType" type="String"/>
+		<property name="lastVisitDate" type="java.util.Date"/>
+		<property name="startVisitTime" type="java.util.Date"/>
+		<property name="endVisitTime" type="java.util.Date"/>
+		<property name="sequence" type="Integer"/>
+		<property name="counterPotential" type="Double"/>
+		<property name="totalSale" type="Double"/>
+		<property name="wholeSale" type="Double"/>
+		<property name="counterSale" type="Double"/>
+		<property name="counterShare" type="Double"/>
+		<property name="isShreeCounter" type="Boolean"/>
+		<property name="isBangurCounter" type="Boolean"/>
+		<property name="isRockstrongCounter" type="Boolean"/>
+		<property name="orderGenerated" type="Double"/>
+		<property name="differenceWholesaleVol" type="Double"/>
+		<property name="differenceRetailsaleVol" type="Double"/>
+		<property name="isDealerFlag" type="Boolean"/>
+		<property name="remarkForFlag" type="String"/>
+		<property name="marketMappingList" type="java.util.List&lt;com.eydms.occ.dto.visit.MarketMappingDetailsWsDTO>"/>
+		<property name="counterName" type="String"/>
+		<property name="latitude" type="Double"/>
+		<property name="longitude" type="Double"/>
+		<property name="counterCode" type="String"/>	
+		<property name="customerNo" type="String"/>	
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.LeadMasterWsDTO">
+		<property name="id" type="String"/>
+		<property name="leadId" type="String"/>
+		<property name="leadType" type="String"/>
+		<property name="name" type="String"/>
+		<property name="contactNo" type="String"/>
+		<property name="email" type="String"/>
+		<property name="potential" type="Double"/>
+		<property name="associatedBrandId" type="com.eydms.occ.dto.prosdealer.BrandWsDTO"/>
+		<property name="comment" type="String"/>
+		<property name="siteStage" type="String"/>
+		<property name="siteType" type="String"/>
+<!--
+		<property name="counterVisitId" type="com.eydms.occ.dto.visit.CounterVisitMasterWsDTO"/>
+-->
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.TruckModelWsDTO">
+		<property name="id" type="String"/>
+		<property name="truckModel" type="String"/>
+		<property name="capacity" type="Double"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.DealerFleetWsDTO">
+		<property name="id" type="String"/>
+		<property name="truckModel" type="com.eydms.occ.dto.visit.TruckModelWsDTO"/>
+		<property name="count" type="Integer"/>
+		<property name="counter" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.BrandingInsightWsDTO">
+		<property name="id" type="String"/>
+		<property name="brandId" type="String"/>
+		<property name="brandingType" type="String"/>
+		<property name="otherBrandDetails" type="String"/>
+		<property name="image" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.DropdownWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.DropdownListWsDTO">
+		<property name="dropdown" type="java.util.List&lt;com.eydms.occ.dto.DropdownWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.visit.BrandingInsightListWsDTO">
+		<property name="brandingInsights" type="java.util.List&lt;com.eydms.occ.dto.visit.BrandingInsightWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.EyDmsOrderHistoryWsDTO">
+		<property name="orderNo" type="String"/>
+		<property name="dealerCode" type="String"/>
+		<property name="dealerName" type="String"/>
+		<property name="status" type="String"/>
+		<property name="productCode" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="quantity" type="Double"/>
+		<property name="deliveryAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="rejectionReason" type="String"/>
+		<property name="vehicleArrivalTime" type="java.util.Date"/>
+		<property name="estimatedArrivalTime" type="java.util.Date"/>
+		<property name="transporterName" type="String"/>
+		<property name="truckNumber" type="String"/>
+		<property name="driverName" type="String"/>
+		<property name="erpOrderNo" type="String"/>
+		<property name="driverPhone" type="String"/>
+		<property name="transporterPhone" type="String"/>	
+		<property name="entryNumber" type="Integer"/>
+		<property name="entries"
+				  type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO>"/>
+		<property name="totalPrice" type="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+		<property name="orderDate" type="java.util.Date"/>
+		<property name="dealerProfilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="deliveredDate" type="java.util.Date"/>
+		<property name="erpLineItemId" type="String"/>
+		<property name="destinationCode" type="String"/>
+		<property name="destinationName" type="String"/>
+		<property name="erpEtaDate" type="java.util.Date"/>
+		<property name="shortageQuantity" type="Double"/>
+		<property name="epodInitiateDate" type="java.util.Date"/>
+		<property name="subAreaMasterId" type="String"/>
+		<property name="spApprovalStatus" type="String" />
+		<property name="expectedDeliveryDate" type="java.util.Date" />
+		<property name="soContactNumber" type="String" />
+		<property name="dealerContactNumber" type="String"/>
+		<property name="cancelledDate" type="java.util.Date"/>
+		<property name="orderRequisitionId" type="String"/>
+		<property name="erpVehicleNumber" type="String"/>
+        <property name="isGpsEnabled" type="Boolean"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.EyDmsOrderHistoryListWsDTO">
+		<property name="ordersList" type="java.util.List&lt;com.eydms.occ.dto.order.EyDmsOrderHistoryWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.VisitMasterWsDTO">
+		<property name="id" type="String"/>
+		<property name="location" type="String"/>
+		<property name="status" type="String"/>
+		<property name="counterCount" type="Integer"/>
+		<property name="visitDate" type="java.util.Date"/>
+		<property name="visitedCount" type="Integer"/>
+		<property name="notVisitedCount" type="Integer"/>
+		<property name="objective" type="String"/>
+		<property name="approvalStatus" type="String"/>
+		<property name="route" type="String"/>
+		<property name="subArea" type="String"/>
+		<property name="salesOfficerName" type="String"/>
+		<property name="routeAdherence" type="String"/>
+		<property name="counterAdherence" type="String"/>
+		<property name="objectiveAdherence" type="String"/>
+		<property name="timerStartTime" type="java.util.Date"/>
+		<property name="timerEndTime" type="java.util.Date"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="deviations" type="java.util.List&lt;com.eydms.facades.dto.marketvisit.MarketVisitDeviationWsDTO>"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.djp.VisitMasterListWsDTO">
+		<property name="visitDetailsList" type="java.util.List&lt;com.eydms.occ.dto.djp.VisitMasterWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.RouteWsDTO">
+		<property name="id" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.ObjectiveWsDTO">
+		<property name="id" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.djp.DJPRunWsDTO">
+		<property name="id" type="String"/>
+		<property name="planDate" type="String"/>
+		<!--<property name="officer" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>-->
+	</bean>
+	<bean class="com.eydms.occ.dto.djp.DJPRouteScoreWsDTO">
+		<property name="id" type="String"/>
+		<property name="route" type="com.eydms.occ.dto.djp.RouteWsDTO"/>
+		<property name="routeScore" type="Double"/>
+		<property name="djpRun" type="java.util.List&lt;com.eydms.occ.dto.djp.DJPRunWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.djp.DJPCounterScoreWsDTO">
+		<property name="id" type="String"/>
+		<property name="objective" type="com.eydms.occ.dto.djp.ObjectiveWsDTO"/>
+		<property name="counterId" type="String"/>
+		<property name="customer" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+		<property name="counterScore" type="Integer"/>
+		<property name="visitSequence" type="Integer"/>
+		<property name="routeScore" type="java.util.List&lt;com.eydms.facades.djp.data.DJPRouteScoreData>"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.djp.CounterVisitMasterListWsDTO">
+		<property name="counterVisitList" type="java.util.List&lt;com.eydms.occ.dto.visit.CounterVisitMasterWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.DJPFinalizedPlanWsDTO">
+		<property name="routeScoreId" type="String"/>
+		<property name="objectiveId" type="String"/>
+		<property name="subAreaMasterId" type="String"/>
+		<property name="visitId" type="String"/>
+		<property name="subAreas" type="java.util.List&lt;java.lang.String>"/>
+		<property name="counters" type="java.util.List&lt;com.eydms.occ.dto.djp.DJPCounterWsDTO>"/>
+		<property name="route" type="String"/>
+		<property name="planDate" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.DJPCounterWsDTO">
+		<property name="counterScoreId" type="String"/>
+		<property name="customerId" type="String"/>
+		<property name="visitSequence" type="Integer"/>
+		<property name="counterType" type="String"/>
+		<property name="counterVisitId" type="String"/>
+		<property name="uiAction" type="String"/>
+	</bean>
+	
+
+	<bean class="com.eydms.occ.dto.djp.UpdateCountersWsDTO">
+		<property name="visitId" type="String"/>
+		<property name="counters" type="java.util.List&lt;com.eydms.occ.dto.djp.DJPCounterWsDTO>"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.djp.CounterMappingWsDTO">
+		<property name="id" type="String"/>	
+		<property name="customerName" type="String"/>
+		<property name="customerType" type="String"/>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="totalSale" type="Double"/>
+		<property name="wholeSale" type="Double"/>
+		<property name="counterSale" type="Double"/>
+		<property name="email" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="contactPersonName" type="String"/>
+		<property name="route" type="String"/>
+		<property name="routeName" type="String"/>
+		<property name="businessInfo" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.BrandWiseSaleWsDTO>"/>
+		<property name="brand" type="String"/>
+		<property name="otherBrands" type="java.util.List&lt;java.lang.String>"/>
+		<property name="influencerType" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.CounterVisitAnalyticsWsDTO">
+		<property name="daily" type="com.eydms.occ.dto.djp.CounterVisitAnalyticsDataWsDTO"/>
+		<property name="weekly" type="com.eydms.occ.dto.djp.CounterVisitAnalyticsDataWsDTO"/>
+		<property name="monthly" type="com.eydms.occ.dto.djp.CounterVisitAnalyticsDataWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.djp.CounterVisitAnalyticsDataWsDTO">
+		<property name="average" type="String"/>
+		<property name="visits" type="java.util.Map&lt;String,String>" />
+	</bean>
+	<bean class="com.eydms.occ.dto.marketvisit.scheme.SchemeDetailsWsDTO">
+		<property name="brand" type="com.eydms.occ.dto.prosdealer.BrandWsDTO"/>
+		<property name="partenerLevel" type="String"/>
+		<property name="schemeObjective" type="String"/>
+		<property name="products" type="java.util.List&lt;com.eydms.occ.dto.CompetitorProductWsDTO>"/>
+		<property name="schemeType" type="String"/>
+		<property name="noOfSlabs" type="String"/>
+		<property name="schemeUnit" type="String"/>
+		<property name="incentiveType" type="String"/>
+		<property name="productPointsInfos" type="java.util.List&lt;com.eydms.occ.dto.marketvisit.scheme.ProductPointsInfoWsDTO>"/>
+		<property name="slabs" type="java.util.List&lt;com.eydms.occ.dto.marketvisit.scheme.SchemeSlabWsDTO>"/>
+		<property name="startDate" type="String"/>
+		<property name="endDate" type="String"/>
+		<property name="marketRating" type="String"/>
+		<property name="remark" type="String"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.marketvisit.scheme.ProductPointsInfoWsDTO">
+		<property name="product" type="com.eydms.occ.dto.CompetitorProductWsDTO"/>
+		<property name="basePoint" type="String"/>
+		<property name="bonusPoint" type="String"/>
+		<property name="totalPoints" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.marketvisit.scheme.SchemeSlabWsDTO">
+		<property name="slabNo" type="String"/>
+		<property name="threshold" type="String"/>
+		<property name="incentive" type="String"/>
+		<property name="value" type="String"/>
+	</bean>
+
+	<bean class="de.hybris.platform.notificationocc.dto.SiteMessageWsDTO">
+		<property name="entryNumber" type="String" />
+		<property name="orderCode" type="String" />
+		<property name="dealerCode" type="String" />
+		<property name="dealerImage" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO" />
+		<property name="status" type="String" />
+		<property name="category" type="String" />
+		<property name="siteMessageId" type="String" />
+		<property name="expiryDate" type="String" />
+		<property name="orderType" type="String" />
+		<property name="orderStatus" type="String" />
+		<property name="suggestions" type="java.util.Map&lt;String,String>"/>
+	</bean>
+
+	<bean class="com.eydms.facades.dto.marketvisit.MarketVisitDetailsWsDTO">
+		<property name="dateOfJourney" type="String"/>
+		<property name="route" type="com.eydms.occ.dto.djp.RouteWsDTO"/>
+		<property name="objective" type="com.eydms.occ.dto.djp.ObjectiveWsDTO"/>
+		<property name="deviations" type="java.util.List&lt;com.eydms.facades.dto.marketvisit.MarketVisitDeviationWsDTO>"/>
+		<property name="countersNotVisited" type="java.util.List&lt;com.eydms.facades.dto.djp.CounterDetailsWsDTO>"/>
+		<property name="adHocVisits" type="java.util.List&lt;com.eydms.facades.dto.djp.CounterDetailsWsDTO>"/>
+		<property name="visited" type="Integer"/>
+		<property name="notVisited" type="Integer"/>
+		<property name="subArea" type="String"/>
+		<property name="startTime" type="String"/>
+		<property name="endTime" type="String"/>
+		<property name="approvalStatus" type="String"/>		
+		<property name="visitSummary" type="java.util.List&lt;com.eydms.facades.data.marketvisit.VisitSummaryPlannedVsActualData>"/>
+		<property name="visitDetails" type="java.util.List&lt;com.eydms.facades.dto.djp.CounterDetailsWsDTO>"/>
+		<property name="routeAdherence" type="String"/>
+		<property name="objectiveAdherence" type="String"/>	
+		<property name="counterAdherence" type="String"/>
+		<property name="counters" type="Integer"/>
+		<property name="influencers" type="Integer"/>
+		<property name="sites" type="Integer"/>
+		<property name="counterDetails" type="com.eydms.facades.data.CounterVisitListData"/>
+	</bean>
+
+	<bean class="com.eydms.facades.dto.marketvisit.MarketVisitDeviationWsDTO">
+		<property name="name" type="String"/>
+		<property name="suggested" type="java.util.List&lt;String>"/>
+		<property name="selected" type="java.util.List&lt;String>"/>
+		<property name="deviationReason" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.facades.dto.marketvisit.VisitSummaryWsDTO">
+		<property name="visitID" type="String"/>
+		<property name="routeDeviationReason" type="String"/>
+		<property name="routeDeviationComment" type="String"/>
+		<property name="objectiveDeviationReason" type="String"/>
+		<property name="objectiveDeviationComment" type="String"/>
+		<property name="counterDeviationReason" type="java.util.List&lt;com.eydms.facades.dto.djp.CounterDetailsWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.facades.dto.djp.CounterDetailsWsDTO">
+		<property name="counterVisitId" type="String"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerName" type="String"/>
+		<property name="customerType" type="String"/>
+		<property name="counterPotential" type="Double"/>
+		<property name="lastVisitDate" type="String"/>
+		<property name="deviationReason" type="String"/>
+		<property name="deviationComment" type="String"/>
+		<property name="customerNo" type="String"/>		
+		<property name="plannedStatus" type="String"/>
+		<property name="visitedStatus" type="String"/>	
+	</bean>
+	
+	<bean class="com.eydms.facades.data.marketvisit.VisitSummaryPlannedVsActualWsDTO">
+		<property name="counterType" type="String"/>
+		<property name="plannedVisits" type="Integer"/>
+		<property name="actualVisits" type="Integer"/>
+		<property name="plannedAndVisited" type="Integer"/>
+		<property name="adHocVisited" type="Integer"/>
+		<property name="plannedNotVisited" type="Integer"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.order.vehicle.DealerVehicleDetailsWsDTO">
+		<property name="vehicleNumber" type="String"/>
+		<property name="make" type="String"/>
+		<property name="model" type="String"/>
+		<property name="capacity" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.order.vehicle.DealerVehicleDetailsListWsDTO">
+		<property name="dealer" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+		<property name="fleetCount" type="String"/>
+		<property name="totalCapacity" type="String"/>
+		<property name="vehicleDetails" type="java.util.List&lt;com.eydms.occ.dto.order.vehicle.DealerVehicleDetailsWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.order.vehicle.DealerDriverDetailsWsDTO">
+		<property name="driverName" type="String"/>
+		<property name="contactNumber" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.order.vehicle.DealerDriverDetailsListWsDTO">
+		<property name="dealer" type="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO"/>
+		<property name="noOfDrivers" type="String"/>
+		<property name="driverDetails" type="java.util.List&lt;com.eydms.occ.dto.order.vehicle.DealerDriverDetailsWsDTO>"/>
+	</bean>
+
+	<bean class="de.hybris.platform.warehousingwebservices.dto.store.WarehouseWsDto">
+		<property name="name" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.warehousing.WarehouseListWsDto">
+		<property name="warehouses" type="java.util.List&lt;de.hybris.platform.warehousingwebservices.dto.store.WarehouseWsDto>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.TerritoryWsDTO">
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="subArea" type="String"/>		
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.TerritoryListWsDTO">
+		<property name="territoryList" type="java.util.List&lt;com.eydms.occ.dto.TerritoryWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsOrgUserWsDto">
+		<property name="uid" type="String"/>
+		<property name="displayUid" type="String"/>
+		<property name="name" type="String"/>
+		<property name="customerId" type="String"/>
+		<property name="customerNo" type="String"/>
+		<property name="firstName" type="String"/>
+		<property name="lastName" type="String"/>
+		<property name="email" type="String"/>
+		<property name="employeeId" type="String"/>
+		<property name="dateOfJoining" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="profilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		<property name="lastVisitDate" type="java.util.Date"/>
+		<property name="isShreeSite" type="Boolean"/>
+		<property name="isBangurSite" type="Boolean"/>
+		<property name="isRockstrongSite" type="Boolean"/>
+		<property name="influencerType" type="String"/>
+		<property name="contactPersonName" type="String"/>
+		<property name="contactPersonContact" type="String"/>
+		<property name="active" type="Boolean"/>
+		<property name="selected" type="Boolean"/>
+		<property name="currency" type="de.hybris.platform.commercewebservicescommons.dto.storesession.CurrencyWsDTO"/>
+		<property name="orgUnit" type="de.hybris.platform.b2bwebservicescommons.dto.company.B2BUnitWsDTO"/>
+		<property name="defaultAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="PAN" type="String"/>
+		<property name="GST" type="String"/>
+		<property name="TAN" type="String"/>
+		<property name="linkedTsoDetails" type="java.util.List&lt;com.eydms.occ.dto.TsoBasicDetailsWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSImageWsDTO">
+		<property name="byteStream" type="String"/>
+		<property name="fileName" type="String"/>
+		<property name="url" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSRetailerWsDto">
+		<property name="name" type="String"/>
+		<property name="brand" type="String"/>
+		<property name="gstin" type="String"/>
+		<property name="aadharNo" type="String"/>
+		<property name="stateOfRegistration" type="String"/>
+		<property name="registeredAddress" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="shippingAddress" type="java.util.List&lt;com.eydms.occ.dto.EYDMSAddressWsDto>"/>
+		<property name="contactNumber" type="String"/>
+		<property name="email" type="String"/>
+		<property name="image" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="gstinCertificate" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="aadharDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSAddressWsDto">
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="city" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="pincode" type="String"/>
+		<property name="dateOfBirth" type="String"/>
+		<property name="email" type="String"/>
+		<property name="contactNumber" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSDirectorWsDto">
+		<property name="name" type="String"/>
+		<property name="fatherName" type="String"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="city" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="panNumber" type="String"/>
+		<property name="din" type="String"/>
+		<property name="panDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSPartnerWsDto">
+		<property name="name" type="String"/>
+		<property name="relationship" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSCompanyDetailsWsDto">
+		<property name="retailerId" type="String"/>
+		<property name="companyType" type="String"/>
+		<property name="directors" type="java.util.List&lt;com.eydms.occ.dto.EYDMSDirectorWsDto>"/>
+		<property name="partners" type="java.util.List&lt;com.eydms.occ.dto.EYDMSPartnerWsDto>"/>
+		<property name="formSS" type="com.eydms.facades.data.EYDMSImageData"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EYDMSBusinessInfoWsDto">
+		<property name="retailerId" type="String"/>
+		<property name="warehouseCapacity" type="String"/>
+		<property name="brandWiseSales" type="java.util.List&lt;com.eydms.occ.dto.prosdealer.BrandWiseSaleWsDTO>"/>
+		<property name="vehicleDetails" type="java.util.List&lt;com.eydms.occ.dto.order.vehicle.DealerVehicleDetailsWsDTO>"/>
+		<property name="driveDetails" type="java.util.List&lt;com.eydms.occ.dto.order.vehicle.DealerDriverDetailsWsDTO>"/>
+		<property name="formSS" type="com.eydms.facades.data.EYDMSImageData"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EYDMSFinancialInfoWsDto">
+		<property name="retailerId" type="String"/>
+		<property name="firmPan" type="String"/>
+		<property name="firmPanDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="firmTan" type="String"/>
+		<property name="firmAccountNo" type="String"/>
+		<property name="firmIFSC" type="String"/>
+		<property name="blankChequeDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="ddNeftDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="nomineeDetails" type="com.eydms.occ.dto.prosdealer.NominationWsDTO"/>
+		<property name="formSS" type="com.eydms.facades.data.EYDMSImageData"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.EYDMSNetworkAdditionPlanWsDto">
+		<property name="taluka" type="String"/>
+		<property name="totalCounter" type="Integer"/>
+		<property name="shreeCounter" type="Integer"/>
+		<property name="systemProposed" type="Integer"/>
+		<property name="revisedPlan" type="Integer"/>
+		<property name="reason" type="String"/>
+		<property name="applicableLead" type="String"/>
+		<property name="subAreaName" type="String"/>
+		<property name="soName" type="String"/>
+		<property name="additionCount" type="Integer"/>
+		<property name="districtName" type="String"/>
+		<property name="diName" type="String"/>
+		<property name="city" type="String"/>
+		<property name="disableFormCompletion" type="java.lang.Boolean "/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerNomineeWsDto">
+		<property name="influencerId" type="String"/>
+		<property name="nominee" type="com.eydms.occ.dto.prosdealer.NominationWsDTO"/>
+		<property name="leadId" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerFinanceWsDto">
+		<property name="influencerId" type="String"/>
+		<property name="panNo" type="String"/>
+		<property name="panDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="aadharNo" type="String"/>
+		<property name="aadharDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="accountNo" type="String"/>
+		<property name="ifscCode" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerWsDto">
+		<property name="influencerType" type="String"/>
+		<property name="name" type="String"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="brand" type="String"/>
+		<property name="leadId" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerComplaintWsDTO">
+		<property name="requestId" type="String"/>
+		<property name="customerNo" type="String"/>
+		<property name="name" type="String"/>
+		<property name="siteName" type="String"/>
+		<property name="siteId" type="String"/>
+		<property name="siteAddressLine1" type="String"/>
+		<property name="siteAddressLine2" type="String"/>
+		<property name="city" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="district" type="String"/>
+		<property name="state" type="String"/>
+		<property name="pinCode" type="String" />
+		<property name="phoneNumber" type="String"/>
+		<property name="dealer" type="String" />
+		<property name="retailer" type="String"/>
+		<property name="product" type="String"/>
+		<property name="dateOfPurchase" type="String"/>
+		<property name="numberOfPurchase" type="Integer"/>
+		<property name="isBillAvailable" type="Boolean"/>
+		<property name="batchNo" type="Double" />
+		<property name="depot" type="String" />
+		<property name="dateOfUse" type="String" />
+		<property name="natureOfComplaint" type="String" />
+		<property name="areaOfApplication" type="String" />
+		<property name="problemPerceivedByCustomer" type="String" />
+		<property name="problemReportedByDepot" type="String" />
+		<property name="amountOfDamagePerceivedByCustomer" type="String" />
+		<property name="amountOfDamagePerceivedByDepot" type="String" />
+		<property name="commentsAboutSurrounding" type="String" />
+		<property name="requestRaisedDate" type="String"/>
+		<property name="requestRaisedTime" type="String"/>
+		<property name="raisedBy" type="String"/>
+		<property name="status" type="String"/>
+		<property name="uploadInvoice" type="String"/>
+		<property name="trackingDetails" type="java.util.List&lt;com.eydms.occ.dto.order.TrackingWSDTO>"/>
+		<property name="invoiceNo" type="String"/>
+		<property name="transporter" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="quantity" type="String"/>
+		<property name="plant" type="String"/>
+		<property name="noOfBagsConsumed" type="Double"/>
+		<property name="nextSiteVisit" type="String"/>
+		<property name="brand" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerComplaintListWsDTO">
+		<property name="endCustomerComplaintDataList" type="java.util.List&lt;com.eydms.occ.dto.EndCustomerComplaintWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerWsDto">
+		<property name="name" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="doj" type="String" />
+		<property name="emailId" type="String"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="isTermsAndCondition" type="Boolean"/>
+		<property name="latitude" type="Double"/>
+		<property name="longitude" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerListWsDTO">
+		<property name="endCustomerList" type="java.util.List&lt;com.eydms.occ.dto.EndCustomerWsDto>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerDealerWsDto">
+		<property name="dealerName" type="String"/>
+		<property name="dealerAddress" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="dealerBrand" type="String"/>
+		<property name="dealerContactNumber" type="String"/>
+		<property name="latitude" type="Double"/>
+		<property name="longitude" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ProductsWsDTO">
+		<property name="productCode" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="productDescription" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ProductsListWsDTO">
+		<property name="productsBrand" type="java.util.List&lt;com.eydms.occ.dto.ProductsWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EndCustomerDealerListWsDTO">
+		<property name="endCustomerDealers" type="java.util.List&lt;com.eydms.occ.dto.EndCustomerDealerWsDto>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.SalesQuantityDTO">
+		<property name="retailerSaleQuantity" type="String"/>
+		<property name="actual" type="String"/>
+		<property name="lastMonth" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.DealerCurrentNetworkDto">
+		<property name="code" type="String" />
+		<property name="contactNumber" type="String"/>
+		<property name="name" type="String"/>
+		<property name="customerNo" type="String"/>
+		<property name="rank" type="String"/>
+		<property name="potential" type="String" />
+		<property name="counterShare" type="String" />
+		<property name="target" type="String" />
+		<property name="salesQuantity" type="com.eydms.occ.dto.SalesQuantityDTO" />
+		<property name="yoyGrowth" type="String" />
+		<property name="growthRate" type="String" />
+		<property name="outstandingAmount" type="String" />
+		<property name="daySinceLastOrder" type="String" />
+		<property name="district" type="String" />
+		<property name="taluka" type="String" />
+		<property name="salesYtd" type="String" />
+        </bean>
+	<bean class="com.eydms.occ.dto.DealerCurrentNetworkListDto">
+		<property name="dealerCurrentNetworkList" type="java.util.List&lt;com.eydms.occ.dto.DealerCurrentNetworkDto>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.RetailerOnboardDto">
+		<property name="name" type="String"/>
+		<property name="code" type="String" />
+		<property name="potential" type="String" />
+		<property name="salesQuantity" type="String" />
+	</bean>
+	<bean class="com.eydms.occ.dto.RetailerOnboardListDto">
+		<property name="retailerOnboardList" type="java.util.List&lt;com.eydms.occ.dto.RetailerOnboardDto>"/>
+		<property name="salesCountMTD" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerSummaryWsDto">
+		<property name="rank" type="Integer"/>
+		<property name="timesContacted" type="Integer"/>
+		<property name="contactNumber" type="String"/>
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="bagLifted" type="Double"/>
+		<property name="daySinceLastLifting" type="String"/>
+		<property name="type" type="String"/>
+		<property name="category" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="points" type="Double"/>
+		<property name="bagLiftedNo" type="Double"/>
+		<property name="bagLiftedQty" type="String"/>
+		<property name="salesYtd" type="String" />
+		<property name="growthRate" type="String" />
+		<property name="potential" type="String" />
+
+		<property name="reasonOfAbsence" type="String"/>
+		<property name="attended" type="Boolean"/>
+		<property name="bagLiftedBefore" type="Double"/>
+		<property name="bagLiftedAfter" type="Double"/>
+		<property name="growth" type="String"/>
+		<property name="lastVisitDate" type="String"/>
+		<property name="dealerCategory" type="String"/>
+		<property name="leadGenerated" type="Integer"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerSummaryListWsDto">
+		<property name="influncerSummary" type="java.util.List&lt;com.eydms.occ.dto.InfluencerSummaryWsDto>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InviteesWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="reasonOfAbsence" type="String"/>
+		<property name="attended" type="Boolean"/>
+		<property name="bagLiftedBefore" type="Integer"/>
+		<property name="bagLiftedAfter" type="Integer"/>
+		<property name="growth" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.MeetingScheduleWsto">
+		<property name="meetingScheduleId" type="String"/>
+		<property name="code" type="String"/>
+		<property name="attendees" type="java.util.List&lt;String>"/>
+		<property name="date" type="String"/>
+		<property name="endTime" type="String"/>
+		<property name="category" type="String"/>
+		<property name="reason" type="String"/>
+		<property name="venue" type="String"/>
+		<property name="associatedCounter" type="String"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="influencers" type="java.util.List&lt;String>"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="city" type="String"/>
+		<property name="pincode" type="String"/>
+		<property name="meetType" type="String"/>
+		<property name="isModify" type="Boolean"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ScheduledMeetWsDTO">
+		<property name="meetType" type="String"/>
+		<property name="meetStatus" type="String"/>
+		<property name="meetDate" type="String"/>
+		<property name="startDate" type="String"/>
+		<property name="startTime" type="String"/>
+		<property name="endTime" type="String"/>
+		<property name="invitees" type="Integer"/>
+		<property name="attendees" type="Integer"/>
+		<property name="meetCode" type="String"/>
+		<property name="inviteeList" type="java.util.List&lt;com.eydms.occ.dto.InfluencerSummaryWsDto>"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="associatedCounter" type="String"/>
+		<property name="proposedBudget" type="Integer"/>
+		<property name="actualSpent" type="Integer"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="city" type="String"/>
+		<property name="pincode" type="String"/>
+		<property name="meetingForm" type="com.eydms.facades.data.MeetingCompletionFormWsDTO"/>
+		<property name="meetingScheduleId" type="String"/>
+		<property name="venue" type="String"/>
+		<property name="employeeCode" type="String"/>
+		<property name="nameOnTSO" type="String"/>
+		<property name="brand" type="String"/>
+		<property name="isMeetingFormEnabled" type="Boolean"/>
+		<property name="brandName" type="String"/>
+		<property name="typeOfActivityConducted" type="String"/>
+		<property name="attendance" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ScheduledMeetListWsDTO">
+		<property name="meetCards" type="java.util.List&lt;com.eydms.occ.dto.ScheduledMeetWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.GiftOrderWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="requestId" type="String"/>
+		<property name="requestType" type="String"/>
+		<property name="scheme" type="String"/>
+		<property name="date" type="String"/>
+		<property name="rejectionReason" type="String"/>
+		<property name="pointsRedeemed" type="Double"/>
+		<property name="status" type="String"/>
+		<property name="photo" type="String"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.GiftOrderListWsDTO">
+		<property name="giftOrders" type="java.util.List&lt;com.eydms.occ.dto.GiftOrderWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.facades.data.MeetingCompletionFormWsDTO">
+		<property name="meetingScheduleId" type="String"/>
+		<property name="meetingFormId" type="String"/>
+		<property name="typeOfActivityConducted" type="String"/>
+		<property name="noOfParticipantsAttended" type="String"/>
+		<property name="retailer" type="String"/>
+		<property name="sp" type="String"/>
+		<property name="totalAdminCost" type="String"/>
+		<property name="avgLifting" type="Integer"/>
+		<property name="nameOfGiftTypeDistributed" type="String"/>
+		<property name="noOfGiftsDistributed" type="String"/>
+		<property name="so" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SitePreferredBrandWsDTO">
+		<property name="preferredBrand" type="String"/>
+		<property name="reasonOfPreference" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.AddNewSiteWsDTO">
+		<property name="siteType" type="String"/>
+		<property name="contactPersonName" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="name" type="String"/>
+		<property name="refereeType" type="String"/>
+		<property name="refereeName" type="String"/>
+		<property name="servicingDealer" type="String"/>
+		<property name="completionPeriod" type="String"/>
+		<property name="route" type="String"/>
+		<property name="areaOfConstruction" type="Double"/>
+		<property name="balancePotential" type="Double"/>
+		<property name="monthlyConsumption" type="Double"/>
+		<property name="targetSale" type="Double"/>
+		<property name="preferredBrands" type="java.util.List&lt;com.eydms.occ.dto.SitePreferredBrandWsDTO>"/>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="currentStageOfConstruction" type="String"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.ProspectiveNetworkWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="stage" type="String"/>
+		<property name="category" type="String"/>
+		<property name="nearbyNetwork" type="String"/>
+		<property name="counterShareAction" type="String"/>
+		<property name="latitude" type="Double"/>
+		<property name="longitude" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ProspectiveNetworkListWsDTO">
+		<property name="networkDetails" type="java.util.List&lt;com.eydms.occ.dto.ProspectiveNetworkWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.SiteStageSummaryWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="count" type="Integer"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.SiteStageSummaryListWsDTO">
+		<property name="siteStages" type="java.util.List&lt;com.eydms.occ.dto.SiteStageSummaryWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SiteDetailWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="balance" type="String"/>
+		<property name="address" type="String"/>
+		<property name="status" type="String"/>
+		<property name="consumption" type="String"/>
+		<property name="saleMTD" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.SiteDetailListWsDTO">
+		<property name="sites" type="java.util.List&lt;com.eydms.occ.dto.SiteDetailWsDTO>"/>
+		<property name="salesCountMTD" type="Double"/>
+	</bean>
+
+	<bean class="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO">
+		<property name="statusDisplay" type="String"/>
+		<property name="bankAccountNo" type="String"/>	
+	</bean>
+
+	<bean class="com.eydms.occ.dto.NwUserWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="isSOUser" type="Boolean"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.NwUserListWsDTO">
+		<property name="users" type="java.util.List&lt;com.eydms.occ.dto.NwUserWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InactiveNetworkWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="lostSale" type="String"/>
+		<property name="reason" type="String"/>
+
+	</bean>
+	<bean class="com.eydms.occ.dto.InactiveNetworkListWsDTO">
+		<property name="users" type="java.util.List&lt;com.eydms.occ.dto.InactiveNetworkWsDTO>"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.DisburseHistoryWsDTO">
+		<property name="giftCode" type="String"/>
+		<property name="entryNumber" type="String"/>
+		<property name="schemeCode" type="String"/>
+		<property name="schemeName" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="dateOfReceiving" type="String"/>		
+		<property name="point" type="Double"/>		
+		<property name="isSelfRecipient" type="Boolean"/>
+		<property name="receiverName" type="String"/>
+		<property name="receipts" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO>"/>
+		<property name="photos" type="java.util.List&lt;de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO>"/>		
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.DisburseHistoryListWsDTO">
+		<property name="disburseHistory" type="java.util.List&lt;com.eydms.occ.dto.DisburseHistoryWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CustomerCardWsDTO">
+		<property name="uid" type="String"/>
+		<property name="name" type="String"/>
+		<property name="phone" type="String"/>
+		<property name="applicationNo" type="String"/>
+		<property name="applicationDate" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="status" type="String"/>
+		<property name="address" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="email" type="String"/>
+		<property name="rejectionReason" type="String"/>
+		<property name="type" type="String"/>
+		<property name="approvedDate" type="String"/>
+        <property name="rejectedDate" type="String"/>
+        <property name="requestedBy" type="String"/>
+        <property name="requestedDate" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CustomerCardListWsDTO">
+		<property name="customerCards" type="java.util.List&lt;com.eydms.occ.dto.CustomerCardWsDTO>"/>
+		<property name="totalCount" type="Long"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SPSalesPerformanceWsDTO">
+		<property name="name" type="String"/>
+		<property name="multiBrand" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="sales" type="String"/>
+		<property name="counterShare" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.SPSalesPerformanceListWsDTO">
+		<property name="performanceList" type="java.util.List&lt;com.eydms.occ.dto.SPSalesPerformanceWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSPotentialCustomerDto">
+		<property name="dealer" type="String"/>
+		<property name="stage" type="String"/>
+		<property name="potential" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.EYDMSPotentialCustomerListDto">
+		<property name="eydmsPotentialCustomer" type="java.util.List&lt;com.eydms.occ.dto.EYDMSPotentialCustomerDto>" />
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.NetworkAssitanceWsDTO">
+		<property name="requestNo" type="String"/>
+		<property name="title" type="String"/>
+		<property name="description" type="String"/>
+		<property name="assitanceTopic" type="String"/>
+		<property name="counterType" type="String"/>
+		<property name="status" type="String"/>
+		<property name="requestDate" type="String"/>		
+		<property name="raisedBy" type="String"/>
+		<property name="commentBySo" type="String"/>
+		<property name="resolvedComment" type="String"/>
+		<property name="resolveDate" type="String"/>
+		<property name="contactNo" type="String"/>
+		<property name="commentByTSM" type="String"/>
+		<property name="resolvedBy" type="String"/>
+	</bean>	
+
+	<bean class="com.eydms.occ.dto.NetworkAssitanceListWsDTO">
+		<property name="networkList" type="java.util.List&lt;com.eydms.occ.dto.NetworkAssitanceWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CustomerStagingWsDTO">
+		<property name="uid" type="String"/>
+		<property name="name" type="String"/>
+		<property name="applicationNo" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="applicationDate" type="String"/>
+		<property name="stageStatus" type="String"/>
+		<property name="stageSubStatus" type="String"/>
+		<property name="pendingWithSoDate" type="String"/>
+		<property name="approvedBySoDate" type="String"/>
+		<property name="rejectedBySoDate" type="String"/>
+		<property name="approvedByStateHeadDate" type="java.util.Date"/>
+		<property name="rejectedByStateHeadDate" type="java.util.Date"/>
+		<property name="approvedBySalesAccountDate" type="java.util.Date"/>
+		<property name="rejectedBySalesAccountDate" type="java.util.Date"/>
+		<property name="approvedByNationalSalesHeadDate" type="java.util.Date"/>
+		<property name="rejectedByNationSalesHeadDate" type="java.util.Date"/>
+		<property name="creditReceivedDate" type="java.util.Date"/>
+		<property name="customerQueryDate" type="java.util.Date"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.DealerDetails360WsDTO">
+		<property name="name" type="String"/>
+		<property name="customerNumber" type="String"/>
+		<property name="dealerCategory" type="String"/>
+		<property name="contactNo" type="String"/>
+		<property name="lastOrderDate" type="String"/>
+		<property name="lastOrderSize" type="String"/>
+		<property name="lastVisitDate" type="String"/>
+		<property name="networkType" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="visits" type="Integer"/>
+		<property name="wholeSale" type="Double"/>
+		<property name="retailSale" type="Double"/>
+		<property name="askingRate" type="String"/>
+		<property name="growth" type="String"/>
+		<property name="securityDeposit" type="Double"/>
+		<property name="isDealerFlag" type="Boolean"/>
+		<property name="remarkForFlag" type="String"/>
+		<property name="retailerNetwork" type="Integer"/>
+		<property name="influencerNetwork" type="Integer"/>
+		<property name="outstandingDays" type="Double"/>
+		<property name="outstandingAmount" type="Double"/>
+		<property name="currentMonthCounterShare" type="Double"/>
+		<property name="lastMonthCounterShare" type="Double"/>
+		<property name="availableCredit" type="Double"/>
+		<property name="creditConsumed" type="Double"/>
+		<property name="bucketList" type="java.util.List&lt;com.eydms.occ.dto.OutstandingBucketWsDTO>"/>
+		<property name="creditBreachCount" type="Integer"/>
+		<property name="salesData" type="com.eydms.occ.dto.MonthlySalesListWsDTO"/>
+		<property name="cashDiscountDetail" type="com.eydms.occ.dto.CashDiscountDetailsWsDTO"/>
+		<property name="ongoingSchemes" type="java.util.List&lt;com.eydms.occ.dto.OngoingSchemeDetailsWsDTO>"/>
+		<property name="lastMonthSale" type="String"/>
+		<property name="currentYearLastMonthSale" type="String"/>
+		<property name="productMixMTD" type="com.eydms.occ.dto.ProductMixVolumeAndRatioListWsDTO"/>
+		<property name="productMixYTD" type="com.eydms.occ.dto.ProductMixVolumeAndRatioListWsDTO"/>
+		<property name="lastMonthCurrentYear" type="String"/>
+		<property name="currentMonthLastYear" type="String"/>
+		<property name="lastYearCurrentMonthSales" type="Double"/>
+		<property name="bucketsTotal" type="String"/>
+		<property name="lastUpdateDate" type="java.util.Date"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.MonthlySalesWsDTO">
+		<property name="monthYear" type="String"/>
+		<property name="actualSales" type="Double"/>
+		<property name="targetSales" type="Double"/>
+		<property name="percentage" type="Double"/>
+		<property name="growth" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.MonthlySalesListWsDTO">
+		<property name="actual" type="Double"/>
+		<property name="target" type="Double"/>
+		<property name="percentage" type="Double"/>
+		<property name="achievementPercentage" type="Double"/>
+		<property name="behindTotalTarget" type="Double"/>
+		<property name="aheadTotalTarget" type="Double"/>
+		<property name="sales" type="java.util.List&lt;com.eydms.occ.dto.MonthlySalesWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.OutstandingBucketWsDTO">
+		<property name="amount" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.CashDiscountDetailsWsDTO">
+		<property name="availedMTD" type="String"/>
+		<property name="lostMTD" type="String"/>
+		<property name="availedPercentage" type="String"/>
+		<property name="availableCD" type="String"/>
+		<property name="paymentForCD" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.OngoingSchemeDetailsWsDTO">
+		<property name="name" type="String"/>
+		<property name="start" type="String"/>
+		<property name="expiry" type="String"/>
+		<property name="applicableFor" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.DealerDetailsFormWsDTO">
+		<property name="name" type="String"/>
+		<property name="contactNo" type="String"/>
+		<property name="email" type="String"/>
+		<property name="latitude" type="Double"/>
+		<property name="longitude" type="Double"/>
+		<property name="category" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="retailers" type="Integer"/>
+		<property name="stage" type="String"/>
+		<property name="brand1" type="String"/>
+		<property name="brand2" type="String"/>
+		<property name="brand3" type="String"/>
+		<property name="city" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="nearbyNetwork" type="String"/>
+		<property name="rejectionReason" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.CustomerDetailedWsDTO">
+		<property name="partnerDetails" type="com.eydms.occ.dto.EYDMSRetailerWsDto"/>
+		<property name="companyDetails" type="com.eydms.occ.dto.EYDMSCompanyDetailsWsDto"/>
+		<property name="businessDetails" type="com.eydms.occ.dto.EYDMSBusinessInfoWsDto"/>
+		<property name="financialDetails" type="com.eydms.occ.dto.EYDMSFinancialInfoWsDto"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.LeadSummaryWsDTO">
+		<property name="name" type="String"/>
+		<property name="leadId" type="String"/>
+		<property name="contactNo" type="String"/>
+		<property name="email" type="String"/>
+		<property name="stateCity" type="String"/>
+		<property name="districtTaluka" type="String"/>
+		<property name="category" type="String"/>
+		<property name="generationDate" type="String"/>
+		<property name="generatedBy" type="String"/>
+		<property name="stage" type="String"/>
+		<property name="address" type="de.hybris.platform.commercefacades.user.data.AddressData"/>
+		<property name="enableFormCompletion" type="java.lang.Boolean "/>
+		<property name="siteStage" type="com.eydms.occ.dto.ReferenceItemWsDTO"/>
+		<property name="siteType" type="com.eydms.occ.dto.ReferenceItemWsDTO"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerName" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.LeadSummaryListWsDTO">
+		<property name="summaryList" type="java.util.List&lt;com.eydms.occ.dto.LeadSummaryWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencerDetailedWsDTO">
+		<property name="partnerDetails" type="com.eydms.occ.dto.InfluencerWsDto"/>
+		<property name="financialDetails" type="com.eydms.occ.dto.InfluencerFinanceWsDto"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsSiteWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.InfluencersDetails360WsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="influencerCategory" type="String"/>
+		<property name="lastVisitDate" type="java.util.Date"/>
+		<property name="lastVisitTime" type="java.util.Date"/>
+		<property name="totalAvailablePoints" type="Double"/>
+		<property name="growth" type="Double"/>
+		<property name="nirmanMitraCode" type="String"/>
+		<property name="potential" type="Double"/>
+		<property name="visits" type="Integer"/>
+		<property name="sales" type="Double"/>
+		<property name="lastLiftingDate" type="java.util.Date"/>
+		<property name="lastLiftingQuantity" type="Double"/>
+		<property name="lastMonth" type="Double"/>
+		<property name="lastYearCurrentMonth" type="Double"/>
+		<property name="networkType" type="String"/>
+		<property name="sites" type="java.util.List&lt;com.eydms.occ.dto.EyDmsSiteWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ProductMixVolumeAndRatioListWsDTO">
+		<property name="productVolumeAndRatio" type="java.util.List&lt;com.eydms.occ.dto.ProductMixVolumeAndRatioWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.ProductMixVolumeAndRatioWsDTO">
+		<property name="productCode" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="productVolume" type="Double"/>
+		<property name="productRatio" type="Double"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.ReferenceItemWsDTO">
+		<property name="name" type="String"/>
+		<property name="code" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.AnnualSalesMonthWiseTargetListWsDTO">
+		<property name="subArea" type="String"/>
+		<property name="subAreaId" type="String"/>
+		<property name="totalCurrentYearSales" type="Double"/>
+		<property name="totalPlanSales" type="Double"/>
+		<property name="totalTargetForAllDealers" type="Double"/>
+		<property name="totalTargetForAllDealersMonthWise" type="java.util.List&lt;com.eydms.occ.dto.TotalMonthlyTargetWsDTO>"/>
+		<property name="annualSalesMonthWiseTargetData" type="java.util.List&lt;com.eydms.occ.dto.AnnualSalesMonthWiseTargetWsDTO>"/>
+		<property name="onbordedTargetSetData" type="java.util.List&lt;com.eydms.occ.dto.SpOnboardAnnualTargetSettingWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.TotalMonthlyTargetWsDTO">
+		<property name="monthYear" type="String"/>
+		<property name="totalTargetforMonth" type="Double"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.AnnualSalesMonthWiseTargetWsDTO">
+		<property name="customerName" type="String"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerPotential" type="Double"/>
+		<property name="customerCategory" type="java.lang.String"/>
+		<property name="currentYearSales" type="Double"/>
+		<property name="planSales" type="Double"/>
+		<property name="financialYear" type="String"/>
+		<property name="totalTarget" type="Double"/>
+		<property name="monthWiseTarget" type="java.util.List&lt;com.eydms.occ.dto.MonthWiseTargetWsDTO>"/>
+		<property name="skuDataList" type="java.util.List&lt;com.eydms.occ.dto.SKUWsDTO>"/>
+		<property name="retailerData" type="java.util.List&lt;com.eydms.occ.dto.RetailerDetailsWsDTO>"/>
+		<property name="isAnnualSalesRevised" type="Boolean"/>
+		<property name="isNewRetailerOnboarded" type="Boolean"/>
+		<property name="isNewDealerOnboarded" type="Boolean"/>
+		<property name="selfCounterSale" type="com.eydms.occ.dto.SelfCounterSaleWsDTO"/>
+		<property name="status" type="String"/>
+		<property name="isAnnualSalesRevisedForReview" type="Boolean"/>
+		<property name="erpCustomerNo" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SpOnboardAnnualTargetSettingWsDTO">
+		<property name="customerName" type="String"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerPotential" type="Double"/>
+		<property name="isNewDealerOnboarded" type="Boolean"/>
+		<property name="isNewRetailerOnboarded" type="Boolean"/>
+		<property name="monthWiseTarget" type="java.util.List&lt;com.eydms.occ.dto.MonthWiseTargetWsDTO>"/>
+		<property name="skuDataList" type="java.util.List&lt;com.eydms.occ.dto.SKUWsDTO>"/>
+		<property name="totalTarget" type="Double"/>
+		<property name="erpCustomerNo" type="String"/>
+		<property name="retailerData" type="java.util.List&lt;com.eydms.occ.dto.RetailerDetailsWsDTO>"/>
+		<property name="selfCounterSale" type="com.eydms.occ.dto.SelfCounterSaleWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.MonthWiseTargetWsDTO">
+		<property name="monthYear" type="String"/>
+		<property name="monthTarget" type="Double"/>
+		<property name="perMonthPercentage" type="Double"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SKUWsDTO">
+		<property name="productName" type="String"/>
+		<property name="productCode" type="String"/>
+		<property name="cySales" type="Double"/>
+		<property name="planSales" type="Double"/>
+		<property name="totalTarget" type="Double"/>
+		<property name="monthWiseSkuTarget" type="java.util.List&lt;com.eydms.occ.dto.MonthWiseTargetWsDTO>"/>
+		<property name="isNewSku" type="Boolean"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.GiftShopWsDTO">
+		<property name="schemeCode" type="String"/>
+		<property name="schemeName" type="String"/>
+		<property name="redeemStartDate" type="java.util.Date"/>
+		<property name="redeemEndDate" type="java.util.Date"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.GiftShopListWsDTO">
+		<property name="giftList" type="java.util.List&lt;com.eydms.occ.dto.GiftShopWsDTO>"/>
+	</bean>
+
+
+	<bean class="com.eydms.occ.dto.RetailerDetailsWsDTO">
+		<property name="customerCode" type="String"/>
+		<property name="customerName" type="String"/>
+		<property name="customerPotential" type="Double"/>
+		<property name="cySales" type="Double"/>
+		<property name="planSales" type="Double"/>
+		<property name="totalTarget" type="Double"/>
+		<property name="monthWiseSkuTarget" type="java.util.List&lt;com.eydms.occ.dto.MonthWiseTargetWsDTO>"/>
+		<property name="isNewRetailerOnboarded" type="Boolean"/>
+		<property name="erpCustomerNo" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.ISOVisibilityWsDTO">
+		<property name="deliveryId" type="String"/>
+		<property name="deliveryDetailId" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="qtyShipped" type="Double"/>
+		<property name="qtyDelivered" type="Double"/>
+		<property name="vehicleType" type="String"/>
+		<property name="vehicleNo" type="String"/>
+		<property name="transporterName" type="String"/>
+		<property name="transporterMobile" type="String"/>
+		<property name="driverName" type="String"/>
+		<property name="driverMobile" type="String"/>
+		<property name="packagingType" type="String"/>
+		<property name="packagingMaterial" type="String"/>
+		<property name="deliveryMode" type="String"/>
+		<property name="customerCategory" type="String"/>
+		<property name="depotCode" type="String"/>
+		<property name="plantCode" type="String"/>
+		<property name="customer" type="String"/>
+		<property name="consignee" type="String"/>
+		<property name="shipmentState" type="String"/>
+		<property name="brand" type="String"/>
+		<property name="fromOrgName" type="String"/>
+		<property name="actualDepartureDate" type="String"/>
+		<property name="receiptDate" type="String"/>
+		<property name="grade" type="String"/>
+		<property name="status" type="String"/>
+		<property name="erpEtaDate" type="java.util.Date"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.ISOVisibilityListWsDTO">
+		<property name="isoVisibilityList" type="java.util.List&lt;com.eydms.occ.dto.ISOVisibilityWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SelfCounterSaleWsDTO">
+		<property name="customerCode" type="String"/>
+		<property name="customerName" type="String"/>
+		<property name="customerPotential" type="Double"/>
+		<property name="cySales" type="Double"/>
+		<property name="planSales" type="Double"/>
+		<property name="totalTarget" type="Double"/>
+		<property name="monthWiseTarget" type="java.util.List&lt;com.eydms.occ.dto.MonthWiseTargetWsDTO>"/>
+		<property name="erpCustomerNo" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.AnnualSalesTargetSettingWsDTO">
+		<property name="customerName" type="String"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerPotential" type="Double"/>
+		<property name="customerCategory" type="java.lang.String"/>
+		<property name="currentYearSales" type="Double"/>
+		<property name="dealerSelfCounterSale" type="Double"/>
+		<property name="planSales" type="Double"/>
+		<property name="skuDataList" type="java.util.List&lt;com.eydms.occ.dto.SKUWsDTO>"/>
+		<property name="retailerData" type="java.util.List&lt;com.eydms.occ.dto.RetailerDetailsWsDTO>"/>
+		<property name="isNewRetailerOnboarded" type="Boolean"/>
+		<property name="isNewDealerOnboarded" type="Boolean"/>
+		<property name="selfCounterSale" type="com.eydms.occ.dto.SelfCounterSaleWsDTO"/>
+		<property name="status" type="String"/> <!--Draft or Finalize-->
+		<property name="erpCustomerNo" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.AnnualSalesTargetSettingListWsDTO">
+		<property name="subArea" type="String"/>
+		<property name="subAreaId" type="String"/>
+		<property name="totalCurrentYearSales" type="Double"/>
+		<property name="totalPlanSales" type="Double"/>
+		<property name="totalTargetForAllDealers" type="java.util.List&lt;com.eydms.occ.dto.totalTargetWsDTO>"/>
+		<property name="annualSalesTargetSetting" type="java.util.List&lt;com.eydms.occ.dto.AnnualSalesTargetSettingWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.totalTargetWsDTO">
+		<property name="totalCYSales" type="Double"/>
+		<property name="totalPlanSales" type="Double"/>
+	</bean>
+
+	  <bean class="com.eydms.occ.dto.OrderRequisitionWsDTO">
+		<property name="requisitionId" type="String"/>
+		<property name="requisitionDate" type="String"/>
+		<property name="fromCustomerNo" type="String"/>
+		<property name="fromCustomerUid" type="String"/>
+		<property name="fromCustomerName" type="String"/>
+		  <property name="toCustomerNo" type="String"/>
+		  <property name="toCustomerUid" type="String"/>
+		  <property name="toCustomerName" type="String"/>
+		<property name="deliveryAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		  <property name="trackingDetails" type="java.util.List&lt;com.eydms.occ.dto.order.TrackingWSDTO>"/>
+		  <property name="requisitionEntryDetails" type="java.util.List&lt;com.eydms.occ.dto.OrderRequisitionEntryWsDTO>"/>
+		<property name="productCode" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="quantity" type="double"/>
+		  <property name="receivedQuantity" type="double"/>
+		<property name="expectedDeliveryDate" type="String"/>
+		<property name="expectedDeliverySlot" type="String"/>
+		<property name="deliverySlotName" type="String"/>
+		<property name="status" type="String"/>
+		<property name="serviceType" type="String"/>
+		<property name="orderCode" type="String"/>
+		<property name="erpOrderNo" type="String"/>
+		<property name="isDraft" type="Boolean"/>
+		<property name="profilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+		  <property name="baseSiteUid" type="String"/>
+		  <property name="cancelReason" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.OrderRequisitionListWsDTO">
+		<property name="requisitions" type="java.util.List&lt;com.eydms.occ.dto.OrderRequisitionWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.PointRequisitionListWsDTO">
+		<property name="pointRequisitionData" type="java.util.List&lt;com.eydms.occ.dto.PointRequisitionWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.PointRequisitionWsDTO">
+		<property name="requisitionId" type="String"/>
+		<property name="requisitionCreationDate" type="String"/>
+		<property name="deliveryDate" type="String"/>
+		<property name="deliverySlotName" type="String"/>
+		<property name="deliverySlot" type="String"/>
+		<property name="requestRaisedBy" type="String"/>
+		<property name="requestRaisedToType" type="String"/>
+		<property name="requestRaisedTo" type="String"/>
+		<property name="deliveryAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="totalPoints" type="double"/>
+		<property name="isRequisitionPlaced" type="Boolean"/>
+		<property name="isDelete" type="Boolean"/>
+		<property name="isDraft" type="Boolean"/>
+		<property name="isCancel" type="Boolean"/>
+		<property name="isModify" type="Boolean"/>
+		<property name="modificationComment" type="String"/>
+		<property name="rejectionReason" type="String"/>
+		<property name="clientName" type="String"/>
+		<property name="productCode" type="String"/>
+		<property name="productName" type="String"/>
+		<property name="quantity" type="Integer"/> <!-- no of bags -->
+		<property name="pointsEarned" type="double"/>
+		<property name="pointsPerBag" type="double"/>
+		<property name="requestRaisedFor" type="String"/>
+		<property name="requestRaisedByName" type="String"/>
+		<property name="requestRaisedForName" type="String"/>
+		<property name="requestRaisedToName" type="String"/>
+		<property name="requestStatus" type="String"/>
+		<property name="trackingDetails" type="java.util.List&lt;com.eydms.occ.dto.order.TrackingWSDTO>"/>
+		<property name="profilePicture" type="de.hybris.platform.commercewebservicescommons.dto.product.ImageWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EYDMSDealerWsDto">
+		<property name="name" type="String"/>
+		<property name="brand" type="String"/>
+		<property name="gstin" type="String"/>
+		<property name="aadharNo" type="String"/>
+		<property name="stateOfRegistration" type="String"/>
+		<property name="registeredAddress" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="shippingAddress" type="java.util.List&lt;com.eydms.occ.dto.EYDMSAddressWsDto>"/>
+		<property name="contactNumber" type="String"/>
+		<property name="email" type="String"/>
+		<property name="image" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="gstinCertificate" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="aadharDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="formSS" type="com.eydms.facades.data.EYDMSImageData"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.OrderRequisitionEntryWsDTO">
+		<property name="quantity" type="Double" />
+		<property name="deliveredDate" type="java.util.Date"/>
+		<property name="entryNumber" type="Integer"/>
+		<property name="cancelledDate" type="java.util.Date"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CustomerListWsDTO">
+		<property name="customers"
+				  type="java.util.List&lt;com.eydms.occ.dto.dealer.DealerWsDTO>">
+		</property>
+		<property name="totalCount" type="Long"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SalesQuantityWsDTO">
+		<property name="retailerSaleQuantity" type="Double" />
+		<property name="actual" type="Double"/>
+		<property name="lastMonth" type="Double"/>
+		<property name="current" type="Double"/>
+		<property name="lastYear" type="Double"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SalesPerformNetworkDetailsWsDTO">
+		<property name="rank" type="String"/>
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="potential" type="String"/>
+		<property name="counterSharePercentage" type="String"/>
+		<property name="target" type="String"/>
+		<property name="salesQuantity" type="com.eydms.occ.dto.SalesQuantityWsDTO" />
+		<property name="growthRateYoYPercentage" type="String"/>
+		<property name="outstandingAmount" type="String"/>
+		<property name="daysSinceLastOrder" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="mobileNumber" type="String"/>
+		<property name="contactNumber" type="String"/>
+
+		<property name="timesContacted" type="Integer"/>
+		<property name="bagLifted" type="Double"/>
+		<property name="daySinceLastLifting" type="String"/>
+		<property name="type" type="String"/>
+		<property name="category" type="String"/>
+
+		<property name="points" type="Double"/>
+		<property name="bagLiftedNo" type="Double"/>
+		<property name="bagLiftedQty" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.SalesPerformNetworkDetailsListWsDTO">
+		<property name="networkDetails" type="java.util.List&lt;com.eydms.occ.dto.SalesPerformNetworkDetailsWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EYDMSSalesPromoterWsDto">
+		<property name="name" type="String"/>
+		<property name="brand" type="String"/>
+		<property name="gstin" type="String"/>
+		<property name="aadharNo" type="String"/>
+		<property name="stateOfRegistration" type="String"/>
+		<property name="registeredAddress" type="com.eydms.occ.dto.EYDMSAddressWsDto"/>
+		<property name="shippingAddress" type="java.util.List&lt;com.eydms.occ.dto.EYDMSAddressWsDto>"/>
+		<property name="contactNumber" type="String"/>
+		<property name="email" type="String"/>
+		<property name="image" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="gstinCertificate" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+		<property name="aadharDoc" type="com.eydms.occ.dto.EYDMSImageWsDTO"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CollectionDealerOutstandingDetailsWsDTO">
+		<property name="counterName" type="String"/>
+		<property name="counterCode" type="String"/>
+		<property name="customerNo" type="String"/>
+		<property name="securityDeposit" type="String"/>
+		<property name="totalOutstanding" type="String"/>
+		<property name="daysSaleOutstanding" type="Double" />
+		<property name="bucket1" type="String"/>
+		<property name="bucket2" type="String"/>
+		<property name="bucket3" type="String"/>
+		<property name="bucket4" type="String"/>
+		<property name="bucket5" type="String"/>
+		<property name="bucket6" type="String"/>
+		<property name="bucket7" type="String"/>
+		<property name="bucket8" type="String"/>
+		<property name="bucket9" type="String"/>
+		<property name="bucket10" type="String"/>
+		<property name="isCreditLimitBreached" type="Boolean"/>
+		<property name="creditBreachData" type="com.eydms.occ.dto.CollectionDealerCreditBreachDetailsWsDTO"/>
+		<property name="mobileNumber" type="String"/>
+		<property name="bucketsTotal" type="String"/>
+		<property name="totalCreditLimit" type="String"/>
+		<property name="soName" type="String"/>
+		<property name="erpCode" type="String"/>
+		<property name="tsmName" type="String"/>
+		<property name="soEmployeeCode" type="String"/>
+		<property name="tsmEmployeeCode" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CollectionDealerCreditBreachDetailsWsDTO">
+		<property name="creditBreachAmount" type="Double"/>
+		<property name="lastFollowUpDate" type="java.util.Date"/>
+		<property name="ordersRejected" type="Integer"/>
+		<property name="ordersPlacedAfterBreach" type="Integer"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.CollectionDealerOutstandingDetailsListWsDTO">
+		<property name="collectionDealerOutstandingDetailsData" type="java.util.List&lt;com.eydms.occ.dto.CollectionDealerOutstandingDetailsWsDTO>"/>
+		<property name="totalCreditLimitSum" type="String"/>
+		<property name="totalCount" type="Integer"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.SPInvoiceWsDto">
+		<property name="fromDate" type="String"/>
+		<property name="toDate" type="String"/>
+		<property name="raisedOnDate" type="String"/>
+		<property name="claimAmount" type="Double"/>
+		<property name="invoiceFile" type="com.eydms.facades.data.EYDMSImageData"/>
+		<property name="status" type="String"/>
+	</bean>
+	
+	<bean class="com.eydms.occ.dto.SPInvoiceListWsDto">
+		<property name="invoices" type="java.util.List&lt;com.eydms.occ.dto.SPInvoiceWsDto>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.ProposePlanWsDto">
+		<property name="soId" type="String"/>
+		<property name="subArea" type="String"/>
+		<property name="soName" type="String"/>
+		<property name="proposedAddition" type="Integer"/>
+		<property name="proposedAdditionByDI" type="Integer"/>
+		<property name="revisionReason" type="String"/>
+		<property name="proposedAdditionByRH" type="Double"/>
+		<property name="districtName" type="String"/>
+		<property name="tsmName" type="String"/>
+		<property name="revisionReasonByRH" type="String"/>
+		<property name="proposedAdditionBySH" type="Double"/>
+		<property name="revisionReasonBySH" type="String"/>
+		<property name="isTargetApproved" type="Boolean"/>
+		<property name="subAreaMasterId" type="String"/>
+		<property name="raisedByUid" type="String"/>
+		<property name="revisedByUid" type="String"/>
+		<property name="comments" type="String"/>
+		<property name="id" type="String"/>
+		<property name="status" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.ProposePlanListWsDto">
+		<property name="diName" type="String"/>
+		<property name="districtName" type="String"/>
+		<property name="rhName" type="String"/>
+		<property name="regionName" type="String"/>
+		<property name="soProposedAddition" type="Integer"/>
+		<property name="DIApprovedAddition" type="Integer"/>
+		<property name="rhApprovedAddition" type="Integer"/>
+		<property name="DIProposedAddition" type="Integer"/>
+		<property name="totalCount" type="Integer"/>
+		<property name="proposedPlans" type="java.util.List&lt;com.eydms.occ.dto.ProposePlanWsDto>"/>
+		<property name="isTargetSentForUser" type="Boolean"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.BrandingRequestDetailsWsDTO">
+		<property name="requisitionNumber" type="String"/>
+		<property name="requestTitle" type="String"/>
+		<property name="brandingSiteType" type="String"/>
+		<property name="counterName" type="String"/>
+		<property name="counterCode" type="String"/>
+		<property name="location" type="String"/>
+		<property name="primaryContactNumber" type="String"/>
+		<property name="secondaryContactNumber" type="String"/>
+		<property name="brandingType" type="String"/>
+		<property name="quantity" type="Integer"/>
+		<property name="dimensions" type="String"/>
+		<property name="details" type="String"/>
+		<property name="uploadPhoto" type="java.util.List&lt;com.eydms.occ.dto.MediaDetailsWsDTO>"/>
+		<property name="siteName" type="String"/>
+		<property name="siteAddressLine1" type="String"/>
+		<property name="siteAddressLine2" type="String"/>
+		<property name="city" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="district" type="String"/>
+		<property name="state" type="String"/>
+		<property name="longitude" type="Double"/>
+		<property name="latitude" type="Double"/>
+		<property name="requestRaisedDate" type="String"/>
+		<property name="requestStatus" type="String"/>
+		<property name="requestStatusCode" type="String"/>
+		<property name="imageUploadStatus" type="Boolean"/>
+		<property name="vendorName" type="String"/>
+		<property name="vendorDetails" type="String"/>
+		<property name="completedOn" type="String"/>
+		<property name="length" type="String"/>
+		<property name="height" type="String"/>
+		<property name="beforeBrandingPhotos" type="java.util.List&lt;com.eydms.occ.dto.MediaDetailsWsDTO>"/>
+		<property name="dateOfCompletion" type="String"/>
+		<property name="responsiveness" type="Double"/>
+		<property name="completionTime" type="Double"/>
+		<property name="qualityOfWork" type="Double"/>
+		<property name="experience" type="Double"/>
+		<property name="photoAfterBranding" type="java.util.List&lt;com.eydms.occ.dto.MediaDetailsWsDTO>"/>
+		<property name="uploadInvoice" type="java.util.List&lt;com.eydms.occ.dto.MediaDetailsWsDTO>"/>
+		<property name="comments" type="String"/>
+		<property name="feedBack" type="Double"/>
+		<property name="pinLocationVerifiedStatus" type="Boolean"/>
+		<property name="requestRaisedBy" type="String"/>
+		<property name="isModifyRequest" type="Boolean"/>
+		<property name="startDate" type="String"/>
+		<property name="planningDateOfCompletion" type="String"/>
+		<property name="objectiveOfActivity" type="String"/>
+		<property name="objectiveTargetPercentage" type="Double"/>
+		<property name="budgetPlanned" type="Double"/>
+		<property name="isCancelRequest" type="Boolean"/>
+		<property name="rejectedDate" type="java.util.Date"/>
+		<property name="rejectedBy" type="String"/>
+		<property name="rejectedReason" type="String"/>
+		<property name="enableModify" type="Boolean"/>
+		<property name="enableFeedback" type="Boolean"/>
+		<property name="isCustomerRaised" type="Boolean"/>
+		<property name="enabledInvoiceUpload" type="Boolean"/>
+		<property name="isViewFeedback" type="Boolean"/>
+		<property name="erpCustomerNo" type="String"/>
+		<property name="invoiceAmount" type="Double"/>
+		<property name="reqRaisedRole" type="String"/>
+		<property name="slctReqNo" type="String"/>
+		<property name="otherBrandingType" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.MediaDetailsWsDTO">
+		<property name="code" type="String"/>
+		<property name="altText" type="String"/>
+		<property name="url" type="String"/>
+		<property name="name" type="String"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.MediaDetailsListWsDTO">
+		<property name="mediaDetails"
+				  type="java.util.List&lt;com.eydms.occ.dto.MediaDetailsWsDTO>"/>
+	</bean>
+	<bean class="com.eydms.occ.dto.BrandingRequestDetailsListWsDTO">
+		<property name="brandingRequestDetails" type="java.util.List&lt;com.eydms.occ.dto.BrandingRequestDetailsWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.facades.data.TechnicalAssistanceListWsDTO">
+		<property name="technicalAssistance" type="java.util.List&lt;com.eydms.facades.data.TechnicalAssistanceWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.facades.data.TechnicalAssistanceWsDTO">
+		<property name="name" type="String"/>
+		<property name="constructionStage" type="String"/>
+		<property name="address" type="com.eydms.facades.data.EYDMSAddressData"/>
+		<property name="dateOfSupervisionRequired" type="String"/>
+		<property name="durationOfSupervisionRequired" type="Double"/>
+		<property name="expertiseRequired" type="String"/>
+		<property name="contactNumber" type="String"/>
+		<property name="requestStatus" type="String"/>
+		<property name="requestNo" type="String"/>
+		<property name="tSOContactNumber" type="String"/>
+		<property name="tSOName" type="String"/>
+		<property name="tSOAssignedDate" type="String"/>
+		<property name="requestDate" type="String"/>
+		<property name="serviceStartDate" type="String"/>
+		<property name="serviceEndDate" type="String"/>
+		<property name="line1" type="String"/>
+		<property name="line2" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="taluka" type="String"/>
+		<property name="city" type="String"/>
+		<property name="postalCode" type="String"/>
+		<property name="cellPhone" type="String"/>
+		<property name="siteId" type="String"/>
+        <property name="siteName" type="String"/>
+        <property name="raisedBy" type="String"/>
+        <property name="constructionAdvisory" type="String"/>
+        <property name="isCloseEnabled" type="Boolean"/>
+        <property name="lastVisitDate" type="String"/>
+        <property name="rejectionReason" type="String"/>
+
+	</bean>
+
+	<bean class="com.eydms.facades.data.SchemesListWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="type" type="String"/>
+		<property name="geography" type="String"/>
+		<property name="startDate" type="String"/>
+		<property name="endDate" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.facades.data.SchemesListDetailWsDTO">
+		<property name="schemes" type="java.util.List&lt;com.eydms.facades.data.SchemesListWsDTO>"/>
+		<property name="totalCount" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsSiteMasterWsDTO">
+		<property name="code" type="String"/>
+		<property name="name" type="String"/>
+		<property name="totalVisits" type="Integer"/>
+		<property name="siteAddress" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="constructionStage" type="String"/>
+		<property name="orderPlaced" type="Double"/>
+		<property name="active" type="String"/>
+		<property name="lastVisitDate" type="String"/>
+		<property name="nextSlabCasting" type="String"/>
+		<property name="siteStatus" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsSiteMasterListWsDTO">
+		<property name="eydmsSiteMasterDataList" type="java.util.List&lt;com.eydms.occ.dto.EyDmsSiteMasterWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsLeadWsDTO">
+		<property name="leadId" type="String"/>
+		<property name="name" type="String"/>
+		<property name="mobileNo" type="String"/>
+		<property name="address" type="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+		<property name="type" type="String"/>
+		<property name="leadGenerationDate" type="String"/>
+		<property name="state" type="String"/>
+		<property name="district" type="String"/>
+		<property name="generatedBy" type="String"/>
+		<property name="status" type="String"/>
+		<property name="customerCode" type="String"/>
+		<property name="customerName" type="String"/>
+		<property name="city" type="String"/>
+		<property name="networkPotential" type="String"/>
+		<property name="brandAssociatedWith" type="String"/>
+		<property name="influencerType" type="String"/>
+		<property name="email" type="String"/>
+		<property name="onboardedCustomerUid" type="String"/>
+		<property name="approvedDate" type="String"/>
+		<property name="rejectedDate" type="String"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.EyDmsLeadListWsDTO">
+		<property name="leads" type="java.util.List&lt;com.eydms.occ.dto.EyDmsLeadWsDTO>"/>
+	</bean>
+
+	<bean class="com.eydms.occ.dto.TsoBasicDetailsWsDTO">
+		<property name="tsoProfilePic" type="String"/>
+		<property name="tsoMobileNumber" type="String"/>
+		<property name="tsoName" type="String"/>
+	</bean>
+</beans>

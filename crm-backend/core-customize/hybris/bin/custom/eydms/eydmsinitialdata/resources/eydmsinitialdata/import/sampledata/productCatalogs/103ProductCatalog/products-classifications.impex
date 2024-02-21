@@ -1,0 +1,26 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Product Classifications
+
+#% impex.setLocale(Locale.ENGLISH);
+
+# Macros / Replacement Parameter definitions
+$productCatalog=103ProductCatalog
+$productCatalogName=Bangur Product Catalog
+$classificationCatalog=103ClassificationCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$clAttrModifiers = system='$classificationCatalog', version='1.0', translator=de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator, lang=EN
+
+# Insert Product Classifications
+
+# replace <string> and <int> with actual values
+
+#$feature1 = @state, 10001[$clAttrModifiers];
+#$feature2 = @customerCategory, 10002[$clAttrModifiers];
+#$feature3 = @salesType, 10003[$clAttrModifiers];
+#$feature4 = @packagingCond, 10004[$clAttrModifiers];
+
+#INSERT_UPDATE Product;code[unique=true];$feature1;$feature2;$feature3;$feature4;$catalogVersion;
+#;	100	;	Andhra Pradesh	;	NT	;	DI	;	PAPER	;

@@ -1,0 +1,223 @@
+#EYDMS CPI Integration Configurations
+########Inbound object for order creation,line and split line item, cancel order, cancel order line
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundOMMOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundOMMOrder	; OrderStatus 	; OrderStatus 	; 	; ALL_SUBTYPES           	;
+                                   ; InboundOMMOrder	; Order       	; Order       	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOMMOrder	; OrderEntry  	; OrderEntry  	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOMMOrder	; ExportStatus	; ExportStatus	; 	; ALL_SUBTYPES           	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundOMMOrder:OrderStatus 	; code                        	; OrderStatus:code                       	;                             	; true	;
+                                            ; InboundOMMOrder:Order       	; versionID                   	; Order:versionID                        	;                             	; true	;
+                                            ; InboundOMMOrder:Order       	; entries                     	; Order:entries                          	; InboundOMMOrder:OrderEntry  	; 	;
+                                            ; InboundOMMOrder:Order       	; cancelOrderApiStatus        	; Order:cancelOrderApiStatus             	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:Order       	; erpStatuses                 	; Order:erpStatuses                      	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:Order       	; cancelOrderApiStatusDesc    	; Order:cancelOrderApiStatusDesc         	;                             	; 	;
+                                            ; InboundOMMOrder:Order       	; erpStatusDesc               	; Order:erpStatusDesc                    	;                             	; 	;
+                                            ; InboundOMMOrder:Order       	; erpOrderNumber              	; Order:erpOrderNumber                   	;                             	; 	;
+                                            ; InboundOMMOrder:Order       	; erpOrderType                	; Order:erpOrderType                     	;                             	; 	;
+                                            ; InboundOMMOrder:Order       	; orderCreationStatuses       	; Order:orderCreationStatuses            	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:Order       	; orderBookingStatuses        	; Order:orderBookingStatuses             	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:Order       	; status                      	; Order:status                           	; InboundOMMOrder:OrderStatus 	; 	;
+                                            ; InboundOMMOrder:Order       	; code                        	; Order:code                             	;                             	; true	;
+                                            ; InboundOMMOrder:Order       	; orderAcceptedDate           	; Order:orderAcceptedDate                	;                             	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; entryNumber                 	; OrderEntry:entryNumber                 	;                             	; true	;
+                                            ; InboundOMMOrder:OrderEntry  	; cancelOrderLineApiStatusDesc	; OrderEntry:cancelOrderLineApiStatusDesc	;                             	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; erpStatuses                 	; OrderEntry:erpStatuses                 	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; order                       	; OrderEntry:order                       	; InboundOMMOrder:Order       	; true	;
+                                            ; InboundOMMOrder:OrderEntry  	; status                      	; OrderEntry:status                      	; InboundOMMOrder:OrderStatus 	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; erpStatusDesc               	; OrderEntry:erpStatusDesc               	;                             	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; cancelOrderLineApiStatus    	; OrderEntry:cancelOrderLineApiStatus    	; InboundOMMOrder:ExportStatus	; 	;
+                                            ; InboundOMMOrder:OrderEntry  	; erpLineItemId               	; OrderEntry:erpLineItemId               	;                             	; 	;
+                                            ; InboundOMMOrder:ExportStatus	; code                        	; ExportStatus:code                      	;                             	; true	;
+
+########Inbound object for ship to address
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundShipToPartyAddress; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundShipToPartyAddress	; User   	; User   	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundShipToPartyAddress	; Address	; Address	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundShipToPartyAddress:User   	; uid                 	; User:uid                    	;                               	; true	;
+                                            ; InboundShipToPartyAddress:Address	; erpAddressStatus    	; Address:erpAddressStatus    	;                               	; 	;
+                                            ; InboundShipToPartyAddress:Address	; duplicate           	; Address:duplicate           	;                               	; true	;
+                                            ; InboundShipToPartyAddress:Address	; erpAddressId        	; Address:erpAddressId        	;                               	; 	;
+                                            ; InboundShipToPartyAddress:Address	; postalcode          	; Address:postalcode          	;                               	; true	;
+                                            ; InboundShipToPartyAddress:Address	; streetname          	; Address:streetname          	;                               	; true	;
+                                            ; InboundShipToPartyAddress:Address	; streetnumber        	; Address:streetnumber        	;                               	; true	;
+                                            ; InboundShipToPartyAddress:Address	; erpAddressStatusDesc	; Address:erpAddressStatusDesc	;                               	; 	;
+                                            ; InboundShipToPartyAddress:Address	; owner               	; Address:owner               	; InboundShipToPartyAddress:User	; true	;
+
+#Outbound object for ShipTo Party Address
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; EyDmsOutboundShipToPartyAddress; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; EyDmsOutboundShipToPartyAddress	; EyDmsOutboundShipToParty	; EyDmsOutboundShipToParty	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; district        	; EyDmsOutboundShipToParty:district        	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerNo      	; EyDmsOutboundShipToParty:customerNo      	;                               	; true	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; officerMobile   	; EyDmsOutboundShipToParty:officerMobile   	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; sp_ha_mobile    	; EyDmsOutboundShipToParty:sp_ha_mobile    	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; accountName     	; EyDmsOutboundShipToParty:accountName     	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerEmail   	; EyDmsOutboundShipToParty:customerEmail   	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; state           	; EyDmsOutboundShipToParty:state           	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerMobileNo	; EyDmsOutboundShipToParty:customerMobileNo	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; username        	; EyDmsOutboundShipToParty:username        	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; city            	; EyDmsOutboundShipToParty:city            	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; postalCode      	; EyDmsOutboundShipToParty:postalCode      	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerAddress3	; EyDmsOutboundShipToParty:customerAddress3	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; ownerCode       	; EyDmsOutboundShipToParty:ownerCode       	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerAddress1	; EyDmsOutboundShipToParty:customerAddress1	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; customerAddress2	; EyDmsOutboundShipToParty:customerAddress2	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; orgId           	; EyDmsOutboundShipToParty:orgId           	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; taluka          	; EyDmsOutboundShipToParty:taluka          	;                               	; 	;
+                                            ; EyDmsOutboundShipToPartyAddress:EyDmsOutboundShipToParty	; duplicate       	; EyDmsOutboundShipToParty:duplicate       	;                               	; 	;
+
+#Outbound object for Order Creation
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; EyDmsOutboundOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; EyDmsOutboundOrder	; EyDmsOutboundOrder     	; EyDmsOutboundOrder     	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; EyDmsOutboundOrder	; EyDmsOrderLineItem     	; EyDmsOrderLineItem     	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; EyDmsOutboundOrder	; EyDmsOrderSplitLineItem	; EyDmsOrderSplitLineItem	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; orderTakenBy       	; EyDmsOutboundOrder:orderTakenBy       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; unloadingBy        	; EyDmsOutboundOrder:unloadingBy        	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; remarks            	; EyDmsOutboundOrder:remarks            	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; orderDate          	; EyDmsOutboundOrder:orderDate          	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; mmName             	; EyDmsOutboundOrder:mmName             	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; contractEndDate    	; EyDmsOutboundOrder:contractEndDate    	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; paymentTerms       	; EyDmsOutboundOrder:paymentTerms       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; customerID         	; EyDmsOutboundOrder:customerID         	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; warehouse          	; EyDmsOutboundOrder:warehouse          	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; orderSplitLineItems	; EyDmsOutboundOrder:orderSplitLineItems	; EyDmsOutboundOrder:EyDmsOrderSplitLineItem	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; creationtime       	; EyDmsOutboundOrder:creationtime       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; orderLineItems     	; EyDmsOutboundOrder:orderLineItems     	; EyDmsOutboundOrder:EyDmsOrderLineItem     	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; orderType          	; EyDmsOutboundOrder:orderType          	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; billingLocation    	; EyDmsOutboundOrder:billingLocation    	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; shippingLocation   	; EyDmsOutboundOrder:shippingLocation   	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; mmCommission       	; EyDmsOutboundOrder:mmCommission       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; customerPoNo       	; EyDmsOutboundOrder:customerPoNo       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOutboundOrder     	; crmOrderNo         	; EyDmsOutboundOrder:crmOrderNo         	;                                       	; true	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; remarkOfDiversion  	; EyDmsOrderLineItem:remarkOfDiversion  	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; price              	; EyDmsOrderLineItem:price              	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; unitOfMeasure      	; EyDmsOrderLineItem:unitOfMeasure      	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; operation          	; EyDmsOrderLineItem:operation          	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; productId          	; EyDmsOrderLineItem:productId          	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; quantityMT         	; EyDmsOrderLineItem:quantityMT         	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; modeOfTransport    	; EyDmsOrderLineItem:modeOfTransport    	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; brand              	; EyDmsOrderLineItem:brand              	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; freightTerms       	; EyDmsOrderLineItem:freightTerms       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; route              	; EyDmsOrderLineItem:route              	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; bagType            	; EyDmsOrderLineItem:bagType            	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; dispatchType       	; EyDmsOrderLineItem:dispatchType       	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; fob                	; EyDmsOrderLineItem:fob                	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; entryNumber        	; EyDmsOrderLineItem:entryNumber        	;                                       	; true	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; packagingType      	; EyDmsOrderLineItem:packagingType      	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderLineItem     	; productType        	; EyDmsOrderLineItem:productType        	;                                       	; 	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderSplitLineItem	; orderQtyMT         	; EyDmsOrderSplitLineItem:orderQtyMT    	;                                       	; true	;
+                                            ; EyDmsOutboundOrder:EyDmsOrderSplitLineItem	; entryNumber        	; EyDmsOrderSplitLineItem:entryNumber   	;                                       	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; EyDmsOutboundCancelOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; EyDmsOutboundCancelOrder	; OrderEntryNumber      	; OrderEntryNumber      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; EyDmsOutboundCancelOrder	; EyDmsOutboundCancelOrder	; EyDmsOutboundCancelOrder	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; EyDmsOutboundCancelOrder:OrderEntryNumber      	; entryNumber     	; OrderEntryNumber:entryNumber           	;                                        	; true	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; crmEntryNumber  	; EyDmsOutboundCancelOrder:crmEntryNumber  	;                                        	; true	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; userCode        	; EyDmsOutboundCancelOrder:userCode        	;                                        	; 	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; crmOrderNo      	; EyDmsOutboundCancelOrder:crmOrderNo      	;                                        	; true	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; orderLineId     	; EyDmsOutboundCancelOrder:orderLineId     	;                                        	; 	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; orderType       	; EyDmsOutboundCancelOrder:orderType       	;                                        	; 	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; orderEntriesList	; EyDmsOutboundCancelOrder:orderEntriesList	; EyDmsOutboundCancelOrder:OrderEntryNumber	; 	;
+                                            ; EyDmsOutboundCancelOrder:EyDmsOutboundCancelOrder	; orderNo         	; EyDmsOutboundCancelOrder:orderNo         	;                                        	; true	;
+
+#Outbound Object for ISO Order Line Cancellation
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; EyDmsOutboundCancelISOOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; EyDmsOutboundCancelISOOrder	; OrderEntryNumber      	; OrderEntryNumber      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; EyDmsOutboundCancelISOOrder	; EyDmsOutboundCancelOrder	; EyDmsOutboundCancelOrder	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; EyDmsOutboundCancelISOOrder:OrderEntryNumber      	; entryNumber     	; OrderEntryNumber:entryNumber           	;                                           	; true	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; orderEntriesList	; EyDmsOutboundCancelOrder:orderEntriesList	; EyDmsOutboundCancelISOOrder:OrderEntryNumber	; 	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; quantity        	; EyDmsOutboundCancelOrder:quantity        	;                                           	; 	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; orderLineId     	; EyDmsOutboundCancelOrder:orderLineId     	;                                           	; 	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; orderNo         	; EyDmsOutboundCancelOrder:orderNo         	;                                           	; true	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; crmEntryNumber  	; EyDmsOutboundCancelOrder:crmEntryNumber  	;                                           	; true	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; crmOrderNo      	; EyDmsOutboundCancelOrder:crmOrderNo      	;                                           	; true	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; userCode        	; EyDmsOutboundCancelOrder:userCode        	;                                           	; 	;
+                                            ; EyDmsOutboundCancelISOOrder:EyDmsOutboundCancelOrder	; remarks         	; EyDmsOutboundCancelOrder:remarks         	;                                           	; 	;
+
+#Outbound Object for ISO Order Creation
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; EyDmsOutboundISOOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; EyDmsOutboundISOOrder	; EyDmsOrderLineItem	; EyDmsOrderLineItem	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; EyDmsOutboundISOOrder	; EyDmsOutboundOrder	; EyDmsOutboundOrder	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; entryNumber        	; EyDmsOrderLineItem:entryNumber        	;                                     	; true	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; productId          	; EyDmsOrderLineItem:productId          	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; depotOrganizationId	; EyDmsOrderLineItem:depotOrganizationId	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; neededByDate       	; EyDmsOrderLineItem:neededByDate       	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; packagingType      	; EyDmsOrderLineItem:packagingType      	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; quantityMT         	; EyDmsOrderLineItem:quantityMT         	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; modeOfTransport    	; EyDmsOrderLineItem:modeOfTransport    	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOutboundOrder	; crmOrderNo         	; EyDmsOutboundOrder:crmOrderNo         	;                                     	; true	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOutboundOrder	; orderTakenBy       	; EyDmsOutboundOrder:orderTakenBy       	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOutboundOrder	; warehouse          	; EyDmsOutboundOrder:warehouse          	;                                     	; 	;
+                                            ; EyDmsOutboundISOOrder:EyDmsOutboundOrder	; orderLineItemsList 	; EyDmsOutboundOrder:orderLineItemsList 	; EyDmsOutboundISOOrder:EyDmsOrderLineItem	; 	;
+
+#Inbound Channel Configuration
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;EyDmsOutboundCancelISOOrder
+                                         ;EyDmsOutboundISOOrder
+                                         ;EyDmsOutboundShipToPartyAddress
+                                         ;EyDmsOutboundCancelOrder
+                                         ;InboundShipToPartyAddress
+                                         ;EyDmsOutboundOrder
+                                         ;MarketMappingInbound
+                                         ;InboundDJPRunMaster
+                                         ;InboundDJPRouteScoreMaster
+                                         ;InboundDJPCounterScoreMaster
+                                         ;InboundDJPVisit
+                                         ;InboundDJPCounterVisit
+                                         ;InboundBillingPriceMaster
+                                         ;InboundCreditAndOutstanding
+                                         ;InboundDepotStockMaster
+                                         ;InboundDestinationSourceMaster
+                                         ;InboundDailyAverageSales
+                                         ;InboundProspectiveNetworksList
+                                         ;InboundOrderFlow
+                                         ;InboundOrderLineScheduler
+                                         ;InboundEyDmsCustomerMarketMapping
+                                         ;InboundSalesPlanningBottomUp
+                                         ;InboundProductMaster
+                                         ;InboundStockLevel
+                                         ;InboundProductPriceRow
+                                         ;InboundBottomUpAnnualSalesPlanning
+                                         ;InboundDealerMonthlyTargets
+                                         ;InboundPointRequistition
+                                         ;InboundInfluencerOnboarding
+                                         ;InboundSiteVisitMaster
+                                         ;InboundProductPointMaster
+                                         ;InboundEndCustomerComplaint
+                                         ;InfluencerVisitInbound
+                                         ;InboundMeetingSchedule
+                                         ;InboundTicketClosure

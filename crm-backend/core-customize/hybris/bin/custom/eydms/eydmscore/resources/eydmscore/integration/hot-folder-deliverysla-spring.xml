@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:file="http://www.springframework.org/schema/integration/file"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file
+		http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:annotation-config/>
+
+
+
+    <bean id="baseDirectoryDeliverySLA" class="java.lang.String">
+        <constructor-arg value="${azure.hotfolder.storage.container.hotfolder}/DeliverySLA" />
+    </bean>
+
+    <!-- 1) add mapping so that the file is passed onto your channel when it is downloaded -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="hotfolderInboundFileChannelMappings"/>
+        <property name="targetMethod" value="put"/>
+        <property name="arguments">
+            <list>
+                <bean class="java.util.regex.Pattern" factory-method="compile">
+                    <constructor-arg value="^(DeliverySLA|deliverysla)-\\d+.*" />
+                </bean>
+                <ref bean="deliverySLAHotFolderChannel"/>
+            </list>
+        </property>
+    </bean>
+
+    <int:channel id="deliverySLAHotFolderChannel"/>
+
+    <!-- 2) move the file to processing and setup header -->
+    <file:outbound-gateway id="deliverySLAHotFolderOutboundChannel"
+                           request-channel="deliverySLAHotFolderChannel"
+                           reply-channel="deliverySLAHotFolderBatchFilesProc"
+                           directory="#{baseDirectoryDeliverySLA}/DeliverySLA/processing"
+                           delete-source-files="true" />
+
+
+
+    <int:service-activator input-channel="deliverySLAHotFolderBatchFilesProc" output-channel="batchFilesHeader" ref="deliverySLAHeaderSetupTask"
+                           method="execute" />
+    <int:service-activator input-channel="batchFilesHeader" output-channel="batchFilesTran" ref="batchTransformerTask"
+                           method="execute" />
+
+    <!--<int:service-activator input-channel="deliverySLAHotFolderBatchFilesProc" output-channel="batchFilesHeaderInit" ref="deliverySLAHeaderSetupTask"
+                           method="execute" />-->
+
+    <bean id="deliverySLAHeaderSetupTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.HeaderSetupTask">
+        <property name="catalog" value="shreeProductCatalog" />
+        <property name="net" value="false" />
+        <property name="storeBaseDirectory" ref="baseDirectoryDeliverySLA" />
+    </bean>
+
+    <bean id="batchTransformerTask"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.task.ImpexTransformerTask"
+          init-method="initConvertersMap">
+        <property name="fieldSeparator" value="," />
+        <property name="encoding" value="UTF-8" />
+        <property name="linesToSkip" value="1"/>
+        <property name="cleanupHelper" ref="cleanupHelper" />
+    </bean>
+
+    <!--Transformer converters mappings-->
+    <bean id="batchDeliverySLAConverterMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="DeliverySLA"
+          p:converter-ref="batchDeliverySLAConverter"/>
+
+    <!--DeliverySLA specific converters-->
+    <bean id="batchDeliverySLAConverter" parent="abstractDefaultImpexConverter">
+        <property name="header">
+            <value>
+                # Insert SalesOrderDeliverySLA 
+                INSERT_UPDATE SalesOrderDeliverySLA ; route[unique=true];sourceCity;destinationCity
+            </value>
+        </property>
+        <property name="impexRow">
+            <value>;{+0};{1};{2}</value>
+        </property>
+        <property name="type" value="SalesOrderDeliverySLA"/>
+    </bean>
+
+</beans>

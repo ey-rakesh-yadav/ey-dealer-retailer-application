@@ -1,0 +1,76 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for SOLR Configuration
+
+# Macros / Replacement Parameter definitions
+$classificationCatalog=104ClassificationCatalog
+$contentCatalog=104ContentCatalog
+
+$classSystemVersion=systemVersion(catalog(id[default='$classificationCatalog']),version[default='1.0'])
+$classCatalogVersion=catalogVersion(catalog(id[default='$classificationCatalog']),version[default='1.0'])
+$classAttribute=classificationAttribute(code,$classSystemVersion)
+$classClass=classificationClass(code,$classCatalogVersion)
+$classAttributeAssignment=classAttributeAssignment($classClass,$classAttribute,$classSystemVersion)
+$contentCatalogVersion=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalogName]),CatalogVersion.version[default=Staged])[default=$contentCatalogName:Staged]
+$productCatalog=104ProductCatalog
+$productCatalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$solrIndexedType=104ProductType
+$indexBaseSite=104
+$indexLanguages=en
+$indexCurrencies=INR
+
+# Define Range Set
+INSERT_UPDATE SolrValueRangeSet;name[unique=true];qualifier;type;solrValueRanges(&rangeValueRefID)
+
+# Define Ranges
+INSERT_UPDATE SolrValueRange;&rangeValueRefID;solrValueRangeSet(name)[unique=true];name[unique=true];from;to
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];facet[default=false];facetType(code);facetSort(code);priority;visible;fieldValueProvider;customFacetSortProvider;rangeSets(name);$classAttributeAssignment
+;$solrIndexedType;Colour of product, 1766;string;; ;true; ;true;MultiSelectOr;Alpha;1000;true;classificationPropertyValueProvider;
+
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);localized[default=true];multiValue[default=false];fieldValueProvider;$classAttributeAssignment
+#;$solrIndexedType;feature-powersupply   ;text;true;false;commerceClassificationPropertyValueProvider;4671:::Power supply type, 514::::
+
+# Import Classification Features
+INSERT_UPDATE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);localized[default=true];multiValue[default=false];fieldValueProvider;$classAttributeAssignment
+
+# Show the Classification Features in the Product List View Category /Search Pages
+INSERT_UPDATE ClassAttributeAssignment;$classClass[unique=true];$classAttribute[unique=true];$classSystemVersion[unique=true];listable[default=true]
+#;4671;Power supply type, 514;;true
+
+# Redirect page URL
+INSERT_UPDATE SolrURIRedirect;url[unique=true]
+;"/cart";$contentCatalogName-redirectRefID-cart
+;"http://www.hybris.com/multichannel-accelerator";$contentCatalogName-redirectRefID-accelerator
+
+INSERT_UPDATE SolrPageRedirect;redirectItem(uid,$contentCatalogVersion)[unique=true]
+
+INSERT_UPDATE SolrCategoryRedirect;redirectItem(code,$productCatalogVersion)[unique=true]
+#;1360
+#;1595
+
+INSERT_UPDATE SolrProductRedirect;redirectItem(code,$productCatalogVersion)[unique=true]
+
+
+
+
+#Removing OOTB Attribute Causing Indexing Issue
+REMOVE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);sortableType(code);currency[default=false];localized[default=false];multiValue[default=false];useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider;valueProviderParameter
+                          ;$solrIndexedType; volumePrices           ;boolean;            ;true;    ;    ;    ;    ;productVolumePricesProvider               ;              ;    ;   ;    ;   ;    ;  ;    ;   ;  ;
+
+REMOVE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);localized[default=false];multiValue[default=true];categoryField[default=true];useForSpellchecking[default=false];useForAutocomplete[default=false];fieldValueProvider
+                          ;$solrIndexedType; categoryName     ;text   ;true;;		;true;true;powertoolsCategoryNameValueProvider     ;true;40;true;20;true;10
+                          ;$solrIndexedType; brandName        ;text   ;true;;		;    ;    ;powertoolsBrandCategoryNameValueProvider;    ;  ;    ;  ;    ;
+                          ;$solrIndexedType; allPromotions   	;string ;	 ;;false;    ;	  ;promotionCodeValueProvider			   ;    ;  ;    ;  ;    ;
+
+REMOVE SolrIndexedProperty;solrIndexedType(identifier)[unique=true];name[unique=true];type(code);multiValue[default=true];facet[default=true];facetType(code);facetSort(code);priority;visible;categoryField[default=true];fieldValueProvider;facetDisplayNameProvider;topValuesProvider
+                          ;$solrIndexedType; category      ;string;;;Refine;Alpha; 6000;true;;powertoolsCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+                          ;$solrIndexedType; brand         ;string;;;Refine;Alpha; 5000;true;;powertoolsBrandCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+                          ;$solrIndexedType; color	     ;string;;;Refine;Alpha; 4000;true;;powertoolsVariantCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+                          ;$solrIndexedType; fit		     ;string;;;Refine;Alpha; 3000;true;;powertoolsVariantCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+                          ;$solrIndexedType; size		     ;string;;;Refine;Alpha; 2000;true;;powertoolsVariantCategoryCodeValueProvider;categoryFacetDisplayNameProvider;defaultTopValuesProvider
+
+
+REMOVE SolrSearchQueryProperty;indexedProperty(name, solrIndexedType(identifier))[unique=true];facet[default=true];facetType(code);priority;facetDisplayNameProvider;facetSortProvider;facetTopValuesProvider;includeInResponse[default=true];searchQueryTemplate(name, indexedType(identifier))[unique=true][default=DEFAULT:$solrIndexedType]
+                              ;availableInStores:$solrIndexedType;	;MultiSelectOr	;10000	;electronicsPointOfServiceFacetDisplayNameProvider	;distanceAttributeSortProvider	;							;;

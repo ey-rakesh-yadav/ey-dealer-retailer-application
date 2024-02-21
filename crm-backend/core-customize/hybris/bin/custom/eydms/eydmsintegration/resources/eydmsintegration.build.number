@@ -1,0 +1,11 @@
+#Ant properties
+#Tue Oct 19 19:48:25 CEST 2021
+version.api=2105
+vendor=hybris
+group.id=de.hybris.platform
+name=eydmsintegration
+description=eydmsintegration
+builddate=20211019 1948
+releasedate=20210809 2305
+version=2105.2
+module.name=platform-module

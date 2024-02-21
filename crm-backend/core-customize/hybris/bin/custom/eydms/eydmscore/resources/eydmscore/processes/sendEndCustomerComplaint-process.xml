@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. -->
+<process xmlns="http://www.hybris.de/xsd/processdefinition"
+         start="sendEndCustomerComplaintToSLCTAction" name="SendEndCustomerComplaint-Process"
+         processClass="com.eydms.core.model.SendEndCustomerComplaintProcessModel">
+
+    <action id="sendEndCustomerComplaintToSLCTAction" bean="sendEndCustomerComplaintToSLCTAction">
+        <transition name="OK" to="waitForBrandingApproval" />
+        <transition name="NOK" to="error" />
+    </action>
+
+    <action id="sendBrandingReqFeedbackToSLCTAction" bean="sendBrandingReqFeedbackToSLCTAction">
+        <transition name="OK" to="success" />
+        <transition name="NOK" to="error" />
+    </action>
+
+    <action id="checkToEndCustomerCompToSLCTAction" bean="checkToEndCustomerCompToSLCTAction">
+        <transition name="OK" to="waitForBrandingApproval" />
+        <transition name="CANCEL" to="sendBrandingReqCancelToSLCTAction" />
+        <transition name="MODIFY" to="sendEndCustomerComplaintToSLCTAction" />
+        <transition name="FEEDBACK" to="sendBrandingReqFeedbackToSLCTAction" />
+        <transition name="NOK" to="error" />
+    </action>
+
+    <action id="sendBrandingReqCancelToSLCTAction" bean="sendBrandingReqCancelToSLCTAction">
+        <transition name="OK" to="success" />
+        <transition name="NOK" to="error" />
+    </action>
+
+    <wait id="waitForBrandingApproval" then="checkToEndCustomerCompToSLCTAction" prependProcessCode="false">
+        <event>${process.code}_WAIT_FOR_BRANDING_APPROVAL</event>
+    </wait>
+
+    <end id="error" state="ERROR">All went wrong.</end>
+    <end id="failed" state="FAILED">branding process failed.</end>
+    <end id="success" state="SUCCEEDED">branding process succeed.</end>
+</process>

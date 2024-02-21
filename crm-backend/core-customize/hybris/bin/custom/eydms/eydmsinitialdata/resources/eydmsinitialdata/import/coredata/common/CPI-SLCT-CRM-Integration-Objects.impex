@@ -1,0 +1,457 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; MarketMappingInbound; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; MarketMappingInbound	; MarketMappingDetails	; MarketMappingDetails	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; MarketMappingInbound:MarketMappingDetails	; id    	; MarketMappingDetails:id    	;                      	; true	;
+                                            ; MarketMappingInbound:MarketMappingDetails	; synced	; MarketMappingDetails:synced	;                      	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDJPRunMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDJPRunMaster	; DJPRunMaster	; DJPRunMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPRunMaster	; RouteMaster 	; RouteMaster 	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDJPRunMaster:DJPRunMaster	; brand            	; DJPRunMaster:brand            	;                                	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; planDate         	; DJPRunMaster:planDate         	;                                	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; state            	; DJPRunMaster:state            	;                                	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; recommendedRoute1	; DJPRunMaster:recommendedRoute1	; InboundDJPRunMaster:RouteMaster	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; taluka           	; DJPRunMaster:taluka           	;                                	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; district         	; DJPRunMaster:district         	;                                	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; recommendedRoute2	; DJPRunMaster:recommendedRoute2	; InboundDJPRunMaster:RouteMaster	; 	;
+                                            ; InboundDJPRunMaster:DJPRunMaster	; id               	; DJPRunMaster:id               	;                                	; true	;
+                                            ; InboundDJPRunMaster:RouteMaster 	; routeId          	; RouteMaster:routeId           	;                                	; true	;
+
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDJPRouteScoreMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDJPRouteScoreMaster	; DJPRunMaster       	; DJPRunMaster       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPRouteScoreMaster	; RouteMaster        	; RouteMaster        	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPRouteScoreMaster	; DJPRouteScoreMaster	; DJPRouteScoreMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDJPRouteScoreMaster:DJPRunMaster       	; id             	; DJPRunMaster:id                    	;                                        	; true	;
+                                            ; InboundDJPRouteScoreMaster:RouteMaster        	; routeId        	; RouteMaster:routeId                	;                                        	; true	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; routesScore    	; DJPRouteScoreMaster:routesScore    	;                                        	; 	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; recommendedObj1	; DJPRouteScoreMaster:recommendedObj1	;                                        	; 	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; id             	; DJPRouteScoreMaster:id             	;                                        	; true	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; recommendedObj2	; DJPRouteScoreMaster:recommendedObj2	;                                        	; 	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; run            	; DJPRouteScoreMaster:run            	; InboundDJPRouteScoreMaster:DJPRunMaster	; 	;
+                                            ; InboundDJPRouteScoreMaster:DJPRouteScoreMaster	; route          	; DJPRouteScoreMaster:route          	; InboundDJPRouteScoreMaster:RouteMaster 	; 	;
+
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDJPCounterScoreMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDJPCounterScoreMaster	; EyDmsCustomer          	; EyDmsCustomer          	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPCounterScoreMaster	; Objective            	; Objective            	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPCounterScoreMaster	; DJPCounterScoreMaster	; DJPCounterScoreMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDJPCounterScoreMaster	; DJPRouteScoreMaster  	; DJPRouteScoreMaster  	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDJPCounterScoreMaster:EyDmsCustomer          	; uid          	; EyDmsCustomer:uid                    	;                                                 	; true	;
+                                            ; InboundDJPCounterScoreMaster:Objective            	; objectiveId  	; Objective:objectiveId              	;                                                 	; true	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; routeScore   	; DJPCounterScoreMaster:routeScore   	; InboundDJPCounterScoreMaster:DJPRouteScoreMaster	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; counterScore 	; DJPCounterScoreMaster:counterScore 	;                                                 	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; objective    	; DJPCounterScoreMaster:objective    	; InboundDJPCounterScoreMaster:Objective          	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; visitSequence	; DJPCounterScoreMaster:visitSequence	;                                                 	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; customer     	; DJPCounterScoreMaster:customer     	; InboundDJPCounterScoreMaster:EyDmsCustomer        	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPCounterScoreMaster	; id           	; DJPCounterScoreMaster:id           	;                                                 	; true	;
+                                            ; InboundDJPCounterScoreMaster:DJPRouteScoreMaster  	; routesScore  	; DJPRouteScoreMaster:routesScore    	;                                                 	; 	;
+                                            ; InboundDJPCounterScoreMaster:DJPRouteScoreMaster  	; id           	; DJPRouteScoreMaster:id             	;                                                 	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDJPVisit; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDJPVisit	; VisitMaster	; VisitMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDJPVisit:VisitMaster	; synced	; VisitMaster:synced	;                 	; 	;
+                                            ; InboundDJPVisit:VisitMaster	; id    	; VisitMaster:id    	;                 	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDJPCounterVisit; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDJPCounterVisit	; CounterVisitMaster	; CounterVisitMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDJPCounterVisit:CounterVisitMaster	; id    	; CounterVisitMaster:id    	;                        	; true	;
+                                            ; InboundDJPCounterVisit:CounterVisitMaster	; synced	; CounterVisitMaster:synced	;                        	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundBillingPriceMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundBillingPriceMaster	; BillingPriceMaster	; BillingPriceMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundBillingPriceMaster	; CMSSite           	; CMSSite           	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundBillingPriceMaster	; CustomerCategory  	; CustomerCategory  	; 	; ALL_SUBTYPES           	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; state             	; BillingPriceMaster:state             	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; erpCity           	; BillingPriceMaster:erpCity           	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; inventoryItemId   	; BillingPriceMaster:inventoryItemId   	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; billingPrice      	; BillingPriceMaster:billingPrice      	;                                           	; 	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; lineitemId        	; BillingPriceMaster:lineitemId        	;                                           	; 	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; packagingCondition	; BillingPriceMaster:packagingCondition	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; effStartDate      	; BillingPriceMaster:effStartDate      	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; customerCategory  	; BillingPriceMaster:customerCategory  	; InboundBillingPriceMaster:CustomerCategory	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; brand             	; BillingPriceMaster:brand             	; InboundBillingPriceMaster:CMSSite         	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; grade             	; BillingPriceMaster:grade             	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; effEndDate        	; BillingPriceMaster:effEndDate        	;                                           	; 	;
+                                            ; InboundBillingPriceMaster:BillingPriceMaster	; priceKey          	; BillingPriceMaster:priceKey          	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:CMSSite           	; uid               	; CMSSite:uid                          	;                                           	; true	;
+                                            ; InboundBillingPriceMaster:CustomerCategory  	; code              	; CustomerCategory:code                	;                                           	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundCreditAndOutstanding; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundCreditAndOutstanding	; CreditAndOutstanding	; CreditAndOutstanding	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; totalOutstanding 	; CreditAndOutstanding:totalOutstanding 	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; dailyAverageSales	; CreditAndOutstanding:dailyAverageSales	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket10         	; CreditAndOutstanding:bucket10         	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket4          	; CreditAndOutstanding:bucket4          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket1          	; CreditAndOutstanding:bucket1          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; customerCode     	; CreditAndOutstanding:customerCode     	;                             	; true	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket8          	; CreditAndOutstanding:bucket8          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket6          	; CreditAndOutstanding:bucket6          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket2          	; CreditAndOutstanding:bucket2          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket5          	; CreditAndOutstanding:bucket5          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket7          	; CreditAndOutstanding:bucket7          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket3          	; CreditAndOutstanding:bucket3          	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; securityDeposit  	; CreditAndOutstanding:securityDeposit  	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; dso              	; CreditAndOutstanding:dso              	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; creditLimit      	; CreditAndOutstanding:creditLimit      	;                             	; 	;
+                                            ; InboundCreditAndOutstanding:CreditAndOutstanding	; bucket9          	; CreditAndOutstanding:bucket9          	;                             	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDepotStockMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDepotStockMaster	; Warehouse       	; Warehouse       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDepotStockMaster	; DepotStockMaster	; DepotStockMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDepotStockMaster:Warehouse       	; code                	; Warehouse:code                       	;                                  	; true	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; custCategory        	; DepotStockMaster:custCategory        	;                                  	; true	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; OrdersToBeDispatched	; DepotStockMaster:OrdersToBeDispatched	;                                  	; 	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; inTransit           	; DepotStockMaster:inTransit           	;                                  	; 	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; depot               	; DepotStockMaster:depot               	; InboundDepotStockMaster:Warehouse	; true	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; inventoryId         	; DepotStockMaster:inventoryId         	;                                  	; true	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; stockTransactions   	; DepotStockMaster:stockTransactions   	;                                  	; 	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; openingStock        	; DepotStockMaster:openingStock        	;                                  	; 	;
+                                            ; InboundDepotStockMaster:DepotStockMaster	; grade               	; DepotStockMaster:grade               	;                                  	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDestinationSourceMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDestinationSourceMaster	; OrderType              	; OrderType              	; 	; ALL_SUBTYPES           	;
+                                   ; InboundDestinationSourceMaster	; BaseSite               	; BaseSite               	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDestinationSourceMaster	; DeliveryMode           	; DeliveryMode           	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDestinationSourceMaster	; CustomerCategory       	; CustomerCategory       	; 	; ALL_SUBTYPES           	;
+                                   ; InboundDestinationSourceMaster	; WarehouseType          	; WarehouseType          	; 	; ALL_SUBTYPES           	;
+                                   ; InboundDestinationSourceMaster	; Warehouse              	; Warehouse              	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDestinationSourceMaster	; DestinationSourceMaster	; DestinationSourceMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDestinationSourceMaster:OrderType              	; code               	; OrderType:code                             	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:BaseSite               	; uid                	; BaseSite:uid                               	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DeliveryMode           	; code               	; DeliveryMode:code                          	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:CustomerCategory       	; code               	; CustomerCategory:code                      	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:WarehouseType          	; code               	; WarehouseType:code                         	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:Warehouse              	; code               	; Warehouse:code                             	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; ncrCost            	; DestinationSourceMaster:ncrCost            	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; customerCategory   	; DestinationSourceMaster:customerCategory   	; InboundDestinationSourceMaster:CustomerCategory	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; source             	; DestinationSourceMaster:source             	; InboundDestinationSourceMaster:Warehouse       	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; deliveryMode       	; DestinationSourceMaster:deliveryMode       	; InboundDestinationSourceMaster:DeliveryMode    	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; route              	; DestinationSourceMaster:route              	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; sourcePriority     	; DestinationSourceMaster:sourcePriority     	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; packaging          	; DestinationSourceMaster:packaging          	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; sourceState        	; DestinationSourceMaster:sourceState        	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; tlcPerMT           	; DestinationSourceMaster:tlcPerMT           	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; destinationCity    	; DestinationSourceMaster:destinationCity    	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; contributionPerMT  	; DestinationSourceMaster:contributionPerMT  	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; orderType          	; DestinationSourceMaster:orderType          	; InboundDestinationSourceMaster:OrderType       	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; type               	; DestinationSourceMaster:type               	; InboundDestinationSourceMaster:WarehouseType   	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; destinationDistrict	; DestinationSourceMaster:destinationDistrict	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; brand              	; DestinationSourceMaster:brand              	; InboundDestinationSourceMaster:BaseSite        	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; destinationState   	; DestinationSourceMaster:destinationState   	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; secondaryRoute     	; DestinationSourceMaster:secondaryRoute     	;                                                	; 	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; grade              	; DestinationSourceMaster:grade              	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; sourceDistrict     	; DestinationSourceMaster:sourceDistrict     	;                                                	; true	;
+                                            ; InboundDestinationSourceMaster:DestinationSourceMaster	; sourceCity         	; DestinationSourceMaster:sourceCity         	;                                                	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDailyAverageSales; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDailyAverageSales	; CreditAndOutstanding	; CreditAndOutstanding	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDailyAverageSales:CreditAndOutstanding	; customerCode     	; CreditAndOutstanding:customerCode     	;                          	; true	;
+                                            ; InboundDailyAverageSales:CreditAndOutstanding	; dailyAverageSales	; CreditAndOutstanding:dailyAverageSales	;                          	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProspectiveNetworksList; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProspectiveNetworksList	; ProspectiveNetwork	; ProspectiveNetwork	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProspectiveNetworksList	; CounterShareAction	; CounterShareAction	; 	; ALL_SUBTYPES           	;
+                                   ; InboundProspectiveNetworksList	; BaseSite          	; BaseSite          	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProspectiveNetworksList:ProspectiveNetwork	; crmAccountID      	; ProspectiveNetwork:crmAccountID      	;                                                  	; true	;
+                                            ; InboundProspectiveNetworksList:ProspectiveNetwork	; brand             	; ProspectiveNetwork:brand             	; InboundProspectiveNetworksList:BaseSite          	; 	;
+                                            ; InboundProspectiveNetworksList:ProspectiveNetwork	; counterShareAction	; ProspectiveNetwork:counterShareAction	; InboundProspectiveNetworksList:CounterShareAction	; 	;
+                                            ; InboundProspectiveNetworksList:CounterShareAction	; code              	; CounterShareAction:code              	;                                                  	; true	;
+                                            ; InboundProspectiveNetworksList:BaseSite          	; uid               	; BaseSite:uid                         	;                                                  	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundOrderFlow; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundOrderFlow	; Warehouse  	; Warehouse  	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOrderFlow	; OrderStatus	; OrderStatus	; 	; ALL_SUBTYPES           	;
+                                   ; InboundOrderFlow	; Order      	; Order      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOrderFlow	; OrderEntry 	; OrderEntry 	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundOrderFlow:Warehouse  	; code                      	; Warehouse:code                       	;                             	; true	;
+                                            ; InboundOrderFlow:OrderStatus	; code                      	; OrderStatus:code                     	;                             	; true	;
+                                            ; InboundOrderFlow:Order      	; code                      	; Order:code                           	;                             	; true	;
+                                            ; InboundOrderFlow:Order      	; erpOrderNumber            	; Order:erpOrderNumber                 	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; quantityInMT              	; OrderEntry:quantityInMT              	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; status                    	; OrderEntry:status                    	; InboundOrderFlow:OrderStatus	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; transporterName           	; OrderEntry:transporterName           	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; routeId                   	; OrderEntry:routeId                   	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; erpLineItemId             	; OrderEntry:erpLineItemId             	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; truckAllocatedDate        	; OrderEntry:truckAllocatedDate        	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; diCreationDateAndTime     	; OrderEntry:diCreationDateAndTime     	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; truckDispatcheddate       	; OrderEntry:truckDispatcheddate       	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; totalPrice                	; OrderEntry:totalPrice                	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; invoiceCreationDateAndTime	; OrderEntry:invoiceCreationDateAndTime	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; cancelledDate             	; OrderEntry:cancelledDate             	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; tokenNumber               	; OrderEntry:tokenNumber               	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; erpDriverNumber           	; OrderEntry:erpDriverNumber           	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; source                    	; OrderEntry:source                    	; InboundOrderFlow:Warehouse  	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; erpTruckNumber            	; OrderEntry:erpTruckNumber            	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; transporterId             	; OrderEntry:transporterId             	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; entryNumber               	; OrderEntry:entryNumber               	;                             	; true	;
+                                            ; InboundOrderFlow:OrderEntry 	; invoiceNumber             	; OrderEntry:invoiceNumber             	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; order                     	; OrderEntry:order                     	; InboundOrderFlow:Order      	; true	;
+                                            ; InboundOrderFlow:OrderEntry 	; diNumber                  	; OrderEntry:diNumber                  	;                             	; 	;
+                                            ; InboundOrderFlow:OrderEntry 	; transporterPhoneNumber    	; OrderEntry:transporterPhoneNumber    	;                             	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundOrderLineScheduler; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundOrderLineScheduler	; Order     	; Order     	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOrderLineScheduler	; OrderEntry	; OrderEntry	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundOrderLineScheduler:Order     	; code       	; Order:code            	;                                	; true	;
+                                            ; InboundOrderLineScheduler:OrderEntry	; entryNumber	; OrderEntry:entryNumber	;                                	; true	;
+                                            ; InboundOrderLineScheduler:OrderEntry	; order      	; OrderEntry:order      	; InboundOrderLineScheduler:Order	; true	;
+                                            ; InboundOrderLineScheduler:OrderEntry	; synced     	; OrderEntry:synced     	;                                	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundEyDmsCustomerMarketMapping; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundEyDmsCustomerMarketMapping	; EyDmsCustomer	; EyDmsCustomer	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundEyDmsCustomerMarketMapping:EyDmsCustomer	; uid   	; EyDmsCustomer:uid   	;                                 	; true	;
+                                            ; InboundEyDmsCustomerMarketMapping:EyDmsCustomer	; synced	; EyDmsCustomer:synced	;                                 	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundSalesPlanningBottomUp; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundSalesPlanningBottomUp	; SubAreaMaster 	; SubAreaMaster 	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundSalesPlanningBottomUp	; BaseSite      	; BaseSite      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundSalesPlanningBottomUp	; DistrictMaster	; DistrictMaster	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundSalesPlanningBottomUp	; MonthlySales  	; MonthlySales  	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundSalesPlanningBottomUp	; EyDmsUser       	; EyDmsUser       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundSalesPlanningBottomUp:SubAreaMaster 	; taluka           	; SubAreaMaster:taluka          	;                                            	; true	;
+                                            ; InboundSalesPlanningBottomUp:SubAreaMaster 	; district         	; SubAreaMaster:district        	;                                            	; true	;
+                                            ; InboundSalesPlanningBottomUp:BaseSite      	; uid              	; BaseSite:uid                  	;                                            	; true	;
+                                            ; InboundSalesPlanningBottomUp:DistrictMaster	; code             	; DistrictMaster:code           	;                                            	; true	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; so               	; MonthlySales:so               	; InboundSalesPlanningBottomUp:EyDmsUser       	; true	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; synced           	; MonthlySales:synced           	;                                            	; 	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; districtMaster   	; MonthlySales:districtMaster   	; InboundSalesPlanningBottomUp:DistrictMaster	; true	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; subAreaMaster    	; MonthlySales:subAreaMaster    	; InboundSalesPlanningBottomUp:SubAreaMaster 	; true	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; brand            	; MonthlySales:brand            	; InboundSalesPlanningBottomUp:BaseSite      	; true	;
+                                            ; InboundSalesPlanningBottomUp:MonthlySales  	; subAreaMasterList	; MonthlySales:subAreaMasterList	; InboundSalesPlanningBottomUp:SubAreaMaster 	; 	;
+                                            ; InboundSalesPlanningBottomUp:EyDmsUser       	; uid              	; EyDmsUser:uid                   	;                                            	; true	;
+                                            ; InboundSalesPlanningBottomUp:EyDmsUser       	; employeeCode     	; EyDmsUser:employeeCode          	;                                            	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProductMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProductMaster	; CatalogVersion       	; CatalogVersion       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductMaster	; Product              	; Product              	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductMaster	; ArticleApprovalStatus	; ArticleApprovalStatus	; 	; ALL_SUBTYPES           	;
+                                   ; InboundProductMaster	; Catalog              	; Catalog              	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProductMaster:CatalogVersion       	; catalog           	; CatalogVersion:catalog    	; InboundProductMaster:Catalog              	; true	;
+                                            ; InboundProductMaster:CatalogVersion       	; version           	; CatalogVersion:version    	;                                           	; true	;
+                                            ; InboundProductMaster:Product              	; name              	; Product:name              	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; inventoryId       	; Product:inventoryId       	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; grade             	; Product:grade             	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; packagingCondition	; Product:packagingCondition	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; approvalStatus    	; Product:approvalStatus    	; InboundProductMaster:ArticleApprovalStatus	; 	;
+                                            ; InboundProductMaster:Product              	; state             	; Product:state             	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; custCategory      	; Product:custCategory      	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; catalogVersion    	; Product:catalogVersion    	; InboundProductMaster:CatalogVersion       	; true	;
+                                            ; InboundProductMaster:Product              	; premium           	; Product:premium           	;                                           	; 	;
+                                            ; InboundProductMaster:Product              	; code              	; Product:code              	;                                           	; true	;
+                                            ; InboundProductMaster:Product              	; bagType           	; Product:bagType           	;                                           	; 	;
+                                            ; InboundProductMaster:ArticleApprovalStatus	; code              	; ArticleApprovalStatus:code	;                                           	; true	;
+                                            ; InboundProductMaster:Catalog              	; id                	; Catalog:id                	;                                           	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundStockLevel; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundStockLevel	; InStockStatus	; InStockStatus	; 	; ALL_SUBTYPES           	;
+                                   ; InboundStockLevel	; StockLevel   	; StockLevel   	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundStockLevel	; Warehouse    	; Warehouse    	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundStockLevel:InStockStatus	; code                     	; InStockStatus:code                  	;                                	; true	;
+                                            ; InboundStockLevel:StockLevel   	; maxStockLevelHistoryCount	; StockLevel:maxStockLevelHistoryCount	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; reserved                 	; StockLevel:reserved                 	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; preOrder                 	; StockLevel:preOrder                 	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; available                	; StockLevel:available                	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; overSelling              	; StockLevel:overSelling              	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; inStockStatus            	; StockLevel:inStockStatus            	; InboundStockLevel:InStockStatus	; 	;
+                                            ; InboundStockLevel:StockLevel   	; productCode              	; StockLevel:productCode              	;                                	; true	;
+                                            ; InboundStockLevel:StockLevel   	; maxPreOrder              	; StockLevel:maxPreOrder              	;                                	; 	;
+                                            ; InboundStockLevel:StockLevel   	; warehouse                	; StockLevel:warehouse                	; InboundStockLevel:Warehouse    	; true	;
+                                            ; InboundStockLevel:Warehouse    	; code                     	; Warehouse:code                      	;                                	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProductPriceRow; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProductPriceRow	; Unit    	; Unit    	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductPriceRow	; PriceRow	; PriceRow	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductPriceRow	; Currency	; Currency	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProductPriceRow:Unit    	; code      	; Unit:code          	;                                	; true	;
+                                            ; InboundProductPriceRow:PriceRow	; net       	; PriceRow:net       	;                                	; 	;
+                                            ; InboundProductPriceRow:PriceRow	; minqtd    	; PriceRow:minqtd    	;                                	; 	;
+                                            ; InboundProductPriceRow:PriceRow	; unit      	; PriceRow:unit      	; InboundProductPriceRow:Unit    	; 	;
+                                            ; InboundProductPriceRow:PriceRow	; productId 	; PriceRow:productId 	;                                	; true	;
+                                            ; InboundProductPriceRow:PriceRow	; currency  	; PriceRow:currency  	; InboundProductPriceRow:Currency	; 	;
+                                            ; InboundProductPriceRow:PriceRow	; unitFactor	; PriceRow:unitFactor	;                                	; 	;
+                                            ; InboundProductPriceRow:PriceRow	; price     	; PriceRow:price     	;                                	; 	;
+                                            ; InboundProductPriceRow:Currency	; isocode   	; Currency:isocode   	;                                	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundBottomUpAnnualSalesPlanning; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundBottomUpAnnualSalesPlanning	; B2BCustomer   	; B2BCustomer   	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundBottomUpAnnualSalesPlanning	; DistrictMaster	; DistrictMaster	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundBottomUpAnnualSalesPlanning	; AnnualSales   	; AnnualSales   	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundBottomUpAnnualSalesPlanning	; BaseSite      	; BaseSite      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundBottomUpAnnualSalesPlanning:B2BCustomer   	; uid              	; B2BCustomer:uid              	;                                                  	; true	;
+                                            ; InboundBottomUpAnnualSalesPlanning:B2BCustomer   	; employeeCode     	; B2BCustomer:employeeCode     	;                                                  	; 	;
+                                            ; InboundBottomUpAnnualSalesPlanning:DistrictMaster	; code             	; DistrictMaster:code          	;                                                  	; true	;
+                                            ; InboundBottomUpAnnualSalesPlanning:AnnualSales   	; brand            	; AnnualSales:brand            	; InboundBottomUpAnnualSalesPlanning:BaseSite      	; true	;
+                                            ; InboundBottomUpAnnualSalesPlanning:AnnualSales   	; synced           	; AnnualSales:synced           	;                                                  	; 	;
+                                            ; InboundBottomUpAnnualSalesPlanning:AnnualSales   	; districtMaster   	; AnnualSales:districtMaster   	; InboundBottomUpAnnualSalesPlanning:DistrictMaster	; true	;
+                                            ; InboundBottomUpAnnualSalesPlanning:AnnualSales   	; actionPerformedBy	; AnnualSales:actionPerformedBy	; InboundBottomUpAnnualSalesPlanning:B2BCustomer   	; true	;
+                                            ; InboundBottomUpAnnualSalesPlanning:BaseSite      	; uid              	; BaseSite:uid                 	;                                                  	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundDealerMonthlyTargets; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundDealerMonthlyTargets	; ProductSale	; ProductSale	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundDealerMonthlyTargets	; EyDmsUser    	; EyDmsUser    	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundDealerMonthlyTargets:ProductSale	; productGrade    	; ProductSale:productGrade    	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; customerCode    	; ProductSale:customerCode    	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; productPackaging	; ProductSale:productPackaging	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; productPackType 	; ProductSale:productPackType 	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; salesOfficer    	; ProductSale:salesOfficer    	; InboundDealerMonthlyTargets:EyDmsUser	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; monthYear       	; ProductSale:monthYear       	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; synced          	; ProductSale:synced          	;                                    	; 	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; productCode     	; ProductSale:productCode     	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:ProductSale	; monthName       	; ProductSale:monthName       	;                                    	; true	;
+                                            ; InboundDealerMonthlyTargets:EyDmsUser    	; uid             	; EyDmsUser:uid                 	;                                    	; true	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundPointRequistition; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundPointRequistition	; PointRequisition	; PointRequisition	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundPointRequistition:PointRequisition	; requisitionId	; PointRequisition:requisitionId	;                          	; true	;
+                                            ; InboundPointRequistition:PointRequisition	; synced       	; PointRequisition:synced       	;                          	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundInfluencerOnboarding; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundInfluencerOnboarding	; EyDmsCustomer	; EyDmsCustomer	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundInfluencerOnboarding:EyDmsCustomer	; uid             	; EyDmsCustomer:uid             	;                             	; true	;
+                                            ; InboundInfluencerOnboarding:EyDmsCustomer	; influencerSynced	; EyDmsCustomer:influencerSynced	;                             	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundSiteVisitMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundSiteVisitMaster	; SiteVisitMaster	; SiteVisitMaster	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundSiteVisitMaster:SiteVisitMaster	; id    	; SiteVisitMaster:id    	;                        	; true	;
+                                            ; InboundSiteVisitMaster:SiteVisitMaster	; synced	; SiteVisitMaster:synced	;                        	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundEndCustomerComplaint; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundEndCustomerComplaint	; EndCustomerComplaint	; EndCustomerComplaint	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundEndCustomerComplaint:EndCustomerComplaint	; requestId	; EndCustomerComplaint:requestId	;                             	; true	;
+                                            ; InboundEndCustomerComplaint:EndCustomerComplaint	; synced   	; EndCustomerComplaint:synced   	;                             	; 	;
+
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundTicketClosure; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundTicketClosure	; EndCustomerComplaint	; EndCustomerComplaint	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundTicketClosure:EndCustomerComplaint	; requestId          	; EndCustomerComplaint:requestId          	;                      	; true	;
+                                            ; InboundTicketClosure:EndCustomerComplaint	; ticketClosureSynced	; EndCustomerComplaint:ticketClosureSynced	;                      	; 	;
+

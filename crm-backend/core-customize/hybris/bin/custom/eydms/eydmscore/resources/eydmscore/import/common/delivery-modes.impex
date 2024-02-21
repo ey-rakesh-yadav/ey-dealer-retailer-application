@@ -1,0 +1,9 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+
+# Delivery Modes
+INSERT_UPDATE ZoneDeliveryMode;code[unique=true];name;description;net;
+;roadway;"Roadway";"2-3 business days";true
+ ;railway;"Railway";"2-3 business days";true
