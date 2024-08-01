@@ -1,0 +1,25 @@
+
+$productCatalog=sclProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $catalogVersion)
+$baseProduct=baseProduct(code,$catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+
+INSERT_UPDATE SclBrand;code[unique=true];name
+                      ;000;SHREE
+                      ;001;BANGUR
+                      ;002;ROCKSTRONG
+                      ;003;MAGNA
+
+INSERT_UPDATE SclIncoTermMaster;markAsDelivered;incoTerm[unique=true];incoTermSequence;name;sealed;isDealerProvidingTransport(code)
+;TRUE;EXW;4;EX Works;FALSE;Yes
+;TRUE;EXP;3;EX To Pay;FALSE;Yes
+;TRUE;EXR;5;EXR;FALSE;Yes
+;TRUE;FTP;2;FOR TO PAY;FALSE;Yes
+;FALSE;FTB;1;FOR TO BE BILLED;FALSE;Yes,No
+
+#INSERT_UPDATE Product;code[unique=true];custCategory(code);inventoryId;grade;gradeCode;baseGradeCode;baseGrade;brand;brandCode(code);bagType;bagTypeCode;packingBagCode;name[lang=en]      ;premium;description;sapSalesOrganization(distributionChannel,salesOrganization,division);$supercategories[default='cement'];$catalogVersion;$approved
+#                   ;35647676         ;TR                ;15000054   ;CC   ;002      ;004          ;CC       ;SHREE;000            ;LPP    ;001        ;              ;SC_TR_CC_LPP_50KG;N;SC_TR_CC_LPP_50KG        ;10:1000:10                                                            ;;;
+
+#INSERT_UPDATE ProductAlias;state[unique=true];district[unique=true];aliasName;product(code)

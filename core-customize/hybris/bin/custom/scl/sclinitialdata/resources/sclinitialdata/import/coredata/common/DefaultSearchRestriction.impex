@@ -1,0 +1,14 @@
+UPDATE SearchRestriction;code[unique=true];active
+                        ;b2border_restriction;false
+                        ;b2bpermission_restriction;false
+                        ;OrderRequistionForRH;false
+                        ;VisitMasterDistrictRestrictionForTSM;false
+                        ;VisitMasterRegionRestrictionForRH;false
+                        ;TechnicalAssistanceForTSM;false
+                        ;TechnicalAssistanceForRH;false
+                        ;OrderRequistionForTSM;false
+                        ;branch_restriction;false
+                        ;b2busergroup_restriction;false
+                        ;costcenter_restriction;false
+                        ;employee_restriction;false
+                        ;budget_restriction;false

@@ -1,0 +1,35 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code) 
+; InboundSclInternalSalesHierarchy; INBOUND 
+ 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code) 
+; InboundSclInternalSalesHierarchy	; SCLIntSalesHierarchy	; SCLIntSalesHierarchy	; true	; ALL_SUB_AND_SUPER_TYPES	;  
+ 
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false] 
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; nationalHeadName 	; SCLIntSalesHierarchy:nationalHeadName 	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; dateFrom         	; SCLIntSalesHierarchy:dateFrom         	;                                  	; true 	;
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; stateHeadEmail   	; SCLIntSalesHierarchy:stateHeadEmail   	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; clusterHeadEmail 	; SCLIntSalesHierarchy:clusterHeadEmail 	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; nationalHeadCode 	; SCLIntSalesHierarchy:nationalHeadCode 	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; nationalHeadEmail	; SCLIntSalesHierarchy:nationalHeadEmail	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; tsmCode          	; SCLIntSalesHierarchy:tsmCode          	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; clusterHeadCode  	; SCLIntSalesHierarchy:clusterHeadCode  	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; stateHeadCode    	; SCLIntSalesHierarchy:stateHeadCode    	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; stateHeadName    	; SCLIntSalesHierarchy:stateHeadName    	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; regionHeadCode   	; SCLIntSalesHierarchy:regionHeadCode   	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; zonalHeadName    	; SCLIntSalesHierarchy:zonalHeadName    	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; zonalHeadEmail   	; SCLIntSalesHierarchy:zonalHeadEmail   	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; employeeName     	; SCLIntSalesHierarchy:employeeName     	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; regionHeadEmail  	; SCLIntSalesHierarchy:regionHeadEmail  	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; tsmEmail         	; SCLIntSalesHierarchy:tsmEmail         	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; employeeEmail    	; SCLIntSalesHierarchy:employeeEmail    	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; employeeCode     	; SCLIntSalesHierarchy:employeeCode     	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; clusterHeadName  	; SCLIntSalesHierarchy:clusterHeadName  	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; regionHeadName   	; SCLIntSalesHierarchy:regionHeadName   	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; dateTo           	; SCLIntSalesHierarchy:dateTo           	;                                  	;  	;
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; territoryCode    	; SCLIntSalesHierarchy:territoryCode    	;                                  	; true	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; tsmName          	; SCLIntSalesHierarchy:tsmName          	;                                  	; 	;  
+; InboundSclInternalSalesHierarchy:SCLIntSalesHierarchy	; zonalHeadCode    	; SCLIntSalesHierarchy:zonalHeadCode    	;                                  	; 	;  
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundSclInternalSalesHierarchy

@@ -1,0 +1,13 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundSclCustomerCreditLimit; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundSclCustomerCreditLimit	; SclCustomer	; SclCustomer	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundSclCustomerCreditLimit:SclCustomer	; creditLimit          	; SclCustomer:creditLimit          	;                               	; 	;
+                                            ; InboundSclCustomerCreditLimit:SclCustomer	; uid                  	; SclCustomer:uid                  	;                               	; true	;
+                                            ; InboundSclCustomerCreditLimit:SclCustomer	; securityDepositAmount	; SclCustomer:securityDepositAmount	;                               	; 	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundSclCustomerCreditLimit

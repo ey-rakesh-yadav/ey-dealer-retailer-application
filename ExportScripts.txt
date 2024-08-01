@@ -1,0 +1,7 @@
+*****************Ledger Details **************
+
+"#% impex.setTargetFile( ""LedgerDetails.csv"", true, 1, -1 );"
+INSERT_UPDATE LedgerDetails;transactionLineGlRcId[unique=true];transactionLineLastUpdateDate[dateformat=yyyy-MM-dd HH:mm:ss][unique=true];active;customerNo;date[dateformat=yyyy-MM-dd];creditAmount;debitAmount;transactionType;brand;chqNo[unique=true];docNo[unique=true];invoiceQty
+"#% impex.exportItemsFlexibleSearch( "" select {pk} from {LedgerDetails} where {creationtime}>='2024-05-1' AND {creationtime}<='2024-06-13'"");"
+
+

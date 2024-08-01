@@ -1,0 +1,1393 @@
+#SCL master data impex
+
+INSERT_UPDATE PaymentTerms;code[unique=true];name;description
+                          ;5;;
+
+INSERT_UPDATE Organization;orgID[unique=true];name
+                          ;101;SCL
+                          ;102;Shree
+                          ;103;Bangur
+                          ;104;Rockstrong
+INSERT_UPDATE CustomerSubCategory;code[unique=true];name;parentCategory(code)
+                                 ;NT;NT;NT
+                                 ;RT;RT;TR
+INSERT_UPDATE CustomerOrderType;transactionTypeId[unique=true];name;description;orgID(orgID)
+                               ;1608;BC/NT/B64;SO FOR NT- PABHAT DEPOT;103
+                               ;1747;TC/NT/T61;SO FOR NT-   REWARI DEPOT;104
+                               ;1748;TC/TR/T61;SO FOR TR- REWARI DEPOT;104
+                               ;1867;TC/NT/T62;SO FOR NT- DHOLPUR DEPOT;104
+                               ;1868;TC/TR/T62;SO FOR TR- DHOLPUR DEPOT;104
+                               ;2387;BC/NT/B87;SO FOR NT- GWALIOR DEPOT;103
+                               ;2388;BC/TR/B87;SO FOR TR- GWALIOR DEPOT;103
+                               ;3307;BC/NT/BE1;SO FOR NT- KOTLA VIHAR;103
+                               ;3308;BC/TR/BE1;SO FOR TR- KOTLA VIHAR;103
+                               ;3767;TC/NT/TC7;SO FOR NT- HALDWANI DEPOT;104
+                               ;3768;TC/TR/TC7;SO FOR TR- HALDWANI DEPOT;104
+                               ;3827;BC/NT/BI5;SO FOR NT- GORAKHPUR;103
+                               ;3828;BC/TR/BI5;SO FOR TR- GORAKHPUR;103
+                               ;3907;TC/TR/TE1;SO FOR TR- RAJPURA DEPOT;104
+                               ;3908;TC/NT/TE1;SO FOR NT- RAJPURA DEPOT;104
+                               ;3929;SC/NT/SH6;SO FOR NT- DANKAUR (UP);102
+                               ;3930;SC/TR/SH6;SO FOR TR- DANKAUR (UP);102
+                               ;3931;SC/NT/SH7;SO FOR NT- KAKROLA (DELHI);102
+                               ;3932;SC/TR/SH7;SO FOR TR- KAKROLA (DELHI);102
+                               ;3947;BC/NT/BJ3;SO FOR NT- JAMMU;103
+                               ;3948;BC/TR/BJ3;SO FOR TR- JAMMU;103
+                               ;3967;BC/NT/BJ4;SO FOR NT- KAKKROLA (PALAM);103
+                               ;3987;BC/TR/BJ4;SO FOR TR- KAKKROLA (PALAM);103
+                               ;4007;TC/NT/TF3;SO FOR NT- HATHRAS DEPOT;104
+                               ;4008;TC/TR/TF3;SO FOR TR- HATHARS DEPOT;104
+                               ;2047;BC/NT/B77;SO FOR NT- BIJNOR DEPOT;103
+                               ;2048;BC/TR/B77;SO FOR TR- BIJNOR DEPOT;103
+                               ;2747;BC/NT/B97;SO FOR NT- KASHIPUR DEPOT;103
+                               ;2767;BC/NT/B98;SO FOR NT- JALLANDHAR DEPOT;103
+                               ;2787;BC/NT/B99;SO FOR NT- SAHARANPUR DEPOT;103
+                               ;2807;BC/TR/B97;SO FOR TR- KASHIPUR DEPOT;103
+                               ;2808;BC/TR/B98;SO FOR TR- JALLANDHAR DEPOT;103
+                               ;2827;BC/TR/B99;SO FOR TR- SAHARANPUR DEPOT;103
+                               ;2947;SC/NT/SB6;SO FOR NT- BIJNOR DEPOT;102
+                               ;2948;SC/TR/SB6;SO FOR TR- BIJNOR DEPOT;102
+                               ;2987;TC/NT/T82;SO FOR NT- SANGRUR DEPOT;104
+                               ;3007;TC/TR/T82;SO FOR TR- SANGRUR DEPOT;104
+                               ;3027;TC/NT/T83;SO FOR NT- KOTDWAR DEPOT;104
+                               ;3047;TC/TR/T83;SO FOR TR- KOTDWAR DEPOT;104
+                               ;3687;BC/NT/BH5;SO FOR NT- FATHUA;103
+                               ;3688;BC/TR/BH5;SO FOR TR- FATHUA;103
+                               ;3927;BC/NT/BJ2;SO FOR NT- BADAUN;103
+                               ;3928;BC/TR/BJ2;SO FOR TR- BADAUN;103
+                               ;4027;BC/NT/BK2;SO FOR NT- HALDWANI;103
+                               ;4028;BC/TR/BK2;SO FOR TR- HALDWANI;103
+                               ;4067;SC/NT/SO9;SO FOR NT- SHAHJAHANPUR (UP);102
+                               ;4068;SC/NT/SP1;SO FOR NT- GWALIOR (MP);102
+                               ;4069;SC/TR/SO9;SO FOR TR- SHAHJAHANPUR (UP);102
+                               ;4070;SC/TR/SP1;SO FOR TR- GWALIOR (MP);102
+                               ;4130;BC/TR/BU8;SO FOR TR - PAONTA SAHIB;103
+                               ;4249;BRICK/FGU;SO FOR FLY ASH BRICK SALE;101
+                               ;1667;SC/TR/S80;SO FOR TR- INDORE DEPOT;102
+                               ;1668;SC/NT/S80;SO FOR NT- INDORE DEPOT;102
+                               ;1827;BC/NT/B71;SO FOR NT- DHOLPUR DEPOT;103
+                               ;2087;BC/NT/B79;SO FOR NT- RUDRAPUR DEPOT;103
+                               ;2088;BC/TR/B79;SO FOR TR- RUDRAPUR DEPOT;103
+                               ;2089;BC/NT/B80;SO FOR NT- HIMMAT NAGAR DEPOT;103
+                               ;2090;BC/TR/B80;SO FOR TR- MIMMAT NAGAR DEPOT;103
+                               ;2227;SC/NT/S92;SO FOR NT- OKHLA DEPOT;102
+                               ;2228;SC/TR/S92;SO FOR TR- OKHLA DEPOT;102
+                               ;2487;SC/NT/EXPORT;SO FOR NT- EXPORT;102
+                               ;2847;BC/NT/BA2;SO FOR NT- RANI - (PALI);103
+                               ;2848;BC/TR/BA2;SO FOR TR- RANI - (PALI);103
+                               ;2907;TC/NT/T78;SO FOR NT- NEEMUCH DEPOT;104
+                               ;2908;TC/TR/T78;SO FOR TR- NEEMUCH DEPOT;104
+                               ;3067;BC/NT/BA8;SO FOR NT- RAJSAMAND;103
+                               ;3068;BC/TR/BA8;SO FOR TR- RAJSAMAND;103
+                               ;4370;SCL/TR/SKIM;SO FOR SKIM COAT TR SALE;101
+                               ;4371;SCL/NT/SKIM;SO FOR SKIM COAT NT SALE;101
+                               ;4372;BC/NT/B1E;SO FOR NT- RANCHI (JHARKHAND);103
+                               ;4373;BC/TR/B1E;SO FOR TR - RANCHI (JHARKHAND);103
+                               ;1547;SC/TR/EXPORT;SO FOR TR- EXPORT;102
+                               ;1707;TC/TR/EXPORT;SO FOR TR- EXPORT;104
+                               ;2187;TC/NT/T68;SO FOR NT- BIJNOR DEPOT;104
+                               ;2207;TC/TR/T68;SO FOR TR- BIJNOR DEPOT;104
+                               ;2287;BC/NT/B83;SO FOR NT- BAHADURGARH DEPOT;103
+                               ;2307;BC/TR/B83;SO FOR TR- BAHADURGARH DEPOT;103
+                               ;2327;BC/NT/B84;SO FOR NT- BHIWANI DEPOT;103
+                               ;2347;BC/TR/B84;SO FOR TR- BHIWANI DEPOT;103
+                               ;2467;BC/NT/B89;SO FOR NT- SHUJALPUR MANDI DEPOT;103
+                               ;2468;BC/TR/B89;SO FOR TR- SHUJALPUR MANDI DEPOT;103
+                               ;3267;BC/NT/BD5;SO FOR NT- SINGHIA HIWAN;103
+                               ;3268;BC/NT/BD6;SO FOR NT- MOTIHARI;103
+                               ;3269;BC/NT/BD7;SO FOR NT- DANAPUR;103
+                               ;3270;BC/TR/BD5;SO FOR TR- SINGHIA HIWAN;103
+                               ;3287;BC/TR/BD6;SO FOR TR- MOTIHARI;103
+                               ;3288;BC/TR/BD7;SO FOR TR- DANAPUR;103
+                               ;3647;BC/NT/BH1;SO FOR NT- SARAI (BIHAR);103
+                               ;3648;BC/TR/BH1;SO FOR TR- SARAI (BIHAR);103
+                               ;4109;SC/NT/FGG;SO FOR NT-   AURANGABAD PLANT- SHREE;102
+                               ;4110;SC/TR/FGG;SO FOR TR-   AURANGABAD PLANT- SHREE;102
+                               ;4169;SC/TR/FGC;SO FOR TR- RAIPUR PLANT- SHREE;102
+                               ;4170;SC/NT/FGC;SO FOR NT- RAIPUR PLANT- SHREE;102
+                               ;4269;SC/NT/S6F;SO FOR NT- SAMBALPUR (OD);102
+                               ;4270;SC/TR/S6F;SO FOR TR- SAMBALPUR (OD);102
+                               ;4392;FLYASH/SALE;SO FOR FLYASH SALE;101
+#;4432;SC_RET_RHIPL_LINE;STANDARD RETURN LINE - RHIPL;20335
+#;4433;SC_RHIPL_LINE;STANDARD RHIPL LINE;20335
+#;4434;SC/RHIPL;ORDER TYPE FOR RHIPL;20335
+                               ;1524;BC/NT/B62;SO FOR NT- BILASPUR DEPOT;103
+                               ;1545;TC/NT/T58;SO FOR NT- BILASPUR DEPOT;104
+                               ;1546;TC/TR/T58;SO FOR TR- BILASPUR DEPOT;104
+                               ;2247;TC/NT/T69;SO FOR NT- BANSWARA DEPOT;104
+                               ;2248;TC/TR/T69;SO FOR TR- BANSWARA DEPOT;104
+                               ;2447;BC/NT/B88;SO FOR NT- AGRA (SHAHDRA) DEPOT;103
+                               ;2448;BC/TR/B88;SO FOR TR- AGRA (SHAHDRA) DEPOT;103
+                               ;2527;SC/NT/S95;SO FOR NT- RAMPUR DEPOT;102
+                               ;2528;SC/TR/S95;SO FOR TR- RAMPUR DEPOT;102
+                               ;2547;TC/NT/T72;SO FOR NT- BARAUT DEPOT;104
+                               ;2548;TC/TR/T72;SO FOR TR- BARAUT DEPOT;104
+                               ;2549;SC/NT/S96;SO FOR NT- FARUKKHABAD DEPOT;102
+                               ;2550;SC/TR/S96;SO FOR TR- FARUKKHABAD DEPOT;102
+                               ;3627;SC/NT/SF5;SO FOR NT- PRATAPGARH DEPOT;102
+                               ;3628;SC/TR/SF5;SO FOR TR- PRATAPGARH DEPOT;102
+                               ;4087;SC/TR/SP2;SO FOR TR- NEEMUCH (MP);102
+                               ;4088;SC/NT/SP2;SO FOR NT- NEEMUCH (MP);102
+                               ;4129;BC/NT/BU8;SO FOR NT- PAONTA SAHIB;103
+                               ;4452;SC/AAC/EXPORT;BRICK SALE FROM UPGU FOR EXPORT;101
+                               ;1484;SC/NT/S75;SO FOR NT- RUDRAPUR DEPOT;102
+                               ;1485;SC/TR/S75;SO FOR TR- RUDRAPUR DEPOT;102
+                               ;1567;BC/TR/B63;SO FOR TR- RAMPUR DEPOT;103
+                               ;2027;TC/TR/T67;SO FOR TR- GWALIOR DEPOT;104
+                               ;2427;BC/NT/EXPORT;SO FOR NT- EXPORT;103
+                               ;2867;SC/NT/SA7;SO FOR NT- SANGRUR DEPOT;102
+                               ;2868;SC/TR/SA7;SO FOR TR- SANGRUR DEPOT;102
+                               ;3207;TC/NT/T91;SO FOR NT- AMRITSAR DEPOT;104
+                               ;3227;TC/TR/T91;SO FOR TR- AMRITSAR DEPOT;104
+                               ;3667;BC/NT/BH2;SO FOR NT- RAJPURA;103
+                               ;3668;BC/TR/BH2;SO FOR TR- RAJPURA;103
+                               ;3847;BC/NT/BI7;SO FOR NT- SHAHJANPUR;103
+                               ;3867;BC/TR/BI7;SO FOR TR- SHAHJANPUR;103
+                               ;4232;BC/TR/FGP;SO FOR TR- PANIPAT PLANT- BANGUR;103
+                               ;4233;BC/NT/FGP;SO FOR NT- PANIPAT PLANT- BANGUR;103
+                               ;4234;TC/TR/FGP;SO FOR TR- PANIPAT PLANT- CEMENTO;104
+                               ;4235;TC/NT/FGP;SO FOR NT- PANIPAT PLANT- CEMENTO;104
+                               ;4329;SC_AAC_LINE;STANDARD AAC LINE;101
+                               ;4330;SC/AACBRICK;BRICK SALE FROM UPGU;101
+                               ;1001;SH_STD_LINE;STANDARD LINE TYPE - SHREE;102
+                               ;1002;SH_RET_LINE;STANDARD RETURN LINE - SHREE;102
+                               ;1004;SH_STD_NT_LINE;STANDARD NT LINE TYPE - SHREE;102
+                               ;1005;SC/TR/FGB;SO FOR TR-   BEAWAR PLANT;102
+                               ;1006;SC/TR/FGK;SO FOR TR-   KK PLANT;102
+                               ;1007;SC/TR/FGR;SO FOR TR-   RAS PLANT;102
+                               ;1008;SC/TR/S01;SO FOR TR- PALAM DEPOT;102
+                               ;1009;SC/TR/S02;SO FOR TR- SHAKURBASTI DEPOT;102
+                               ;1010;SC/TR/S03;SO FOR TR- TRANS YAMUNA DEPOT;102
+                               ;1011;SC/TR/S04;SO FOR TR- NORTH DELHI  DEPOT;102
+                               ;1012;SC/TR/S05;SO FOR TR- ROHINI (DELHI) DEPOT;102
+                               ;1013;SC/TR/S06;SO FOR TR- KOTLA DEPOT;102
+                               ;1014;SC/TR/S07;SO FOR TR- SAROOP NAGAR DEPOT;102
+                               ;1161;BC/TR/B19;SO FOR TR-  REWARI DEPOT;103
+                               ;1162;BC/TR/B20;SO FOR TR-  FATEHABAD DEPOT;103
+                               ;1163;BC/TR/B22;SO FOR TR-  NARNAUL DEPOT;103
+                               ;1164;BC/TR/B23;SO FOR TR-  YAMUNANAGAR DEPOT;103
+                               ;1165;BC/TR/B24;SO FOR TR-  AMBALA DEPOT;103
+                               ;1166;BC/TR/B25;SO FOR TR-  BATHINDA DEPOT;103
+                               ;1167;BC/TR/B26;SO FOR TR-  SANGRUR DEPOT;103
+                               ;1168;BC/TR/B27;SO FOR TR-  KOTKAPURA DEPOT;103
+                               ;1169;BC/TR/B28;SO FOR TR-  LUDHIANA DEPOT;103
+                               ;1170;BC/TR/B29;SO FOR TR-  KHANNA DEPOT;103
+                               ;1171;BC/TR/B30;SO FOR TR-  JAIPUR (BKT) DEPOT;103
+                               ;1172;BC/TR/B31;SO FOR TR-  AJMER DEPOT;103
+                               ;1173;BC/TR/B32;SO FOR TR-  BANSWARA DEPOT;103
+                               ;1174;BC/TR/B33;SO FOR TR-  BHARATPUR DEPOT;103
+                               ;1175;BC/TR/B34;SO FOR TR-  BHILWARA DEPOT;103
+                               ;1176;BC/TR/B35;SO FOR TR-  BIKANER DEPOT;103
+                               ;1177;BC/TR/B36;SO FOR TR-  CHITTORGARH DEPOT;103
+                               ;1178;BC/TR/B37;SO FOR TR-  JHUNJHUNU DEPOT;103
+                               ;1179;BC/TR/B38;SO FOR TR-  JODHPUR DEPOT;103
+                               ;1180;BC/TR/B39;SO FOR TR-  KOTA DEPOT;103
+                               ;1181;BC/TR/B40;SO FOR TR-  PALI DEPOT;103
+                               ;1182;BC/TR/B41;SO FOR TR-  SIROHI DEPOT;103
+                               ;1183;BC/TR/B42;SO FOR TR-  UDAIPUR DEPOT;103
+                               ;1184;BC/TR/B43;SO FOR TR-  JODHPUR(MKT) DEPOT;103
+                               ;1185;BC/TR/B44;SO FOR TR-  JAIPUR (DELHI ROAD) DEPOT;103
+                               ;1186;BC/TR/B45;SO FOR TR-  JAIPUR (SITAPURA) DEPOT;103
+                               ;1187;BC/TR/B46;SO FOR TR-  JAIPUR(VKI AREA) DEPOT;103
+                               ;1188;BC/TR/B49;SO FOR TR-  GHAZIABAD DEPOT;103
+                               ;1189;BC/TR/B50;SO FOR TR-  MEERUT DEPOT;103
+                               ;1190;BC/TR/B51;SO FOR TR-  MUZAFFARNAGAR DEPOT;103
+                               ;1191;BC/TR/B52;SO FOR TR-  ALIGARH DEPOT;103
+                               ;1192;BC/TR/B53;SO FOR TR-  AGRA DEPOT;103
+                               ;1193;BC/TR/B54;SO FOR TR-  MATHURA DEPOT;103
+                               ;1194;BC/TR/B55;SO FOR TR-  DEHRADOON DEPOT;103
+                               ;1195;BC/TR/B56;SO FOR TR-  RISHIKESH DEPOT;103
+                               ;1196;BC/TR/B57;SO FOR TR-  ROORKEE DEPOT;103
+                               ;1197;BC/NT/FGB;SO FOR NT-   BEAWAR PLANT;103
+                               ;1198;BC/NT/FGK;SO FOR NT-   KK PLANT;103
+                               ;1199;BC/NT/FGR;SO FOR NT-   RAS PLANT;103
+                               ;1200;BC/NT/B01;SO FOR NT-  EAST DELHI- USMANPUR DEPOT;103
+                               ;1201;BC/NT/B02;SO FOR NT-  SOUTH DELHI ASOLA DEPOT;103
+                               ;1202;BC/NT/B03;SO FOR NT-  NORTH DELHI DEPOT;103
+                               ;1203;BC/NT/B04;SO FOR NT-  WEST DELHI DEPOT;103
+                               ;1204;BC/NT/B06;SO FOR NT-  POOTH KHURD(BAWANA) DEPOT;103
+                               ;1205;BC/NT/B07;SO FOR NT-  EAST DELHI (M.VIHAR) DEPOT;103
+                               ;1206;BC/NT/B08;SO FOR NT-  MEHSANA DEPOT;103
+                               ;1207;BC/NT/B09;SO FOR NT-  BANASKANTHA DEPOT;103
+                               ;1208;BC/NT/B10;SO FOR NT-  FARIDABAD DEPOT;103
+                               ;1209;BC/NT/B11;SO FOR NT-  HISSAR DEPOT;103
+                               ;1210;BC/NT/B12;SO FOR NT-  JIND DEPOT;103
+                               ;1211;BC/NT/B13;SO FOR NT-  GURGAON DEPOT;103
+                               ;1212;BC/NT/B14;SO FOR NT-  KAITHAL DEPOT;103
+                               ;1213;BC/NT/B15;SO FOR NT-  KARNAL DEPOT;103
+                               ;1214;BC/NT/B16;SO FOR NT-  PANIPAT DEPOT;103
+                               ;1215;BC/NT/B17;SO FOR NT-  SONEPAT DEPOT;103
+                               ;1216;BC/NT/B18;SO FOR NT-  ROHTAK DEPOT;103
+                               ;1217;BC/NT/B19;SO FOR NT-  REWARI DEPOT;103
+                               ;1218;BC/NT/B20;SO FOR NT-  FATEHABAD DEPOT;103
+                               ;1219;BC/NT/B22;SO FOR NT-  NARNAUL DEPOT;103
+                               ;1220;BC/NT/B23;SO FOR NT-  YAMUNANAGAR DEPOT;103
+                               ;1221;BC/NT/B24;SO FOR NT-  AMBALA DEPOT;103
+                               ;1222;BC/NT/B25;SO FOR NT-  BATHINDA DEPOT;103
+                               ;1223;BC/NT/B26;SO FOR NT-  SANGRUR DEPOT;103
+                               ;1224;BC/NT/B27;SO FOR NT-  KOTKAPURA DEPOT;103
+                               ;1225;BC/NT/B28;SO FOR NT-  LUDHIANA DEPOT;103
+                               ;1226;BC/NT/B29;SO FOR NT-  KHANNA DEPOT;103
+                               ;1227;BC/NT/B30;SO FOR NT-  JAIPUR (BKT) DEPOT;103
+                               ;1228;BC/NT/B31;SO FOR NT-  AJMER DEPOT;103
+                               ;1229;BC/NT/B32;SO FOR NT-  BANSWARA DEPOT;103
+                               ;1230;BC/NT/B33;SO FOR NT-  BHARATPUR DEPOT;103
+                               ;1231;BC/NT/B34;SO FOR NT-  BHILWARA DEPOT;103
+                               ;1232;BC/NT/B35;SO FOR NT-  BIKANER DEPOT;103
+                               ;1233;BC/NT/B36;SO FOR NT-  CHITTORGARH DEPOT;103
+                               ;1234;BC/NT/B37;SO FOR NT-  JHUNJHUNU DEPOT;103
+                               ;1235;BC/NT/B38;SO FOR NT-  JODHPUR DEPOT;103
+                               ;1236;BC/NT/B39;SO FOR NT-  KOTA DEPOT;103
+                               ;1237;BC/NT/B40;SO FOR NT-  PALI DEPOT;103
+                               ;1238;BC/NT/B41;SO FOR NT-  SIROHI DEPOT;103
+                               ;1239;BC/NT/B42;SO FOR NT-  UDAIPUR DEPOT;103
+                               ;1240;BC/NT/B43;SO FOR NT-  JODHPUR(MKT) DEPOT;103
+                               ;1241;BC/NT/B44;SO FOR NT-  JAIPUR (DELHI ROAD) DEPOT;103
+                               ;1242;BC/NT/B45;SO FOR NT-  JAIPUR (SITAPURA) DEPOT;103
+                               ;1243;BC/NT/B46;SO FOR NT-  JAIPUR(VKI AREA) DEPOT;103
+                               ;1244;BC/NT/B49;SO FOR NT-  GHAZIABAD DEPOT;103
+                               ;1245;BC/NT/B50;SO FOR NT-  MEERUT DEPOT;103
+                               ;1246;BC/NT/B51;SO FOR NT-  MUZAFFARNAGAR DEPOT;103
+                               ;1247;BC/NT/B52;SO FOR NT-  ALIGARH DEPOT;103
+                               ;1248;BC/NT/B53;SO FOR NT-  AGRA DEPOT;103
+                               ;1249;BC/NT/B54;SO FOR NT-  MATHURA DEPOT;103
+                               ;1250;BC/NT/B55;SO FOR NT-  DEHRADOON DEPOT;103
+                               ;1251;BC/NT/B56;SO FOR NT-  RISHIKESH DEPOT;103
+                               ;1252;BC/NT/B57;SO FOR NT-  ROORKEE DEPOT;103
+                               ;1253;TC_STD_LINE;STANDARD LINE TYPE - CEMENTO;104
+                               ;1254;TC_RET_LINE;STANDARD RETURN LINE - CEMENTO;104
+                               ;1255;TC_STD_NT_LINE;STANDARD NT LINE TYPE - CEMENTO;104
+                               ;1256;TC/TR/FGB;SO FOR TR-   BEAWAR PLANT;104
+                               ;1257;TC/TR/FGK;SO FOR TR-   KK PLANT;104
+                               ;1258;TC/TR/FGR;SO FOR TR-   RAS PLANT;104
+                               ;1259;TC/TR/T01;SO FOR TR-  E. DELHI(MANDOLI) DEPOT;104
+                               ;1260;TC/TR/T02;SO FOR TR-  W. DELHI(N  GARH) DEPOT;104
+                               ;1261;TC/TR/T04;SO FOR TR-  N. DELHI (BPUR) DEPOT;104
+                               ;1262;TC/TR/T05;SO FOR TR-  E. DELHI(GAZIPUR) DEPOT;104
+                               ;1015;SC/TR/S08;SO FOR TR- FATEHPUR BERI DEPOT;102
+                               ;1016;SC/TR/S09;SO FOR TR- MADANPUR KHADAR DEPOT;102
+                               ;1017;SC/TR/S10;SO FOR TR- BAHADURGARH DEPOT;102
+                               ;1018;SC/TR/S11;SO FOR TR- BALLABHGARH DEPOT;102
+                               ;1019;SC/TR/S12;SO FOR TR- SIRSA DEPOT;102
+                               ;1020;SC/TR/S13;SO FOR TR- JIND DEPOT;102
+                               ;1021;SC/TR/S14;SO FOR TR- SONEPAT DEPOT;102
+                               ;1022;SC/TR/S15;SO FOR TR- ROHTAK DEPOT;102
+                               ;1023;SC/TR/S16;SO FOR TR- REWARI DEPOT;102
+                               ;1024;SC/TR/S17;SO FOR TR- GURGAON DEPOT;102
+                               ;1025;SC/TR/S18;SO FOR TR- NARNAUL DEPOT;102
+                               ;1026;SC/TR/S19;SO FOR TR- KAITHAL DEPOT;102
+                               ;1027;SC/TR/S20;SO FOR TR- AMBALA DEPOT;102
+                               ;1028;SC/TR/S21;SO FOR TR- YAMUNA NAGAR DEPOT;102
+                               ;1029;SC/TR/S22;SO FOR TR- PANIPAT DEPOT;102
+                               ;1030;SC/TR/S23;SO FOR TR- KARNAL DEPOT;102
+                               ;1031;SC/TR/S24;SO FOR TR- PANCHKULA DEPOT;102
+                               ;1032;SC/TR/S25;SO FOR TR- BHIWANI DEPOT;102
+                               ;1033;SC/TR/S26;SO FOR TR- HISSAR DEPOT;102
+                               ;1034;SC/TR/S27;SO FOR TR- TOHANA DEPOT;102
+                               ;1035;SC/TR/S28;SO FOR TR- RAJPURA DEPOT;102
+                               ;1036;SC/TR/S29;SO FOR TR- JALLANDHAR DEPOT;102
+                               ;1037;SC/TR/S30;SO FOR TR- LUDHIANA DEPOT;102
+                               ;1038;SC/TR/S31;SO FOR TR- BHATINDA DEPOT;102
+                               ;1039;SC/TR/S32;SO FOR TR- KHANNA  DEPOT;102
+                               ;1040;SC/TR/S33;SO FOR TR- JHUNJHUNU DEPOT;102
+                               ;1041;SC/TR/S34;SO FOR TR- CHITTORGARH DEPOT;102
+                               ;1042;SC/TR/S35;SO FOR TR- ANDHERI DEORI DEPOT;102
+                               ;1043;SC/TR/S36;SO FOR TR- JAIPUR (KESHAVPURA) DEPOT;102
+                               ;1044;SC/TR/S37;SO FOR TR- JAIPUR(SITAPURA) DEPOT;102
+                               ;1045;SC/TR/S38;SO FOR TR- JAIPUR(DELHI ROAD) DEPOT;102
+                               ;1046;SC/TR/S40;SO FOR TR- AJMER DEPOT;102
+                               ;1047;SC/TR/S41;SO FOR TR- BHILWARA DEPOT;102
+                               ;1048;SC/TR/S42;SO FOR TR- BEAWAR DEPOT;102
+                               ;1049;SC/TR/S43;SO FOR TR- JAIPUR (KARNINAGAR) DEPOT;102
+                               ;1050;SC/TR/S44;SO FOR TR- JODHPUR DEPOT;102
+                               ;1051;SC/TR/S45;SO FOR TR- KOTA DEPOT;102
+                               ;1052;SC/TR/S46;SO FOR TR- PALI DEPOT;102
+                               ;1053;SC/TR/S47;SO FOR TR- BIKANER DEPOT;102
+                               ;1054;SC/TR/S48;SO FOR TR- BHARATPUR DEPOT;102
+                               ;1055;SC/TR/S49;SO FOR TR- UDAIPUR DEPOT;102
+                               ;1056;SC/TR/S50;SO FOR TR- JAIPUR(VKI) DEPOT;102
+                               ;1057;SC/TR/S53;SO FOR TR- MEERUT DEPOT;102
+                               ;1058;SC/TR/S54;SO FOR TR- MUZAFFARNAGAR DEPOT;102
+                               ;1059;SC/TR/S55;SO FOR TR- AGRA DEPOT;102
+                               ;1060;SC/TR/S56;SO FOR TR- GHAZIABAD DEPOT;102
+                               ;1061;SC/TR/S57;SO FOR TR- MATHURA DEPOT;102
+                               ;1062;SC/TR/S58;SO FOR TR- SAHARANPUR DEPOT;102
+                               ;1063;SC/TR/S59;SO FOR TR- ALIGARH DEPOT;102
+                               ;1064;SC/TR/S60;SO FOR TR- KATHUA DEPOT;102
+                               ;1065;SC/TR/S61;SO FOR TR- ROORKEE DEPOT;102
+                               ;1066;SC/TR/S62;SO FOR TR- DEHRADOON DEPOT;102
+                               ;1067;SC/TR/S63;SO FOR TR- HARIDWAR DEPOT;102
+                               ;1068;SC/TR/S64;SO FOR TR- RISHIKESH DEPOT;102
+                               ;1069;SC/TR/S65;SO FOR TR- CHANDIGARH DEPOT;102
+                               ;1070;SC/TR/S66;SO FOR TR- KURUKSHETRA DEPOT;102
+                               ;1071;SC/NT/FGB;SO FOR NT-   BEAWAR PLANT;102
+                               ;1072;SC/NT/FGK;SO FOR NT-   KK PLANT;102
+                               ;1073;SC/NT/FGR;SO FOR NT-   RAS PLANT;102
+                               ;1074;SC/NT/S01;SO FOR NT- PALAM DEPOT;102
+                               ;1075;SC/NT/S02;SO FOR NT- SHAKURBASTI DEPOT;102
+                               ;1076;SC/NT/S03;SO FOR NT- TRANS YAMUNA DEPOT;102
+                               ;1077;SC/NT/S04;SO FOR NT- NORTH DELHI  DEPOT;102
+                               ;1078;SC/NT/S05;SO FOR NT- ROHINI (DELHI) DEPOT;102
+                               ;1079;SC/NT/S06;SO FOR NT- KOTLA DEPOT;102
+                               ;1080;SC/NT/S07;SO FOR NT- SAROOP NAGAR DEPOT;102
+                               ;1081;SC/NT/S08;SO FOR NT- FATEHPUR BERI DEPOT;102
+                               ;1082;SC/NT/S09;SO FOR NT- MADANPUR KHADAR DEPOT;102
+                               ;1083;SC/NT/S10;SO FOR NT- BAHADURGARH DEPOT;102
+                               ;1084;SC/NT/S11;SO FOR NT- BALLABHGARH DEPOT;102
+                               ;1085;SC/NT/S12;SO FOR NT- SIRSA DEPOT;102
+                               ;1086;SC/NT/S13;SO FOR NT- JIND DEPOT;102
+                               ;1087;SC/NT/S14;SO FOR NT- SONEPAT DEPOT;102
+                               ;1088;SC/NT/S15;SO FOR NT- ROHTAK DEPOT;102
+                               ;1089;SC/NT/S16;SO FOR NT- REWARI DEPOT;102
+                               ;1090;SC/NT/S17;SO FOR NT- GURGAON DEPOT;102
+                               ;1091;SC/NT/S18;SO FOR NT- NARNAUL DEPOT;102
+                               ;1092;SC/NT/S19;SO FOR NT- KAITHAL DEPOT;102
+                               ;1093;SC/NT/S20;SO FOR NT- AMBALA DEPOT;102
+                               ;1094;SC/NT/S21;SO FOR NT- YAMUNA NAGAR DEPOT;102
+                               ;1095;SC/NT/S22;SO FOR NT- PANIPAT DEPOT;102
+                               ;1096;SC/NT/S23;SO FOR NT- KARNAL DEPOT;102
+                               ;1097;SC/NT/S24;SO FOR NT- PANCHKULA DEPOT;102
+                               ;1098;SC/NT/S25;SO FOR NT- BHIWANI DEPOT;102
+                               ;1099;SC/NT/S26;SO FOR NT- HISSAR DEPOT;102
+                               ;1100;SC/NT/S27;SO FOR NT- TOHANA DEPOT;102
+                               ;1101;SC/NT/S28;SO FOR NT- RAJPURA DEPOT;102
+                               ;1102;SC/NT/S29;SO FOR NT- JALLANDHAR DEPOT;102
+                               ;1103;SC/NT/S30;SO FOR NT- LUDHIANA DEPOT;102
+                               ;1104;SC/NT/S31;SO FOR NT- BHATINDA DEPOT;102
+                               ;1105;SC/NT/S32;SO FOR NT- KHANNA  DEPOT;102
+                               ;1106;SC/NT/S33;SO FOR NT- JHUNJHUNU DEPOT;102
+                               ;1107;SC/NT/S34;SO FOR NT- CHITTORGARH DEPOT;102
+                               ;1108;SC/NT/S35;SO FOR NT- ANDHERI DEORI DEPOT;102
+                               ;1109;SC/NT/S36;SO FOR NT- JAIPUR (KESHAVPURA) DEPOT;102
+                               ;1110;SC/NT/S37;SO FOR NT- JAIPUR(SITAPURA) DEPOT;102
+                               ;1111;SC/NT/S38;SO FOR NT- JAIPUR(DELHI ROAD) DEPOT;102
+                               ;1112;SC/NT/S40;SO FOR NT- AJMER DEPOT;102
+                               ;1113;SC/NT/S41;SO FOR NT- BHILWARA DEPOT;102
+                               ;1114;SC/NT/S42;SO FOR NT- BEAWAR DEPOT;102
+                               ;1115;SC/NT/S43;SO FOR NT- JAIPUR (KARNINAGAR) DEPOT;102
+                               ;1116;SC/NT/S44;SO FOR NT- JODHPUR DEPOT;102
+                               ;1117;SC/NT/S45;SO FOR NT- KOTA DEPOT;102
+                               ;1118;SC/NT/S46;SO FOR NT- PALI DEPOT;102
+                               ;1119;SC/NT/S47;SO FOR NT- BIKANER DEPOT;102
+                               ;1120;SC/NT/S48;SO FOR NT- BHARATPUR DEPOT;102
+                               ;1121;SC/NT/S49;SO FOR NT- UDAIPUR DEPOT;102
+                               ;1122;SC/NT/S50;SO FOR NT- JAIPUR(VKI) DEPOT;102
+                               ;1123;SC/NT/S53;SO FOR NT- MEERUT DEPOT;102
+                               ;1124;SC/NT/S54;SO FOR NT- MUZAFFARNAGAR DEPOT;102
+                               ;1125;SC/NT/S55;SO FOR NT- AGRA DEPOT;102
+                               ;1126;SC/NT/S56;SO FOR NT- GHAZIABAD DEPOT;102
+                               ;1127;SC/NT/S57;SO FOR NT- MATHURA DEPOT;102
+                               ;1128;SC/NT/S58;SO FOR NT- SAHARANPUR DEPOT;102
+                               ;1129;SC/NT/S59;SO FOR NT- ALIGARH DEPOT;102
+                               ;1130;SC/NT/S60;SO FOR NT- KATHUA DEPOT;102
+                               ;1131;SC/NT/S61;SO FOR NT- ROORKEE DEPOT;102
+                               ;1132;SC/NT/S62;SO FOR NT- DEHRADOON DEPOT;102
+                               ;1133;SC/NT/S63;SO FOR NT- HARIDWAR DEPOT;102
+                               ;1134;SC/NT/S64;SO FOR NT- RISHIKESH DEPOT;102
+                               ;1135;SC/NT/S65;SO FOR NT- CHANDIGARH DEPOT;102
+                               ;1136;SC/NT/S66;SO FOR NT- KURUKSHETRA DEPOT;102
+                               ;1137;BC_STD_LINE;STANDARD LINE TYPE - BANGUR;103
+                               ;1138;BC_RET_LINE;STANDARD RETURN LINE - BANGUR;103
+                               ;1140;BC_STD_NT_LINE;STANDARD NT LINE TYPE - BANGUR;103
+                               ;1141;BC/TR/FGB;SO FOR TR-   BEAWAR PLANT;103
+                               ;1142;BC/TR/FGK;SO FOR TR-   KK PLANT;103
+                               ;1143;BC/TR/FGR;SO FOR TR-   RAS PLANT;103
+                               ;1144;BC/TR/B01;SO FOR TR-  EAST DELHI- USMANPUR DEPOT;103
+                               ;1145;BC/TR/B02;SO FOR TR-  SOUTH DELHI ASOLA DEPOT;103
+                               ;1146;BC/TR/B03;SO FOR TR-  NORTH DELHI DEPOT;103
+                               ;1147;BC/TR/B04;SO FOR TR-  WEST DELHI DEPOT;103
+                               ;1148;BC/TR/B06;SO FOR TR-  POOTH KHURD(BAWANA) DEPOT;103
+                               ;1149;BC/TR/B07;SO FOR TR-  EAST DELHI (M.VIHAR) DEPOT;103
+                               ;1150;BC/TR/B08;SO FOR TR-  MEHSANA DEPOT;103
+                               ;1151;BC/TR/B09;SO FOR TR-  BANASKANTHA DEPOT;103
+                               ;1152;BC/TR/B10;SO FOR TR-  FARIDABAD DEPOT;103
+                               ;1153;BC/TR/B11;SO FOR TR-  HISSAR DEPOT;103
+                               ;1154;BC/TR/B12;SO FOR TR-  JIND DEPOT;103
+                               ;1155;BC/TR/B13;SO FOR TR-  GURGAON DEPOT;103
+                               ;1156;BC/TR/B14;SO FOR TR-  KAITHAL DEPOT;103
+                               ;1157;BC/TR/B15;SO FOR TR-  KARNAL DEPOT;103
+                               ;1158;BC/TR/B16;SO FOR TR-  PANIPAT DEPOT;103
+                               ;1159;BC/TR/B17;SO FOR TR-  SONEPAT DEPOT;103
+                               ;1160;BC/TR/B18;SO FOR TR-  ROHTAK DEPOT;103
+                               ;1263;TC/TR/T06;SO FOR TR-  S. DELHI DEPOT;104
+                               ;1264;TC/TR/T07;SO FOR TR-  FARIDABAD DEPOT;104
+                               ;1265;TC/TR/T08;SO FOR TR-  HISSAR DEPOT;104
+                               ;1266;TC/TR/T09;SO FOR TR-  JIND DEPOT;104
+                               ;1267;TC/TR/T10;SO FOR TR-  GURGAON DEPOT;104
+                               ;1268;TC/TR/T11;SO FOR TR-  KARNAL DEPOT;104
+                               ;1269;TC/TR/T12;SO FOR TR-  PANIPAT DEPOT;104
+                               ;1270;TC/TR/T13;SO FOR TR-  SONEPAT DEPOT;104
+                               ;1271;TC/TR/T14;SO FOR TR-  ROHTAK DEPOT;104
+                               ;1272;TC/TR/T15;SO FOR TR-  SIRSA DEPOT;104
+                               ;1273;TC/TR/T16;SO FOR TR-  NARNAUL DEPOT;104
+                               ;1274;TC/TR/T17;SO FOR TR-  YAMUNANAGAR DEPOT;104
+                               ;1275;TC/TR/T18;SO FOR TR-  BATHINDA DEPOT;104
+                               ;1276;TC/TR/T19;SO FOR TR-  KHANNA DEPOT;104
+                               ;1277;TC/TR/T20;SO FOR TR-  JAIPUR(MSR) DEPOT;104
+                               ;1278;TC/TR/T21;SO FOR TR-  AJMER DEPOT;104
+                               ;1279;TC/TR/T22;SO FOR TR-  BHARATPUR DEPOT;104
+                               ;1280;TC/TR/T23;SO FOR TR-  BHILWARA DEPOT;104
+                               ;1281;TC/TR/T24;SO FOR TR-  BIKANER DEPOT;104
+                               ;1282;TC/TR/T25;SO FOR TR-  JHUNJHUNU DEPOT;104
+                               ;1283;TC/TR/T26;SO FOR TR-  JODHPUR DEPOT;104
+                               ;1284;TC/TR/T27;SO FOR TR-  KOTA (IPIA) DEPOT;104
+                               ;1285;TC/TR/T28;SO FOR TR-  SIKAR DEPOT;104
+                               ;1286;TC/TR/T29;SO FOR TR-  UDAIPUR DEPOT;104
+                               ;1287;TC/TR/T30;SO FOR TR-  JODHPUR(MKT) DEPOT;104
+                               ;1288;TC/TR/T31;SO FOR TR-  JAIPUR(MANBAGH) DEPOT;104
+                               ;1289;TC/TR/T32;SO FOR TR-  JAIPUR (BKT) DEPOT;104
+                               ;1290;TC/TR/T33;SO FOR TR-  JAIPUR(VKI ) DEPOT;104
+                               ;1291;TC/TR/T34;SO FOR TR-  KOTA(RGP RD) DEPOT;104
+                               ;1292;TC/TR/T35;SO FOR TR-  GHAZIABAD DEPOT;104
+                               ;1293;TC/TR/T36;SO FOR TR-  MEERUT DEPOT;104
+                               ;1294;TC/TR/T37;SO FOR TR-  MUZAFFARNAGAR DEPOT;104
+                               ;1295;TC/TR/T38;SO FOR TR-  SAHARANPUR DEPOT;104
+                               ;1296;TC/TR/T39;SO FOR TR-  AGRA DEPOT;104
+                               ;1297;TC/TR/T40;SO FOR TR-  MATHURA DEPOT;104
+                               ;1298;TC/TR/T41;SO FOR TR-   HARIDWAR DEPOT;104
+                               ;1299;TC/TR/T44;SO FOR TR-   PANCHKULA DEPOT;104
+                               ;1300;TC/TR/T45;SO FOR TR-   ZIRAKPUR DEPOT;104
+                               ;1301;TC/TR/T46;SO FOR TR-   CHANDIGARH DEPOT;104
+                               ;1302;TC/TR/T47;SO FOR TR-   LUDHIANA DEPOT;104
+                               ;1303;TC/TR/T48;SO FOR TR-   ALIGARH DEPOT;104
+                               ;1364;BC/TR/B60;SO FOR TR-  NAGAUR DEPOT;103
+                               ;1365;BC/TR/B61;SO FOR TR-  NEEMUCH DEPOT;103
+                               ;1366;BC/NT/B60;SO FOR NT-  NAGAUR DEPOT;103
+                               ;1367;BC/NT/B61;SO FOR NT-  NEEMUCH DEPOT;103
+                               ;1368;SC/TR/S67;SO FOR TR- NAGAUR DEPOT;102
+                               ;1369;SC/TR/S68;SO FOR TR- BARELLY DEPOT;102
+                               ;1370;SC/TR/S69;SO FOR TR- BANSWARA DEPOT;102
+                               ;1371;SC/NT/S67;SO FOR NT- NAGAUR DEPOT;102
+                               ;1372;SC/NT/S68;SO FOR NT- BARELLY DEPOT;102
+                               ;1373;SC/NT/S69;SO FOR NT- BANSWARA DEPOT;102
+                               ;1374;TC/TR/T49;SO FOR TR-   KOTKAPURA DEPOT;104
+                               ;1375;TC/TR/T50;SO FOR TR-   DEHRADUN DEPOT;104
+                               ;1376;TC/TR/T51;SO FOR TR-   RISHIKESH DEPOT;104
+                               ;1377;TC/TR/T52;SO FOR TR-   NAGAUR DEPOT;104
+                               ;1378;TC/TR/T54;SO FOR TR-   CHITTORGARH DEPOT;104
+                               ;1379;TC/NT/T49;SO FOR NT-   KOTKAPURA DEPOT;104
+                               ;1380;TC/NT/T50;SO FOR NT-   DEHRADUN DEPOT;104
+                               ;1381;TC/NT/T51;SO FOR NT-   RISHIKESH DEPOT;104
+                               ;1382;TC/NT/T52;SO FOR NT-   NAGAUR DEPOT;104
+                               ;1383;TC/NT/T54;SO FOR NT-   CHITTORGARH DEPOT;104
+                               ;1384;CL/EXPORT;CLINKER EXPORT SALE;101
+                               ;1424;SC/NT/S72;SO FOR NT- SANATHAL DEPOT;102
+                               ;1426;SC/TR/S72;SO FOR TR- SANATHAL DEPOT;102
+                               ;1445;SC/NT/S73;SO FOR NT- GREATER NOIDA DEPOT;102
+                               ;1464;SC/TR/S73;SO FOR TR- GREATER NOIDA DEPOT;102
+                               ;1465;SC/NT/S74;SO FOR NT- MORADABAD DEPOT;102
+                               ;1466;SC/TR/S74;SO FOR TR- MORADABAD DEPOT;102
+                               ;1504;TC/NT/T56;SO FOR NT-   RUDRAPUR DEPOT;104
+                               ;1505;TC/TR/T56;SO FOR TR- RUDRAPUR DEPOT;104
+                               ;1525;SC/NT/S77;SO FOR NT- BILASPUR DEPOT;102
+                               ;1526;SC/TR/S77;SO FOR TR - BILASPUR DEPOT;102
+                               ;1548;BC/TR/EXPORT;SO FOR TR- EXPORT;103
+                               ;1587;BC/NT/B63;SO FOR NT- RAMPUR DEPOT;103
+                               ;1627;SC/TR/S79;SO FOR TR- FAIZABAD DEPOT;102
+                               ;1628;SC/NT/S79;SO FOR NT- FAIZABAD DEPOT;102
+                               ;1647;SC/TR/S78;SO FOR TR- HATHRAS DEPOT;102
+                               ;1648;SC/NT/S78;SO FOR NT- HATHRAS DEPOT;102
+                               ;1727;BC/NT/B67;SO FOR NT- PATIALA DEPOT;103
+                               ;1728;BC/TR/B67;SO FOR TR- PATIALA DEPOT;103
+                               ;1927;SC/NT/S86;SO FOR NT- BHINMAL DEPOT;102
+                               ;1930;SC/TR/S86;SO FOR TR- BHINMAL DEPOT;102
+                               ;1947;BC/NT/B72;SO FOR NT- SIKAR DEPOT;103
+                               ;1948;BC/TR/B72;SO FOR TR- SIKAR DEPOT;103
+                               ;1967;SC/NT/S87;SO FOR NT- RATLAM DEPOT;102
+                               ;1968;SC/TR/S87;SO FOR TR- RATLAM DEPOT;102
+                               ;2067;BC/NT/B78;SO FOR NT- BARELLY DEPOT;103
+                               ;1506;TC/NT/T57;SO FOR NT - BAREILLY DEPOT;104
+                               ;1507;TC/TR/T57;SO FOR TR - BAREILLY DEPOT;104
+                               ;1787;BC/NT/B70;SO FOR NT- CENTRAL DELHI DEPOT;103
+                               ;1788;BC/TR/B70;SO FOR TR- CENTRAL DELHI DEPOT;103
+                               ;1847;BC/TR/B71;SO FOR TR- DHOLPUR DEPOT;103
+                               ;2068;BC/TR/B78;SO FOR TR- BARELLY DEPOT;103
+                               ;2091;SC/NT/S90;SO FOR NT- SIKAR DEPOT;102
+                               ;2092;SC/TR/S90;SO FOR TR- SIKAR DEPOT;102
+                               ;2107;BC/NT/B81;SO FOR NT- INDORE DEPOT;103
+                               ;2108;BC/TR/B81;SO FOR TR- INDORE DEPOT;103
+                               ;2147;BC/NT/B82;SO FOR NT- BHOPAL DEPOT;103
+                               ;2167;BC/TR/B82;SO FOR TR- BHOPAL DEPOT;103
+                               ;2267;SC/NT/S93;SO FOR NT- NOIDA DEPOT;102
+                               ;2268;SC/TR/S93;SO FOR TR- NOIDA DEPOT;102
+                               ;2587;SC/NT/S98;SO FOR NT- CHURU DEPOT;102
+                               ;2588;SC/TR/S98;SO FOR TR- CHURU DEPOT;102
+                               ;2607;TC/NT/T73;SO FOR NT- INDORE DEPOT;104
+                               ;2608;TC/TR/T73;SO FOR TR- INDORE DEPOT;104
+                               ;2627;BC/NT/B92;SO FOR NT- AMRITSAR DEPOT;103
+                               ;2628;BC/TR/B92;SO FOR TR- AMRITSAR DEPOT;103
+                               ;2667;BC/NT/B94;SO FOR NT- HATRAS DEPOT;103
+                               ;2668;BC/TR/B94;SO FOR TR- HATRAS DEPOT;103
+                               ;2687;SC/NT/SA1;SO FOR NT- BAGHPAT DEPOT;102
+                               ;2707;SC/TR/SA1;SO FOR TR- BAGHPAT DEPOT;102
+                               ;2727;BC/NT/B05;SO FOR NT-  BADARPUR DEPOT;103
+                               ;2728;BC/TR/B05;SO FOR TR-  BADARPUR DEPOT;103
+                               ;2927;TC/NT/T81;SO FOR NT- AMBALA DEPOT;104
+                               ;2928;TC/TR/T81;SO FOR TR- AMBALA DEPOT;104
+                               ;2967;BC/NT/BA6;SO FOR NT- SITAPUR (UP);103
+                               ;2968;BC/TR/BA6;SO FOR TR- SITAPUR (UP);103
+                               ;3107;SC/NT/SC2;SO FOR NT- AMRITSAR DEPOT;102
+                               ;3127;SC/TR/SC2;SO FOR TR- AMRITSAR DEPOT;102
+                               ;3147;BC/NT/BB6;SO FOR NT- MAINPURI (UP);103
+                               ;3148;BC/TR/BB6;SO FOR TR- MAINPURI (UP);103
+                               ;3167;TC/NT/T90;SO FOR NT- BUDAUN DEPOT;104
+                               ;3187;TC/TR/T90;SO FOR TR- BUDAUN DEPOT;104
+                               ;3247;BC/NT/BD4;SO FOR NT- SIWAN;103
+                               ;3248;BC/TR/BD4;SO FOR TR- SIWAN;103
+                               ;3327;RMSALE/SCB;SO FOR RM SALE;101
+                               ;3347;TC/NT/TA1;SO FOR NT- SHAHJAHANPUR DEPOT;104
+                               ;3348;TC/NT/TA2;SO FOR NT- ROORKEE DEPOT;104
+                               ;3349;TC/TR/TA1;SO FOR TR- SHAHJAHANPUR DEPOT;104
+                               ;3350;TC/TR/TA2;SO FOR TR- ROORKEE DEPOT;104
+                               ;3367;BC/NT/BE4;SO FOR NT- SHEOPUR;103
+                               ;3368;BC/NT/BE5;SO FOR NT- PATHANKOT;103
+                               ;3369;BC/TR/BE4;SO FOR TR- SHEOPUR;103
+                               ;3370;BC/TR/BE5;SO FOR TR- PATHANKOT;103
+                               ;3487;TC/NT/TA5;SO FOR NT- GUNA DEPOT;104
+                               ;3507;TC/TR/TA5;SO FOR TR- GUNA DEPOT;104
+                               ;3547;BC/NT/BF4;SO FOR NT- KOTDWAR (UTT);103
+                               ;3548;BC/TR/BF4;SO FOR TR- KOTDWAR (UTT);103
+                               ;3587;TC/NT/TB8;SO FOR NT- FATEHABAD DEPOT;104
+                               ;3588;TC/TR/TB8;SO FOR TR- FATEHABAD DEPOT;104
+                               ;3607;SC/NT/SF2;SO FOR NT- SUJANPUR DEPOT;102
+                               ;3608;SC/TR/SF2;SO FOR TR- SUJANPUR DEPOT;102
+                               ;3727;SC/NT/SG2;SO FOR NT- LOGATE MORE DEPOT;102
+                               ;3728;SC/NT/SG3;SO FOR NT- NAWAN PIND DEPOT;102
+                               ;3729;SC/TR/SG2;SO FOR TR- LOGATE MORE DEPOT;102
+                               ;3747;SC/TR/SG3;SO FOR TR- NAWAN PIND DEPOT;102
+                               ;3787;TC/NT/TC8;SO FOR NT- JALLANDHAR DEPOT;104
+                               ;3788;TC/TR/TC8;SO FOR TR- JALLANDHAR DEPOT;104
+                               ;3887;TC/NT/TD9;SO FOR NT- RAMPUR DEPOT;104
+                               ;3888;TC/TR/TD9;SO FOR TR- RAMPUR DEPOT;104
+                               ;4047;SC/NT/SO7;SO FOR NT- GUNA (MP);102
+                               ;4048;SC/TR/SO7;SO FOR TR- GUNA (MP);102
+                               ;4171;TC/TR/FGC;SO FOR TR- RAIPUR PLANT- CEMENTO;104
+                               ;4172;TC/NT/FGC;SO FOR NT- RAIPUR PLANT- CEMENTO;104
+                               ;4189;BC/NT/FGC;SO FOR NT- RAIPUR PLANT- BANGUR;103
+                               ;4190;BC/TR/FGC;SO FOR TR- RAIPUR PLANT- BANGUR;103
+                               ;4209;GYPSUM/SALE;SO FOR GYPSUM SALE;101
+                               ;4229;SC/TR/FGP;SO FOR TR- PANIPAT PLANT- SHREE;102
+                               ;4231;SC/NT/FGP;SO FOR NT- PANIPAT PLANT- SHREE;102
+                               ;4289;BC/TR/B6A;SO FOR TR - SAMBALPUR;103
+                               ;4290;BC/NT/B6A;SO FOR NT- SAMBALPUR;103
+                               ;4309;SC/TR/S1H;SO FOR TR- RANCHI (JHARKHAND);102
+                               ;4310;SC/NT/S1H;SO FOR NT- RANCHI (JHARKHAND);102
+                               ;4412;SC/NT/FGL;SO FOR NT- KODLA PLANT- SHREE;102
+                               ;4413;SC/TR/FGL;SO FOR TR- KODLA PLANT- SHREE;102
+                               ;4472;BC/NT/FGL;SO FOR NT- KODLA PLANT- BANGUR;103
+                               ;4473;BC/TR/FGL;SO FOR TR- KODLA PLANT- BANGUR;103
+                               ;4492;TP/SHRT/INV;TRANSPORTER SHORTAGE;101
+                               ;1404;SC/TR/S70;SO FOR TR- SURATGARH DEPOT;102
+                               ;1405;SC/NT/S70;SO FOR NT- SURATGARH DEPOT;102
+                               ;1407;SC/TR/S71;SO FOR TR- ANDHERI DEORI II DEPOT;102
+                               ;1408;SC/NT/S71;SO FOR NT- ANDHERI DEORI II DEPOT;102
+                               ;1907;BC/NT/B73;SO FOR NT- RATLAM DEPOT;103
+                               ;1908;BC/TR/B73;SO FOR TR- RATLAM DEPOT;103
+                               ;1987;BC/TR/B74;SO FOR TR- NAJAFGARH CENTRAL DEPOT;103
+                               ;1988;BC/NT/B74;SO FOR NT- NAJAFGARH CENTRAL DEPOT;103
+                               ;2367;BC/NT/B85;SO FOR NT- GUNA DEPOT;103
+                               ;2368;BC/NT/B86;SO FOR NT- ASHOK NAGAR DEPOT;103
+                               ;2369;BC/TR/B85;SO FOR TR- GUNA DEPOT;103
+                               ;2370;BC/TR/B86;SO FOR TR- ASHOK NAGAR DEPOT;103
+                               ;2407;TC/NT/T70;SO FOR NT- BHOPAL DEPOT;104
+                               ;2408;TC/TR/T70;SO FOR TR- BHOPAL DEPOT;104
+                               ;2507;TC/NT/EXPORT;SO FOR TR- EXPORT;104
+                               ;2567;BC/NT/B91;SO FOR NT- SIRSA DEPOT;103
+                               ;2568;BC/TR/B91;SO FOR TR- SIRSA DEPOT;103
+                               ;3087;BC/NT/BA9;SO FOR NT- NOIDA;103
+                               ;3088;BC/NT/BB1;SO FOR NT- SUNAM (PUNJAB);103
+                               ;3089;BC/TR/BA9;SO FOR TR- NOIDA;103
+                               ;3090;BC/TR/BB1;SO FOR TR- SUNAM (PUNJAB);103
+                               ;3527;TC/NT/TA6;SO FOR NT- NAWANSHAHAR DEPOT;104
+                               ;3528;TC/TR/TA6;SO FOR TR- NAWANSHAHAR DEPOT;104
+                               ;3707;BC/NT/BH7;SO FOR NT- BASTI;103
+                               ;3708;BC/TR/BH7;SO FOR TR- BASTI;103
+                               ;3807;BC/NT/BI1;SO FOR NT- UJJAIN;103
+                               ;3808;BC/TR/BI1;SO FOR TR- UJJAIN;103
+                               ;4107;SC/NT/SU3;SO FOR NT- PANOH (HP);102
+                               ;4108;SC/TR/SU3;SO FOR TR- PANOH (HP);102
+                               ;4149;SC/NT/SH3;SO FOR NT- LONI (UP);102
+                               ;4152;SC/TR/SH3;SO FOR TR- LONI (UP);102
+                               ;1687;SC/TR/S82;SO FOR TR- ETAH DEPOT;102
+                               ;1688;SC/NT/S82;SO FOR NT- ETAH DEPOT;102
+                               ;1767;BC/NT/B68;SO FOR NT- ROHINI DEPOT;103
+                               ;1768;BC/NT/B69;SO FOR NT- MORADABAD DEPOT;103
+                               ;1769;BC/TR/B68;SO FOR TR- ROHINI DEPOT;103
+                               ;1770;BC/TR/B69;SO FOR TR- MORADABAD DEPOT;103
+                               ;1807;SC/NT/S85;SO FOR NT- DHOLPUR DEPOT;102
+                               ;1808;SC/TR/S85;SO FOR TR- DHOLPUR DEPOT;102
+                               ;1887;TC/NT/T64;SO FOR NT- MORADABAD DEPOT;104
+                               ;1888;TC/TR/T64;SO FOR TR- MORADABAD DEPOT;104
+                               ;2007;TC/NT/T67;SO FOR NT- GWALIOR DEPOT;104
+                               ;2127;SC/NT/S91;SO FOR NT- BHOPAL DEPOT;102
+                               ;2128;SC/TR/S91;SO FOR TR- BHOPAL DEPOT;102
+                               ;2647;BC/NT/B93;SO FOR NT- HARIDWAR DEPOT;103
+                               ;2648;BC/TR/B93;SO FOR TR- HARIDWAR DEPOT;103
+                               ;2887;SC/NT/SA8;SO FOR NT- SAHUPURA DEPOT;102
+                               ;2888;SC/TR/SA8;SO FOR TR- SAHUPURA DEPOT;102
+                               ;3387;BC/NT/BE6;SO FOR NT- KATHUA;103
+                               ;3407;BC/NT/BE7;SO FOR NT- NUH MEWAT;103
+                               ;3427;BC/NT/BE8;SO FOR NT- TANAKPUR;103
+                               ;3447;BC/TR/BE6;SO FOR TR- KATHUA;103
+                               ;3448;BC/TR/BE7;SO FOR TR- NUH MEWAT;103
+                               ;3467;BC/TR/BE8;SO FOR TR- TANAKPUR;103
+                               ;3567;TC/NT/TB6;SO FOR NT- GAYA DEPOT;104
+                               ;3568;TC/NT/TB7;SO FOR NT- LUCKNOW DEPOT;104
+                               ;3569;TC/TR/TB6;SO FOR TR- GAYA DEPOT;104
+                               ;3570;TC/TR/TB7;SO FOR TR- LUCKNOW DEPOT;104
+                               ;4111;BC/NT/FGG;SO FOR NT-   AURANGABAD PLANT- BANGUR;103
+                               ;4112;BC/TR/FGG;SO FOR NT-   AURANGABAD PLANT- BANGUR;103
+                               ;4113;TC/NT/FGG;SO FOR NT-   AURANGABAD PLANT- CEMENTO;104
+                               ;4114;TC/TR/FGG;SO FOR TR-   AURANGABAD PLANT- CEMENTO;104
+                               ;4349;SC_SKIM_TR_LINE;STANDARD SKIM TR LINE;101
+                               ;4351;SC_SKIM_NT_LINE;STANDARD SKIM COAT LINE;101
+                               ;1304;TC/NT/FGB;SO FOR NT-   BEAWAR PLANT;104
+                               ;1305;TC/NT/FGK;SO FOR NT-   KK PLANT;104
+                               ;1306;TC/NT/FGR;SO FOR NT-   RAS PLANT;104
+                               ;1307;TC/NT/T01;SO FOR NT-  E. DELHI(MANDOLI) DEPOT;104
+                               ;1308;TC/NT/T02;SO FOR NT-  W. DELHI(N  GARH) DEPOT;104
+                               ;1309;TC/NT/T04;SO FOR NT-  N. DELHI (BPUR) DEPOT;104
+                               ;1310;TC/NT/T05;SO FOR NT-  E. DELHI(GAZIPUR) DEPOT;104
+                               ;1311;TC/NT/T06;SO FOR NT-  S. DELHI DEPOT;104
+                               ;1312;TC/NT/T07;SO FOR NT-  FARIDABAD DEPOT;104
+                               ;1313;TC/NT/T08;SO FOR NT-  HISSAR DEPOT;104
+                               ;1314;TC/NT/T09;SO FOR NT-  JIND DEPOT;104
+                               ;1315;TC/NT/T10;SO FOR NT-  GURGAON DEPOT;104
+                               ;1316;TC/NT/T11;SO FOR NT-  KARNAL DEPOT;104
+                               ;1317;TC/NT/T12;SO FOR NT-  PANIPAT DEPOT;104
+                               ;1318;TC/NT/T13;SO FOR NT-  SONEPAT DEPOT;104
+                               ;1319;TC/NT/T14;SO FOR NT-  ROHTAK DEPOT;104
+                               ;1320;TC/NT/T15;SO FOR NT-  SIRSA DEPOT;104
+                               ;1321;TC/NT/T16;SO FOR NT-  NARNAUL DEPOT;104
+                               ;1322;TC/NT/T17;SO FOR NT-  YAMUNANAGAR DEPOT;104
+                               ;1323;TC/NT/T18;SO FOR NT-  BATHINDA DEPOT;104
+                               ;1324;TC/NT/T19;SO FOR NT-  KHANNA DEPOT;104
+                               ;1325;TC/NT/T20;SO FOR NT-  JAIPUR(MSR) DEPOT;104
+                               ;1326;TC/NT/T21;SO FOR NT-  AJMER DEPOT;104
+                               ;1327;TC/NT/T22;SO FOR NT-  BHARATPUR DEPOT;104
+                               ;1328;TC/NT/T23;SO FOR NT-  BHILWARA DEPOT;104
+                               ;1329;TC/NT/T24;SO FOR NT-  BIKANER DEPOT;104
+                               ;1330;TC/NT/T25;SO FOR NT-  JHUNJHUNU DEPOT;104
+                               ;1331;TC/NT/T26;SO FOR NT-  JODHPUR DEPOT;104
+                               ;1332;TC/NT/T27;SO FOR NT-  KOTA (IPIA) DEPOT;104
+                               ;1333;TC/NT/T28;SO FOR NT-  SIKAR DEPOT;104
+                               ;1334;TC/NT/T29;SO FOR NT-  UDAIPUR DEPOT;104
+                               ;1335;TC/NT/T30;SO FOR NT-  JODHPUR(MKT) DEPOT;104
+                               ;1336;TC/NT/T31;SO FOR NT-  JAIPUR(MANBAGH) DEPOT;104
+                               ;1337;TC/NT/T32;SO FOR NT-  JAIPUR (BKT) DEPOT;104
+                               ;1338;TC/NT/T33;SO FOR NT-  JAIPUR(VKI ) DEPOT;104
+                               ;1339;TC/NT/T34;SO FOR NT-  KOTA(RGP RD) DEPOT;104
+                               ;1340;TC/NT/T35;SO FOR NT-  GHAZIABAD DEPOT;104
+                               ;1341;TC/NT/T36;SO FOR NT-  MEERUT DEPOT;104
+                               ;1342;TC/NT/T37;SO FOR NT-  MUZAFFARNAGAR DEPOT;104
+                               ;1343;TC/NT/T38;SO FOR NT-  SAHARANPUR DEPOT;104
+                               ;1344;TC/NT/T39;SO FOR NT-  AGRA DEPOT;104
+                               ;1345;TC/NT/T40;SO FOR NT-  MATHURA DEPOT;104
+                               ;1346;TC/NT/T41;SO FOR NT-   HARIDWAR DEPOT;104
+                               ;1347;TC/NT/T44;SO FOR NT-   PANCHKULA DEPOT;104
+                               ;1348;TC/NT/T45;SO FOR NT-   ZIRAKPUR DEPOT;104
+                               ;1349;TC/NT/T46;SO FOR NT-   CHANDIGARH DEPOT;104
+                               ;1350;TC/NT/T47;SO FOR NT-   LUDHIANA DEPOT;104
+                               ;1351;TC/NT/T48;SO FOR NT-   ALIGARH DEPOT;104
+                               ;1352;SC_STD_LINE;STANDARD SCRAP LINE TYPE - SCL;101
+                               ;1353;SC_RET_LINE;STANDARD RETURN LINE - SCL;101
+                               ;1354;SC_ELEC_LINE;ELECTRICITY LINE TYPE - SCL;101
+                               ;1355;SC_CLK_LINE;CLINKER LINE TYPE - SCL;101
+                               ;1356;SC_INT_LINE;INTERNAL LINE TYPE - SCL;101
+                               ;1357;Internal Sales Order;Internal Sales Order;101
+                               ;1358;ELECTRICITY SALE;ORDER TYPE FOR ELECTRICITY SALE;101
+                               ;1359;SCRAP/SCB;SCRAP SALES FROM PLANT;101
+                               ;1360;SCRAP/SCK;SCRAP SALES FROM KK PLANT;101
+                               ;1361;SCRAP/SCR;SCRAP SALES FROM RAS PLANT;101
+                               ;1362;CL/NT/FCB;CLINKER SALE FROM BEAWAR PLANT;101
+                               ;1363;CL/NT/FCR;CLINKER SALE FROM RAS PLANT;101
+                               ;1544;BC/TR/B62;SO FOR TR- BILASPUR DEPOT;103
+                               ;1607;BC/TR/B64;SO FOR TR- PABHAT DEPOT;103
+
+#for ccv2 dev
+INSERT_UPDATE OAuthClientDetails;clientId[unique=true] ;resourceIds ;scope ;authorizedGrantTypes ;authorities ;clientSecret ;registeredRedirectUri
+                                ;client-side ;hybris ;basic ;implicit,client_credentials ;ROLE_CLIENT,ROLE_CUSTOMERGROUP,ROLE_TRUSTED_CLIENT,ROLE_CUSTOMERMANAGERGROUP ;secret ;https://api.ck3oh5xguk-shreeceme1-d1-public.model-t.cc.commerce.ondemand.com/authorizationserver/oauth2_implicit_callback;
+                                ;mobile_android ;hybris ;basic ;authorization_code,refresh_token,password,client_credentials ;ROLE_CLIENT,ROLE_CUSTOMERGROUP,ROLE_TRUSTED_CLIENT,ROLE_CUSTOMERMANAGERGROUP ;secret ;https://api.ck3oh5xguk-shreeceme1-d1-public.model-t.cc.commerce.ondemand.com/authorizationserver/oauth2_callback;
+
+INSERT_UPDATE B2BUnit;description;uid[unique=true];name;locName[lang=en];groups(uid);
+                     ;SalesOfficerUnit;SalesOfficerUnit;Sales Officer Unit;Sales Officer Unit;;
+
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid);locname[lang=en];
+                       ;salesofficergroup;customermanagergroup;Sales Officer User Group;
+                       ;tsmgroup;customermanagergroup;TSM User Group;
+                       ;rhgroup;customermanagergroup;RH User Group;
+                       ;tsogroup;customermanagergroup;TSO User Group;
+                       ;stateheadgroup;customermanagergroup;stateHead User Group;
+                       ;clusterheadgroup;customermanagergroup;clusterHead User Group;
+                       ;zonalheadgroup;customermanagergroup;zonalHead User Group;
+                       ;nationalheadgroup;customermanagergroup;nationalHead User Group;
+
+INSERT_UPDATE B2BUnit;description;uid[unique=true];name;locName[lang=en];groups(uid);
+                     ;SclCustomerUnit;SclCustomerUnit;Scl Customer Unit;Scl Customer Unit;;
+
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid);locname[lang=en];
+                       ;SclCustomerGroup;b2bcustomergroup;Scl Customer Group;Scl Customer Group;
+
+INSERT_UPDATE SclCustomer;description;uid[unique=true];originalUid;email;name;groups(uid);sessionCurrency(isocode)[default='USD'];
+                         ;sclcustomer1;sclcustomer1;sclcustomer1@rustic-hw.com;sclcustomer1@rustic-hw.com;Scl Customer 1;SclCustomerUnit,SclCustomerGroup;
+
+INSERT_UPDATE B2BUnit;description;uid[unique=true];name;locName[lang=en];groups(uid);
+                     ;SclShreeUnit;SclShreeUnit;Scl Shree Unit;Scl Shree Unit;;
+                  #   ;SclBangurUnit;SclBangurUnit;Scl Bangur Unit;Scl Bangur Unit;;
+                     ;SclRockstrongUnit;SclRockstrongUnit;Scl Rockstrong Unit;Scl Rockstrong Unit;;
+                     ;Scl Other Unit;SclOtherUnit;Scl Other Unit;Scl Other Unit;;
+                     ;SclEndCustomerUnit;SclEndCustomerUnit;SclEndCustomerUnit;SclEndCustomerUnit;;
+
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid);locname[lang=en];
+                       ;SclDealerGroup;b2bcustomergroup;Scl Dealer Group;Scl Dealer Group;
+                       ;SclRetailerGroup;b2bcustomergroup;Scl Retailer Group;Scl Retailer Group;
+                       ;SclShipToGroup;b2bcustomergroup;Scl shipTo Group;Scl Retailer Group;
+                       ;SclSiteGroup;b2bcustomergroup;Scl Site Group;Scl Site Group;
+                       ;SclInfluencerGroup;b2bcustomergroup;Scl Influencer Group;Scl Influencer Group;
+                       ;SclDealerOnboardingGroup;b2bcustomergroup;Scl Dealer Onboarding Group;Scl Dealer Onboarding Group;
+                       ;SclRetailerOnboardingGroup;b2bcustomergroup;Scl Retailer Onboarding Group;Scl Retailer Onboarding Group;
+                       ;SclInfluencerOnboardingGroup;b2bcustomergroup;Scl Influencer Onboarding Group;Scl Influencer Onboarding Group;
+                       ;SclSalesPromoterOnboardingGroup;b2bcustomergroup;Scl Sales Promoter Onboarding Group;Scl Sales Promoter Onboarding Group;
+                       ;SclEndCustomerGroup;b2bcustomergroup;Scl End Customer Group;Scl End Customer Group;
+
+INSERT_UPDATE Usergroup;uid[unique=true];groups(uid);locname[lang=en];
+                       ;spgroup;b2bcustomergroup,customermanagergroup;Scl SP Group;Scl SP Group;
+
+INSERT_UPDATE Currency;isocode[unique=true];conversion;digits;symbol
+                      ;INR;1;1;₹
+
+#Replace b2b Unit constranit
+INSERT_UPDATE DataConstraint;constraintName[unique=true];version
+
+
+INSERT_UPDATE DeliveryMode;code[unique=true];name;active[default=true];
+                          ;ROAD;ROAD
+                          ;RAIL;RAIL
+
+                                
+INSERT_UPDATE DeliverySlotMaster;centreTime[unique=true];start;end;displayName;sequence
+;03:00;00:01;06:00;12 AM to 6 AM;1
+;09:00;06:01;12:00;6 AM to 12 PM;2
+;15:00;12:01;18:00;12 PM to 6 PM;3
+;20:00;18:01;23:59;6 PM to 12 AM;4                                
+
+
+INSERT_UPDATE TruckModelMaster;truckModel[unique=true];capacity[unique=true];vehicleType(code);vehicleMake;
+                              ;TATA-3600-TURBO;82;TURBO;TATA
+                              ;TATA-4018-TRAILER;80;TRAILER;TATA
+                              ;TATA-2518-TURBO;72;TURBO;TATA
+                              ;TATA-3118-TRUCK;67;TRUCK;TATA
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;SclOrderProcessingRetriesJob;SclOrderProcessingRetriesJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;SclOrderProcessingRetriesJob;SclOrderProcessingRetriesJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;SclOrderProcessingRetriesJob;0 0/5 * 1/1 * ? *
+
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;sclCancelOrderUnProcessingOrdersJob;sclCancelOrderUnProcessingOrdersJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclCancelOrderUnProcessingOrdersCronJob;sclCancelOrderUnProcessingOrdersJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;sclCancelOrderUnProcessingOrdersCronJob;0 0/15 * 1/1 * ? *
+
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;sclCancelOrderEntryUnProcessingOrdersJob;sclCancelOrderEntryUnProcessingOrdersJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclCancelOrderEntryUnProcessingOrdersCronJob;sclCancelOrderEntryUnProcessingOrdersJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;sclCancelOrderEntryUnProcessingOrdersCronJob;0 0/15 * 1/1 * ? *
+
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;efficacyReportUpdateJob ;efficacyReportUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;efficacyReportUpdateCronJob  ;efficacyReportUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;efficacyReportUpdateCronJob   ;0 0 0 1 1/1 ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;marketIntelligenceReportUpdateJob ;marketIntelligenceReportUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;marketIntelligenceReportUpdateCronJob  ;marketIntelligenceReportUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;marketIntelligenceReportUpdateCronJob   ;0 0 0 1 1/1 ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;newProductReportUpdateJob ;newProductReportUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;newProductReportUpdateCronJob  ;newProductReportUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;newProductReportUpdateCronJob   ;0 0 0 1 1/1 ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;reinclusionObsoleteCounterReportUpdateJob ;reinclusionObsoleteCounterReportUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;reinclusionObsoleteCounterReportUpdateCronJob  ;reinclusionObsoleteCounterReportUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;reinclusionObsoleteCounterReportUpdateCronJob   ;0 0 0 1 1/1 ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;sclCustomerNetworkTypeUpdateJob ;sclCustomerNetworkTypeUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;sclCustomerNetworkTypeUpdatecronJob ;sclCustomerNetworkTypeUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;sclCustomerNetworkTypeUpdatecronJob   ;0 0 0 1/1 * ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;dealerNetworkTypeUpdateJob ;dealerNetworkTypeUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;dealerNetworkTypeUpdateCronJob ;dealerNetworkTypeUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;dealerNetworkTypeUpdateCronJob   ;0 0 0 1/1 * ? *
+
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;retailerNetworkTypeUpdateJob ;retailerNetworkTypeUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;retailerNetworkTypeUpdateCronJob ;retailerNetworkTypeUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;retailerNetworkTypeUpdateCronJob   ;0 0 0 1/1 * ? *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;influencerNetworkTypeUpdateJob ;influencerNetworkTypeUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;influencerNetworkTypeUpdateCronJob ;influencerNetworkTypeUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;influencerNetworkTypeUpdateCronJob   ;0 0 0 1/1 * ? *
+
+
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;salesSummaryJob ;salesSummaryJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;salesSummaryCronJob ;salesSummaryJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;salesSummaryCronJob   ;0 0 */1 * * *
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;giftStockUpdateJob ;giftStockUpdateJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;giftStockUpdateCronJob ;giftStockUpdateJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;giftStockUpdateCronJob   ;0 0 0 1 1 ? *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;dealersCreditLimitBreachUpdateJob;dealersCreditLimitBreachUpdateJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;dealersCreditLimitBreachUpdateCronJob;dealersCreditLimitBreachUpdateJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;dealersCreditLimitBreachUpdateCronJob;0 0/30 * 1/1 * ? *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;autoPopulatingEtaDateJob;autoPopulatingEtaDateJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;autoPopulatingEtaDateCronJob;autoPopulatingEtaDateJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;autoPopulatingEtaDateCronJob;0 0/30 * 1/1 * ? *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;sclPriceRetryJob;sclPriceProcessingRetriesJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclPriceRetryCronJob;sclPriceRetryJob;false;en
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;autoCancellingOrderRequisitionJob;autoCancellingOrderRequisitionJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;autoCancellingOrderRequisitionCronJob;autoCancellingOrderRequisitionJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;autoCancellingOrderRequisitionCronJob;0 0 0 ? * * *
+
+## DJP unflagged sla for approval
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;djpUnflaggedApprovalSLAJob ;djpUnflaggedApprovalSLAJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;djpUnflaggedApprovalSLAJob ;djpUnflaggedApprovalSLAJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+#                     ;djpUnflaggedApprovalSLAJob   ;0 0 0 ? * * *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;autoCompletingDjpVisitsJob;autoCompletingDjpVisitsJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;autoCompletingDjpVisitsCronJob;autoCompletingDjpVisitsJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;autoCompletingDjpVisitsCronJob;0 0 0 ? * * *
+
+#### Order Sales Replication Job
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;orderSalesReplicationJob;orderSalesReplicationJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;orderSalesReplicationJob;orderSalesReplicationJob;false;en;false
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;orderSalesReplicationJob;0 0 */2 ? * *
+
+#### Order Sales Replication Job
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;customerActiveStatusUpdateJob;customerActiveStatusUpdateJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;customerActiveStatusUpdateJob;customerActiveStatusUpdateJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression;active
+                     ;customerActiveStatusUpdateJob;0 0 0 ? * * *;false
+
+INSERT_UPDATE ServicelayerJob ;code[unique=true]  ;springId
+                              ;salesVolumeGrowthReportJob ;salesVolumeGrowthReportJob
+
+INSERT_UPDATE CronJob ;code[unique=true]  ;job(code)    ; sessionLanguage(isocode); sessionCurrency(isocode)
+                      ;salesVolumeGrowthReportCronJob  ;salesVolumeGrowthReportJob  ;en ;INR
+
+INSERT_UPDATE Trigger ;cronjob(code)[unique=true] ;cronExpression
+                      ;salesVolumeGrowthReportCronJob   ;0 0 0 1 1/1 ? *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;sclOrderLineErpCancelRetriesJob;sclOrderLineErpCancelRetriesJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclOrderLineErpCancelRetriesCronJob;sclOrderLineErpCancelRetriesJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;sclOrderLineErpCancelRetriesCronJob;0 0/15 * 1/1 * ? *
+
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;routeMasterCreationJob;routeMasterCreationJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;routeMasterCreationCronJob;routeMasterCreationJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;routeMasterCreationCronJob;0 0 0 ? * * *
+
+#### Deactive Partner Expiry Job
+INSERT_UPDATE ServicelayerJob; code[unique=true];springId
+                             ;deactivatePartnerExpiryJob;deactivatePartnerExpiryJob
+
+INSERT_UPDATE CronJob; code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;deactivatePartnerExpiryCronJob;deactivatePartnerExpiryJob;false;en
+
+INSERT_UPDATE Trigger;cronJob(code)[unique=true];cronExpression
+                     ;deactivatePartnerExpiryCronJob;0 5 0 ? * * *
+
+###########SO Search Restriction
+INSERT_UPDATE SearchRestriction; code[unique = true]; name[lang = en];query ; principal(UID); restrictedType(code); active; generate
+                               ; SubAreaRestrictionForSO ; SubAreaRestrictionForSO; {item:pk} IN (?session.currentTerritory); salesofficergroup ; SubAreaMaster   ; true  ; true
+                               ; UserSubAreaRestrictionForSO ; UserSubAreaRestrictionForSO; {item:subAreaMaster} IN (?session.currentTerritory) AND {item:brand} = ?session.currentSite AND {item:isActive} = 1; salesofficergroup ; UserSubAreaMapping   ; true  ; true
+                               ; CustomerSubAreaRestrictionForSO ; CustomerSubAreaRestrictionForSO; {item:subAreaMaster} IN (?session.currentTerritory) AND {item:brand} = ?session.currentSite AND {item:isActive} = 1; salesofficergroup ; CustomerSubAreaMapping   ; true  ; true
+                               ; OrderSubAreaRestrictionForSO ; OrderSubAreaRestrictionForSO; {item:territoryMaster} IN (?session.territoryMaster) AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; salesofficergroup ; Order   ; true  ; true
+                               ; VisitMasterSubAreaRestrictionForSO ; VisitMasterSubAreaRestrictionForSO; {item:user} = ?session.user AND {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; VisitMaster   ; true  ; true
+                               ; DepotSubAreaRestrictionForSO ; DepotSubAreaRestrictionForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; DepotSubAreaMapping   ; true  ; true
+                               ; EfficacySubAreaRestrictionForSO ; EfficacySubAreaRestrictionForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; EfficacyReportMaster   ; true  ; true
+                               ; RouteMasterSubAreaRestrictionForSO ; RouteMasterSubAreaRestrictionForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; RouteMaster   ; true  ; true
+                               ; LeadMasterSRForSO ; LeadMasterSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; LeadMaster   ; true  ; true
+                               #; DealerPlannedAnnualSalesSRForSO ; DealerPlannedAnnualSalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; DealerPlannedAnnualSales   ; true  ; true
+                               #; DealerRevisedAnnualSalesSRForSO ; DealerRevisedAnnualSalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; DealerRevisedAnnualSales   ; true  ; true
+                               #; RetailerPlannedAnnualSalesSRForSO ; RetailerPlannedAnnualSalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; RetailerPlannedAnnualSales   ; true  ; true
+                               #; RetailerPlannedAnnualSalesDetailsSRForSO ; RetailerPlannedAnnualSalesDetailsSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; RetailerPlannedAnnualSalesDetails   ; true  ; true
+                               #; RetailerRevisedAnnualSalesSRForSO ; RetailerRevisedAnnualSalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; RetailerRevisedAnnualSales   ; true  ; true
+                               #; RetailerRevisedAnnualSalesDetailsSRForSO ; RetailerRevisedAnnualSalesDetailsSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; RetailerRevisedAnnualSalesDetails   ; true  ; true
+                               #; MonthWiseAnnualTargetSRForSO ; MonthWiseAnnualTargetSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; MonthWiseAnnualTarget   ; true  ; true
+                               ; SelfCounterSaleDetailsSRForSO ; SelfCounterSaleDetailsSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; SelfCounterSaleDetails   ; true  ; true
+                               ; DealerPlannedMonthlySalesSRForSO ; DealerPlannedMonthlySalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; DealerPlannedMonthlySales   ; true  ; true
+                              ## ; DealerRevisedMonthlySalesSRForSO ; DealerRevisedMonthlySalesSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; DealerRevisedMonthlySales   ; true  ; true
+                               #; NetworkAdditionPlanSRForSO ; NetworkAdditionPlanSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; NetworkAdditionPlan   ; true  ; true
+                               #; NetworkAssistanceSRForSO ; NetworkAssistanceSRForSO; {item:subArea} IN (?session.currentTerritory); salesofficergroup ; NetworkAssistance   ; true  ; true
+                               #; ProductSaleSRForSO ; ProductSaleSRForSO; {item:subAreaMaster} IN (?session.currentTerritory); salesofficergroup ; ProductSale   ; true  ; true
+                               #; PointRequisitionForSO ; PointRequisitionForSO; {item:isActive} = 1 and {item:brand} = ?session.currentSite and {item:subAreaMaster} IN (?session.currentTerritory) ; salesofficergroup ; PointRequisition   ; true  ; true
+                               ; OrderRequistionForSO ; OrderRequistionForSO; {item:active} = 1 and {item:brand} = ?session.currentSite and {item:subAreaMaster} IN (?session.currentTerritory) ; salesofficergroup ; OrderRequisition   ; false  ; true
+                               #; NetworkAssistanceForSO ; NetworkAssistanceForSO; {item:brand} = ?session.currentSite AND {item:subArea} IN (?session.currentTerritory) ; salesofficergroup ; NetworkAssistance   ; true  ; true
+                               #; TechnicalAssistanceForSO ; TechnicalAssistanceForSO; {item:brand} = ?session.currentSite AND {item:subArea} IN (?session.currentTerritory) ; salesofficergroup ; TechnicalAssistance   ; true  ; true
+
+#########TSM Search Restriction
+INSERT_UPDATE SearchRestriction; code[unique = true]; name[lang = en];query ; principal(UID); restrictedType(code); active; generate
+                               #;DistrictRestrictionForTSM;DistrictRestrictionForTSM;{item:pk} IN (?session.currentDistrict);tsmgroup;DistrictMaster;true;true
+                               #;TSMDistrictRestrictionForTSM ; TSMDistrictRestrictionForTSM; {item:district} IN (?session.currentDistrict) AND {item:brand} = ?session.currentSite AND {item:isActive} = 1; tsmgroup ; TsmDistrictMapping   ; true  ; true
+                               ;OrderSubAreaRestrictionForTSM; OrderSubAreaRestrictionForTSM; {item:territoryMaster} IN (?session.territoryMaster) AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; tsmgroup ; Order   ; true  ; true
+                               ;CustomerSubAreaRestrictionForTSM ; CustomerSubAreaRestrictionForTSM; {item:brand} = ?session.currentSite AND {item:isActive} = 1; tsmgroup ; CustomerSubAreaMapping   ; true  ; true
+                              # ;VisitMasterDistrictRestrictionForTSM ; VisitMasterDistrictRestrictionForTSM; {item:user} = ?session.user AND {item:districtMaster} IN (?session.currentDistrict); tsmgroup ; VisitMaster   ; true  ; true
+                             ###  ; PointRequisitionForTSM ; PointRequisitionForTSM; {item:isActive} = 1 and {item:brand} = ?session.currentSite and {item:districtMaster} IN (?session.currentDistrict) ; tsmgroup ; PointRequisition   ; true  ; true
+                              ## ; OrderRequistionForTSM ; OrderRequistionForTSM; {item:active} = 1 and {item:brand} = ?session.currentSite and {item:districtMaster} IN (?session.currentDistrict) ; tsmgroup ; OrderRequisition   ; false  ; true
+                               #; NetworkAssistanceForTSM ; NetworkAssistanceForTSM;  {item:brand} = ?session.currentSite AND {item:districtMaster} IN (?session.currentDistrict); tsmgroup ; NetworkAssistance   ; true  ; true
+                               #; TechnicalAssistanceForTSM ; TechnicalAssistanceForTSM;  {item:brand} = ?session.currentSite AND {item:districtMaster} IN (?session.currentDistrict); tsmgroup ; TechnicalAssistance   ; true  ; true
+
+#########RH Search Restriction
+INSERT_UPDATE SearchRestriction;code[unique = true];name[lang = en];query; principal(UID); restrictedType(code); active; generate
+                               #;RegionRestrictionForRH;RegionRestrictionForRH;{item:pk} IN (?session.currentRegion);rhgroup;RegionMaster;true;true
+                               #;RHRegionRestrictionForRH ; RHRegionRestrictionForRH; {item:region} IN (?session.currentRegion) AND {item:brand} = ?session.currentSite AND {item:isActive} = 1; rhgroup ; RhRegionMapping   ; true  ; true
+                               ;OrderSubAreaRestrictionForRH ; OrderSubAreaRestrictionForRH; {item:territoryMaster} IN (?session.territoryMaster) AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; rhgroup ; Order   ; true  ; true
+                               ;CustomerSubAreaRestrictionForRH ; CustomerSubAreaRestrictionForRH; {item:brand} = ?session.currentSite AND {item:isActive} = 1; rhgroup ; CustomerSubAreaMapping   ; true  ; true
+                               #;VisitMasterRegionRestrictionForRH ; VisitMasterRegionRestrictionForRH; {item:user} = ?session.user AND {item:regionMaster} IN (?session.currentRegion); rhgroup ; VisitMaster   ; true  ; true
+                               ; PointRequisitionForRH ; PointRequisitionForRH; {item:isActive} = 1 and {item:brand} = ?session.currentSite and {item:regionMaster} IN (?session.currentRegion) ; rhgroup ; PointRequisition   ; true  ; true
+                               #; OrderRequistionForRH ; OrderRequistionForRH; {item:active} = 1 and {item:brand} = ?session.currentSite and {item:regionMaster} IN (?session.currentRegion) ; rhgroup ; OrderRequisition   ; false  ; true
+                              #; NetworkAssistanceForRH ; NetworkAssistanceForRH;  {item:brand} = ?session.currentSite AND  {item:regionMaster} IN (?session.currentRegion); rhgroup ; NetworkAssistance   ; true  ; true
+                              # ; TechnicalAssistanceForRH ; TechnicalAssistanceForRH;  {item:brand} = ?session.currentSite AND  {item:regionMaster} IN (?session.currentRegion); rhgroup ; TechnicalAssistance   ; true  ; true
+
+##TSO Search Restriction
+INSERT_UPDATE SearchRestriction;code[unique = true];name[lang = en];query; principal(UID); restrictedType(code); active; generate
+                               ;CustomerSubAreaRestrictionForTSO ; CustomerSubAreaRestrictionForTSO; {item:isActive} = 1; tsogroup ; CustomerSubAreaMapping   ; true  ; true
+
+
+INSERT_UPDATE SearchRestriction;code[unique = true];name[lang = en];query; principal(UID); restrictedType(code); active; generate
+                               ;OrderSubAreaRestrictionForSP ; OrderSubAreaRestrictionForSP; {item:custDepot} IN (?session.currentCustDepot) AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; spgroup ; Order   ; true  ; true
+                               ; NetworkAssistanceForSP ; NetworkAssistanceForSP; {item:brand} = ?session.currentSite AND  {item:custDepot} IN (?session.currentCustDepot)  ; spgroup ; NetworkAssistance   ; true  ; true
+
+
+INSERT_UPDATE SearchRestriction; code[unique = true]; name[lang = en];query ; principal(UID); restrictedType(code); active; generate
+                               ; OrderSubAreaRestrictionForDealer ; OrderSubAreaRestrictionForDealer; {item:user} = ?session.user AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; SclDealerGroup ; Order   ; true  ; true
+                              ; OrderRequistionForDealer ; OrderRequistionForDealer; {item:active} = 1 and {item:fromCustomer} = ?session.user; SclDealerGroup ; OrderRequisition   ; false  ; true
+                               ; PointRequisitionForDealer ; PointRequisitionForDealer; {item:isActive} = 1 and {item:requestRaisedTo} = ?session.user ; SclDealerGroup ; PointRequisition   ; true  ; true
+                               ; NetworkAssistanceForDealer ; NetworkAssistanceForDealer; {item:brand} = ?session.currentSite AND  {item:raisedBy} = ?session.user; SclDealerGroup ; NetworkAssistance   ; true  ; true
+                               ; TechnicalAssistanceForDealer ; TechnicalAssistanceForDealer; {item:brand} = ?session.currentSite AND  {item:raisedBy} = ?session.user; SclDealerGroup ; TechnicalAssistance   ; true  ; true
+
+INSERT_UPDATE SearchRestriction; code[unique = true]; name[lang = en];query ; principal(UID); restrictedType(code); active; generate
+                               ; OrderSubAreaRestrictionForRetailer ; OrderSubAreaRestrictionForRetailer; {item:user} = ?session.user AND {item:site} = ?session.currentSite AND {item:versionID} IS NULL; SclRetailerGroup ; Order   ; true  ; true
+                               ; OrderRequistionForRetailer ; OrderRequistionForRetailer; {item:active} = 1 and {item:toCustomer} = ?session.user; SclRetailerGroup ; OrderRequisition   ; false  ; true
+                               ; PointRequisitionForRetailer ; PointRequisitionForRetailer; {item:isActive} = 1 and {item:requestRaisedTo} = ?session.user ; SclRetailerGroup ; PointRequisition   ; true  ; true
+                               ; NetworkAssistanceFoRetailer ; NetworkAssistanceFoRetailer;  {item:brand} = ?session.currentSite AND {item:raisedBy} = ?session.user; SclRetailerGroup ; NetworkAssistance   ; true  ; true
+                               ; TechnicalAssistanceFoRetailer ; TechnicalAssistanceFoRetailer;  {item:brand} = ?session.currentSite AND {item:raisedBy} = ?session.user; SclRetailerGroup ; TechnicalAssistance   ; true  ; true
+
+INSERT_UPDATE SearchRestriction; code[unique = true]; name[lang = en];query ; principal(UID); restrictedType(code); active; generate
+                               ; PointRequisitionForAll ; PointRequisitionForAll; {item:isActive} = 1; b2bcustomergroup ; PointRequisition   ; true  ; true
+                               ; ActiveCompetitorProducts; ActiveCompetitorProducts; {item:active} = 1; b2bcustomergroup; CompetitorProduct; true; true
+                               ; PointsTransactionForAll ; PointsTransactionForAll; {item:active} = 1; b2bcustomergroup ; PointsTransactionMaster   ; true  ; true
+
+UPDATE SearchRestriction;code[unique=true];active[default=false]
+                        ;b2bpermission_restriction
+                        ;b2border_restriction
+                        ;branch_restriction
+                        ;employee_restriction
+                        ;budget_restriction
+                        ;costcenter_restriction
+                        ;b2busergroup_restriction
+
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];password
+                            ;FIND_SCLUSES_PASSword;Qaz1@3ws%x
+                            ;FIND_SCLUSES_PASSword_QAENV;1234
+                            ;FIND_SCLDEALER_PASSword;Qaz1@3ws%x
+                            ;FIND_SCLRETAILER_PASSword;Qaz1@3ws%x
+                            ;FIND_SCLDEALER_PASSword_QAENV;1234
+                            ;FIND_SCLRETAILER_PASSword_QAENV;1234
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];query
+                            ;SCL_ORDER_RETRY_QUERY; and ({o.erpStatusDesc} is null OR  {o.erpStatusDesc}='' OR {o.erpStatusDesc}  like '%503 Service Not Available%' OR {o.erpStatusDesc} like '%Unable to open connection to backend system%' OR {o.erpStatusDesc} like '%System error in lock management%')
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];version
+                            ;SCLjOB_POSTLOGIC_DRMENABLE;true
+                            ;SCLjOB_POSTLOGIC_USERSUBAREAENABLE;false
+                            ;SCLjOB_POSTLOGIC_COUTERROUTEENABLE;true
+                            ;SCLjOB_POSTLOGIC_CUSTOMERSUBAREAENABLE;true
+
+                            ;LIFTING_ERR_MSG_MIN_QTY;Allocation Quantity is below the quantity limit
+                            ;LIFTING_ERR_MSG_MAX_QTY;Allocation Quantity is above the quantity limit
+                            ;LIFTING_NO_PRODUCT_ERR_MSG;There are no products available for allocation
+                            ;LIFTING_NO_INVOICE_ERR_MSG;There are no invoices to service this quantity
+
+                            ;ENABLE_SALES_HIERARCHY_HIGHER_ROLE;true
+                            ;sendOtpOverSmsToDealer;true
+                            ;sendOtpOverEmailToDealer;true
+                            ;sendOtpOverSmsToRetailer;true
+                            ;sendOtpOverEmailToRetailer;true
+                            ;sendLoginOtpOverSmsToDealer;true
+                            ;sendLoginOtpOverEmailToDealer;true
+                            ;sendLoginOtpOverSmsToRetailer;true
+                            ;sendLoginOtpOverEmailToRetailer;true
+                            ;sendPartnerLoginOtpOverSmsTo;true
+                            ;sendPartnerLoginOtpOverEmailTo;true
+
+
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];version
+;REPLACE_B2B_UNITS;ROLE_SCLBANGURUNIT,ROLE_SCLROCKSTRONGUNIT
+;SITE_STATUS_LIST;SITE_CONVERTED,NEED_MORE_FOLLOW_UP,NOT_CONVERTED,CLOSED,BANGUR_RUNNING_SITE,SITE_LOST
+
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];day;version
+                            ;REG_EXP_ORDER_INTERVAL;;^\d+(?:\.\d)?[05]?$
+                            ;REMARKS_LENGTH_APP;122;
+                            ;SHIPTO_SUCCESSMESSAGE;; Address created successfully
+                            ;SHIPTO_CONTACTSALES;;Address {0} created for Retailer {1}, to link to dealer contact sales team
+                            ;SHIPTO_FAILUREMESSAGE;;Address could not be created, try again later
+                            ;VEHICLE_MIN_LENGTH;8;
+                            ;VEHICLE_MAX_LENGTH;12;
+                            ;MMI_ZOOM_LEVEL;16.5
+                            ;FIND_UNPROCESSORDER_DAYS;30
+                            ;FIND_SCLCUST_POST_JOBDAYS;1
+                            ;FIND_SCLGEO_UPDATE_JOBDAYS;1
+                            ;ORDER_REQUISTION_LISTING_VISIBLITY;45;
+                            ;ORDER_LISTING_VISIBLITY;45;
+                            ;CANCELLED_ORDER_VISIBLITY;45;
+                            ;POINT_REQUISTION_LISTING_VISIBLITY;45;
+                            ;OTP_EXPIRATION_TIME;600000;
+                            ;LAST_ADDRESS_USED_DATE;180;
+                            ;FIND_SCLUSES_XOLD_DAYS;60;
+                            ;LAST_SITE_ACTIVE_DAYS;180;
+                            ;LAST_ADDRESS_USED_MONTHS;6;
+                            ;LAST_USED_MONTHS;6;
+                            ;MIN_ORDER_QTY;;2.5
+                            ;MAX_ORDER_QTY;50;
+                            ;INTERVAL_ORDER_QTY;;0.05
+                            ;VISIBLE_ADD_CARD;1;
+                            ;DISABLE_SOURCE_CHANGE;0;
+                            ;IS_MMI_ENABLED;1;
+                            ;ORD_GEOGRAPHY_ERR_MSG;;Consignee is not serviceable, please contact sales team.
+                            ;FILTER_TERRITORY_CHECK;1;
+                            ;NO_VALID_TERRITORY_USER_MAPPING_FOUND;;No valid territory found for user
+                            ;BRAND_ID;;Bangur
+                            ;DEALER_VALIDATION_MESSAGE;;Dealer is not valid for DO's territory
+                            ;RETAILER_VALIDATION_MESSAGE;;Retailer is not valid for Dealer
+                            ;ADDRESS_VALIDATION_MESSAGE;;Re-order cannot be done, please contact sales.
+                            ;DEALER_RETAILER_CHECK;1;
+                            ;DEALER_RETAILER_CHECK_PINCODE;1;
+                            ;DEALER_RETAILER_CHECK_TALUKA;1;
+                            ;DEALER_RETAILER_CHECK_CITY;1;
+                            ;STOCK_INFLUENCER_MULTIPLY_VALUE;;0.7
+                            ;CANCEL_REASON_REJECTION_CODE;22;
+                            ;TSO_GEO_TAG;1;
+                            ;DJP_TALUKA_MAPPING_ERROR;;DO SubArea Mapping Invalid
+                            ;DJP_TALUKA_MAPPING_TIMEOUT;;Error loading subArea details, Please re-load
+                            ;TIMEOUT_LIMIT;6;
+                            ;TSO_RADIUS;501;
+                            ;ORDER_HEADER_SLCT_MODIFIED_TIME;1;
+                            ;ORDER_LINE_SLCT_MODIFIED_TIME;1;
+                            ;SITE_CONVERSION_MAX_CAP;4;
+                            ;TSO_GEO_TAG_RADIUS;501;
+                            ;LAST_ADDRESS_USED_DAYS;180;
+                            ;SAP_CODE_BLOCKED;;The SAP Code %id is blocked
+                            ;SAP_CODE_BLOCKED_CUSTOMER;;The SAP code %id is blocked. Please contact our sales team.
+                            ;MONTH_CUTOVER_DATE;7;
+                            ;ROLLING_PERIOD_DAYS;20;
+                            ;RET_MONTH_CUTOVER_DATE;7;
+                            ;RET_ROLLING_PERIOD_DAYS;20;
+                            ;INF_MONTH_CUTOVER_DATE;7;
+                            ;INF_ROLLING_PERIOD_DAYS;20;
+                            ;RET_LIFTING_MIN_QTY;1;
+                            ;RET_LIFTING_MAX_QTY;1000;
+                            ;INF_LIFTING_MIN_QTY;1;
+                            ;INF_LIFTING_MAX_QTY;500;
+                            ;EXCLUDE_INFLUENCER_SITE;;TRUE
+                            ;CUSTOMER_LOGIN_BLOCKED;;The SAP code %id is blocked. Please contact our sales team
+                            ;ENABLE_CUSTOMER_LOGIN_BLOCKED_CHECK;;TRUE
+                            ;CUSTOMER_LIFTING_BLOCKED;;The SAP code %id is blocked. Please contact our sales team
+                            ;UDAAN_CONNECT_LIFTING_BLOCKED;;The SAP code %id is blocked. Please contact our sales team
+                            ;UDAAN_CONNECT_LIFTING_ENABLED;;TRUE
+                            ;SAVE_PARTNER_SUCCESS_MESSAGE;;%s is successfully added to %s
+                            ;SAVE_PARTNER_ERROR_MESSAGE;;Error saving Partner Customer details for %s. Error Message::%s
+                            ;EDIT_PARTNER_SUCCESS_MESSAGE;;You have successfully edited this record
+                            ;EDIT_PARTNER_ERROR_MESSAGE;;Error updating partner customer details for %s. Error Message::%s
+                            ;DELETE_PARTNER_SUCCESS_MESSAGE;;You have successfully deleted this record
+                            ;DELETE_PARTNER_ERROR_MESSAGE;;Error deleting partner Customer details for %s. Error Message::%s
+                            ;PARTNER_VALIDITY_CONSTRAINT;;1,3,6,12
+                            ;DEALER_FAMILY_COUNT;;3
+                            ;DEALER_STAFF_COUNT;;4
+                            ;PARTNER_MONTH_DAYS_MULTIPLIER;30;
+                            ;VALIDITY_MINUS_X_HRS;100;
+                            ;VALIDITY_MINUS_24_HRS;24;
+                            ;VALIDITY_MSG_MINUS_X_HRS;;%s's login validity is expiring on %s at midnight
+                            ;VALIDITY_MSG_MINUS_24_HRS;;%s's login validity is expiring tonight at midnight
+                            ;PARTNER_MOBILE_EXISTS_MSG;;%s is already present for Self/Staff/Family
+                            ;ORDER_PLACED_BY_ERP_COMMENT;;SAP ERP
+                            ;LOOSE_PRODUCT_FILTER_KEYWORD;;LOOSE
+                            ;LOOSE_PRODUCT_EXCLUDE;;TRUE
+                            ;LIFTING_ALLOCATION_MSG;;lifting stock has been allocated to Retailer
+                            ;LIFTING_ALLOCATION_SUB;;Lifting Stock Allocated
+
+Update CronJob;code[unique=true];active[default=false]
+              ;indexer-backoffice-product-full;
+              ;indexer-backoffice-product-update;
+              ;indexer-backoffice-product-delete;
+              ;apparel-uk-CartRemovalJob;
+              ;apparel-uk-UncollectedOrdersJob;
+              ;apparel-uk-SiteMapMediaJob;
+              ;full-apparel-ukIndex-cronJob;
+              ;update-apparel-ukIndex-cronJob;
+              ;indexer-apparel-uk-product-full;
+              ;indexer-apparel-uk-product-incremental;
+              ;apparel-de-CartRemovalJob;
+              ;apparel-de-UncollectedOrdersJob;
+              ;apparel-de-SiteMapMediaJob;
+              ;full-apparel-deIndex-cronJob;
+              ;update-apparel-deIndex-cronJob;
+              ;indexer-apparel-de-product-full;
+              ;indexer-apparel-de-product-incremental;
+              ;powertools-CartRemovalJob;
+              ;powertools-UncollectedOrdersJob;
+              ;full-powertoolsIndex-cronJob;
+              ;update-powertoolsIndex-cronJob;
+              ;quoteExpiredJob;
+              ;quoteToExpireSoonJob;
+              ;electronics-CartRemovalJob;
+              ;electronics-UncollectedOrdersJob;
+              ;electronics-SiteMapMediaJob;
+              ;full-electronicsIndex-cronJob;
+              ;update-electronicsIndex-cronJob;
+              ;indexer-electronics-product-full;
+              ;indexer-electronics-product-incremental;
+              ;productExpressUpdateCleanerCronJob;
+              ;orderStatusUpdateCleanerCronJob;
+              ;oldPaymentSubscriptionResultRemovalCronJob;
+
+
+INSERT_UPDATE SCLSAPSalesOrganization;salesOrganization[unique=true];distributionChannel;division
+                                     ;1000;10;10
+
+
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+#
+# Import the Product Catalog and Classification Catalog
+#
+
+$productCatalog=sclProductCatalog
+$productCatalogName=SCL Product Catalog
+$languages=en
+$sourceProductCV=sourceVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$targetProductCV=targetVersion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$syncJob=sync $productCatalog:Staged->Online
+# Product catalog
+INSERT_UPDATE Catalog;id[unique=true];name
+                     ;$productCatalog;$productCatalogName
+
+# Product versions for product catalogs
+INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true];active;languages(isoCode);readPrincipals(uid)
+                            ;$productCatalog;Staged;false;$languages;employeegroup
+                            ;$productCatalog;Online;true;$languages;employeegroup
+
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true] ; $sourceProductCV ; $targetProductCV ; createNewItems; removeMissingItems; rootTypes(code) ; syncLanguages(isocode);
+                                   ; $syncJob ; $productCatalog:Staged ; $productCatalog:Online ; TRUE ; TRUE ; Product,Category,Media,MediaContainer ; en
+
+
+
+$productCatalog=sclProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $catalogVersion)
+$baseProduct=baseProduct(code,$catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+
+## Removal of Attribute from Category & Product
+
+REMOVE AttributeDescriptor;qualifier[unique=true];enclosingType(code)[unique=true]
+                          ;allYFormDefinitions;Category
+
+REMOVE AttributeDescriptor;qualifier[unique=true];enclosingType(code)[unique=true]
+                          ;allYFormDefinitions;Product
+
+
+## Site-Level Impex
+
+UPDATE CMSSite;uid[unique=true];requiresAuthentication
+              ;102;false;
+              ;103;false;
+              ;104;false;
+
+
+INSERT_UPDATE  RejectionReason;code[unique=true];name
+                              ;22                ;Wrong Product Order
+
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];day
+                            ;SHOW_ROAD_SOURCE;3
+                            ;SHOW_RAIL_SOURCE;2
+INSERT_UPDATE DataConstraint;constraintName[unique=true];version
+                            ;ENABLE_LOT_SIZE_VALIDATION;TRUE
+INSERT_UPDATE DataConstraint;constraintName[unique=true];day;version
+                            ;SAP_ORDER_PLACEMENT_BLOCKED;;Order feature will come soon. Contact Sales Team to place order for now.
+                            ;PLACE_ORDER_ENABLED;;TRUE
+                            ;UDAAN_PRO_PLACE_ORDER_ENABLED;;TRUE
+                            ;UDAAN_CONNECT_PLACE_ORDER_ENABLED;;TRUE
+                            
+
+INSERT_UPDATE FreightType;code[unique=true]
+;GD 	
+;GD-RK	
+;TP 	
+;TT 	
+;RK 	
+;DM 	
+;RD 	
+;AF 	
+;ST 	
+;PD		
+
+INSERT_UPDATE SpecialProcessIndicator;code[unique=true]
+;SP01	
+;SP02	
+;SP03	
+;SP04	
+;SP05	
+;SP06	
+;SP07	
+;SP08	
+;SP09	
+
+INSERT_UPDATE FreightSPIMapping;freightType(code)[unique=true];spi(code)[unique=true];deliveryMode(code)
+;GD 	;SP01	;ROAD
+;GD-RK	;SP02	;ROAD
+;TP 	;SP03	;ROAD
+;TT 	;SP04	;ROAD
+;RK 	;SP05	;RAIL
+;DM 	;SP06	;ROAD
+;RD 	;SP07	;ROAD
+;AF 	;SP08	;ROAD
+;ST 	;SP09	;ROAD
+;PD		;SP01   ;ROAD
+
+
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];day;version
+                            ;SMS_CRM_DEALER_LOGIN_ACCESS_TOKEN;;21635|s01Z1DBtEy5J3fp9MReBMaQgiYoTZRmvxXSugwZ0
+                            ;SMS_CRM_EXPIRE_IN_MINUTES;10;
+## stageGate get call SequenceMapper
+INSERT_UPDATE StageGateSequenceMapper;sourceType(code)[unique=true];stageGateType(code)[unique=true];sequenceNumber[unique=true]
+                                     ;DEPOT;Delivery_Document;1
+                                     ;DEPOT;Shipment_Document;2
+                                     ;DEPOT;Invoice_Document;3
+                                     ;PLANT;Delivery_Document;1
+                                     ;PLANT;Invoice_Document;3
+                                     ;PLANT;Shipment_Document;2
+                                     ;PLANT;TruckDetails_Document;4
+

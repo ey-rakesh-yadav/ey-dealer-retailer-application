@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+
+    <!--<context:annotation-config/>-->
+
+    <!-- Map files to channel based on name pattern -->
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" ref="hotfolderInboundFileChannelMappings"/>
+        <property name="targetMethod" value="put"/>
+        <property name="arguments">
+            <list>
+                <bean class="java.util.regex.Pattern" factory-method="compile">
+                    <constructor-arg value="${cloud.hotfolder.default.mapping.file.name.pattern}" />
+                </bean>
+                <ref bean="PriceBatchFilesCloudHotFolderProc"/>
+            </list>
+        </property>
+    </bean>
+
+    <int:channel id="PriceBatchFilesCloudHotFolderProc"/>
+
+    <!--Service Activator-->
+
+    <int:service-activator input-channel="PriceBatchFilesCloudHotFolderProc" output-channel="batchFilesHeaderInit"
+                           ref="priceCloudHotFolderHeaderSetupTask"
+                           method="execute" />
+
+    <!-- Declare where the files should be moved to -->
+    <bean id="baseDirectoryCloudHotFolder" class="java.lang.String">
+        <constructor-arg value="#{baseDirectory}/${tenantId}/${cloud.hotfolder.default.mapping.root.dir}" />
+    </bean>
+
+
+    <!-- Setup Header by applying required properties -->
+    <bean id="priceCloudHotFolderHeaderSetupTask" class="de.hybris.platform.acceleratorservices.dataimport.batch.task.HeaderSetupTask">
+        <property name="catalog" value="${cloud.hotfolder.default.mapping.header.catalog}" />
+        <property name="net" value="${cloud.hotfolder.default.mapping.header.net}" />
+        <property name="storeBaseDirectory" ref="baseDirectoryCloudHotFolder" />
+    </bean>
+
+
+    <bean id="destinationSourceMasterConverterMapping"
+          class="de.hybris.platform.acceleratorservices.dataimport.batch.converter.mapping.impl.DefaultConverterMapping"
+          p:mapping="DestinationSourceMaster"
+          p:converter-ref="destinationSourceMasterConverter"/>
+
+
+    <!-- Cabletica specific converters -->
+    <bean id="destinationSourceMasterConverter" parent="abstractDefaultImpexConverter">
+        <property name="header">
+            <value>
+                INSERT_UPDATE DestinationSourceMaster;orderType(code)[unique=true];customerCategory(code)[unique=true];source(code)[unique=true];type(code);deliveryMode(code)[unique=true];transportationZone[unique=true];destinationCity;destinationDistrict;destinationState;brand(uid)[unique=true];tlcPerMT;ncrCost;route;distance;sourcePriority;destinationTaluka;pincode;incoterms(incoterm)[unique=true];equivalenceProductCode[unique=true];productcode;freightType(code);plantDispatchSlaHour;sla
+        	</value>
+        </property>
+        <property name="impexRow">
+            <value>;{+0};{+1};{+2};{3};{+4};{+5};{6};{7};{8};{+9};{10};{11};{12};{13};{14};{15};{16};{+17};{+18};{19};{20};{21};{22}</value>
+        </property>
+    </bean>
+
+</beans>

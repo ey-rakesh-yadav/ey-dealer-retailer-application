@@ -1,0 +1,2078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			   http://www.springframework.org/schema/beans/spring-beans.xsd
+			   http://www.springframework.org/schema/context
+			   http://www.springframework.org/schema/context/spring-context.xsd
+               http://www.springframework.org/schema/util
+		       http://www.springframework.org/schema/util/spring-util.xsd">
+    <context:annotation-config/>
+
+    <!-- Spring Integration -->
+    <!--  <import resource="classpath:/sclcore/integration/hot-folder-store-electronics-spring.xml"/>
+      <import resource="classpath:/sclcore/integration/hot-folder-store-apparel-spring.xml"/>
+     -->
+    <import resource="classpath:/sclcore/integration/hot-folder-common-spring.xml"/>
+    <import resource="spring-security-config.xml"/>
+    <import resource="classpath:/sclcore/processes/sms-process-spring.xml"/>
+    <import resource="classpath:/sclcore/processes/sclAddress-process-spring.xml"/>
+    <import resource="classpath:/sclcore/processes/sclOutboundStageGate-process-spring.xml"/>
+    <import resource="classpath:/sclcore/processes/sclOrderCancel-process-spring.xml"/>
+    <import resource="classpath:/sclcore/processes/sclOrderLineCancel-process-spring.xml"/>
+    <import resource="classpath:/sclcore/processes/sclBranding-process-spring.xml"/>
+   <!-- <import resource="classpath:/sclcore/integration/hot-folder-deliverysla-spring.xml"/>-->
+
+    <!-- SystemSetup for the SclCore -->
+    <bean id="acceleratorCoreSystemSetup" class="com.scl.core.setup.CoreSystemSetup"
+          parent="abstractCoreSystemSetup"/>
+
+    <util:map id="endCustomerSortCodeToQueryAlias">
+        <entry key="requestraiseddate" value="n"/>
+        <entry key="requestraisedtime" value="n"/>
+        <entry key="requestid" value="n"/>
+        <entry key="modifiedtime" value="n"/>
+        <entry key="status" value="n"/>
+    </util:map>
+
+    <util:map id="technicalAssistanceSortCodeToQueryAlias">
+        <entry key="requestdate" value="t"/>
+        <entry key="name" value="t"/>
+        <entry key="requestno" value="t"/>
+        <entry key="modifiedtime" value="t"/>
+	<entry key="dateofsupervisionrequired" value="t"/>
+    </util:map>
+
+    <!-- Solr field value providers -->
+
+    <bean id="volumeAwareProductPriceValueProvider"
+          class="com.scl.core.search.solrfacetsearch.provider.impl.VolumeAwareProductPriceValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="priceService" ref="priceService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+        <property name="sessionService" ref="sessionService"/>
+        <property name="userService" ref="userService"/>
+        <property name="priceComparator" ref="volumePriceComparator"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+    </bean>
+
+    <bean id="volumePriceComparator" class="com.scl.core.comparators.VolumeAwarePriceInformationComparator"
+          scope="singleton"/>
+
+    <bean id="productVolumePricesProvider"
+          class="com.scl.core.search.solrfacetsearch.provider.impl.ProductVolumePricesProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="priceService" ref="priceService"/>
+    </bean>
+
+
+    <!--  <bean id="electronicsCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="1"/>
+          &lt;!&ndash; '1' is the root icecat category &ndash;&gt;
+      </bean>
+      <bean id="electronicsBrandCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="brands"/>
+          &lt;!&ndash; 'brands' is the root of the brands hierarchy &ndash;&gt;
+      </bean>
+
+      <bean id="apparelCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="categories"/>
+          &lt;!&ndash; 'categories' is the root apparel category &ndash;&gt;
+      </bean>
+      <bean id="apparelBrandCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory" value="brands"/>
+          &lt;!&ndash; 'brands' is the root of the brands hierarchy &ndash;&gt;
+      </bean>
+      <bean id="apparelCollectionCategorySource" parent="abstractCategorySource">
+          <property name="rootCategory"
+                    value="collections"/> &lt;!&ndash; 'collections' is the root of the collections hierarchy &ndash;&gt;
+      </bean>-->
+
+    <bean id="abstractCategoryCodeValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+    <bean id="abstractCategoryNameValueProvider" abstract="true"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.CategoryNameValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!--  <bean id="electronicsCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+          <property name="categorySource" ref="electronicsCategorySource"/>
+      </bean>
+      <bean id="electronicsBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+          <property name="categorySource" ref="electronicsBrandCategorySource"/>
+      </bean>
+      <bean id="electronicsCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+          <property name="categorySource" ref="electronicsCategorySource"/>
+      </bean>
+      <bean id="electronicsBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+          <property name="categorySource" ref="electronicsBrandCategorySource"/>
+      </bean>-->
+
+    <!--    <bean id="apparelCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelCategorySource"/>
+        </bean>
+        <bean id="apparelBrandCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelBrandCategorySource"/>
+        </bean>
+        <bean id="apparelCollectionCategoryCodeValueProvider" parent="abstractCategoryCodeValueProvider">
+            <property name="categorySource" ref="apparelCollectionCategorySource"/>
+        </bean>
+        <bean id="apparelCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelCategorySource"/>
+        </bean>
+        <bean id="apparelBrandCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelBrandCategorySource"/>
+        </bean>
+        <bean id="apparelCollectionCategoryNameValueProvider" parent="abstractCategoryNameValueProvider">
+            <property name="categorySource" ref="apparelCollectionCategorySource"/>
+        </bean>-->
+
+    <bean id="image515ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="515Wx515H"/>
+    </bean>
+    <bean id="image300ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="300Wx300H"/>
+    </bean>
+    <bean id="image96ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="96Wx96H"/>
+    </bean>
+    <bean id="image65ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="65Wx65H"/>
+    </bean>
+    <bean id="image30ValueProvider" parent="abstractImageValueProvider">
+        <property name="mediaFormat" value="30Wx30H"/>
+    </bean>
+
+    <bean id="productUrlValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.ProductUrlValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="urlResolver" ref="productModelUrlResolver"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+        <property name="i18nService" ref="i18nService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <bean id="promotionCodeValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PromotionCodeValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="promotionsService" ref="promotionsService"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <bean id="promotionImageValueProvider"
+          class="de.hybris.platform.commerceservices.search.solrfacetsearch.provider.impl.PrimaryPromotionImageValueProvider"
+          parent="abstractPropertyFieldValueProvider">
+        <property name="promotionsService" ref="promotionsService"/>
+        <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+    </bean>
+
+    <!--   <bean id="colorFacetValueProvider"
+             class="com.scl.core.search.solrfacetsearch.provider.impl.ColorFacetValueProvider"
+             parent="abstractPropertyFieldValueProvider">
+           <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+       </bean>-->
+
+    <bean id="colorFacetDisplayNameProvider"
+          class="com.scl.core.search.solrfacetsearch.provider.impl.ColorFacetDisplayNameProvider"
+    >
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="i18nService" ref="i18nService"/>
+        <property name="commonI18NService" ref="commonI18NService"/>
+    </bean>
+
+    <!-- <bean id="apparelPointOfServiceFacetDisplayNameProvider"
+           class="com.scl.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
+     >
+         <property name="pointOfServiceService" ref="pointOfServiceService"/>
+     </bean>
+
+     <bean id="electronicsPointOfServiceFacetDisplayNameProvider"
+           class="com.scl.core.search.solrfacetsearch.provider.impl.PointOfServiceFacetDisplayNameProvider"
+     >
+         <property name="pointOfServiceService" ref="pointOfServiceService"/>
+     </bean>-->
+
+    <!--   <bean id="genderValueProvider"
+             class="com.scl.core.search.solrfacetsearch.provider.impl.GenderValueProvider"
+             parent="abstractPropertyFieldValueProvider">
+           <property name="fieldNameProvider" ref="solrFieldNameProvider"/>
+       </bean>
+
+       <bean id="genderFacetDisplayNameProvider"
+             class="com.scl.core.search.solrfacetsearch.provider.impl.GenderFacetDisplayNameProvider"
+       >
+           <property name="enumerationService" ref="enumerationService"/>
+           <property name="i18nService" ref="i18nService"/>
+           <property name="commonI18NService" ref="commonI18NService"/>
+       </bean>-->
+
+    <!--
+        Event listeners are singletons, therefore the dependency for a bean in tenant-scope
+        must be configured with a lookup method.
+    -->
+    <bean id="orderCancelledEventListener"
+          class="com.scl.core.event.OrderCancelledEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="orderRefundEventListener"
+          class="com.scl.core.event.OrderRefundEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="customerRegistrationEventListener"
+          class="com.scl.core.event.RegistrationEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="forgottenPasswordEventListener"
+          class="com.scl.core.event.ForgottenPasswordEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="submitOrderEventListener" class="com.scl.core.event.SubmitOrderEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="baseStoreService" ref="baseStoreService"/>
+    </bean>
+    <bean id="orderConfirmationEventListener"
+          class="com.scl.core.event.OrderConfirmationEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendDeliveryMessageEventListener"
+          class="com.scl.core.event.SendDeliveryMessageEventListener" parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendReadyForPickupMessageEventListener"
+          class="com.scl.core.event.SendReadyForPickupMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendOrderPartiallyCanceledMessageEventListener"
+          class="com.scl.core.event.SendOrderPartiallyCanceledMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendOrderPartiallyRefundedMessageEventListener"
+          class="com.scl.core.event.SendOrderPartiallyRefundedMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendNotPickedUpConsignmentCanceledMessageEventListener"
+          class="com.scl.core.event.SendNotPickedUpConsignmentCanceledMessageEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="orderCompletedEventListener" class="com.scl.core.event.OrderCompletedEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+    <bean id="sendOTPEmailEventListener" class="com.scl.core.event.SendOTPEmailEventListener"
+          parent="abstractAcceleratorSiteEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <!-- Process resources definition -->
+
+    <bean id="customerRegistrationEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/customerRegistrationEmailProcess.xml"/>
+    </bean>
+    <bean id="forgottenPasswordEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/forgottenPasswordEmailProcess.xml"/>
+    </bean>
+    <bean id="orderConfirmationEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/orderConfirmationEmailProcess.xml"/>
+    </bean>
+    <bean id="sendDeliveryEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendDeliveryEmailProcess.xml"/>
+    </bean>
+    <bean id="sendReadyForPickupEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendReadyForPickupEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderCancelledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendOrderCancelledEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderRefundEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendOrderRefundEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderPartiallyCanceledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendOrderPartiallyCanceledEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOrderPartiallyRefundedEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendOrderPartiallyRefundedEmailProcess.xml"/>
+    </bean>
+    <bean id="sendNotPickedUpConsignmentCanceledEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource"
+                  value="classpath:/sclcore/processes/sendNotPickedUpConsignmentCanceledEmailProcess.xml"/>
+    </bean>
+    <bean id="ledgerReportEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/ledgerReportEmailProcess.xml"/>
+    </bean>
+    <bean id="sendOTPEmailProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendOTPEmailProcess.xml"/>
+    </bean>
+
+    <!-- Actions -->
+    <bean id="abstractAction" class="de.hybris.platform.processengine.action.AbstractAction"
+          abstract="true">
+        <property name="modelService" ref="modelService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="sendEmail" class="de.hybris.platform.acceleratorservices.process.email.actions.SendEmailAction"
+          parent="abstractAction">
+        <property name="emailService" ref="emailService"/>
+    </bean>
+
+    <bean id="abstractGenerateEmailAction"
+          class="de.hybris.platform.acceleratorservices.process.email.actions.GenerateEmailAction"
+          parent="abstractAction" abstract="true">
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsEmailPageService" ref="cmsEmailPageService"/>
+        <property name="contextResolutionStrategy" ref="processContextResolutionStrategy"/>
+        <property name="emailGenerationService" ref="emailGenerationService"/>
+    </bean>
+
+    <bean id="generateCustomerRegistrationEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="CustomerRegistrationEmailTemplate"/>
+    </bean>
+
+    <bean id="generateForgottenPasswordEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ForgottenPasswordEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderConfirmationEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderConfirmationEmailTemplate"/>
+    </bean>
+
+    <bean id="generateDeliverySentEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="DeliverySentEmailTemplate"/>
+    </bean>
+
+    <bean id="generateReadyForPickupEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="ReadyForPickupEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderCancelledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderCancelledEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderRefundEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderRefundEmailTemplate"/>
+    </bean>
+
+    <bean id="generateOrderPartiallyCanceledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderPartiallyCanceledEmailTemplate"/>
+    </bean>
+    <bean id="generateOrderPartiallyRefundedEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OrderPartiallyRefundedEmailTemplate"/>
+    </bean>
+    <bean id="generateNotPickedUpConsignmentCanceledEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="NotPickedUpConsignmentCanceledEmailTemplate"/>
+    </bean>
+    <bean id="generateOTPEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="OTPEmailTemplate"/>
+    </bean>
+
+    <bean id="removeSentEmail"
+          class="de.hybris.platform.acceleratorservices.process.email.actions.RemoveSentEmailAction"
+          parent="abstractAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="markQuoteNotificationAsSent"
+          class="com.scl.core.actions.quote.MarkQuoteNotificationAsSentAction"
+          parent="abstractAction" abstract="true">
+        <property name="quoteService" ref="quoteService"/>
+    </bean>
+
+    <bean id="findProsDealerApproversAction"
+          class="com.scl.core.actions.prosdealer.FindProsDealerApproversAction"
+          parent="abstractAction">
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+    <bean id="sendNotificationForDlrAck"
+          class="com.scl.core.actions.prosdealer.SendNotificationForDlrAck"
+          parent="abstractAction"/>
+
+    <bean id="checkDealerAckStatus"
+          class="com.scl.core.actions.prosdealer.CheckAcknowledgementStatus"
+          parent="abstractAction"/>
+
+    <bean id="startSOApprovalWorkflow"
+          class="com.scl.core.actions.prosdealer.StartSOApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+    <bean id="startSHApprovalWorkflow"
+          class="com.scl.core.actions.prosdealer.StartSHApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+
+    <bean id="startProsDealerApprovalWorkflow"
+          class="com.scl.core.actions.prosdealer.StartProsDealerApprovalWorkflow"
+          parent="abstractAction">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <!-- <property name="b2bEscalationService" ref="b2bEscalationService"/>-->
+        <!--<property name="permissionResultHelper" ref="permissionResultHelper"/>-->
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <!--<property name="escalate" value="true"/>-->
+    </bean>
+
+    <!-- Simple Suggestion Service -->
+    <alias alias="simpleSuggestionService" name="defaultSimpleSuggestionService"/>
+    <bean id="defaultSimpleSuggestionService"
+          class="com.scl.core.suggestion.impl.DefaultSimpleSuggestionService">
+        <property name="simpleSuggestionDao" ref="simpleSuggestionDao"/>
+    </bean>
+    <alias alias="simpleSuggestionDao" name="defaultSimpleSuggestionDao"/>
+    <bean id="defaultSimpleSuggestionDao"
+          class="com.scl.core.suggestion.dao.impl.DefaultSimpleSuggestionDao"
+          parent="abstractItemDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <!-- Product Reference Lookup Strategies-->
+    <!--    <alias name="apparelCrossSellingProductReferenceTargetStrategy" alias="crossSellingProductReferenceTargetStrategy"/>
+        <bean id="apparelCrossSellingProductReferenceTargetStrategy"
+              parent="defaultCrossSellingProductReferenceTargetStrategy">
+            <property name="productReferenceTargetStrategies">
+                <list merge="true">
+                    <ref bean="apparelSizeProductReferenceTargetStrategy"/>
+                </list>
+            </property>
+        </bean>
+
+        <bean id="apparelSizeProductReferenceTargetStrategy"
+              class="com.scl.core.strategies.impl.ApparelSizeProductReferenceTargetStrategy">
+            <property name="commerceCategoryService" ref="commerceCategoryService"/>
+            <property name="rootCategoryCode" value="categories"/>
+        </bean>-->
+
+    <!-- Sales quote process actions -->
+
+    <!-- quote-->
+    <bean id="quoteBuyerSubmitEventListener" class="com.scl.core.event.QuoteBuyerSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteSalesRepSubmitEventListener" class="com.scl.core.event.QuoteSalesRepSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteSellerApprovalSubmitEventListener" class="com.scl.core.event.QuoteSellerApprovalSubmitEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteBuyerOrderPlacedEventListener" class="com.scl.core.event.QuoteBuyerOrderPlacedEventListener"
+          parent="abstractEventListener">
+        <property name="commerceQuoteService" ref="commerceQuoteService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="quoteToExpireSoonEventListener" class="com.scl.core.event.QuoteToExpireSoonEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteExpiredEventListener" class="com.scl.core.event.QuoteExpiredEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteCancelEventListener" class="com.scl.core.event.QuoteCancelEventListener"
+          parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="quoteBuyerProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-buyer-process.xml"/>
+    </bean>
+
+    <bean id="quoteSalesRepProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-salesrep-process.xml"/>
+    </bean>
+
+
+    <bean id="quoteSellerApprovalProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-seller-approval-process.xml"/>
+    </bean>
+
+    <bean id="quotePostCancellationProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-post-cancellation-process.xml"/>
+    </bean>
+
+    <bean id="quoteToExpireSoonProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-to-expire-soon-email-process.xml"/>
+    </bean>
+
+    <bean id="quoteExpiredProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/quote/quote-expired-email-process.xml"/>
+    </bean>
+
+    <!-- Quotes email notification jobs -->
+    <bean id="quoteToExpireSoonJobPerformable"
+          class="com.scl.core.job.QuoteToExpireSoonJobPerformable"
+          parent="abstractJobPerformable">
+        <property name="supportedQuoteStatuses">
+            <set value-type="de.hybris.platform.core.enums.QuoteState">
+                <value>BUYER_OFFER</value>
+            </set>
+        </property>
+        <property name="commerceQuoteDao" ref="commerceQuoteDao"/>
+        <property name="eventService" ref="eventService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <bean id="quoteExpiredJobPerformable"
+          class="com.scl.core.job.QuoteExpiredJobPerformable"
+          parent="abstractJobPerformable">
+        <property name="supportedQuoteStatuses">
+            <set value-type="de.hybris.platform.core.enums.QuoteState">
+                <value>BUYER_OFFER</value>
+            </set>
+        </property>
+        <property name="commerceQuoteDao" ref="commerceQuoteDao"/>
+        <property name="eventService" ref="eventService"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <import resource="/sclcore/processes/quote/quote-buyer-process-spring.xml"/>
+    <import resource="/sclcore/processes/quote/quote-salesrep-process-spring.xml"/>
+    <import resource="/sclcore/processes/quote/quote-seller-approval-process-spring.xml"/>
+
+    <import resource="/sclcore/processes/quote/quote-to-expire-soon-email-process-spring.xml"/>
+    <import resource="/sclcore/processes/quote/quote-expired-email-process-spring.xml"/>
+
+    <import resource="/sclcore/processes/quote/quote-post-cancellation-process-spring.xml"/>
+
+    <!-- Customer cleanup -->
+    <alias name="defaultCustomerCleanupRelatedObjectsAction" alias="customerCleanupRelatedObjectsAction"/>
+    <bean id="defaultCustomerCleanupRelatedObjectsAction"
+          class="com.scl.core.retention.impl.DefaultCustomerCleanupRelatedObjectsAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="customerCleanupHooks"/>
+    </bean>
+
+    <!-- Cleanup the customers not owning any order currently and the current date has past deactivation date+retention date. Also removes customers audit records. -->
+    <alias name="defaultCustomerNotOwningOrdersRemoveCleanupAction" alias="customerNotOwningOrdersRemoveCleanupAction"/>
+    <bean id="defaultCustomerNotOwningOrdersRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="customerCleanupHooks"/>
+    </bean>
+
+    <!-- Order cleanup -->
+    <!-- Cleanup the order related objects and then remove order and its audit records. -->
+    <alias name="defaultOrderRemoveCleanupAction" alias="orderRemoveCleanupAction"/>
+    <bean id="defaultOrderRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="orderCleanupHooks"/>
+    </bean>
+
+    <!-- CsTicket Remove action -->
+    <alias name="defaultCSTicketRemoveCleanupAction" alias="csTicketRemoveCleanupAction"/>
+    <bean id="defaultCSTicketRemoveCleanupAction"
+          class="de.hybris.platform.retention.impl.DefaultExtensibleRemoveCleanupAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="csTicketCleanupHooks"/>
+    </bean>
+
+    <!-- CsTicket Stagnation action -->
+    <alias name="defaultCSTicketStagnationAction" alias="csTicketStagnationAction"/>
+    <bean id="defaultCSTicketStagnationAction" class="com.scl.core.retention.impl.DefaultCSTicketStagnationAction"
+          parent="abstractExtensibleRemoveCleanupAction">
+        <property name="itemCleanupHooks" ref="csTicketRetentionHooks"/>
+        <property name="ticketBusinessService" ref="ticketBusinessService"/>
+    </bean>
+
+    <alias name="defaultSclLeadService" alias="sclLeadService"/>
+    <bean id="defaultSclLeadService" class="com.scl.core.lead.services.impl.DefaultSclLeadService"/>
+
+    <alias name="defaultSclLeadDao" alias="sclLeadDao"/>
+    <bean id="defaultSclLeadDao" class="com.scl.core.lead.dao.impl.DefaultSclLeadDao"/>
+
+    <!-- Order count services and daos starts-->
+    <alias name="defaultSclOrderCountDao" alias="sclOrderCountDao"/>
+    <bean id="defaultSclOrderCountDao" class="com.scl.core.order.dao.impl.DefaultSclOrderCountDao"/>
+
+    <alias name="defaultSclOrderService" alias="sclOrderService"/>
+    <bean id="defaultSclOrderService" class="com.scl.core.order.services.impl.DefaultSclOrderService">
+        <property name="userService" ref="userService"/>
+        <property name="sclOrderCountDao" ref="sclOrderCountDao"/>
+    </bean>
+    <!-- Order count services and daos ends-->
+
+    <alias name="defaultSclCustomerAccountService" alias="customerAccountService"/>
+    <bean id="defaultSclCustomerAccountService"
+          class="com.scl.core.customer.services.impl.DefaultSclCustomerAccountService" parent="defaultCustomerAccountService">
+        <property name="sclCustomerAccountDao" ref="sclCustomerAccountDao"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="defaultSclCustomerAccountDao" alias="sclCustomerAccountDao"/>
+    <bean id="defaultSclCustomerAccountDao" class="com.scl.core.customer.dao.impl.DefaultSclCustomerAccountDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="defaultSclFeedbackService" alias="sclFeedbackService"/>
+    <bean id="defaultSclFeedbackService" class="com.scl.core.feedback.services.impl.DefaultSclFeedbackService">
+        <property name="modelService" ref="modelService"/>
+        <property name="sclFeedbackDao" ref="sclFeedbackDao"/>
+    </bean>
+
+    <alias name="defaultSclFeedbackDao" alias="sclFeedbackDao"/>
+    <bean id="defaultSclFeedbackDao" class="com.scl.core.feedback.dao.impl.DefaultSclFeedbackDao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultSclCustomerService" alias="sclCustomerService"/>
+    <bean id="defaultSclCustomerService" class="com.scl.core.customer.services.impl.DefaultSclCustomerService">
+        <property name="userService" ref="userService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultProsDealerDao" alias="prosDealerDao"/>
+    <bean id="defaultProsDealerDao" class="com.scl.core.prosdealer.dao.impl.DefaultProsDealerDao"/>
+
+    <alias name="defaultProsDealerService" alias="prosDealerService"/>
+    <bean id="defaultProsDealerService" class="com.scl.core.prosdealer.service.impl.DefaultProsDealerService">
+        <property name="prosDealerDao" ref="prosDealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+        <property name="eventService" ref="eventService" />
+    </bean>
+
+    <!--Process Definition-->
+    <bean id="prosDealerOnboardingProcessDefinitionResource" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/dealer/prosDealerOnboardingProcess.xml"/>
+    </bean>
+
+
+    <bean id="prosDealerApprovalWorkflowTemplateStrategy" class="com.scl.core.strategies.impl.ProsDealerApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+
+    <bean id="afterApproveOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.AfterApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterRejectOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.AfterRejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="approveOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.ApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="rejectOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.RejectOnboardingDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkOnboardingApprovalResult" class="com.scl.core.process.approval.action.CheckOnboardingApprovalResult" parent="abstractAction">
+
+    </bean>
+    <!--FOR SO START-->
+    <bean id="prosDealerSOApprovalWorkflowTemplateStrategy" class="com.scl.core.strategies.impl.ProsDealerSOApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+
+    <bean id="afterSOApprovalWorkflowAction" class="com.scl.core.actions.prosdealer.AfterSOApprovalWorkflowAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="afterSOApproveOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.salesofficer.AfterSOApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterSORejectOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.salesofficer.AfterSORejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="soApproveOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.salesofficer.SOApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="soRejectOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.salesofficer.SORejectOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkSOApprovalWorkflowResult" class="com.scl.core.process.approval.action.salesofficer.CheckSOApprovalWorkflowResult" parent="abstractAction">
+    </bean>
+
+    <!--FOR SO END-->
+
+    <!--FOR SH START-->
+    <bean id="prosDealerSHApprovalWorkflowTemplateStrategy" class="com.scl.core.strategies.impl.ProsDealerSHApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+
+    <bean id="afterSHApprovalWorkflowAction" class="com.scl.core.actions.prosdealer.AfterSHApprovalWorkflowAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="processParameterHelper" ref="processParameterHelper"/>
+    </bean>
+
+    <bean id="afterSHApproveOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.saleshead.AfterSHApproveOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="afterSHRejectOnboardingWorkflowDecisionAction" class="com.scl.core.process.approval.action.saleshead.AfterSHRejectOnboardingWorkflowDecisionAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="shApproveOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.saleshead.SHApproveOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+
+    <bean id="shRejectOnboardingDecisionAutomatedAction" class="com.scl.core.process.approval.action.saleshead.SHRejectOnboardingDecisionAutomatedAction" parent="b2BAbstractWorkflowAutomatedAction">
+        <property name="eventService" ref="eventService"/>
+    </bean>
+    <bean id="checkSHApprovalWorkflowResult" class="com.scl.core.process.approval.action.saleshead.CheckSHApprovalWorkflowResult" parent="abstractAction">
+    </bean>
+    <!--FOR SH END-->
+    <!--FOR CONTACT NUMBER UPDATE-->
+    <bean id="updateContactEventListener" class="com.scl.core.event.UpdateContactNumberEventListener" parent="abstractEventListener">
+        <property name="b2bWorkflowIntegrationService" ref="b2bWorkflowIntegrationService"/>
+        <property name="workflowProcessingService" ref="workflowProcessingService"/>
+        <property name="workflowService" ref="newestWorkflowService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="contactNumberApprovalWorkflowTemplateStrategy" class="com.scl.core.strategies.impl.ContactNumberApprovalWorkflowTemplateStrategy" parent="abstractWorkflowTemplateStrategy"/>
+    <bean id="afterContactNumberApprovalWorkflowAction" class="com.scl.core.actions.user.AfterContactNumberApprovalWorkflowAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="afterContactNumberApprovalWorkflowDecisionAction" class="com.scl.core.actions.user.AfterContactNumberApprovalWorkflowDecisionAction">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    <bean id="afterContactNumberRejectWorkflowDecisionAction" class="com.scl.core.actions.user.AfterContactNumberRejectWorkflowDecisionAction">
+    </bean>
+
+    <bean id="customerQueryAcknowledgeAlertJob" class="com.scl.core.job.CustomerQueryAcknowledgeAlertJob"
+          parent="abstractJobPerformable" />
+
+    <bean id="customCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.custom.code.name}"/>
+        <property name="digits" value="${keygen.custom.code.digits}"/>
+        <property name="start" value="${keygen.custom.code.start}"/>
+        <property name="numeric" value="${keygen.custom.code.numeric}"/>
+        <property name="template" value="${keygen.custom.code.template}"/>
+    </bean>
+
+    <bean id="brandCustomCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customBrand.code.name}"/>
+        <property name="digits" value="${keygen.customBrand.code.digits}"/>
+        <property name="start" value="${keygen.customBrand.code.start}"/>
+        <property name="numeric" value="${keygen.customBrand.code.numeric}"/>
+        <property name="template" value="${keygen.customBrand.code.template}"/>
+    </bean>
+    <bean id="brandImageCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.brandImageCode.code.name}"/>
+        <property name="digits" value="${keygen.brandImageCode.code.digits}"/>
+        <property name="start" value="${keygen.brandImageCode.code.start}"/>
+        <property name="numeric" value="${keygen.brandImageCode.code.numeric}"/>
+        <property name="template" value="${keygen.brandImageCode.code.template}"/>
+    </bean>
+
+    <bean id="salesSummaryCustomCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customSalesSummary.code.name}"/>
+        <property name="digits" value="${keygen.customSalesSummary.code.digits}"/>
+        <property name="start" value="${keygen.customSalesSummary.code.start}"/>
+        <property name="numeric" value="${keygen.customSalesSummary.code.numeric}"/>
+        <property name="template" value="${keygen.customSalesSummary.code.template}"/>
+    </bean>
+
+
+    <bean id="crmCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.crm.code.name}"/>
+        <property name="digits" value="${keygen.crm.code.digits}"/>
+        <property name="start" value="${keygen.crm.code.start}"/>
+        <property name="numeric" value="${keygen.crm.code.numeric}"/>
+        <property name="template" value="${keygen.crm.code.template}"/>
+    </bean>
+    <bean id="applicationNumberGenerator"
+          class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.application.number.name}"/>
+        <property name="digits" value="${keygen.application.number.digits}"/>
+        <property name="start" value="${keygen.application.number.start}"/>
+        <property name="numeric" value="${keygen.application.number.numeric}"/>
+        <property name="template" value="${keygen.application.number.template}"/>
+    </bean>
+
+    <bean id="requestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.request.number.name}"/>
+        <property name="digits" value="${keygen.request.number.digits}"/>
+        <property name="start" value="${keygen.request.number.start}"/>
+        <property name="numeric" value="${keygen.request.number.numeric}"/>
+        <property name="template" value="${keygen.request.number.template}"/>
+    </bean>
+
+    <alias name="tradeOrderService" alias="tradeOrderService" />
+    <bean id="tradeOrderService" class="com.scl.core.tradeOrder.service.impl.TradeOrderServiceImpl">
+    </bean>
+
+    <alias name="brandService" alias="brandService" />
+    <bean id="brandService" class="com.scl.core.brand.service.impl.BrandServiceImpl">
+    </bean>
+
+    <alias name="regionService" alias="regionService" />
+    <bean id="regionService" class="com.scl.core.region.service.impl.RegionServiceImpl">
+    </bean>
+
+    <alias name="brandDao" alias="brandDao" />
+    <bean id="brandDao" class="com.scl.core.brand.dao.impl.BrandDaoImpl">
+    </bean>
+
+    <alias name="stateDao" alias="stateDao" />
+    <bean id="stateDao" class="com.scl.core.region.dao.impl.StateDaoImpl">
+    </bean>
+
+    <alias name="districtDao" alias="districtDao" />
+    <bean id="districtDao" class="com.scl.core.region.dao.impl.DistrictDaoImpl">
+    </bean>
+
+    <alias name="talukaDao" alias="talukaDao" />
+    <bean id="talukaDao" class="com.scl.core.region.dao.impl.TalukaDaoImpl">
+    </bean>
+
+    <alias name="cityDao" alias="cityDao" />
+    <bean id="cityDao" class="com.scl.core.region.dao.impl.CityDaoImpl">
+    </bean>
+
+    <bean id="smsOtpService" class="com.scl.core.services.impl.SmsOtpServiceImpl">
+    </bean>
+
+    <bean id="sendSMSEventListener" class="com.scl.core.event.SendSMSEventListener" parent="abstractEventListener">
+    </bean>
+
+
+    <bean id="smsProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sms-process.xml"/>
+    </bean>
+
+    <bean id="sclCommerceCheckoutService" class="com.scl.core.checkout.impl.DefaultSclCommerceCheckoutService">
+        <property name="modelService" ref="modelService"/>
+        <property name="commerceCartCalculationStrategy" ref="checkoutCartCalculationStrategy"/>
+    </bean>
+
+    <alias name="defaultSCLB2BDeliveryAddressesLookupStrategy" alias="sclB2BDeliveryAddressesLookupStrategy"/>
+    <bean id="defaultSCLB2BDeliveryAddressesLookupStrategy" class="com.scl.core.strategies.impl.DefaultSCLB2BDeliveryAddressesLookupStrategy" >
+        <property name="fallbackDeliveryAddressesLookupStrategy" ref="b2bDeliveryAddressesLookupStrategy"/>
+    </bean>
+
+    <alias alias="b2bDeliveryService" name="defaultB2BDeliveryService"/>
+    <bean id="defaultB2BDeliveryService" parent="deliveryService">
+        <property name="deliveryAddressesLookupStrategy" ref="sclB2BDeliveryAddressesLookupStrategy"/>
+    </bean>
+
+
+
+
+    <bean id="sclOrderHistoryService" class="com.scl.core.orderhistory.service.impl.OrderHistoryServiceImpl">
+        <property name="orderHistoryDao" ref="orderHistoryDao"/>
+        <property name="userService" ref="userService"/>
+        <property name="timeService" ref="timeService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+    </bean>
+
+    <bean id="orderHistoryDao" class="com.scl.core.orderhistory.dao.impl.OrderHistoryDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+
+    </bean>
+
+    <bean id="depotOperationsDao" class="com.scl.core.depot.operations.dao.impl.DepotOperationsDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="depotOperationsService" class="com.scl.core.depot.operations.service.impl.DepotOperationsServiceImpl">
+        <property name="depotOperationsDao" ref="depotOperationsDao"/>
+        <property name="timeService" ref="timeService"/>
+    </bean>
+
+    <alias name="defaultSCLB2BOrderService" alias="b2bOrderService"/>
+    <bean id="defaultSCLB2BOrderService" class="com.scl.core.order.impl.DefaultSCLB2BOrderService" parent="defaultB2BOrderService" >
+        <property name="i18NService" ref="i18NService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="sclMastersDao" ref="sclMastersDao"/>
+        <property name="submitOrderStrategies">
+            <list>
+                <!-- implementation that sends SubmitOrderEvent -->
+                <ref bean="eventPublishingSubmitOrderStrategy"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="dynamicAttributesOrderStageStatusDisplay" name="dynamicAttributesOrderStageStatusDisplayByEnum"/>
+    <bean id="dynamicAttributesOrderStageStatusDisplayByEnum" class="com.scl.core.orderhandler.DynamicAttributesOrderStageStatusDisplayByEnum">
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+    <alias alias="dynamicAttributesOrderEntryStatusDisplay" name="dynamicAttributesOrderEntryStatusDisplayByEnum"/>
+    <bean id="dynamicAttributesOrderEntryStatusDisplayByEnum" class="com.scl.core.orderhandler.DynamicAttributesOrderEntryStatusDisplayByEnum">
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <bean id="entryMergeFilterDeliveryWindow" class="com.scl.core.strategies.impl.EntryMergeFilterDeliveryWindow"/>
+
+    <bean id="addEntryMergeFilterDeliveryWindow"
+          depends-on="commerceCartEntryMergeFilters" parent="listMergeDirective">
+        <property name="add" ref="entryMergeFilterDeliveryWindow" />
+    </bean>
+
+    <!--  <alias name="sclCommerceAddToCartStrategy" alias="commerceAddToCartStrategy"/>
+    <bean id="sclCommerceAddToCartStrategy"
+          class="com.scl.core.strategies.impl.SclCommerceAddToCartStrategy"
+          parent="selectiveCartAddToCartStrategy">
+        <property name="commerceAddToCartMethodHooks" ref="commerceAddToCartMethodHooks"/>
+        <property name="entryMergeStrategy" ref="entryMergeStrategy"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="selectiveCartService" ref="selectiveCartService"/>
+    </bean> -->
+    <bean id="oldPasswordPolicy" class="com.scl.core.user.impl.OldPasswordPolicy">
+        <constructor-arg name="policyName" value="old"/>
+        <property name="l10NService" ref="l10nService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+
+    <alias alias="territoryUnitService" name="territoryUnitService"/>
+    <bean id="territoryUnitService" class="com.scl.core.territory.impl.DefaultTerritoryUnitService">
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+    </bean>
+
+    <alias alias="destinationSourceMasterDao" name="destinationSourceMasterDao"/>
+    <bean id="destinationSourceMasterDao" class="com.scl.core.source.dao.impl.DefaultDestinationSourceMasterDao">
+    </bean>
+
+    <alias alias="sclCartService" name="sclCartService"/>
+    <bean id="sclCartService" class="com.scl.core.cart.service.impl.SclCartServiceImpl">
+        <property name="districtDao" ref="districtDao"/>
+        <property name="sclERPCityDao" ref="sclERPCityDao"/>
+        <property name="warehouseService" ref="warehouseService"/>
+        <property name="productService" ref="productService"/>
+        <property name="sclSalesOrderDeliverySLADao" ref="sclSalesOrderDeliverySLADao"/>
+    </bean>
+
+    <bean id="djpVisitService" class="com.scl.core.services.impl.DJPVisitServiceImpl">
+    </bean>
+
+    <bean id="salesPlanningService" class="com.scl.core.services.impl.SalesPlanningServiceImpl">
+        <property name="userService" ref="userService"/>
+        <property name="productService" ref="productService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="salesPlanningDao" ref="salesPlanningDao"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+    </bean>
+
+    <alias name="salesPlanningDao" alias="salesPlanningDao" />
+    <bean id="salesPlanningDao" class="com.scl.core.dao.impl.SalesPlanningDaoImpl">
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+
+
+    <alias name="brandingDao" alias="brandingDao" />
+    <bean id="brandingDao" class="com.scl.core.dao.impl.BrandingDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="brandingService" alias="brandingService"/>
+    <bean id="brandingService" class="com.scl.core.services.impl.BrandingServiceImpl">
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="i18NService" ref="i18NService"/>
+        <property name="brandingDao" ref="brandingDao"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="brandCustomCodeGenerator" ref="brandCustomCodeGenerator"/>
+        <property name="userService" ref="userService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="geographicalRegionDao" ref="geographicalRegionDao"/>
+    </bean>
+
+    <alias name="counterVisitDao" alias="counterVisitDao" />
+    <bean id="counterVisitDao" class="com.scl.core.dao.impl.CounterVisitMasterDaoImpl">
+    </bean>
+
+    <alias name="orderValidationProcessDao" alias="orderValidationProcessDao" />
+    <bean id="orderValidationProcessDao" class="com.scl.core.order.dao.impl.OrderValidationProcessDaoImpl">
+    </bean>
+
+    <alias name="orderValidationProcessService" alias="orderValidationProcessService" />
+    <bean id="orderValidationProcessService" class="com.scl.core.order.services.impl.OrderValidationProcessServiceImpl">
+        <property name="orderValidationProcessDao" ref="orderValidationProcessDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <alias name="erpCityDao" alias="erpCityDao" />
+    <bean id="erpCityDao" class="com.scl.core.region.dao.impl.ERPCityDaoImpl">
+    </bean>
+
+    <bean id="sclWarehouseDao" class="com.scl.core.cart.dao.impl.DefaultSclWarehouseDao">
+    </bean>
+
+    <alias name="sclB2BCartDao" alias="sclB2BCartDao" />
+    <bean id="sclB2BCartDao" class="com.scl.core.cart.dao.impl.SclB2BCartDaoImpl">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="sclB2BCartService" alias="sclB2BCartService" />
+    <bean id="sclB2BCartService" class="com.scl.core.cart.service.impl.SclB2BCartServiceImpl">
+        <property name="sclB2BCartDao" ref="sclB2BCartDao"/>
+    </bean>
+
+    <alias name="defaultSCLMastersDao" alias="sclMastersDao"/>
+    <bean id="defaultSCLMastersDao" class="com.scl.core.dao.impl.DefaultSCLMastersDao" parent="abstractItemDao">
+    </bean>
+
+    <alias alias="sclERPCityDao" name="defaultSCLERPCityDao"/>
+    <bean id="defaultSCLERPCityDao" class="com.scl.core.cart.dao.impl.DefaultSclERPCityDao">
+    </bean>
+
+    <alias name="defaultSCLSalesOrderDeliverySLADao" alias="sclSalesOrderDeliverySLADao"/>
+    <bean id="defaultSCLSalesOrderDeliverySLADao" class="com.scl.core.cart.dao.impl.DefaultSclSalesOrderDeliverySLADao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultSCLModifyOrderStrategy" alias="sclModifyOrderStrategy"/>
+    <bean id="defaultSCLModifyOrderStrategy" class="com.scl.core.order.strategy.impl.DefaultSclModifyOrderStrategy" parent="defaultCommerceAddToCartStrategy">
+        <property name="forceInStockMaxQuantity" value="2147483647"/>
+    </bean>
+
+
+    <bean id="sclapprovalProcess" class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclb2borderapproval.xml"/>
+    </bean>
+
+    <alias name="sclB2BApprovalBusinessProcessStrategy" alias="b2bApprovalBusinessProcessStrategy"/>
+    <bean id="sclB2BApprovalBusinessProcessStrategy"
+          parent="defaultB2BApprovalBusinessProcessStrategy">
+        <property name="processCode" value="sclapproval"/>
+        <property name="processName" value="CREATED"/>
+        <property name="b2bUnitService" ref="b2bUnitService"/>
+        <property name="processCodeGenerator" ref="b2bProcessCodeGenerator"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="djpVisitDao" class="com.scl.core.dao.impl.DJPVisitDaoImpl">
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+        <property name="districtMasterDao" ref="districtMasterDao"/>
+    </bean>
+
+
+    <bean id="sclTruckDao" class="com.scl.core.cart.dao.impl.SclTruckDaoImpl">
+    </bean>
+
+    <alias name="sclDjpRouteScoreDao" alias="djpRouteScoreDao"/>
+    <bean id="sclDjpRouteScoreDao" class="com.scl.core.dao.impl.DjpRouteScoreDaoImpl"/>
+
+    <alias name="defaultDjpRouteDao" alias="djpRouteDao"/>
+    <bean id="defaultDjpRouteDao" class="com.scl.core.dao.impl.DefaultDjpRouteDao"/>
+
+    <alias name="sclObjectiveDao" alias="objectiveDao"/>
+    <bean id="sclObjectiveDao" class="com.scl.core.dao.impl.ObjectiveDaoImpl"/>
+
+    <alias name="sclDjpCounterScoreDao" alias="djpCounterScoreDao"/>
+    <bean id="sclDjpCounterScoreDao" class="com.scl.core.dao.impl.DjpCounterScoreDaoImpl"/>
+
+    <alias name="sclDjpRunDao" alias="djpRunDao"/>
+    <bean id="sclDjpRunDao" class="com.scl.core.dao.impl.DjpRunDaoImpl"/>
+
+    <alias name="sclVisitMasterDao" alias="visitMasterDao"/>
+    <bean id="sclVisitMasterDao" class="com.scl.core.dao.impl.VisitMasterDaoImpl"/>
+
+    <bean id="competitorProductDao" class="com.scl.core.dao.impl.CompetitorProductDaoImpl">
+    </bean>
+
+    <bean id="marketMappingService" class="com.scl.core.services.impl.MarketMappingServiceImpl">
+    </bean>
+
+    <bean id="geographicalRegionDao" class="com.scl.core.region.dao.impl.GeographicalRegionDaoImpl">
+    </bean>
+
+    <bean id="geographicalRegionService" class="com.scl.core.region.service.impl.GeographicalRegionServiceImpl">
+    </bean>
+
+    <bean id="deliverySlotMasterDao" class="com.scl.core.dao.impl.DeliverySlotMasterDaoImpl"/>
+
+    <bean id="sclAddressProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclAddress-process.xml"/>
+    </bean>
+
+    <bean id="sclOutboundStageGateProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclOutboundStageGate-process.xml"/>
+    </bean>
+
+    <bean id="sclAddressEventListener" class="com.scl.core.event.SclAddressEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="sclOrderCancelProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclOrderCancel-process.xml"/>
+    </bean>
+
+    <bean id="sclOrderCancelEventListener" class="com.scl.core.event.SclOrderCancelEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="sclOrderLineCancelProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclOrderLineCancel-process.xml"/>
+    </bean>
+
+    <bean id="sclOrderLineCancelEventListener" class="com.scl.core.event.SclOrderLineCancelEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="updateDlrRetMappingEventListener" class="com.scl.core.event.UpdateDealerRetailerMappingEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="billingPriceMasterDao" class="com.scl.core.dao.impl.BillingPriceMasterDaoImpl">
+    </bean>
+
+    <bean id="territoryManagementService" class="com.scl.core.services.impl.TerritoryManagementServiceImpl">
+    </bean>
+
+    <bean id="territoryManagementDao" class="com.scl.core.dao.impl.TerritoryManagementDaoImpl">
+    </bean>
+
+    <bean id="territoryManagementService1" class="com.scl.core.services.impl.TerritoryManagementServiceImpl1">
+    </bean>
+
+    <bean id="territoryManagementDao1" class="com.scl.core.dao.impl.TerritoryManagementDaoImpl1">
+    </bean>
+
+    <bean id="territoryMasterService" class="com.scl.core.services.impl.TerritoryMasterServiceImpl">
+    </bean>
+
+    <bean id="territoryMasterDao" class="com.scl.core.dao.impl.TerritoryMasterDaoImpl">
+    </bean>
+
+    <alias alias="dynamicAttributesOrderEntryQtyMT" name="dynamicAttributesOrderEntryQtyMT"/>
+    <bean id="dynamicAttributesOrderEntryQtyMT" class="com.scl.core.orderhandler.DynamicAttributesOrderEntryQtyMT">
+    </bean>
+
+    <bean id="sclUserService" class="com.scl.core.user.impl.SCLUserServiceImpl">
+    </bean>
+
+    <bean id="sclUserDao" class="com.scl.core.dao.impl.SclUserDaoImpl">
+    </bean>
+
+    <bean id="sclStageGateDao" class="com.scl.core.dao.impl.SclStageGateDaoImpl">
+    </bean>
+
+
+    <alias name="defaultSCLISODeliverySLADao" alias="sclISODeliverySLADao"/>
+    <bean id="defaultSCLISODeliverySLADao" class="com.scl.core.cart.dao.impl.DefaultSclISODeliverySLADao">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="defaultCounterRouteMappingDao" alias="sclCounterRouteMappingDao"/>
+    <bean id="defaultCounterRouteMappingDao" class="com.scl.core.dao.impl.CounterRouteMappingDaoImpl">
+    </bean>
+
+    <alias name="defaultSclSiteMessageDao" alias="siteMessageDao"/>
+    <bean id="defaultSclSiteMessageDao" class="com.scl.core.notifications.dao.impl.DefaultSclSiteMessageDao" parent="defaultSiteMessageDao">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="siteMessageSortCodeToQueryAlias" ref="siteMessageSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="sclNotificationDao" class="com.scl.core.notifications.dao.impl.SclNotificationDaoImpl">
+    </bean>
+
+    <bean id="sclNotificationService" class="com.scl.core.notifications.service.impl.SclNotificationServiceImpl">
+    </bean>
+
+    <alias name="defaultDealerVehicleDetailsDao" alias="dealerVehicleDetailsDao"/>
+    <bean id="defaultDealerVehicleDetailsDao" class="com.scl.core.order.dao.impl.DefaultDealerVehicleDetailsDao">
+    </bean>
+
+    <alias name="defaultDealerDriverDetailsDao" alias="dealerDriverDetailsDao"/>
+    <bean id="defaultDealerDriverDetailsDao" class="com.scl.core.order.dao.impl.DefaultDealerDriverDetailsDao">
+    </bean>
+
+    <alias name="defaultDealerTransitService" alias="dealerTransitService"/>
+    <bean id="defaultDealerTransitService" class="com.scl.core.order.services.impl.DefaultDealerTransitService">
+    </bean>
+
+    <alias name="defaultSchemeDetailsDao" alias="schemeDetailsDao"/>
+    <bean id="defaultSchemeDetailsDao" class="com.scl.core.dao.impl.DefaultSchemeDetailsDao">
+    </bean>
+
+    <bean id="sclCustomerDao" class="com.scl.core.customer.dao.impl.SclCustomerDaoImpl">
+    </bean>
+
+    <bean id="sclCustomerNetworkTypeUpdateJob" class="com.scl.core.job.SclCustomerNetworkTypeUpdateJob">
+    </bean>
+
+    <bean id="sclCustomerUpdateNetworktypeCronJob" class="com.scl.core.job.SclCustomerUpdateNetworktypeCronJob">
+        <property name="modelService" ref="modelService"/>
+        <property name="sclCustomerDao" ref="sclCustomerDao"/>
+    </bean>
+
+    <bean id="dealerNetworkTypeUpdateJob" class="com.scl.core.job.DealersNetworkTypeUpdateJob">
+    </bean>
+    <bean id="retailerNetworkTypeUpdateJob" class="com.scl.core.job.RetailersNetworkTypeUpdateJob">
+    </bean>
+    <bean id="influencerNetworkTypeUpdateJob" class="com.scl.core.job.InfluencerNetworkTypeUpdateJob">
+    </bean>
+
+    <bean id="updateRetailerInfluencerNetworkTypeJob" class="com.scl.core.job.UpdateRetailerInfluencerNetworkTypeJob">
+        <property name="sclCustomerDao" ref="sclCustomerDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <alias name="salesSummaryDao" alias="salesSummaryDao" />
+    <bean id="salesSummaryDao" class="com.scl.core.dao.impl.SalesSummaryDaoImpl">
+    </bean>
+
+    <bean id="salesSummaryJob" class="com.scl.core.job.SalesSummaryJob">
+        <property name="salesSummaryDao" ref="salesSummaryDao"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="salesSummaryCustomCodeGenerator" ref="salesSummaryCustomCodeGenerator"/>
+        <property name="userService" ref="userService"/>
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="autoCancellingRequestRaisedByInfluencerJob" class="com.scl.core.job.AutoCancellingRequestRaisedByInfluencerJob">
+        <property name="autoCancellingRequestRaisedByInfluencerDao" ref="autoCancellingRequestRaisedByInfluencerDao"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="getInfluencerListForDealer" class="com.scl.core.job.GetInfluencerListForDealer">
+
+    </bean>
+
+    <bean id="getInfluencerListForRetailer" class="com.scl.core.job.GetInfluencerListForRetailer">
+
+    </bean>
+
+    <bean id="getRetailerListForDealerJob" class="com.scl.core.job.GetRetailerListForDealerJob">
+
+    </bean>
+    <bean id="sclCancelOrderEntryUnProcessingOrdersJob" class="com.scl.core.job.SclCancelOrderEntryUnProcessingOrdersJob">
+    </bean>
+
+    <bean id="sclCancelOrderUnProcessingOrdersJob" class="com.scl.core.job.SclCancelOrderUnProcessingOrdersJob">
+    </bean>
+
+    <alias name="defaultRouteMasterDao" alias="routeMasterDao"/>
+    <bean id="defaultRouteMasterDao" class="com.scl.core.dao.impl.RouteMasterDaoImpl">
+    </bean>
+
+    <bean id="updateSclCustomerMappingStatusJob" class="com.scl.core.job.UpdateSclCustomerMappingStatusJob">
+    </bean>
+
+    <bean id="updateDealerToRetailerAndInfluencerMappingJob" class="com.scl.core.job.UpdateDealerToRetailerAndInfluencerMappingJob">
+    </bean>
+
+
+    <alias name="defaultEfficacyReportDao" alias="efficacyReportDao"/>
+    <bean id="defaultEfficacyReportDao" class="com.scl.core.dao.impl.EfficacyReportDaoImpl">
+    </bean>
+
+    <alias name="defaultEfficacyReportService" alias="efficacyReportService"/>
+    <bean id="defaultEfficacyReportService" class="com.scl.core.services.impl.EfficacyReportServiceImpl">
+    </bean>
+
+    <bean id="efficacyReportUpdateJob" class="com.scl.core.job.EfficacyReportUpdateJob">
+    </bean>
+
+    <bean id="newProductReportUpdateJob" class="com.scl.core.job.NewProductReportUpdateJob">
+    </bean>
+
+    <bean id="reinclusionObsoleteCounterReportUpdateJob" class="com.scl.core.job.ReinclusionObsoleteCounterReportUpdateJob">
+    </bean>
+
+    <bean id="marketIntelligenceReportUpdateJob" class="com.scl.core.job.MarketIntelligenceReportUpdateJob">
+    </bean>
+
+    <bean id="collectionService" class="com.scl.core.services.impl.CollectionServiceImpl">
+    </bean>
+
+    <bean id="collectionDao" class="com.scl.core.dao.impl.CollectionDaoImpl">
+    </bean>
+
+    <bean id="generateLedgerReportEmail" parent="abstractGenerateEmailAction">
+        <property name="frontendTemplateName" value="LedgerReportEmailTemplate"/>
+    </bean>
+
+    <alias alias="emailGenerationService" name="customEmailGenerationService"/>
+    <bean id="customEmailGenerationService" class="com.scl.core.services.impl.CustomEmailGenerationService"
+          parent="defaultEmailGenerationService"/>
+
+    <bean id="collectionLostDiscountCalculationJob" class="com.scl.core.job.CollectionLostDiscountCalculationJob">
+    </bean>
+
+    <bean id="collectionAvailedDiscountCalculationJob" class="com.scl.core.job.CollectionAvailedDiscountCalculationJob">
+    </bean>
+
+    <bean id="sclGenericDao" class="com.scl.core.dao.impl.SCLGenericDaoImpl"/>
+
+
+    <alias name="defaultSchemesAndDiscountService" alias="schemesAndDiscountService"/>
+    <bean id="defaultSchemesAndDiscountService" class="com.scl.core.services.impl.SchemesAndDiscountServiceImpl">
+    </bean>
+
+    <alias name="defaultSchemesAndDiscountDao" alias="schemesAndDiscountDao"/>
+    <bean id="defaultSchemesAndDiscountDao" class="com.scl.core.dao.impl.SchemesAndDiscountDaoImpl">
+        <property name="giftOrderSortCodeToQueryAlias" ref="giftOrderSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="bulkGoodsService" class="com.scl.core.services.impl.BulkGoodsServiceImpl">
+    </bean>
+
+    <bean id="bulkGoodsDao" class="com.scl.core.dao.impl.BulkGoodsDaoImpl">
+    </bean>
+
+    <bean id="grnNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.grn.code.name}"/>
+        <property name="digits" value="${keygen.grn.code.digits}"/>
+        <property name="start" value="${keygen.grn.code.start}"/>
+        <property name="numeric" value="${keygen.grn.code.numeric}"/>
+        <property name="template" value="${keygen.grn.code.template}"/>
+    </bean>
+
+    <alias name="defaultSlctCrmIntegrationDao" alias="slctCrmIntegrationDao"/>
+    <bean id="defaultSlctCrmIntegrationDao" class="com.scl.core.dao.impl.SlctCrmIntegrationDaoImpl">
+    </bean>
+
+    <alias name="defaultSlctCrmIntegrationService" alias="slctCrmIntegrationService"/>
+    <bean id="defaultSlctCrmIntegrationService" class="com.scl.core.services.impl.SlctCrmIntegrationServiceImpl">
+        <property name="keyGenerator" ref="orderCodeGenerator"/>
+    </bean>
+    <bean id="networkService" class="com.scl.core.services.impl.NetworkServiceImpl">
+        <property name="counterVisitDao" ref="counterVisitDao"/>
+        <property name="salesPerformanceDao" ref="salesPerformanceDao"/>
+        <property name="sclSalesSummaryService" ref="sclSalesSummaryService"/>
+    </bean>
+    <bean id="networkDao" class="com.scl.core.dao.impl.NetworkDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="searchRestrictionService" ref="searchRestrictionService"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+        <property name="districtMasterDao" ref="districtMasterDao"/>
+    </bean>
+    <bean id="salesPerformanceService" class="com.scl.core.services.impl.SalesPerformanceServiceImpl">
+        <property name="salesPerformanceDao" ref="salesPerformanceDao"/>
+        <property name="networkService" ref="networkService"/>
+        <property name="userService" ref="userService"/>
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="influencerSummarySalesPerformanceConverter" ref="influencerSummarySalesPerformanceConverter"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="djpVisitDao" ref="djpVisitDao"/>
+        <property name="enumerationService" ref="enumerationService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="productService" ref="productService"/>
+        <property name="territoryMasterService" ref="territoryMasterService"/>
+    </bean>
+
+    <bean id="europe1.manager" class="com.scl.core.jalo.SclCatalogAwareEurope1PriceFactory" init-method="init" destroy-method="destroy">
+        <property name="retrieveChannelStrategy" ref="retrieveChannelStrategy"/>
+    </bean>
+
+    <bean id="salesPerformanceDao" class="com.scl.core.dao.impl.SalesPerformanceDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="userService" ref="userService"/>
+        <property name="districtMasterDao" ref="districtMasterDao"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+    </bean>
+
+    <bean id="giftStockUpdateJob" class="com.scl.core.job.GiftStockUpdateJob">
+    </bean>
+    <bean id="transferGoodsService" class="com.scl.core.services.impl.TransferGoodsServiceImpl">
+    </bean>
+
+    <bean id="transferGoodsDao" class="com.scl.core.dao.impl.TransferGoodsDaoImpl">
+    </bean>
+
+    <bean id="technicalAssistanceService" class="com.scl.core.services.impl.TechnicalAssistanceServiceImpl">
+    </bean>
+
+    <bean id="technicalAssistanceDao" class="com.scl.core.dao.impl.TechnicalAssistanceDaoImpl">
+        <property name="endCustomerSortCodeToQueryAlias" ref="endCustomerSortCodeToQueryAlias"/>
+        <property name="technicalAssistanceSortCodeToQueryAlias" ref="technicalAssistanceSortCodeToQueryAlias"/>
+    </bean>
+
+    <bean id="amountFormatService" class="com.scl.core.services.impl.AmountFormatServiceImpl">
+    </bean>
+
+    <bean id="visitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.visit.code.name}"/>
+        <property name="digits" value="${keygen.visit.code.digits}"/>
+        <property name="start" value="${keygen.visit.code.start}"/>
+        <property name="numeric" value="${keygen.visit.code.numeric}"/>
+        <property name="template" value="${keygen.visit.code.template}"/>
+    </bean>
+
+    <bean id="counterVisitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.counterVisit.code.name}"/>
+        <property name="digits" value="${keygen.counterVisit.code.digits}"/>
+        <property name="start" value="${keygen.counterVisit.code.start}"/>
+        <property name="numeric" value="${keygen.counterVisit.code.numeric}"/>
+        <property name="template" value="${keygen.counterVisit.code.template}"/>
+    </bean>
+
+    <bean id="marketIntelligenceIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.marketIntelligence.code.name}"/>
+        <property name="digits" value="${keygen.marketIntelligence.code.digits}"/>
+        <property name="start" value="${keygen.marketIntelligence.code.start}"/>
+        <property name="numeric" value="${keygen.marketIntelligence.code.numeric}"/>
+        <property name="template" value="${keygen.marketIntelligence.code.template}"/>
+    </bean>
+
+    <bean id="sclProductUtility" class="com.scl.core.utility.SclProductUtility">
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="productService" ref="productService"/>
+    </bean>
+
+    <bean id="sSOLoginService" class="com.scl.core.services.impl.SSOLoginServiceImpl">
+    </bean>
+
+    <bean id="influencerService" class="com.scl.core.services.impl.InfluencerServiceImpl">
+    </bean>
+
+    <bean id="influencerDao" class="com.scl.core.dao.impl.InfluencerDaoImpl">
+        <property name="leadMasterSortCodeToQueryAlias" ref="leadMasterSortCodeToQueryAlias"/>
+        <property name="scheduleMeetingSortCodeToQueryAlias" ref="scheduleMeetingSortCodeToQueryAlias"/>
+        <property name="sclCustomerSortCodeToQueryAlias" ref="sclCustomerSortCodeToQueryAlias"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+    </bean>
+
+    <alias name="retailerSalesSummaryDao" alias="retailerSalesSummaryDao" />
+    <bean id="retailerSalesSummaryDao" class="com.scl.core.dao.impl.RetailerSalesSummaryDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <alias name="retailerSalesSummaryService" alias="retailerSalesSummaryService" />
+    <bean id="retailerSalesSummaryService" class="com.scl.core.services.impl.RetailerSalesSummaryServiceImpl">
+        <property name="retailerSalesSummaryDao" ref="retailerSalesSummaryDao"/>
+    </bean>
+
+    <bean id="dealersCreditLimitBreachUpdateJob" class="com.scl.core.job.DealersCreditLimitBreachUpdateJob">
+    </bean>
+
+    <bean id="epodPendingStatusAlertJob" class="com.scl.core.job.EpodPendingStatusAlertNotificationJob">
+    </bean>
+
+    <alias name="orderRequisitionDao" alias="orderRequisitionDao"/>
+    <bean id="orderRequisitionDao" class="com.scl.core.dao.impl.OrderRequisitionDaoImpl">
+    </bean>
+
+    <alias name="orderRequisitionService" alias="orderRequisitionService"/>
+    <bean id="orderRequisitionService" class="com.scl.core.services.impl.OrderRequisitionServiceImpl">
+    </bean>
+
+    <bean id="orderRequisitionIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.orderRequisition.id.name}"/>
+        <property name="digits" value="${keygen.orderRequisition.id.digits}"/>
+        <property name="start" value="${keygen.orderRequisition.id.start}"/>
+        <property name="numeric" value="${keygen.orderRequisition.id.numeric}"/>
+        <property name="template" value="${keygen.orderRequisition.id.template}"/>
+    </bean>
+
+    <bean id="pointRequisitionIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.pointRequisition.id.name}"/>
+        <property name="digits" value="${keygen.pointRequisition.id.digits}"/>
+        <property name="start" value="${keygen.pointRequisition.id.start}"/>
+        <property name="numeric" value="${keygen.pointRequisition.id.numeric}"/>
+        <property name="template" value="${keygen.pointRequisition.id.template}"/>
+    </bean>
+
+    <alias name="pointRequisitionDao" alias="pointRequisitionDao"/>
+    <bean id="pointRequisitionDao" class="com.scl.core.dao.impl.PointRequisitionDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="dataConstraintDao" alias="dataConstraintDao"/>
+    <bean id="dataConstraintDao" class="com.scl.core.dao.impl.DataConstraintDaoImpl">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="autoCancellingRequestRaisedByInfluencerDao" alias="autoCancellingRequestRaisedByInfluencerDao"/>
+    <bean id="autoCancellingRequestRaisedByInfluencerDao" class="com.scl.core.dao.impl.AutoCancellingRequestRaisedByInfluencerDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <alias name="pointRequisitionService" alias="pointRequisitionService"/>
+    <bean id="pointRequisitionService" class="com.scl.core.services.impl.PointRequisitionServiceImpl">
+    </bean>
+
+    <bean id="dealerService" class="com.scl.core.services.impl.DealerServiceImpl">
+    </bean>
+
+    <bean id="dealerDao" class="com.scl.core.dao.impl.DealerDaoImpl">
+    </bean>
+
+    <bean id="dealerStockAllocationService" class="com.scl.core.services.impl.DealerStockAllocationServiceImpl">
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+        <property name="dealerStockAllocationDao" ref="dealerStockAllocationDao"/>
+    </bean>
+
+    <bean id="districtMasterDao" class="com.scl.core.region.dao.impl.DistrictMasterDaoImpl">
+    </bean>
+
+    <bean id="regionMasterDao" class="com.scl.core.region.dao.impl.RegionMasterDaoImpl">
+    </bean>
+
+    <bean id="stateMasterDao" class="com.scl.core.region.dao.impl.StateMasterDaoImpl">
+    </bean>
+
+    <bean id="dealerStockAllocationDao" class="com.scl.core.dao.impl.DealerStockAllocationDaoImpl">
+        <property  name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="sclStockAllocationSortCodeToQueryAlias" ref="sclStockAllocationSortCodeToQueryAlias"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="tsoSiteManagementService" class="com.scl.core.services.impl.TSOSiteManagementServiceImpl">
+        <property name="userService" ref="userService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="baseSiteService" ref="baseSiteService"/>
+        <property name="productService" ref="productService"/>
+        <property name="catalogVersionService" ref="catalogVersionService"/>
+        <property name="customerAccountService" ref="customerAccountService"/>
+        <property name="tsoSiteManagementDao" ref="tsoSiteManagementDao"/>
+    </bean>
+
+    <bean id="tsoSiteManagementDao" class="com.scl.core.dao.impl.TSOSiteManagementDaoImpl">
+    </bean>
+
+    <bean id="materialTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.materialTest.code.name}"/>
+        <property name="digits" value="${keygen.materialTest.code.digits}"/>
+        <property name="start" value="${keygen.materialTest.code.start}"/>
+        <property name="numeric" value="${keygen.materialTest.code.numeric}"/>
+        <property name="template" value="${keygen.materialTest.code.template}"/>
+    </bean>
+
+    <bean id="concreteTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.concreteTest.code.name}"/>
+        <property name="digits" value="${keygen.concreteTest.code.digits}"/>
+        <property name="start" value="${keygen.concreteTest.code.start}"/>
+        <property name="numeric" value="${keygen.concreteTest.code.numeric}"/>
+        <property name="template" value="${keygen.concreteTest.code.template}"/>
+    </bean>
+
+    <bean id="otherTestIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.otherTest.code.name}"/>
+        <property name="digits" value="${keygen.otherTest.code.digits}"/>
+        <property name="start" value="${keygen.otherTest.code.start}"/>
+        <property name="numeric" value="${keygen.otherTest.code.numeric}"/>
+        <property name="template" value="${keygen.otherTest.code.template}"/>
+    </bean>
+
+    <alias name="sclNewNetworkService" alias="sclNewNetworkService"/>
+    <bean id="sclNewNetworkService" class="com.scl.core.services.impl.SCLNewNetworkServiceImpl">
+    </bean>
+
+    <bean id="siteDemoIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.siteDemo.code.name}"/>
+        <property name="digits" value="${keygen.siteDemo.code.digits}"/>
+        <property name="start" value="${keygen.siteDemo.code.start}"/>
+        <property name="numeric" value="${keygen.siteDemo.code.numeric}"/>
+        <property name="template" value="${keygen.siteDemo.code.template}"/>
+    </bean>
+
+    <bean id="autoCompletingDjpVisitsJob" class="com.scl.core.job.AutoCompletingDjpVisitsJob">
+    </bean>
+
+    <bean id="autoPopulatingEtaDateJob" class="com.scl.core.job.AutoPopulatingEtaDateJob">
+    </bean>
+
+    <alias name="sclAppBuildMasterDao" alias="appBuildMasterDao"/>
+    <bean id="sclAppBuildMasterDao" class="com.scl.core.dao.impl.AppBuildMasterDaoImpl"/>
+
+    <bean id="autoCancellingOrderRequisitionJob" class="com.scl.core.job.AutoCancellingOrderRequisitionJob">
+    </bean>
+
+    <bean id="deactivatePartnerExpiryJob" class="com.scl.core.job.DeactivatePartnerExpiryJob">
+    </bean>
+
+    <bean id="sclWorkflowService" class="com.scl.core.services.impl.SclWorkflowServiceImpl">
+    </bean>
+
+    <bean id="sclWorkflowDao" class="com.scl.core.dao.impl.SclWorkFlowDaoImpl">
+    </bean>
+
+    <bean id="sclWorkflowCodeGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.sclWorkflow.code.name}"/>
+        <property name="digits" value="${keygen.sclWorkflow.code.digits}"/>
+        <property name="start" value="${keygen.sclWorkflow.code.start}"/>
+        <property name="numeric" value="${keygen.sclWorkflow.code.numeric}"/>
+        <property name="template" value="${keygen.sclWorkflow.code.template}"/>
+    </bean>
+
+    <bean id="workflowActionIndexGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.workflowActionIndex.code.name}"/>
+        <property name="digits" value="${keygen.workflowActionIndex.code.digits}"/>
+        <property name="start" value="${keygen.workflowActionIndex.code.start}"/>
+        <property name="numeric" value="${keygen.workflowActionIndex.code.numeric}"/>
+        <property name="template" value="${keygen.workflowActionIndex.code.template}"/>
+    </bean>
+
+    <bean id="sclEndCustomerService" class="com.scl.core.customer.services.impl.DefaultSclEndCustomerServiceImpl">
+    </bean>
+
+    <bean id="sclEndCustomerDao" class="com.scl.core.customer.dao.impl.SclEndCustomerDaoImpl">
+    </bean>
+
+    <bean id="djpUnflaggedApprovalSLAJob" class="com.scl.core.job.DJPUnflaggedApprovalSLAJob">
+    </bean>
+
+    <bean id="notificationForConfirmGoodsReceivedJob" class="com.scl.core.job.NotificationForConfirmGoodsReceivedJob">
+    </bean>
+
+    <bean id="pendingRequisitionsConfirmationJob" class="com.scl.core.job.PendingRequisitionsConfirmationJob">
+    </bean>
+
+    <bean id="orderReachedLocationConfirmationJob" class="com.scl.core.job.OrderReachedLocationConfirmationJob">
+    </bean>
+
+    <alias name="sclCustomerAppBuildMasterDao" alias="customerAppBuildMasterDao"/>
+    <bean id="sclCustomerAppBuildMasterDao" class="com.scl.core.dao.impl.CustomerAppBuildMasterDaoImpl"/>
+
+    <!-- Scl Branding Process -->
+    <bean id="sclBrandingEventListener" class="com.scl.core.event.SclBrandingEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="sclBrandingProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sclBranding-Process.xml"/>
+    </bean>
+
+    <bean id="sclSendDealerRetailerMappingToCpiJob" class="com.scl.core.job.SclSendDealerRetailerMappingToCpiJob">
+        <property name="eventService" ref="eventService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="sclDealerRetailerService" ref="sclDealerRetailerService"/>
+    </bean>
+
+    <!-- Scl StageGate Event -->
+    <bean id="sclStageGateEventListener" class="com.scl.core.event.SclStageGateEventListener" parent="abstractEventListener">
+    </bean>
+
+    <bean id="sclSendOutboundStageGateToCpiJob" class="com.scl.core.job.SclSendOutboundStageGateToCpiJob">
+        <property name="eventService" ref="eventService"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="sclStageGateDao" ref="sclStageGateDao"/>
+    </bean>
+
+    <bean id="populateUserSubareaMappingJob" class="com.scl.core.job.PopulateUserSubareaMappingJob">
+        <property name="eventService" ref="eventService"/>
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="dealerDao" ref="dealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsAdminSiteService" ref="cmsAdminSiteService"/>
+    </bean>
+
+    <bean id="populateRHMappingJob" class="com.scl.core.job.PopulateRHMappingJob">
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="dealerDao" ref="dealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsAdminSiteService" ref="cmsAdminSiteService"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+    </bean>
+
+
+    <bean id="populateTSMUserMappingJob" class="com.scl.core.job.PopulateTSMUserMappingJob">
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="dealerDao" ref="dealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsAdminSiteService" ref="cmsAdminSiteService"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+    </bean>
+
+
+
+    <bean id="sclInternalSalesHeirarchyCreationJob" class="com.scl.core.job.SclInternalSalesHeirarchyCreationJob">
+    </bean>
+
+    <bean id="sclCustomerPostPersistJob" class="com.scl.core.job.SclCustomerPostPersistJob">
+    </bean>
+
+
+    <bean id="cleanUpUserSubareaMappingJob" class="com.scl.core.job.CleanUpUserSubareaMappingJob">
+        <property name="eventService" ref="eventService"/>
+        <property name="sclUserDao" ref="sclUserDao"/>
+        <property name="dealerDao" ref="dealerDao"/>
+        <property name="modelService" ref="modelService"/>
+        <property name="cmsAdminSiteService" ref="cmsAdminSiteService"/>
+    </bean>
+
+    <bean id="sclGeographicalMasterUpdateJob" class="com.scl.core.job.SclGeographicalMasterUpdateJob">
+    </bean>
+
+    <bean id="sclGeoPostLogicMasterCreationJob" class="com.scl.core.job.SclGeoPostLogicMasterCreationJob">
+    </bean>
+
+
+    <bean id="sclDealerRetailerMappingEventListener" class="com.scl.core.event.SclDealerRetailerMappingEventListener" parent="abstractEventListener">
+        <property name="modelService" ref="modelService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="SclDealerRetailerMappingProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/dealer/dealerRetailerMapping-process.xml"/>
+    </bean>
+
+    <import resource="classpath:/sclcore/processes/dealer/dealerRetailerMapping-process-spring.xml"/>
+
+
+    <alias name="sclDealerRetailerService" alias="sclDealerRetailerService"/>
+    <bean id="sclDealerRetailerService" class="com.scl.core.services.impl.SclDealerRetailerServiceImpl">
+    <property name="sclDealerRetailerDao" ref="sclDealerRetailerDao"/>
+    </bean>
+
+    <alias name="sclDealerRetailerDao" alias="sclDealerRetailerDao"/>
+    <bean id="sclDealerRetailerDao" class="com.scl.core.dao.impl.SclDealerRetailerDaoImpl">
+        <property  name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="sclDealerRetailerSortCodeToQueryAlias" ref="sclDealerRetailerSortCodeToQueryAlias"/>
+        <property name="configurationService" ref="configurationService"/>
+
+    </bean>
+
+    <util:map id="sclDealerRetailerSortCodeToQueryAlias">
+        <entry key="lastused" value="drm"/>
+    </util:map>
+
+    <util:map id="sclStockAllocationSortCodeToQueryAlias">
+        <entry key="invoiceddate" value="ms"/>
+        <entry key="invoicenumber" value="ms"/>
+    </util:map>
+    <!--<bean id="sendEndCustomerComplaintProcessDefinitionResource"
+          class="de.hybris.platform.processengine.definition.ProcessDefinitionResource">
+        <property name="resource" value="classpath:/sclcore/processes/sendEndCustomerComplaint-Process.xml"/>
+    </bean>-->
+
+
+    <bean id="fileRequestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.FileRequest.Number.name}"/>
+        <property name="digits" value="${keygen.FileRequest.Number.digits}"/>
+        <property name="start" value="${keygen.FileRequest.Number.start}"/>
+        <property name="numeric" value="${keygen.FileRequest.Number.numeric}"/>
+        <property name="template" value="${keygen.FileRequest.Number.template}"/>
+    </bean>
+
+    <bean id="customerActiveStatusUpdateJob" class="com.scl.core.job.CustomerActiveStatusUpdateJob">
+        <property name="modelService" ref="modelService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+    </bean>
+
+    <bean id="salesVolumeGrowthReportJob" class="com.scl.core.job.SalesVolumeGrowthReportJob">
+    </bean>
+
+    <bean id="sclCustomerTranslator" class="com.scl.core.translator.SclCustomerTranslator">
+        <property name="customCodeGenerator" ref="customCodeGenerator"/>
+    </bean>
+
+    <alias name="siteManagementService" alias="siteManagementService"/>
+    <bean id="siteManagementService" class="com.scl.core.services.impl.SiteManagementServiceImpl"/>
+
+    <alias name="sclProductService" alias="sclProductService"/>
+    <bean id="sclProductService" class="com.scl.core.services.impl.SCLProductServiceImpl"/>
+
+
+    <alias name="sclProductDao" alias="sclProductDao"/>
+    <bean id="sclProductDao" class="com.scl.core.dao.impl.SCLProductDaoImpl">
+        <property name="productSortCodeToQueryAlias" ref="productSortCodeToQueryAlias"/>
+    </bean>
+
+    <alias name="rejectionReasonsDao" alias="rejectionReasonsDao"/>
+    <bean id="rejectionReasonsDao" class="com.scl.core.order.dao.impl.RejectionReasonsDaoImpl"/>
+
+    <bean id="productAliasDap" class="com.scl.core.dao.impl.ProductAliasDaoImpl"/>
+
+    <alias name="siteManagementDao" alias="siteManagementDao"/>
+    <bean id="siteManagementDao" class="com.scl.core.dao.impl.SiteManagementDaoImpl">
+        <property name="paginatedFlexibleSearchService" ref="paginatedFlexibleSearchService"/>
+        <property name="userService" ref="userService"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="siteMasterSortCodeToQueryAlias" ref="siteMasterSortCodeToQueryAlias"/>
+        <property name="dataConstraintDao" ref="dataConstraintDao"/>
+    </bean>
+
+    <util:map id="siteMasterSortCodeToQueryAlias">
+        <entry key="uid" value="sm"/>
+        <entry key="name" value="sm"/>
+        <entry key="currentmonthsale" value="sm"/>
+        <entry key="currentmonthsitevisit" value="sm"/>
+        <entry key="lastvisittime" value="sm"/>
+        <entry key="nextslabcasting" value="sm"/>
+        <entry key="creationTime" value="sm"/>
+    </util:map>
+
+    <util:map id="productSortCodeToQueryAlias">
+        <entry key="name" value="p"/>
+    </util:map>
+
+    <bean id="complaintmeetIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintmeet.id.name}"/>
+        <property name="digits" value="${keygen.complaintmeet.id.digits}"/>
+        <property name="start" value="${keygen.complaintmeet.id.start}"/>
+        <property name="numeric" value="${keygen.complaintmeet.id.numeric}"/>
+        <property name="template" value="${keygen.complaintmeet.id.template}"/>
+    </bean>
+
+    <bean id="siteVisitNotRequiredIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.siteVisitNotRequired.id.name}"/>
+        <property name="digits" value="${keygen.siteVisitNotRequired.id.digits}"/>
+        <property name="start" value="${keygen.siteVisitNotRequired.id.start}"/>
+        <property name="numeric" value="${keygen.siteVisitNotRequired.id.numeric}"/>
+        <property name="template" value="${keygen.siteVisitNotRequired.id.template}"/>
+    </bean>
+
+    <bean id="complaintDispatchedDetailsGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintDispatchDetails.id.name}"/>
+        <property name="digits" value="${keygen.complaintDispatchDetails.id.digits}"/>
+        <property name="start" value="${keygen.complaintDispatchDetails.id.start}"/>
+        <property name="numeric" value="${keygen.complaintDispatchDetails.id.numeric}"/>
+        <property name="template" value="${keygen.complaintDispatchDetails.id.template}"/>
+    </bean>
+
+    <bean id="nextVisitIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintNextVisit.code.name}"/>
+        <property name="digits" value="${keygen.complaintNextVisit.code.digits}"/>
+        <property name="start" value="${keygen.complaintNextVisit.code.start}"/>
+        <property name="numeric" value="${keygen.complaintNextVisit.code.numeric}"/>
+        <property name="template" value="${keygen.complaintNextVisit.code.template}"/>
+    </bean>
+
+    <bean id="detailsFromSiteIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintDetailsFromSiteId.code.name}"/>
+        <property name="digits" value="${keygen.complaintDetailsFromSiteId.code.digits}"/>
+        <property name="start" value="${keygen.complaintDetailsFromSiteId.code.start}"/>
+        <property name="numeric" value="${keygen.complaintDetailsFromSiteId.code.numeric}"/>
+        <property name="template" value="${keygen.complaintDetailsFromSiteId.code.template}"/>
+    </bean>
+
+<!--    <alias alias="dynamicAttributesSiteActive" name="dynamicAttributesSiteActive"/>-->
+<!--    <bean id="dynamicAttributesSiteActive" class="com.scl.core.customer.handler.DynamicAttributesSiteActive"/>-->
+
+    <bean id="complaintRootCauseIdentifiedGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintRootCauseIdentified.id.name}"/>
+        <property name="digits" value="${keygen.complaintRootCauseIdentified.id.digits}"/>
+        <property name="start" value="${keygen.complaintRootCauseIdentified.id.start}"/>
+        <property name="numeric" value="${keygen.complaintRootCauseIdentified.id.numeric}"/>
+        <property name="template" value="${keygen.complaintRootCauseIdentified.id.template}"/>
+    </bean>
+
+    <bean id="scheduleNextVisitGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.scheduleNextVisit.id.name}"/>
+        <property name="digits" value="${keygen.scheduleNextVisit.id.digits}"/>
+        <property name="start" value="${keygen.scheduleNextVisit.id.start}"/>
+        <property name="numeric" value="${keygen.scheduleNextVisit.id.numeric}"/>
+        <property name="template" value="${keygen.scheduleNextVisit.id.template}"/>
+    </bean>
+
+    <bean id="meetingFormIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.meetingFormId.id.name}"/>
+        <property name="digits" value="${keygen.meetingFormId.id.digits}"/>
+        <property name="start" value="${keygen.meetingFormId.id.start}"/>
+        <property name="numeric" value="${keygen.meetingFormId.id.numeric}"/>
+        <property name="template" value="${keygen.meetingFormId.id.template}"/>
+    </bean>
+
+    <bean id="complaintTestPerformedGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.complaintTestPerformed.id.name}"/>
+        <property name="digits" value="${keygen.complaintTestPerformed.id.digits}"/>
+        <property name="start" value="${keygen.complaintTestPerformed.id.start}"/>
+        <property name="numeric" value="${keygen.complaintTestPerformed.id.numeric}"/>
+        <property name="template" value="${keygen.complaintTestPerformed.id.template}"/>
+    </bean>
+
+    <alias name="sclSalesSummaryService" alias="sclSalesSummaryService"/>
+    <bean id="sclSalesSummaryService" class="com.scl.core.services.impl.SclSalesSummaryServiceImpl">
+        <property name="sclSalesSummaryDao" ref="sclSalesSummaryDao"/>
+    </bean>
+
+    <alias name="sclSalesSummaryDao" alias="SclSalesSummaryDao"/>
+    <bean id="sclSalesSummaryDao" class="com.scl.core.dao.impl.SclSalesSummaryDaoImpl">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="territoryManagementService" ref="territoryManagementService"/>
+        <property name="territoryManagementDao" ref="territoryManagementDao"/>
+    </bean>
+
+
+    <bean id="sclPlantLotSizeDao" class="com.scl.core.source.dao.impl.SclPlantLotSizeDaoImpl">
+    </bean>
+
+
+
+    <bean id="routeMasterCreationJob" class="com.scl.core.job.RouteMasterCreationJob">
+    </bean>
+
+    <util:map id="leadMasterSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="l"/>
+        <entry key="name" value="l"/>
+        <entry key="creationtime" value="l"/>
+        <entry key="leadId" value="l"/>
+    </util:map>
+
+    <util:map id="scheduleMeetingSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="m"/>
+        <entry key="eventdate" value="m"/>
+        <entry key="startdate" value="m"/>
+        <entry key="creationtime" value="m"/>
+        <entry key="meetingscheduleid" value="m"/>
+    </util:map>
+
+    <util:map id="giftOrderSortCodeToQueryAlias">
+        <entry key="scheme" value="o"/>
+        <entry key="creationtime" value="o"/>
+        <entry key="modifiedtime" value="o"/>
+        <entry key="status" value="o"/>
+    </util:map>
+
+    <util:map id="sclCustomerSortCodeToQueryAlias">
+        <entry key="modifiedtime" value="c"/>
+        <entry key="applicationdate" value="c"/>
+        <entry key="uid" value="c"/>
+        <entry key="name" value="c"/>
+        <entry key="creationtime" value="c"/>
+        <entry key="dateofjoining" value="c"/>
+    </util:map>
+
+    <bean id="remainingDIQuantityAttributeHandler" class="com.scl.core.order.strategy.impl.RemainingDIQuantityAttributeHandler"/>
+
+    <!-- Defining Spring bean for Interceptor -->
+
+    <bean id="deliveryItemPrepareInterceptor" class="com.scl.core.interceptor.DeliveryItemPrepareInterceptor"/>
+
+
+    <!-- Mapping Interceptor and model class-->
+    <bean id="deliveryItemPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="deliveryItemPrepareInterceptor"/>
+        <property name="typeCode" value="DeliveryItem"/>
+    </bean>
+
+    <bean id="masterStockAllocationIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.masterStockAllocation.id.name}"/>
+        <property name="digits" value="${keygen.masterStockAllocation.id.digits}"/>
+        <property name="start" value="${keygen.masterStockAllocation.id.start}"/>
+        <property name="numeric" value="${keygen.masterStockAllocation.id.numeric}"/>
+        <property name="template" value="${keygen.masterStockAllocation.id.template}"/>
+    </bean>
+
+    <!-- Defining Spring bean for Interceptor -->
+    <bean id="masterStockAllocationPrepareInterceptor" class="com.scl.core.interceptor.MasterStockAllocationPrepareInterceptor"/>
+
+
+    <!-- Mapping Interceptor and model class-->
+    <bean id="masterStockAllocationPrepareInterceptorMapping" class="de.hybris.platform.servicelayer.interceptor.impl.InterceptorMapping">
+        <property name="interceptor" ref="masterStockAllocationPrepareInterceptor"/>
+        <property name="typeCode" value="MasterStockAllocation"/>
+    </bean>
+
+    <bean id="siteTransactionIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.siteTransaction.id.name}"/>
+        <property name="digits" value="${keygen.siteTransaction.id.digits}"/>
+        <property name="start" value="${keygen.siteTransaction.id.start}"/>
+        <property name="numeric" value="${keygen.siteTransaction.id.numeric}"/>
+        <property name="template" value="${keygen.siteTransaction.id.template}"/>
+    </bean>
+
+    <alias alias="customerEmailResolutionService" name="sclCustomerEmailResolutionService"/>
+    <bean id="sclCustomerEmailResolutionService" class="com.scl.core.customer.services.impl.SCLCustomerEmailResolutionServiceImpl" parent="defaultCustomerEmailResolutionService"/>
+
+    <bean id="partnerCustomerIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.partnerCustomer.id.name}"/>
+        <property name="digits" value="${keygen.partnerCustomer.id.digits}"/>
+        <property name="start" value="${keygen.partnerCustomer.id.start}"/>
+        <property name="numeric" value="${keygen.partnerCustomer.id.numeric}"/>
+        <property name="template" value="${keygen.partnerCustomer.id.template}"/>
+    </bean>
+
+    <bean id="customerGeneratedOtpIdGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+        <property name="key" value="${keygen.customerGeneratedOtp.id.name}"/>
+        <property name="digits" value="${keygen.customerGeneratedOtp.id.digits}"/>
+        <property name="start" value="${keygen.customerGeneratedOtp.id.start}"/>
+        <property name="numeric" value="${keygen.customerGeneratedOtp.id.numeric}"/>
+        <property name="template" value="${keygen.customerGeneratedOtp.id.template}"/>
+    </bean>
+
+</beans>

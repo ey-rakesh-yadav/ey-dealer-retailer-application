@@ -1,0 +1,18 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code) 
+; InboundSclNeilsonBrandMapping; INBOUND 
+ 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code) 
+; InboundSclNeilsonBrandMapping	; SclBrand           	; SclBrand           	; 	; ALL_SUB_AND_SUPER_TYPES	;  
+; InboundSclNeilsonBrandMapping	; NeilsonBrandMapping	; NeilsonBrandMapping	; true	; ALL_SUB_AND_SUPER_TYPES	;  
+ 
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false] 
+; InboundSclNeilsonBrandMapping:SclBrand           	; code    	; SclBrand:code               	;                                       	; true	;  
+; InboundSclNeilsonBrandMapping:NeilsonBrandMapping	; sclBrand	; NeilsonBrandMapping:sclBrand	; InboundSclNeilsonBrandMapping:SclBrand	; true	;  
+; InboundSclNeilsonBrandMapping:NeilsonBrandMapping	; neilson 	; NeilsonBrandMapping:neilson 	;                                       	; true	;
+; InboundSclNeilsonBrandMapping:NeilsonBrandMapping	; validFrom ; NeilsonBrandMapping:validFrom 	;                                       ; true	;
+; InboundSclNeilsonBrandMapping:NeilsonBrandMapping	; validTo 	; NeilsonBrandMapping:validTo 	;                                       	; true	;
+
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundSclNeilsonBrandMapping

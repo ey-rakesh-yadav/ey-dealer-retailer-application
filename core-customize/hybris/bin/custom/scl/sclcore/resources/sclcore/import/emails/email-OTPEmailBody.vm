@@ -1,0 +1,64 @@
+## messageSource=classpath:/sclcore/messages/email-sendOTP_$lang.properties
+#macro( genHtmlBoldFont $text )
+<font color="#414a4f" size="2" face="Arial, Helvetica, sans-serif"><b>$text</b></font>
+#end
+#macro(genHtmlLinkStartTag $url)
+<a href="$url"><font color="#666666">
+#end
+#macro(genHtmlLinkEndTag)
+</font></a>
+#end
+#macro(genHtmlLink $url $textColor $bodyContent)
+<a href="$url"><font color="$textColor">$bodyContent</font></a>
+#end
+<html>
+<head>
+</head>
+<body bgcolor="#ffffff"
+	#set ($accountUrl = "${ctx.baseUrl}/my-account/orders")
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" bgcolor="#ffffff"
+<tr>
+    <td>&nbsp;</td>
+</tr>
+<tr>
+    <td align="center" valign="top">
+        <table width="610" border="0" align="center" cellpadding="0" cellspacing="0" bordercolor="#fff">
+            <tr>
+                <td align="center" valign="top" bgcolor="#FFFFFF">
+                    <table width="570" cellpadding="0" cellspacing="0" border="0" align="center">
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>                                    
+                        <tr>
+                            <td align="left" valign="top">
+                                <p style="margin:2px 0"><font color="#666666" size="2"
+                                                              face="Arial, Helvetica, sans-serif"><b>${ctx.messages.getMessage(
+									'salutation', ${ctx.title},${ctx.displayName})}</b>,(${ctx.uid})</font></p>
+                                <p style="margin:2px 0"><font color="#666666" size="2"
+                                                              face="Arial, Helvetica, sans-serif">
+                                                              ${ctx.messages.getMessage('loginWithOTP', "#genHtmlBoldFont(${ctx.otpCode})")} <br/>${ctx.messages.getMessage('caution')}</font></p>
+
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+						<tr>
+                            <td>  <p style="margin:2px 0"><font color="#666666" size="2"
+                                                              face="Arial, Helvetica, sans-serif">Shree Cement Limited</font></p></td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>

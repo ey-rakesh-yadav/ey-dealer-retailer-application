@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Branding Process Actions -->
+
+    <bean id="checkToEndCustomerCompToSLCTAction" class="com.scl.integration.cpi.EndCustomer.CheckToEndCustomerCompToSLCTAction"  parent="abstractAction">
+    </bean>
+
+    <bean id="sendEndCustomerComplaintToSLCTAction" class="com.scl.integration.cpi.EndCustomer.SendEndCustomerComplaintToSLCTAction"  parent="abstractAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="enumerationService" ref="enumerationService"/>
+    </bean>
+
+    <bean id="sendBrandingReqFeedbackToSLCTAction" class="com.scl.integration.cpi.branding.SendBrandingRequisitionFeedbackToSLCTAction"  parent="abstractAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+    </bean>
+
+    <bean id="sendBrandingReqCancelToSLCTAction" class="com.scl.integration.cpi.branding.SendBrandingReqCancelToSLCTAction"  parent="abstractAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+    </bean>
+</beans>

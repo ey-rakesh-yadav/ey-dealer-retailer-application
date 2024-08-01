@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+--><extensioninfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extensioninfo.xsd">
+        	
+    
+    <extension abstractclassprefix="Generated" classprefix="SclCore" managername="SclCoreManager" managersuperclass="de.hybris.platform.jalo.extension.Extension" name="sclcore">
+                		
+        
+        <!-- you should add all required extensions to this list, except platform 
+			extensions which are automatically required -->
+                		
+        
+        <requires-extension name="acceleratorcms"/>
+        <requires-extension name="b2bacceleratorservices"/>
+       	 <requires-extension name="sapcpiadapter"/>
+        <requires-extension name="notificationservices"/>
+        <requires-extension name="subscriptionservices"/>
+        
+        <coremodule generated="true" manager="com.scl.core.jalo.SclCoreManager" packageroot="com.scl.core"/>
+                		
+        
+        		
+	
+    
+    </extension>
+        
+
+</extensioninfo>

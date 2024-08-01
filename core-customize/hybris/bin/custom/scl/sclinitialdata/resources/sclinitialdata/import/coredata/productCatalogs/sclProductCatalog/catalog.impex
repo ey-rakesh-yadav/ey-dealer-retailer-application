@@ -1,0 +1,32 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# 
+# Import the Product Catalog and Classification Catalog
+#
+
+$productCatalog=sclProductCatalog
+$productCatalogName=SCL Product Catalog
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+$languages=en
+$sourceProductCV=sourceVersion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$targetProductCV=targetVersion(catalog(id[default=$productCatalog]),version[default='Online'])[unique=true,default=$productCatalog:Online]
+$syncJob=sync $productCatalog:Staged->Online
+# Product catalog
+INSERT_UPDATE Catalog;id[unique=true];name
+                     ;$productCatalog;$productCatalogName
+
+# Product versions for product catalogs
+INSERT_UPDATE CatalogVersion;catalog(id)[unique=true];version[unique=true];active;languages(isoCode);readPrincipals(uid)
+                            ;$productCatalog;Staged;false;$languages;employeegroup
+                            ;$productCatalog;Online;true;$languages;employeegroup
+
+
+INSERT_UPDATE CatalogVersionSyncJob; code[unique = true] ; $sourceProductCV ; $targetProductCV ; createNewItems; removeMissingItems; rootTypes(code) ; syncLanguages(isocode);
+                                   ; $syncJob ; $productCatalog:Staged ; $productCatalog:Online ; TRUE ; TRUE ; Product,Category,Media,MediaContainer ; en
+
+
+# Insert Categories
+INSERT_UPDATE Category;code[unique=true];allowedPrincipals(uid)[default='customergroup'];$catalogVersion
+                      ;cement

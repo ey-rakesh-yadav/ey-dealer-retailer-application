@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. -->
+<process xmlns="http://www.hybris.de/xsd/processdefinition"
+	start="sendSMSAction" name="sms-process"
+	processClass="com.scl.core.model.SMSProcessModel">
+
+	<action id="sendSMSAction" bean="sendSMSAction">
+		<transition name="OK" to="success" />
+		<transition name="NOK" to="error" />
+	</action>
+
+	<end id="error" state="ERROR">All went wrong.</end>
+	<end id="failed" state="FAILED">SMS not sent.</end>
+	<end id="success" state="SUCCEEDED">SMS sent.</end>
+
+</process>

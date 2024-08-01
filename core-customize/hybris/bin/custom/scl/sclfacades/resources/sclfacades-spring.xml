@@ -1,0 +1,1872 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+		
+	<context:annotation-config/> 
+
+	<alias alias="simpleSuggestionFacade" name="defaultSimpleSuggestionFacade"/>
+	<bean id="defaultSimpleSuggestionFacade" class="com.scl.facades.suggestion.impl.DefaultSimpleSuggestionFacade" >
+		<property name="simpleSuggestionService" ref="simpleSuggestionService"/>
+		<property name="userService" ref="userService"/>
+		<property name="categoryService" ref="categoryService"/>
+		<property name="productService" ref="productService"/>
+		<property name="productConverter" ref="carouselProductConverter"/>
+		<property name="cartService" ref="cartService"/>
+	</bean>
+	
+	<bean id="carouselProductConverter" parent="defaultProductConverter">
+		<property name="populators">
+			<list merge="true">
+				<ref bean="productPricePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="acceleratorVariantOptionDataConverter" alias="variantOptionDataConverter"/> 
+	<bean id="acceleratorVariantOptionDataConverter" parent="abstractPopulatingConverter">
+		<lookup-method name="createTarget" bean="variantOptionData"/>
+		<property name="populators">
+			<list>
+				<ref bean="acceleratorVariantOptionDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultAcceleratorVariantOptionDataPopulator" alias="acceleratorVariantOptionDataPopulator"/>
+	<bean id="defaultAcceleratorVariantOptionDataPopulator"  class="com.scl.facades.populators.AcceleratorVariantOptionDataPopulator"
+	      parent="variantOptionDataPopulator" >
+		<property name="mediaService" ref="mediaService"/>
+		<property name="mediaContainerService" ref="mediaContainerService"/>
+		<property name="typeService" ref="typeService"/>
+		<property name="imageFormatMapping" ref="imageFormatMapping"/>
+		<property name="variantAttributeMapping">
+			<map>
+				<entry key="ApparelStyleVariantProduct.style" value="styleSwatch"/>
+			</map>
+		</property>
+	</bean>
+
+
+	<alias name="acceleratorGenderConverter" alias="genderConverter"/> 
+	<bean id="acceleratorGenderConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.product.data.GenderData"/>
+			<property name="populators">
+				<list>
+					<ref bean="genderDataPopulator"/>
+				</list>
+			</property>
+	</bean>
+
+	<alias name="defaultGenderDataPopulator" alias="genderDataPopulator"/>
+	<bean id="defaultGenderDataPopulator" class="com.scl.facades.populators.GenderDataPopulator" >
+		<property name="typeService" ref="typeService"/>
+	</bean>
+
+<!--	<bean id="apparelProductPopulator" class="com.scl.facades.populators.ApparelProductPopulator" >
+		<property name="genderConverter" ref="genderConverter"/>
+	</bean>-->
+
+	<!-- Add the apparelProductPopulator to the productConverter -->
+<!--
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="productConverter"/>
+		<property name="add" ref="apparelProductPopulator"/>
+	</bean>
+-->
+
+	<!-- accelerator Image Format Mappings -->
+	<alias name="acceleratorImageFormatMapping" alias="imageFormatMapping"/>
+	<bean id="acceleratorImageFormatMapping" parent="defaultImageFormatMapping">
+		<property name="mapping">
+			<map>
+				<entry key="superZoom" value="1200Wx1200H"/>
+				<entry key="zoom" value="515Wx515H"/>
+				<entry key="store" value="365Wx246H"/>
+				<entry key="product" value="300Wx300H"/>
+				<entry key="thumbnail" value="96Wx96H"/>
+				<entry key="cartIcon" value="65Wx65H"/>
+				<entry key="styleSwatch" value="30Wx30H"/>
+			</map>
+		</property>
+	</bean>
+
+	<alias name="acceleratorProductPrimaryImagePopulator" alias="productPrimaryImagePopulator" />
+	<bean id="acceleratorProductPrimaryImagePopulator" parent="defaultProductPrimaryImagePopulator">
+		<property name="imageFormats">
+			<list>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+				<value>cartIcon</value>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="acceleratorProductGalleryImagesPopulator" alias="productGalleryImagesPopulator" />
+	<bean id="acceleratorProductGalleryImagesPopulator" parent="defaultProductGalleryImagesPopulator">
+		<property name="imageFormats">
+			<list>
+				<value>superZoom</value>
+				<value>zoom</value>
+				<value>product</value>
+				<value>thumbnail</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerEmailContext" class="com.scl.facades.process.email.context.CustomerEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="customerConverter" ref="customerConverter"/>
+	</bean>
+
+	<bean id="forgottenPasswordEmailContext" class="com.scl.facades.process.email.context.ForgottenPasswordEmailContext" parent="customerEmailContext" scope="prototype" >
+		<property name="customerConverter" ref="customerConverter"/>
+	</bean>
+
+	<bean id="orderNotificationEmailContext" class="com.scl.facades.process.email.context.OrderNotificationEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+
+	<bean id="quoteNotificationEmailContext" class="com.scl.facades.process.email.context.QuoteNotificationEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="quoteService" ref="quoteService"/>
+		<property name="quoteConverter" ref="quoteConverter"/>
+	</bean>
+	
+	<bean id="deliverySentEmailContext" class="com.scl.facades.process.email.context.DeliverySentEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+	
+	<bean id="readyForPickupEmailContext" class="com.scl.facades.process.email.context.ReadyForPickupEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+	</bean>
+	
+	<bean id="orderCancelledEmailContext" class="com.scl.facades.process.email.context.OrderCancelledEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+	
+	<bean id="orderRefundEmailContext" class="com.scl.facades.process.email.context.OrderRefundEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+	</bean>
+	<bean id="consignmentCollectionReminderEmailContext" class="com.scl.facades.process.email.context.ConsignmentCollectionReminderEmailContext" parent="abstractEmailContext" scope="prototype">
+        <property name="consignmentConverter" ref="consignmentConverter"/>
+        <property name="formatFactory" ref="formatFactory"/>
+        <property name="customerServiceUncollectedConsignmentStrategy" ref="customerServiceUncollectedConsignmentStrategy" />
+        <property name="orderConverter" ref="orderConverter"/>
+    </bean>
+
+	<bean id="orderPartiallyModifiedEmailContext" class="com.scl.facades.process.email.context.OrderPartiallyModifiedEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="orderConverter" ref="orderConverter"/>
+		<property name="orderEntryConverter" ref="orderEntryConverter"/>
+		<property name="priceDataFactory" ref="priceDataFactory"/>		
+	</bean>
+
+	<bean id="orderPartiallyCanceledEmailContext" class="com.scl.facades.process.email.context.OrderPartiallyCanceledEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	</bean>
+
+	<bean id="orderPartiallyRefundedEmailContext" class="com.scl.facades.process.email.context.OrderPartiallyRefundedEmailContext" parent="orderPartiallyModifiedEmailContext" scope="prototype" >
+	</bean>
+
+	<bean id="notPickedUpConsignmentCanceledEmailContext" class="com.scl.facades.process.email.context.NotPickedUpConsignmentCanceledEmailContext" parent="abstractEmailContext" scope="prototype" >
+		<property name="consignmentConverter" ref="consignmentConverter"/>
+		<property name="priceDataFactory" ref="priceDataFactory"/>
+	</bean>
+
+	<bean id="ledgerReportEmailContext" class="com.scl.facades.process.email.context.LedgerReportEmailContext" parent="abstractEmailContext" scope="prototype" >
+	</bean>
+
+	<bean id="sendOTPEmailContext" class="com.scl.facades.process.email.context.sendOTPEmailContext" parent="customerEmailContext" scope="prototype" >
+	</bean>
+	
+	<alias name="yacceleratorSearchPagePointOfServiceDistancePopulator" alias="searchPagePointOfServiceDistancePopulator" />
+	<bean id="yacceleratorSearchPagePointOfServiceDistancePopulator" class="com.scl.facades.storefinder.populators.SearchPagePointOfServiceDistancePopulator" >
+		<property name="pointOfServiceDistanceConverter" ref="pointOfServiceDistanceConverter"/>
+	</bean>
+
+	<bean id="genderData" class="com.scl.facades.product.data.GenderData" scope="prototype"/>
+
+	<alias name="defaultSclLeadReverseConverter" alias="sclLeadReverseConverter"/>
+	<bean id="defaultSclLeadReverseConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.lead.data.LeadData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclLeadReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclLeadReversePopulator" class="com.scl.facades.populators.lead.SclLeadReversePopulator" >
+	</bean>
+
+	<alias name="defaultSclLeadConverter" alias="sclLeadConverter"/>
+	<bean id="defaultSclLeadConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.core.model.LeadModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclLeadPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclLeadPopulator" class="com.scl.facades.populators.lead.SclLeadPopulator" >
+	</bean>
+
+	<alias name="sclOOTAddressPopulator" alias="addressPopulator" />
+	<bean id="sclOOTAddressPopulator" class="com.scl.facades.populators.SCLOOTAddressPopulator" parent="defaultAddressPopulator" >
+	</bean>
+
+	<alias name="defaultSclLeadFacade" alias="sclLeadFacade" />
+	<bean id="defaultSclLeadFacade" class="com.scl.facades.lead.impl.DefaultSclLeadFacade">
+		<property name="modelService" ref="modelService"/>
+		<property name="sclLeadService" ref="sclLeadService"/>
+		<property name="sclLeadReverseConverter" ref="sclLeadReverseConverter"/>
+		<property name="sclLeadConverter" ref="sclLeadConverter"/>
+	</bean>
+
+	<alias name="defaultSclCustomerFacade" alias="sclCustomerFacade" />
+	<bean id="defaultSclCustomerFacade" class="com.scl.facades.customer.impl.DefaultSclCustomerFacade" parent="defaultB2BCustomerFacade">
+		<property name="sclCustomerAccountService" ref="customerAccountService"/>
+		<property name="userService" ref="userService"/>
+		<property name="baseStoreService" ref="baseStoreService"/>
+		<property name="sclCustomerService" ref="sclCustomerService"/>
+		<property name="prosDealerListConverter" ref="prosDealerListConverter"/>
+		<property name="prosDealerService" ref="prosDealerService"/>
+		<property name="prosDealerDetailsConverter" ref="prosDealerDetailsConverter"/>
+		<property name="sclCustomerReversePopulator" ref="sclCustomerReversePopulator"/>
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="passwordEncoding" value="#{configurationService.configuration.getProperty('default.password.encoding')}"/>
+		<property name="flexibleSearchService" ref="flexibleSearchService"/>
+		<property name="regionService" ref="regionService"/>
+	</bean>
+
+	<alias name="defaultSclFeedbackFacade" alias="sclFeedbackFacade" />
+	<bean id="defaultSclFeedbackFacade" class="com.scl.facades.feedback.impl.DefaultSclFeedbackFacade">
+		<property name="sclFeedbackService" ref="sclFeedbackService"/>
+		<property name="b2bOrderService" ref="b2bOrderService"/>
+		<property name="userService" ref="userService"/>
+		<property name="configurationService" ref="configurationService"/>
+		<property name="productService" ref="productService"/>
+		<property name="modelService" ref="modelService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+		<property name="customerReviewConverter" ref="customerReviewConverter"/>
+	</bean>
+	
+	<!-- Order count facades -->
+	<alias name="defaultSclOrderFacade" alias="sclOrderFacade" />
+	<bean id="defaultSclOrderFacade" class="com.scl.facades.order.impl.DefaultSclOrderFacade">
+		<property name="sclOrderService" ref="sclOrderService"/>
+	</bean>
+
+	<bean id="SclFeedbackPopulator" class="com.scl.facades.populators.feedback.SclFeedbackPopulator" >
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerReviewConverter"/>
+		<property name="add" ref="SclFeedbackPopulator"/>
+	</bean>
+
+	<bean id="prosDealerExtPopulator" class="com.scl.facades.populators.prosdealer.ProspectiveDealerExtPopulator">
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+	<bean id="prosDealerBasicPopulator" class="com.scl.facades.populators.prosdealer.ProspectiveDealerBasicPopulator" />
+
+	<bean id="dealerDocumentPopulator" class="com.scl.facades.populators.prosdealer.DealerDocumentsPopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	<bean id="applicantDetailsPopulator" class="com.scl.facades.populators.prosdealer.ApplicantDetailsPopulator">
+	</bean>
+	<bean id="prosDealerBusinessDetailsPopulator" class="com.scl.facades.populators.prosdealer.ProsDealerBusinessDetailsPopulator">
+	</bean>
+	<bean id="ProsDealerFinancialDetailsPopulator" class="com.scl.facades.populators.prosdealer.ProsDealerFinancialDetailsPopulator">
+	</bean>
+	<alias name="defaultProsDealerListConverter" alias="prosDealerListConverter"/>
+	<bean id="defaultProsDealerListConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.prosdealer.data.ProsDealerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prosDealerBasicPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultProsDealerDetailsConverter" alias="prosDealerDetailsConverter"/>
+	<bean id="defaultProsDealerDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.prosdealer.data.ProsDealerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prosDealerBasicPopulator"/>
+				<ref bean="prosDealerExtPopulator"/>
+				<ref bean="dealerDocumentPopulator"/>
+				<ref bean="applicantDetailsPopulator"/>
+				<ref bean="prosDealerBusinessDetailsPopulator"/>
+				<ref bean="ProsDealerFinancialDetailsPopulator"/>
+
+				<!--Add More populator for details data-->
+			</list>
+		</property>
+	</bean>
+
+	
+ <bean id="dealerAddressPopulator"
+          class="com.scl.facades.populators.DealerAddressPopulator">
+    </bean>
+    
+
+    <bean parent="modifyPopulatorList">
+     <property name="list" ref="defaultAddressConverter" />
+      <property name="add" ref="dealerAddressPopulator" />
+</bean>
+ 
+
+    <alias name="dealerAddressReversePopulator" alias="addressReversePopulator"/>
+    <bean id="dealerAddressReversePopulator"
+          class="com.scl.facades.populators.DealerAddressReversePopulator"
+          parent="defaultAddressReversePopulator">
+    </bean>
+      
+    <bean id="dealerAddressDataErrorsPopulator"
+          class="com.scl.facades.populators.DealerAddressDataErrorsPopulator">
+    </bean>
+ 
+ <bean id="productMinAndMaxQuantityPopulator"
+          class="com.scl.facades.populators.ProductMinAndMaxQuantityPopulator">
+    </bean>
+    
+<bean parent="modifyPopulatorList">
+     <property name="list" ref="defaultProductConverter" />
+      <property name="add" ref="productMinAndMaxQuantityPopulator" />
+</bean>
+
+	<alias name="defaultProsDealerFacade" alias="prosDealerFacade" />
+	<bean id="defaultProsDealerFacade" class="com.scl.facades.prosdealer.impl.DefaultProsDealerFacade">
+		<property name="prosDealerService" ref="prosDealerService"/>
+	</bean>
+
+	<alias name="regionFacade" alias="regionFacade" />
+	<bean id="regionFacade" class="com.scl.facades.region.impl.RegionFacadeImpl">
+	</bean>
+	
+	<alias name="brandFacade" alias="brandFacade" />
+	<bean id="brandFacade" class="com.scl.facades.brand.impl.BrandFacadeImpl">
+	</bean>
+	
+	<alias name="tradeOrderFacade" alias="tradeOrderFacade" />
+	<bean id="tradeOrderFacade" class="com.scl.facades.tradeOrder.impl.TradeOrderFacadeImpl">
+	</bean>
+	
+	<alias name="smsOtpFacade" alias="smsOtpFacade" />
+	<bean id="smsOtpFacade" class="com.scl.facades.otp.impl.SmsOtpFacadeImpl">
+	</bean>
+
+	<bean id="orderStagesPopulator" class="com.scl.facades.populators.order.DefaultOrderStagesPopulator">
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="orderConverter"/>
+		<property name="add" ref="orderStagesPopulator"/>
+	</bean>
+	<bean id="sclOrderPopulator" class="com.scl.facades.populators.order.DefaultSclOrderPopulator">
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="orderConverter"/>
+		<property name="add" ref="sclOrderPopulator"/>
+	</bean>
+	<alias name="deliveryModesFacade" alias="deliveryModesFacade" />
+	<bean id="deliveryModesFacade" class="com.scl.facades.delivery.impl.DeliveryModesFacadeImpl">
+	</bean>
+	
+	<bean id="sclCartFacade" class="com.scl.facades.cart.impl.DefaultSclCartFacade" parent="defaultCartFacade">
+		<property name="modelService" ref="modelService"/>
+	</bean>
+
+ 	<alias name="sclOrderHistoryConverter" alias="orderHistoryConverter"/>
+    <bean id="sclOrderHistoryConverter" parent="defaultOrderHistoryConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.OrderHistoryData"/>
+        <property name="populators">
+            <list merge="true">
+                <ref bean="sclOrderHistoryPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <alias name="sclOrderHistoryPopulator" alias="sclOrderHistoryPopulator"/>
+    <bean id="sclOrderHistoryPopulator"
+          class="com.scl.facades.populators.SclOrderHistoryPopulator">
+    </bean>
+
+	
+	<bean id="deliverySlotsFacade" class="com.scl.facades.delivery.impl.DeliverySlotsFacadeImpl">
+	</bean>	<bean id="defaultSCLPlaceOrderMethodHook" class="com.scl.facades.hook.DefaultSCLPlaceOrderMethodHook">
+		<property name="sessionService" ref="sessionService"/>
+		<property name="modelService" ref="modelService" />
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean id="addSCLPlaceOrderMethodHooksMergeDirective" depends-on="commercePlaceOrderMethodHooks" parent="listMergeDirective">
+		<property name="add" ref="defaultSCLPlaceOrderMethodHook"/>
+	</bean>
+
+	<bean id="defaultSCLB2BCheckoutFacade" class="com.scl.facades.order.impl.DefaultSCLB2BCheckoutFacade" parent="defaultB2BAcceleratorCheckoutFacade" >
+	</bean>
+
+	<bean id="defaultSCLOrderEntryCardPopulator" class="com.scl.facades.populators.order.DefaultSCLOrderEntryCardPopulator">
+		<property name="productConverter" ref="productConverter"/>
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="trackingDetailsOnEntryPopulator" ref="defaultSCLTrackingDetailsOnEntryPopulator"/>
+		<property name="trackingDetailsOnOrderPopulator" ref="defaultSCLTrackingDetailsOnOrderPopulator"/>
+	</bean>
+	<bean id="defaultSCLOrderCardPopulator" class="com.scl.facades.populators.order.DefaultSCLOrderCardPopulator">
+		<property name="productConverter" ref="productConverter"/>
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="trackingDetailsOnEntryPopulator" ref="defaultSCLTrackingDetailsOnEntryPopulator"/>
+		<property name="trackingDetailsOnOrderPopulator" ref="defaultSCLTrackingDetailsOnOrderPopulator"/>
+	</bean>
+	<bean id="defaultSCLTrackingDetailsOnEntryPopulator" class="com.scl.facades.populators.order.DefaultSCLTrackingDetailsOnEntryPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+	<bean id="defaultSCLTrackingDetailsOnOrderPopulator" class="com.scl.facades.populators.order.DefaultSCLTrackingDetailsOnOrderPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+	<bean id="defaultSCLTrackingDetailsOnDeliveryItemPopulator" class="com.scl.facades.populators.order.DefaultSCLTrackingDetailsOnDeliveryItemPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+	</bean>
+	<bean id="defaultSCLDeliveryItemCardPopulator" class="com.scl.facades.populators.order.DefaultSCLDeliveryItemCardPopulator">
+		<property name="productConverter" ref="productConverter"/>
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="trackingDetailsOnDeliveryItemPopulator" ref="defaultSCLTrackingDetailsOnDeliveryItemPopulator"/>
+	</bean>
+	<bean id="sclOrderEntryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SCLOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="defaultSCLOrderEntryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclOrderCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SCLOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="defaultSCLOrderCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclDeliveryItemCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SCLOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="defaultSCLDeliveryItemCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<alias name="defaultSCLB2BOrderFacade" alias="orderFacade"/>
+	<bean id="defaultSCLB2BOrderFacade" class="com.scl.facades.order.impl.DefaultSCLB2BOrderFacade" parent="defaultB2BOrderFacade" >
+		<property name="sclB2BOrderService" ref="b2bOrderService"/>
+		<property name="sclOrderEntryCardConverter" ref="sclOrderEntryCardConverter"/>
+		<property name="sclDeliveryItemCardConverter" ref="sclDeliveryItemCardConverter"/>
+		<property name="sclOrderCardConverter" ref="sclOrderCardConverter"/>
+		<property name="sclCustomerAccountService" ref="customerAccountService"/>
+	</bean>
+
+	<bean id="dealerBasicPopulator" class="com.scl.facades.populators.DealerBasicPopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+    </bean>
+    
+    <bean id="dealerBasicConverter" parent="abstractPopulatingConverter" >
+        <property name="targetClass" value="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+        <property name="populators">
+            <list>
+                <ref bean="dealerBasicPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="orderHistoryFacade" class="com.scl.facades.orderhistory.impl.OrderHistoryFacadeImpl" >
+    	<property name="sclOrderHistoryService" ref="sclOrderHistoryService"/> 
+	</bean>
+	
+	<bean id="depotOperationsFacade" class="com.scl.facades.depot.operations.impl.DepotOperationsFacadeImpl" >
+		<property name="depotOperationsService" ref="depotOperationsService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+
+	<alias name="defaultSclCustomerReverseConverter" alias="sclCustomerReverseConverter"/>
+	<bean id="defaultSclCustomerReverseConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="de.hybris.platform.commercefacades.user.data.CustomerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclCustomerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclCustomerReversePopulator" class="com.scl.facades.populators.SclCustomerReversePopulator" >
+	</bean>
+	
+	<alias name="sclCartParameterConverter" alias="commerceCartParameterConverter"/>
+    <bean name="sclCartParameterConverter" parent="defaultCommerceCartParameterConverter">
+        <property name="populators">
+            <list merge="true">
+                <ref bean="sclCartParameterPopulator"/>
+            </list>
+        </property>
+    </bean>
+    
+	<bean id="sclCartParameterPopulator"  class="com.scl.facades.populators.SclCartParameterPopulator">
+    </bean>
+    
+    <alias name="sclB2BCartFacade" alias="b2bCartFacade"/>
+	<bean id="sclB2BCartFacade" class="com.scl.facades.impl.SclB2BCartFacadeImpl" parent="defaultB2BCartFacade">
+		<property name="cartService" ref="b2bCartService"/>
+		<property name="checkoutFacade" ref="b2bCheckoutFacade"/>
+		<property name="b2bProductFacade" ref="productVariantFacade" />
+		<property name="cartFacade" ref="cartFacade" />
+		<property name="groupCartModificationListConverter" ref="groupCartModificationListConverter" />
+		<property name="sclB2BCartService" ref="sclB2BCartService"/>	
+		<property name="userService" ref="userService"/>
+		<!--<property name="cartConverter" ref="cartConverter"/>  -->
+	</bean>
+	<bean id="sclCustomerPopulator" class="com.scl.facades.populators.SclCustomerPopulator" >
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="customerConverter"/>
+		<property name="add" ref="sclCustomerPopulator"/>
+	</bean>
+
+	<alias name="destinationSourceConverter" alias="destinationSourceConverter"/>
+	<bean id="destinationSourceConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DestinationSourceMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="destinationSourcePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="destinationSourcePopulator" class="com.scl.facades.populators.DestinationSourcePopulator">
+	</bean>
+	
+	    <alias name="sclCartConverter" alias="cartConverter"/>
+    <bean id="sclCartConverter" parent="accExtendedCartConverter">
+        <property name="populators">
+            <list merge="true">
+                <ref bean="sclCartPopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="sclCartPopulator" class="com.scl.facades.populators.SclCartPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>  
+    	<property name="commonI18NService" ref="commonI18NService"/> 
+    	<property name="orderEntryConverter" ref="orderEntryConverter"/> 
+    </bean>	
+    
+    <bean id="sclOrderConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="de.hybris.platform.commercefacades.order.data.CartData"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclOrderDetailPopulator"/>
+            </list>
+        </property>
+    </bean>
+ 
+    <bean id="sclOrderDetailPopulator" class="com.scl.facades.populators.SclOrderPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>  
+    	<property name="commonI18NService" ref="commonI18NService"/>  
+    	<property name="orderEntryConverter" ref="orderEntryConverter"/>
+    </bean>	   
+    
+    <alias name="sclOrderEntryPopulator" alias="orderEntryPopulator"/>
+    <bean id="sclOrderEntryPopulator"
+          class="com.scl.facades.populators.SclOrderEntryPopulator" parent="defaultOrderEntryPopulator">
+    	<property name="enumerationService" ref="enumerationService"/>
+		<property name="commonI18NService" ref="commonI18NService"/>
+        <property name="productConverter" ref="orderEntryProductConverter"/>
+        <property name="priceDataFactory" ref="priceDataFactory"/>
+        <property name="entryOrderChecker" ref="commerceOrderEntryModifiableChecker"/>
+        <property name="deliveryModeConverter" ref="deliveryModeConverter"/>
+        <property name="pointOfServiceConverter" ref="pointOfServiceConverter"/>
+        <property name="productConfigurationConverter" ref="orderEntryProductInfoConverter"/>
+        <property name="entryGroupService" ref="entryGroupService"/>
+        <property name="orderCommentConverter" ref="orderCommentConverter"/>		
+    </bean>
+    
+    <alias name="djpVisitFacade" alias="djpVisitFacade" />
+	<bean id="djpVisitFacade" class="com.scl.facades.impl.DJPVisitFacadeImpl">
+		<property name="baseSiteService" ref="baseSiteService"/>
+	</bean>
+
+	<alias name="salesPlanningFacade" alias="salesPlanningFacade" />
+	<bean id="salesPlanningFacade" class="com.scl.facades.impl.SalesPlanningFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="salesPlanningService" ref="salesPlanningService"/>
+		<property name="salesPerformanceService" ref="salesPerformanceService"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="salesPlanningDao" ref="salesPlanningDao"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+	</bean>
+
+	<alias name="brandingFacade" alias="brandingFacade"/>
+	<bean id="brandingFacade" class="com.scl.facades.impl.BrandingFacadeImpl">
+		<property name="brandingService" ref="brandingService"/>
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="imageConverter" ref="imageConverter"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+		<property name="sclBrandingReqTrackerConverter" ref="sclBrandingReqTrackerConverter"/>
+	</bean>
+
+	<!-- order history -->
+	<bean id="sclOrderEntryHistoryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SclOrderHistoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclOrderEntryHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclOrderHistoryCardConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.order.data.SclOrderHistoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclOrderHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sclDeliveryItemHistoryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SclOrderHistoryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclDeliveryItemHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<!--<bean id="sclOrderEntryHistoryCardConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.order.data.SCLOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclOrderEntryHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclOrderHistoryCardConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.order.data.SCLOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclOrderHistoryCardPopulator"/>
+			</list>
+		</property>
+	</bean>-->
+
+	<bean id="sclOrderEntryHistoryCardPopulator" class="com.scl.facades.populators.order.SclOrderEntryHistoryCardPopulator">
+	</bean>
+
+	<bean id="sclOrderHistoryCardPopulator" class="com.scl.facades.populators.order.SclOrderHistoryCardPopulator">
+	</bean>
+	
+	<bean id="sclDeliveryItemHistoryCardPopulator" class="com.scl.facades.populators.order.SclDeliveryItemHistoryCardPopulator">
+	</bean>
+
+	<bean id="commerceOrderParameterBasicPopulator"
+		  class="com.scl.facades.populators.order.CommerceOrderParameterBasicPopulator">
+	</bean>
+
+	<alias name="defaultCommerceOrderParameterConverter" alias="commerceOrderParameterConverter"/>
+	<bean name="defaultCommerceOrderParameterConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.commerceservices.service.data.CommerceCartParameter"/>
+		<property name="populators">
+			<list>
+				<ref bean="commerceOrderParameterBasicPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="visitDataPopulator"
+		  class="com.scl.facades.populators.djp.VisitDataPopulator">
+	</bean>
+	
+	<bean id="visitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.VisitMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="visitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="counterVisitDataPopulator"
+		  class="com.scl.facades.populators.djp.CounterVisitDataPopulator">
+	</bean>
+	
+	<bean id="counterVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.CounterVisitData"/>
+		<property name="populators">
+			<list>
+				<ref bean="counterVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="siteVisitDataPopulator"
+		  class="com.scl.facades.populators.djp.SiteVisitDataPopulator">
+	</bean>
+	
+	<bean id="siteVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SiteVisitFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="siteVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="reviewLogsVisitDataPopulator"
+		  class="com.scl.facades.populators.djp.ReviewLogsVisitDataPopulator">
+	</bean>
+	
+	<bean id="reviewLogsVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.VisitMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="reviewLogsVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="counterMappingReversePopulator"
+		  class="com.scl.facades.populators.djp.CounterMappingReversePopulator">
+	</bean>
+	
+	<bean id="marketMappingFacade" class="com.scl.facades.impl.MarketMappingFacadeImpl">
+	</bean>
+	
+	<bean id="geographicalRegionFacade" class="com.scl.facades.region.impl.GeographicalRegionFacadeImpl">
+	</bean>
+	
+	<bean id="counterVisitMasterDataPopulator"
+		  class="com.scl.facades.populators.djp.CounterVisitMasterDataPopulator">
+	</bean>
+	
+	<bean id="dealerFleetDetailsPopulator"
+		  class="com.scl.facades.populators.DealerFleetDetailsPopulator">
+	</bean>
+	
+	<bean id="dealerFleetDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DealerFleetData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerFleetDetailsPopulator"/>
+			</list>
+		</property>
+	</bean> 
+	
+	<bean id="sclSitePopulator"
+		  class="com.scl.facades.populators.djp.SclSitePopulator">
+	</bean>
+
+	<bean id="viewDealerPlannedAnnualSalesPopulator"
+		  class="com.scl.facades.populators.sales.ViewDealerPlannedAnnualSalesPopulator">
+	</bean>
+
+	<bean id="viewDealerPlannedMonthlySalesPopulator"
+		  class="com.scl.facades.populators.sales.ViewDealerPlannedMonthlySalesPopulator">
+	</bean>
+
+	<bean id="viewRetailerPlannedAnnualSalesPopulator"
+		  class="com.scl.facades.populators.sales.ViewRetailerPlannedAnnualSalesPopulator">
+	</bean>
+	
+	<bean id="sclSiteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SclSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclSitePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="territoryManagementFacade" class="com.scl.facades.impl.TerritoryManagementFacadeImpl">
+	</bean>
+
+	<bean id="territoryMasterFacade" class="com.scl.facades.impl.TerritoryMasterFacadeImpl">
+	</bean>
+
+	<alias name="defaultSCLUserFacade" alias="userFacade"/>
+	<bean id="defaultSCLUserFacade" class="com.scl.facades.user.impl.DefaultSCLUserFacade" parent="defaultUserFacade">
+	</bean>
+
+	<bean id="sclUserFacade" class="com.scl.facades.user.impl.DefaultSCLUserFacade">
+		<property name="userService" ref="userService" />
+		<property name="addressConverter" ref="addressConverter"/>
+		<property name="sclDealerRetailerService" ref="sclDealerRetailerService"/>
+	</bean>
+
+	<bean id="sclSiteMessagePopulator" class="com.scl.facades.populators.SclSiteMessagePopulator">
+	</bean>
+
+	<bean parent="modifyPopulatorList">
+	<property name="list" ref="siteMessageConverter"/>
+	<property name="add" ref="sclSiteMessagePopulator"/>
+	</bean>
+
+	<bean id="schemeDetailsReversePopulator"
+		  class="com.scl.facades.populators.djp.SchemeDetailsReversePopulator">
+	</bean>
+
+	<bean id="sclNotificationFacade" class="com.scl.facades.impl.SclNotificationFacadeImpl">
+	</bean>
+
+	<bean id="dealerVehicleDetailsPopulator" class="com.scl.facades.populators.order.DealerVehicleDetailsPopulator">
+	</bean>
+
+	<bean id="dealerVehicleDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.order.vehicle.DealerVehicleDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerVehicleDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dealerDriverDetailsPopulator" class="com.scl.facades.populators.order.DealerDriverDetailsPopulator">
+	</bean>
+
+	<bean id="dealerDriverDetailsConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.order.vehicle.DealerDriverDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDriverDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dealerVehicleDetailsReversePopulator" class="com.scl.facades.populators.order.DealerVehicleDetailsReversePopulator">
+	</bean>
+	<bean id="dealerDriverDetailsReversePopulator" class="com.scl.facades.populators.order.DealerDriverDetailsReversePopulator">
+	</bean>
+
+	<alias name="defaultDealerTransitFacade" alias="dealerTransitFacade"/>
+	<bean id="defaultDealerTransitFacade" class="com.scl.facades.order.impl.DefaultDealerTransitFacade">
+	</bean>
+
+	<alias name="defaultEfficacyReportFacade" alias="efficacyReportFacade"/>
+	<bean id="defaultEfficacyReportFacade" class="com.scl.facades.efficacy.report.impl.EfficacyReportFacadeImpl">
+		<property name="efficacyReportService" ref="efficacyReportService"/>
+		<property name="efficacyReportConverter" ref="efficacyReportConverter"/>
+		<property name="marketIntelligenceReportConverter" ref="marketIntelligenceReportConverter"/>
+		<property name="outstandingDueReportConverter" ref="outstandingDueReportConverter"/>
+	</bean>
+
+	<bean id="efficacyReportPopulator" class="com.scl.facades.populators.efficacyreport.EfficacyReportPopulator"/>
+
+	<bean id="efficacyReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.EfficacyReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="efficacyReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="marketIntelligenceReportPopulator" class="com.scl.facades.populators.marketreport.MarketIntelligenceReportPopulator"/>
+
+	<bean id="marketIntelligenceReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.MarketIntelligenceData"/>
+		<property name="populators">
+			<list>
+				<ref bean="marketIntelligenceReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="outstandingDueReportPopulator" class="com.scl.facades.populators.outstandingreport.OutstandingDueReportPopulator"/>
+
+	<bean id="outstandingDueReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.OutstandingDueReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="outstandingDueReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="collectionFacade" class="com.scl.facades.impl.CollectionFacadeImpl">
+	</bean>
+	
+	<bean id="obsoleteCountersReportPopulator" class="com.scl.facades.populators.efficacyreport.ObsoleteCountersReportPopulator"/>
+	
+	<bean id="obsoleteCountersReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.ObsoleteCounterReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="obsoleteCountersReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="efficacyNewProductReportPopulator" class="com.scl.facades.populators.efficacyreport.EfficacyNewProductReportPopulator"/>
+	
+	<bean id="efficacyNewProductReportConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.NewProductReportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="efficacyNewProductReportPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="ledgerPopulator" class="com.scl.facades.populators.LedgerPopulator"/>
+	
+	<bean id="ledgerConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.CollectionLedgerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="ledgerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="sclDealPlannMonthSaleConvertor" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.MonthlySalesTargetSettingData"/>
+		<property name="populators">
+			<list>
+				<ref bean="viewDealerPlannedMonthlySalesPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclRetailerReversePopulator" class="com.scl.facades.populators.SCLRetailerReversePopulator"/>
+	<bean id="sclRetailerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.SclCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclRetailerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclRetailerPopulator" class="com.scl.facades.populators.SCLRetailerPopulator"/>
+	<bean id="sclRetailerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLRetailerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclRetailerPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclMediaReversePopulator" class="com.scl.facades.populators.SCLMediaReversePopulator"/>
+	<bean id="sclMediaReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.catalog.model.CatalogUnawareMediaModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclMediaReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclAddressReversePopulator" class="com.scl.facades.populators.SCLAddressReversePopulator"/>
+	<bean id="sclAddressReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="de.hybris.platform.core.model.user.AddressModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclAddressReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclAddressPopulator" class="com.scl.facades.populators.SCLAddressPopulator"/>
+	<bean id="sclAddressConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLAddressData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclAddressPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclDirectorReversePopulator" class="com.scl.facades.populators.SCLDirectorReversePopulator"/>
+	<bean id="sclDirectorReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.ProsDealerCompanyModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclDirectorReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="sclDirectorPopulator" class="com.scl.facades.populators.SCLDirectorPopulator"/>
+	<bean id="sclDirectorConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLDirectorData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclDirectorPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclPartnerReversePopulator" class="com.scl.facades.populators.SCLPartnerReversePopulator"/>
+	<bean id="sclPartnerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.PartnershipModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclPartnerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclPartnerPopulator" class="com.scl.facades.populators.SCLPartnerPopulator"/>
+	<bean id="sclPartnerConverter" parent="abstractPopulatingConverter">
+	<property name="targetClass" value="com.scl.facades.data.SCLPartnerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclPartnerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+    <bean id="sclBrandWiseSaleReversePopulator" class="com.scl.facades.populators.SCLBrandWiseSaleReversePopulator"/>
+    <bean id="brandWiseSaleReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.core.model.BrandWiseSaleModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclBrandWiseSaleReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclBrandWiseSalePopulator" class="com.scl.facades.populators.SCLBrandWiseSalePopulator"/>
+    <bean id="brandWiseSaleConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.facades.prosdealer.data.BrandWiseSaleData"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclBrandWiseSalePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclVehicleDetailsReversePopulator" class="com.scl.facades.populators.SCLVehicleDetailsReversePopulator"/>
+    <bean id="vehicleDetailsReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.core.model.DealerVehicleDetailsModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclVehicleDetailsReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclVehicleDetailsPopulator" class="com.scl.facades.populators.SCLVehicleDetailsPopulator"/>
+    <bean id="vehicleDetailsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.facades.data.order.vehicle.DealerVehicleDetailsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclVehicleDetailsPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclDriveDetailsReversePopulator" class="com.scl.facades.populators.SCLDriverDetailsReversePopulator"/>
+    <bean id="driveDetailsReverseConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.core.model.DealerDriverDetailsModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclDriveDetailsReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclDriveDetailsPopulator" class="com.scl.facades.populators.SCLDriverDetailsPopulator"/>
+    <bean id="driveDetailsConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.facades.data.order.vehicle.DealerDriverDetailsData"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclDriveDetailsPopulator"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="sclNominationReversePopulator" class="com.scl.facades.populators.SCLNominationReversePopulator"/>
+    <bean id="nominationConverter" parent="abstractPopulatingConverter">
+        <property name="targetClass" value="com.scl.core.model.NominationModel"/>
+        <property name="populators">
+            <list>
+                <ref bean="sclNominationReversePopulator"/>
+            </list>
+        </property>
+    </bean>
+
+    <alias name="defaultSchemesAndDiscountFacade" alias="schemesAndDiscountFacade"/>
+	<bean id="defaultSchemesAndDiscountFacade" class="com.scl.facades.impl.SchemesAndDiscountFacadeImpl">
+		<property name="categoryDataConverter" ref="cmsCategoryDataConverter" />
+		<property name="cartFacade" ref="commerceCheckoutCartFacade"/>
+        <property name="commerceCheckoutService" ref="commerceCheckoutService"/>
+        <property name="cartService" ref="cartService"/>
+        <property name="imageConverter" ref="imageConverter"/>
+        <property name="productConverter" ref="productConverter"/>
+        <property name="productConfiguredPopulator" ref="productConfiguredPopulator"/>        
+	</bean>	
+	
+	<bean id="sclNetworkFacade" class="com.scl.facades.network.impl.SCLNetworkFacadeImpl"/>
+	<bean id="networkDao" class="com.scl.core.dao.impl.NetworkDaoImpl"/>
+	<bean id="salesPerformanceDao" class="com.scl.core.dao.impl.SalesPerformanceDaoImpl"/>
+	<bean id="networkAdditionPlanReversePopulator"
+		  class="com.scl.facades.populators.NetworkAdditionPlanReversePopulator"/>
+	<bean id="networkAdditionPlanReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.NetworkAdditionPlanModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="networkAdditionPlanReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="networkAdditionPlanPopulator" class="com.scl.facades.populators.NetworkAdditionPlanPopulator"/>
+	<bean id="networkAdditionPlanConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLNetworkAdditionPlanData"/>
+		<property name="populators">
+			<list>
+				<ref bean="networkAdditionPlanPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerReversePopulator" class="com.scl.facades.populators.InfluencerReversePopulator"/>
+	<bean id="influencerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.SclCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerComplaintReversePopulator" class="com.scl.facades.populators.CustomerComplaintReversePopulator"/>
+	<bean id="customerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.EndCustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="endCustomerComplaintReversePopulator" class="com.scl.facades.populators.EndCustomerComplaintReversePopulator"/>
+	<bean id="endCustomerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.EndCustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="endCustomerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="influencerPopulator" class="com.scl.facades.populators.InfluencerPopulator"/>
+	<bean id="influncerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.InfluencerData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerFinancialsReversePopulator"
+		  class="com.scl.facades.populators.InfluencerFinancialsReversePopulator"/>
+	<bean id="influencerFinancialsPopulator"
+		  class="com.scl.facades.populators.InfluencerFinancialsPopulator"/>
+	<bean id="uidMediaReversePopulator" class="com.scl.facades.populators.UidMediaReversePopulator"/>
+	<bean id="uidMediaReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.UidMediaModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="uidMediaReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+  
+  <bean id="bulkGoodsFacade" class="com.scl.facades.impl.BulkGoodsFacadeImpl">
+	</bean>
+	
+	<bean id="purchaseOrderPopulator" class="com.scl.facades.populators.PurchaseOrderPopulator"/>
+	
+	<bean id="purchaseOrderConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.PurchaseOrderData"/>
+		<property name="populators">
+			<list>
+				<ref bean="purchaseOrderPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="genericMediaUtil" class="com.scl.facades.util.GenericMediaUtil"/>
+
+	<alias name="defaultSlctCrmIntegrationFacade" alias="slctCrmIntegrationFacade"/>
+	<bean id="defaultSlctCrmIntegrationFacade" class="com.scl.facades.impl.SlctCrmIntegrationFacadeImpl">			
+	</bean>	
+	
+
+	<bean id="influencerSummaryPopulator" class="com.scl.facades.populators.InfluencerSummaryPopulator"/>
+	<bean id="influencerSummaryConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.InfluencerSummaryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerSummaryPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="influencerSummarySalesPerformancePopulator" class="com.scl.facades.populators.InfluencerSummarySalesPerformancePopulator"/>
+	<bean id="influencerSummarySalesPerformanceConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SalesPerformNetworkDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerSummarySalesPerformancePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="meetScheduleReversePopulator" class="com.scl.facades.populators.MeetScheduleReversePopulator"/>
+	<bean id="meetScheduleReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.MeetingScheduleModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetScheduleReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="meetingCompletionFormReversePopulator" class="com.scl.facades.populators.MeetingCompletionFormReversePopulator"/>
+	<bean id="meetingCompletionFormReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.MeetingCompletionFormModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetingCompletionFormReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scheduledMeetPopulator" class="com.scl.facades.populators.ScheduledMeetPopulator"/>
+	<bean id="scheduledMeetConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ScheduledMeetData"/>
+		<property name="populators">
+			<list>
+				<ref bean="scheduledMeetPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="meetingCompletionFormPopulator" class="com.scl.facades.populators.MeetingCompletionFormPopulator"/>
+	<bean id="meetingCompletionFormConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.MeetingCompletionFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="meetingCompletionFormPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<alias name="salesPerformanceFacade" alias="salesPerformanceFacade" />
+	<bean id="salesPerformanceFacade" class="com.scl.facades.impl.SalesPerformanceFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="baseSiteService" ref="baseSiteService"/>
+		<property name="salesPerformanceService" ref="salesPerformanceService"/>
+		<property name="territoryManagementService" ref="territoryManagementService"/>
+		<property name="geographicalRegionFacade" ref="geographicalRegionFacade"/>
+		<property name="territoryMasterService" ref="territoryMasterService"/>
+	</bean>
+
+	<bean id="sclImagePopulator" class="com.scl.facades.populators.SCLImagePopulator"/>
+	<bean id="sclImageConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLImageData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclImagePopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="prospectiveNetworkPopulator" class="com.scl.facades.populators.ProspectiveNetworkPopulator"/>
+	<bean id="prospectiveNetworkConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ProspectiveNetworkData"/>
+		<property name="populators">
+			<list>
+				<ref bean="prospectiveNetworkPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="siteDataPopulator" class="com.scl.facades.populators.SiteDataPopulator"/>
+	<bean id="siteDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SiteDetailData"/>
+		<property name="populators">
+			<list>
+				<ref bean="siteDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="transferGoodsFacade" class="com.scl.facades.impl.TransferGoodsFacadeImpl">
+	</bean>
+	
+	<bean id="sclUserPopulator" class="com.scl.facades.populators.SclUserPopulator"/>
+	
+	<bean id="sclUserConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.SclUserData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclUserPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="technicalAssistanceFacade" class="com.scl.facades.impl.TechnicalAssistanceFacadeImpl">
+		<property name="dealerBasicConverter" ref="dealerBasicConverter"/>
+		<property name="customerComplaintReverseConverter" ref="customerComplaintReverseConverter"/>
+		<property name="invoiceMasterDataConverter" ref="invoiceMasterDataConverter"/>
+		<property name="sclCustomerService" ref="sclCustomerService"/>
+	</bean>
+
+	<bean id="customerCardDataPopulator" class="com.scl.facades.populators.CustomerCardDataPopulator"/>
+	<bean id="customerCardDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.CustomerCardData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerCardDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerStagingDataPopulator" class="com.scl.facades.populators.CustomerStagingDataPopulator"/>
+	<bean id="customerStagingDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.CustomerStagingData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerStagingDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="dealerDetails360Populator" class="com.scl.facades.populators.DealerDetails360Populator"/>
+	<bean id="dealerDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DealerDetails360Data"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="currentNetworkDetailsPopulator" class="com.scl.facades.populators.CurrentNetworkDetailsPopulator"/>
+	<bean id="currentNetworkDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DealerCurrentNetworkData"/>
+		<property name="populators">
+			<list>
+				<ref bean="currentNetworkDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="salesPerformnceCustomerDetailsPopulator" class="com.scl.facades.populators.SalesPerformnceCustomerDetailsPopulator"/>
+	<bean id="salesPerformnceCustomerDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SalesPerformNetworkDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="salesPerformnceCustomerDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="influencerDetails360Populator" class="com.scl.facades.populators.InfluencerDetails360Populator"/>
+	<bean id="influencerDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.InfluencersDetails360WsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="influencerDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ongoingSchemesPopulator" class="com.scl.facades.populators.OngoingSchemesPopulator"/>
+	<bean id="ongoingSchemeConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.OngoingSchemeDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="ongoingSchemesPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="dealerDetailsFormPopulator" class="com.scl.facades.populators.DealerDetailsFormPopulator"/>
+	<bean id="dealerDetailsFormConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DealerDetailsFormData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerDetailsFormPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="technicalAssistancePopulator" class="com.scl.facades.populators.TechnicalAssistancePopulator"/>
+	
+	<bean id="technicalAssistanceConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.TechnicalAssistanceData"/>
+		<property name="populators">
+			<list>
+				<ref bean="technicalAssistancePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultCustomerComplaintReversePopulator" alias="customerComplaintReversePopulator"/>
+	<bean id="defaultCustomerComplaintReversePopulator" class="com.scl.facades.populators.complaints.CustomerComplaintReversePopulator">
+		<property name="sclAddressReverseConverter" ref="sclAddressReverseConverter"/>
+		<property name="userService" ref="userService"/>
+		<property name="sclCustomerService" ref="sclCustomerService"/>
+		<property name="customerComplaintRequestNoGenerator" ref="customerComplaintRequestNoGenerator"/>
+	</bean>
+
+	<alias name="defaultEndCustomerComplaintReversePopulator" alias="endCustomerComplaintReversePopulator"/>
+	<bean id="defaultEndCustomerComplaintReversePopulator" class="com.scl.facades.populators.complaints.EndCustomerComplaintReversePopulator">
+	</bean>
+
+	<alias name="defaultCustomerComplaintReverseConverter" alias="customerComplaintReverseConverter"/>
+	<bean id="defaultCustomerComplaintReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.CustomerComplaintModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerComplaintReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="defaultInvoicePopulator" alias="invoicePopulator"/>
+	<bean id="defaultInvoicePopulator" class="com.scl.facades.populators.invoice.InvoicePopulator"/>
+
+	<alias name="defaultInvoiceMasterDataConverter" alias="invoiceMasterDataConverter"/>
+	<bean name="defaultInvoiceMasterDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.InvoiceMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="invoicePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerComplaintRequestNoGenerator" class="de.hybris.platform.servicelayer.keygenerator.impl.PersistentKeyGenerator">
+		<property name="key" value="${keygen.customer.complaint.request.name}"/>
+		<property name="digits" value="${keygen.customer.complaint.request.digits}"/>
+		<property name="start" value="${keygen.customer.complaint.request.start}"/>
+		<property name="type" value="${keygen.customer.complaint.request.type}"/>
+		<property name="template" value="${keygen.customer.complaint.request.template}"/>
+	</bean>
+
+	<bean id="customerAssistancePopulator" class="com.scl.facades.populators.CustomerAssistancePopulator"/>
+
+	<bean id="customerAssistanceConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.CustomerComplaintData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerAssistancePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="uidMediaPopulator" class="com.scl.facades.populators.UidMediaPopulator"/>
+	<bean id="uidMediaConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.UIDData"/>
+		<property name="populators">
+			<list>
+				<ref bean="uidMediaPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclNominationPopulator" class="com.scl.facades.populators.SCLNominationPopulator"/>
+	<bean id="nominationsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.prosdealer.data.NominationData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclNominationPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="financialInfoPopulator" class="com.scl.facades.populators.FinancialInfoPopulator"/>
+	<bean id="financialInfoConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SCLFinancialInfoData"/>
+		<property name="populators">
+			<list>
+				<ref bean="financialInfoPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="customerDetailedDataPopulator" class="com.scl.facades.populators.CustomerDetailedDataPopulator"/>
+	<bean id="customerDetailedDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.CustomerDetailedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="customerDetailedDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="leadSummaryPopulator" class="com.scl.facades.populators.LeadSummaryPopulator"/>
+	<bean name="leadSummaryConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.LeadSummaryData"/>
+		<property name="populators">
+			<list>
+				<ref bean="leadSummaryPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="isoVisibilityPopulator" class="com.scl.facades.populators.ISOVisibilityPopulator"/>
+	<bean name="isoVisibilityConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ISOVisibilityData"/>
+		<property name="populators">
+			<list>
+				<ref bean="isoVisibilityPopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sSOLoginFacade" class="com.scl.facades.impl.SSOLoginFacadeImpl">
+	</bean>
+
+	<alias name="annualTargetSettingDataConverter" alias="annualTargetSettingDataConverter"/>
+	<bean id="annualTargetSettingDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.AnnualSalesTargetSettingData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="annualTargetSettingDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="annualTargetSettingDataPopulator" alias="annualTargetSettingDataPopulator"/>
+	<bean id="annualTargetSettingDataPopulator"
+		  class="com.scl.facades.populators.AnnualTargetSettingDataPopulator">
+	</bean>
+
+	<alias name="selfCounterSaleDataConverter" alias="selfCounterSaleDataConverter"/>
+	<bean id="selfCounterSaleDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SelfCounterSaleData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="selfCounterSaleDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="selfCounterSaleDataPopulator" alias="selfCounterSaleDataPopulator"/>
+	<bean id="selfCounterSaleDataPopulator"
+		  class="com.scl.facades.populators.SelfCounterSaleDataPopulator">
+	</bean>
+
+	<alias name="retailerDetailsDataConverter" alias="retailerDetailsDataConverter"/>
+	<bean id="retailerDetailsDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.RetailerDetailsData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="retailerDetailsDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="retailerDetailsDataPopulator" alias="retailerDetailsDataPopulator"/>
+	<bean id="retailerDetailsDataPopulator"
+		  class="com.scl.facades.populators.RetailerDetailsDataPopulator">
+	</bean>
+
+	<bean id="spDetails360Populator" class="com.scl.facades.populators.SPDetails360Populator"/>
+	<bean id="spDetails360Converter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SalesPromoterDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="spDetails360Populator"/>
+			</list>
+		</property>
+	</bean>
+  
+  <bean id="influencerFacade" class="com.scl.facades.impl.InfluencerFacadeImpl">
+
+	</bean>
+
+	<alias name="orderRequisitionFacade" alias="orderRequisitionFacade"/>
+	<bean id="orderRequisitionFacade" class="com.scl.facades.impl.OrderRequisitionFacadeImpl">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+
+	<alias name="pointRequisitionFacade" alias="pointRequisitionFacade"/>
+	<bean id="pointRequisitionFacade" class="com.scl.facades.impl.PointRequisitionFacadeImpl">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+	
+	<bean id="sclDealerReversePopulator" class="com.scl.facades.populators.SCLDealerReversePopulator"/>
+	<bean id="sclDealerReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.SclCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclDealerReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="dealerFacade" class="com.scl.facades.impl.DealerFacadeImpl">
+	</bean>
+
+	<alias name="tsoSiteManagementFacade" alias="tsoSiteManagementFacade"/>
+	<bean id="tsoSiteManagementFacade" class="com.scl.facades.impl.TSOSiteManagementFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<property name="tsoSiteManagementService" ref="tsoSiteManagementService"/>
+	</bean>
+
+	<alias name="sclNewNetworkFacade" alias="sclNewNetworkFacade"/>
+	<bean id="sclNewNetworkFacade" class="com.scl.facades.network.impl.SCLNewNetworkFacadeImpl">
+	</bean>
+
+	<bean id="sclSalesPromoterReversePopulator" class="com.scl.facades.populators.SCLSalesPromoterReversePopulator"/>
+	<bean id="sclSalesPromoterReverseConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.core.model.SclCustomerModel"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclSalesPromoterReversePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclEndCustomerFacade" class="com.scl.facades.customer.impl.SclEndCustomerFacadeImpl">
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<alias name="sclBrandingReqTrackerConverter" alias="sclBrandingReqTrackerConverter"/>
+	<bean id="sclBrandingReqTrackerConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.order.data.BrandingTrackingData"/>
+		<property name="populators">
+			<list merge="true">
+				<ref bean="sclBrandingReqTrackerPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<alias name="sclBrandingReqTrackerPopulator" alias="sclBrandingReqTrackerPopulator"/>
+	<bean id="sclBrandingReqTrackerPopulator"
+		  class="com.scl.facades.populators.SclBrandingRequisitionTrackerPopulator">
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="userService" ref="userService"/>
+	</bean>
+
+	<alias name="siteManagementFacade" alias="siteManagementFacade"/>
+	<bean id="siteManagementFacade" class="com.scl.facades.network.impl.SiteManagementFacadeImpl">
+		<property name="siteManagementService" ref="siteManagementService"/>
+	</bean>
+
+	<bean id="siteReversePopulator"
+		  class="com.scl.facades.populators.SiteReversePopulator"/>
+  
+	<bean id="sclComplaintDispatchDetailsPopulator"
+		  class="com.scl.facades.populators.SclComplaintDispatchDetailsPopulator"/>
+  
+	<bean id="sclComplaintDispatchDetailsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ComplaintDispatchDetailsData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclComplaintDispatchDetailsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclSiteMasterPopulator"
+		  class="com.scl.facades.populators.SclSiteMasterPopulator">
+	<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+	<bean id="sclSiteMasterConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SclSiteMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclSiteMasterPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="siteVisitReversePopulator"
+		  class="com.scl.facades.populators.SiteVisitReversePopulator"/>
+
+	<bean id="complaintRootCauseIdentifiedPopulator"
+		  class="com.scl.facades.populators.ComplaintRootCauseIdentifiedPopulator"/>
+
+	<bean id="complaintRootCauseIdentifiedConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ComplaintRootCauseIndentifiedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintRootCauseIdentifiedPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="scheduleNextVisitDataPopulator"
+		  class="com.scl.facades.populators.ScheduleNextVisitDataPopulator"/>
+
+	<bean id="scheduleNextVisitDataConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ScheduleNextVisitData"/>
+		<property name="populators">
+			<list>
+				<ref bean="scheduleNextVisitDataPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="complaintSiteVisitNotRequiredPopulator"
+		  class="com.scl.facades.populators.ComplaintSiteVisitNotRequiredPopulator"/>
+
+	<bean id="complaintSiteVisitNotRequiredConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ComplaintSiteVisitNotRequiredData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintSiteVisitNotRequiredPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="detailsFromSitePopulator"
+		  class="com.scl.facades.populators.DetailsFromSitePopulator">
+		<property name="imageConverter" ref="imageConverter"/>
+	</bean>
+
+	<bean id="detailsFromSiteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.DetailsFromSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="detailsFromSitePopulator"/>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="sitePopulator"
+		  class="com.scl.facades.populators.SitePopulator">
+	</bean>
+
+	<bean id="siteConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.MapNewSiteData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sitePopulator"/>
+        </list>
+		</property>
+	</bean>
+
+	<bean id="sclIncoTermPopulator" class="com.scl.facades.populators.SCLIncoTermPopulator">
+		<property name="dealerProvidingTransportConverter" ref="dealerProvidingTransportConverter"/>
+	</bean>
+
+	<bean id="sclIncoTermConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SclIncoTermMasterData"/>
+		<property name="populators">
+			<list>
+				<ref bean="sclIncoTermPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dealerProvidingTransportPopulator"
+		  class="com.scl.facades.populators.DealerProvidingTransportPopulator">
+
+	</bean>
+
+	<bean id="dealerProvidingTransportConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.IsDealerProvidingTransportData"/>
+		<property name="populators">
+			<list>
+				<ref bean="dealerProvidingTransportPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="rejectionReasonsConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.RejectionReasonData"/>
+		<property name="populators">
+			<list>
+				<ref bean="rejectionReasonsPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="rejectionReasonsPopulator"
+		  class="com.scl.facades.populators.order.RejectionReasonsPopulator"/>
+
+
+	<bean id="complaintTestperformedPopulator"
+		  class="com.scl.facades.populators.ComplaintTestPerformedPopulator"/>
+
+	<bean id="complaintTestperformedConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.ComplaintTestPerformedData"/>
+		<property name="populators">
+			<list>
+				<ref bean="complaintTestperformedPopulator"/>
+
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sclProductFacade" class="com.scl.facades.product.impl.SCLProductFacadeImpl"/>
+	
+	<alias name="defaultSclCartValidationMethodHook" alias="sclCartValidationMethodHook"/>
+	<bean id="defaultSclCartValidationMethodHook" class="com.scl.facades.hook.DefaultSclCartValidationMethodHook">
+    </bean>
+	
+	<bean id="sclCartValidationMethodHookMergeDirective" depends-on="cartValidationHooks" parent="listMergeDirective">
+        <property name="add" ref="sclCartValidationMethodHook"/>
+    </bean>
+
+	<alias name="sclSalesSummaryFacade" alias="sclSalesSummaryFacade" />
+	<bean id="sclSalesSummaryFacade" class="com.scl.facades.impl.SclSalesSummaryFacadeImpl">
+		<property name="userService" ref="userService"/>
+		<!--<property name="sclSalesSummaryService" ref="sclSalesSummaryService"/>-->
+	</bean>
+		
+	<alias name="leadMasterConverter" alias="leadMasterConverter"/>
+	<bean id="leadMasterConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.SclLeadData"/>
+		<property name="populators">
+			<list>
+				<ref bean="leadMasterPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="leadMasterPopulator" class="com.scl.facades.populators.LeadMasterPopulator" >
+		<property name="userService" ref="userService"/>
+		<property name="enumerationService" ref="enumerationService"/>
+		<property name="addressConverter" ref="addressConverter"/>
+	</bean>
+
+	<bean id="sclSearchResultProductPopulator" class="com.scl.facades.populators.SclSearchResultProductPopulator">
+	</bean>
+
+	<bean parent="modifyPopulatorList">
+		<property name="list" ref="commerceSearchResultProductConverter"/>
+		<property name="add" ref="sclSearchResultProductPopulator"/>
+	</bean>
+
+	<bean id="siteTransactionReversePopulator"
+		  class="com.scl.facades.populators.SiteTransactionReversePopulator"/>
+
+	<bean id="slctSiteConversionPopulator"
+		  class="com.scl.facades.populators.SlctSiteConversionPopulator">
+	</bean>
+
+	<bean id="slctSiteConversionConverter" parent="abstractPopulatingConverter">
+		<property name="targetClass" value="com.scl.facades.data.SiteConversionData"/>
+		<property name="populators">
+			<list>
+				<ref bean="slctSiteConversionPopulator"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="competitorProductPopulator" class="com.scl.facades.populators.CompetitorProductPopulator"/>
+
+	<bean id="competitorProductConverter" parent="abstractPopulatingConverter" >
+		<property name="targetClass" value="com.scl.facades.data.CompetitorProductData"/>
+		<property name="populators">
+			<list>
+				<ref bean="competitorProductPopulator"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="partnerCustomerReversePopulator"
+		  class="com.scl.facades.populators.PartnerCustomerReversePopulator"/>
+
+</beans>

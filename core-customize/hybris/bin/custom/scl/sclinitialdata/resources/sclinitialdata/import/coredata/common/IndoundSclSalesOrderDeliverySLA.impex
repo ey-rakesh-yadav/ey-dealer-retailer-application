@@ -1,0 +1,24 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; IndoundSclSalesOrderDeliverySLA; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; IndoundSclSalesOrderDeliverySLA	; DistanceUint           	; DistanceUint           	; 	; ALL_SUBTYPES           	;
+                                   ; IndoundSclSalesOrderDeliverySLA	; SCLSAPSalesOrganization	; SCLSAPSalesOrganization	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; IndoundSclSalesOrderDeliverySLA	; SalesOrderDeliverySLA  	; SalesOrderDeliverySLA  	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; IndoundSclSalesOrderDeliverySLA:DistanceUint           	; code                	; DistanceUint:code                          	;                                                        	; true	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SCLSAPSalesOrganization	; salesOrganization   	; SCLSAPSalesOrganization:salesOrganization  	;                                                        	; true	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SCLSAPSalesOrganization	; division            	; SCLSAPSalesOrganization:division           	;                                                        	; true	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SCLSAPSalesOrganization	; distributionChannel 	; SCLSAPSalesOrganization:distributionChannel	;                                                        	; true	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; shippingType        	; SalesOrderDeliverySLA:shippingType         	;                                                        	; 	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; sapSalesOrganization	; SalesOrderDeliverySLA:sapSalesOrganization 	; IndoundSclSalesOrderDeliverySLA:SCLSAPSalesOrganization	; 	; true
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; uom                 	; SalesOrderDeliverySLA:uom                  	; IndoundSclSalesOrderDeliverySLA:DistanceUint           	; 	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; distance            	; SalesOrderDeliverySLA:distance             	;                                                        	; 	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; dispatchSlaHour     	; SalesOrderDeliverySLA:dispatchSlaHour      	;                                                        	; 	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; deliverySlaHour     	; SalesOrderDeliverySLA:deliverySlaHour      	;                                                        	; 	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; route               	; SalesOrderDeliverySLA:route                	;                                                        	; true	;
+                                            ; IndoundSclSalesOrderDeliverySLA:SalesOrderDeliverySLA  	; routeDescription    	; SalesOrderDeliverySLA:routeDescription     	;                                                        	; true	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;IndoundSclSalesOrderDeliverySLA

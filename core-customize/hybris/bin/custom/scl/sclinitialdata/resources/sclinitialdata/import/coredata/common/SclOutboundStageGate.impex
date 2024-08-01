@@ -1,0 +1,19 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; SclOutboundStageGate; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; SclOutboundStageGate	; SclOutboundStageGate	; SclOutboundStageGate	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; erpLineItemId     	; SclOutboundStageGate:erpLineItemId     	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; deliveryLineNumber	; SclOutboundStageGate:deliveryLineNumber	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; entryNumber       	; SclOutboundStageGate:entryNumber       	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; crmOrdrCode       	; SclOutboundStageGate:crmOrdrCode       	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; stageGateType     	; SclOutboundStageGate:stageGateType     	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; erpOrderId        	; SclOutboundStageGate:erpOrderId        	;                      	; true	;
+                                            ; SclOutboundStageGate:SclOutboundStageGate	; diNumber          	; SclOutboundStageGate:diNumber          	;                      	; true	;
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;SclOutboundStageGate
+

@@ -1,0 +1,33 @@
+UPDATE SearchRestriction;code[unique=true];active
+;b2border_restriction;false
+;b2bpermission_restriction;false
+;OrderRequistionForRH;false
+;VisitMasterDistrictRestrictionForTSM;false
+;VisitMasterRegionRestrictionForRH;false
+;TechnicalAssistanceForTSM;false
+;TechnicalAssistanceForRH;false
+;OrderRequistionForTSM;false
+;branch_restriction;false
+;b2busergroup_restriction;false
+;costcenter_restriction;false
+;employee_restriction;false
+;budget_restriction;false
+
+
+
+INSERT_UPDATE FreightSPIMapping;freightType(code)[unique=true];spi(code)[unique=true];deliveryMode(code)
+;GD 	;SP01	;ROAD
+;GD-RK	;SP02	;ROAD
+;TP 	;SP03	;ROAD
+;TT 	;SP04	;ROAD
+;RK 	;SP05	;RAIL
+;DM 	;SP06	;ROAD
+;RD 	;SP07	;ROAD
+;AF 	;SP08	;ROAD
+;ST 	;SP09	;ROAD
+;PD		;SP01   ;ROAD    
+
+INSERT_UPDATE DataConstraint;constraintName[unique=true];query
+                       
+                            ;SCL_ORDER_RETRY_QUERY; and ({o.erpStatusDesc} is null OR  {o.erpStatusDesc}='' OR {o.erpStatusDesc}  like '%503 Service Not Available%' OR {o.erpStatusDesc} like '%Unable to open connection to backend system%' OR {o.erpStatusDesc} like '%System error in lock management%')
+               

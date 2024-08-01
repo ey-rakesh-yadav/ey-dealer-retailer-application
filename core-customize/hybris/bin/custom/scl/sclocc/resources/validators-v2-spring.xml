@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Validators -->
+	<alias alias="dealerBasicDetailsValidator" name="defaultDealerBasicDetailsValidator"/>
+	<bean id="defaultDealerBasicDetailsValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="name"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="line1"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="line2"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="stateCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="districtCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="talukaCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="cityCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="pinCode"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.EmailValidator">
+					<property name="fieldPath" value="email"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.RegexpValidator">
+					<property name="errorMessageID" value="field.mobile.number" />
+					<property name="fieldPath" value="mobileNo" />
+					<property name="regularExpression" value= "(?=(?:.*?[0-9]){1}).*" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<alias alias="cartDetailsValidator" name="defaultCartDetailsValidator"/>
+	<bean id="defaultCartDetailsValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="orderType"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="orderSource"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="isDealerProvideOwnTransport"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="djpFinalizedPlanDetailsValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="routeScoreId"/>
+				</bean>
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="objectiveId"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="djpVisitPlanDetailsValidator"
+		  class="de.hybris.platform.webservicescommons.validators.CompositeValidator">
+		<property name="validators">
+			<list merge="true">
+				<bean class="de.hybris.platform.webservicescommons.validators.FieldNotEmptyValidator">
+					<property name="fieldPath" value="routeScoreId"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+
+</beans>

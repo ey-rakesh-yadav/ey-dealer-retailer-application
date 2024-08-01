@@ -1,0 +1,23 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProductIncoTerm; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProductIncoTerm	; SclIncoTermMaster      	; SclIncoTermMaster      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductIncoTerm	; ProductIncoTerm        	; ProductIncoTerm        	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductIncoTerm	; SCLSAPSalesOrganization	; SCLSAPSalesOrganization	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProductIncoTerm:SclIncoTermMaster      	; incoTerm            	; SclIncoTermMaster:incoTerm                 	;                                               	; true	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; sapSalesOrganization	; ProductIncoTerm:sapSalesOrganization       	; InboundProductIncoTerm:SCLSAPSalesOrganization	; 	; true
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; validTo             	; ProductIncoTerm:validTo                    	;                                               	; 	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; incoterms           	; ProductIncoTerm:incoterms                  	; InboundProductIncoTerm:SclIncoTermMaster      	; 	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; validFrom           	; ProductIncoTerm:validFrom                  	;                                               	; 	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; material            	; ProductIncoTerm:material                   	;                                               	; true	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; deletionIndicator   	; ProductIncoTerm:deletionIndicator          	;                                               	; 	;
+                                            ; InboundProductIncoTerm:ProductIncoTerm        	; salesDistrict       	; ProductIncoTerm:salesDistrict              	;                                               	; 	;
+                                            ; InboundProductIncoTerm:SCLSAPSalesOrganization	; salesOrganization   	; SCLSAPSalesOrganization:salesOrganization  	;                                               	; true	;
+                                            ; InboundProductIncoTerm:SCLSAPSalesOrganization	; division            	; SCLSAPSalesOrganization:division           	;                                               	; true	;
+                                            ; InboundProductIncoTerm:SCLSAPSalesOrganization	; distributionChannel 	; SCLSAPSalesOrganization:distributionChannel	;                                               	; true	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundProductIncoTerm

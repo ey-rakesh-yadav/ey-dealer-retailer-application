@@ -1,0 +1,60 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; SclOutboundOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; SclOutboundOrder	; SclOrderLineItem     	; SclOrderLineItem     	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; SclOutboundOrder	; SclOrderSplitLineItem	; SclOrderSplitLineItem	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; SclOutboundOrder	; SclOutboundOrder     	; SclOutboundOrder     	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; SclOutboundOrder:SclOrderLineItem     	; modeOfTransport            	; SclOrderLineItem:modeOfTransport            	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; operation                  	; SclOrderLineItem:operation                  	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; remarks                    	; SclOrderLineItem:remarks                    	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; productType                	; SclOrderLineItem:productType                	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; entryNumber                	; SclOrderLineItem:entryNumber                	;                                       	; true	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; source                     	; SclOrderLineItem:source                     	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; brand                      	; SclOrderLineItem:brand                      	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; price                      	; SclOrderLineItem:price                      	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; dealerProvidingOwnTransport	; SclOrderLineItem:dealerProvidingOwnTransport	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; deliverySlotTime           	; SclOrderLineItem:deliverySlotTime           	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; quantityMT                 	; SclOrderLineItem:quantityMT                 	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; fob                        	; SclOrderLineItem:fob                        	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; remarkOfDiversion          	; SclOrderLineItem:remarkOfDiversion          	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; route                      	; SclOrderLineItem:route                      	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; packagingType              	; SclOrderLineItem:packagingType              	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; shiptoAddressId            	; SclOrderLineItem:shiptoAddressId            	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; specialProcessIndicator    	; SclOrderLineItem:specialProcessIndicator    	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; deliverySlotDate           	; SclOrderLineItem:deliverySlotDate           	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; unitOfMeasure              	; SclOrderLineItem:unitOfMeasure              	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; incoTerm                   	; SclOrderLineItem:incoTerm                   	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; bagType                    	; SclOrderLineItem:bagType                    	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; dispatchType               	; SclOrderLineItem:dispatchType               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; productId                  	; SclOrderLineItem:productId                  	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderLineItem     	; freightTerms               	; SclOrderLineItem:freightTerms               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderSplitLineItem	; entryNumber                	; SclOrderSplitLineItem:entryNumber           	;                                       	; true	;
+                                            ; SclOutboundOrder:SclOrderSplitLineItem	; remarks                    	; SclOrderSplitLineItem:remarks               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOrderSplitLineItem	; orderQtyMT                 	; SclOrderSplitLineItem:orderQtyMT            	;                                       	; true	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; mmCommission               	; SclOutboundOrder:mmCommission               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; paymentTerms               	; SclOutboundOrder:paymentTerms               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderDate                  	; SclOutboundOrder:orderDate                  	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderLineItemsList         	; SclOutboundOrder:orderLineItemsList         	; SclOutboundOrder:SclOrderLineItem     	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; billingLocation            	; SclOutboundOrder:billingLocation            	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderType                  	; SclOutboundOrder:orderType                  	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; unloadingBy                	; SclOutboundOrder:unloadingBy                	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; warehouse                  	; SclOutboundOrder:warehouse                  	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; remarks                    	; SclOutboundOrder:remarks                    	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; crmOrderNo                 	; SclOutboundOrder:crmOrderNo                 	;                                       	; true	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; createdOrderFrom           	; SclOutboundOrder:createdOrderFrom           	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; contractEndDate            	; SclOutboundOrder:contractEndDate            	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; creationtime               	; SclOutboundOrder:creationtime               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; customerPoNo               	; SclOutboundOrder:customerPoNo               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; mmName                     	; SclOutboundOrder:mmName                     	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderLineItems             	; SclOutboundOrder:orderLineItems             	; SclOutboundOrder:SclOrderLineItem     	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; customerID                 	; SclOutboundOrder:customerID                 	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderTakenBy               	; SclOutboundOrder:orderTakenBy               	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; shippingLocation           	; SclOutboundOrder:shippingLocation           	;                                       	; 	;
+                                            ; SclOutboundOrder:SclOutboundOrder     	; orderSplitLineItems        	; SclOutboundOrder:orderSplitLineItems        	; SclOutboundOrder:SclOrderSplitLineItem	; 	;
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;SclOutboundOrder

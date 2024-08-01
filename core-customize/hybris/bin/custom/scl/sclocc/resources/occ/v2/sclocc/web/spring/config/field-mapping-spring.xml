@@ -1,0 +1,1955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Field mapping configuration -->
+
+
+    <bean parent="fieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.dto.lead.LeadWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC"
+                       value="leadId,title,firstName,lastName,company,leadSource,industryType,annualRevenue,phone,mobile,fax,email,website,leadStatus,leadQualificationLevel,noOfEmployees,campaignSource,description,quantity,price,accountName,accountId"/>
+                <entry key="DEFAULT"
+                       value="leadId,title,firstName,lastName,company,leadSource,industryType,annualRevenue,phone,mobile,fax,email,website,leadStatus,leadQualificationLevel,noOfEmployees,campaignSource,description,quantity,price,accountName,accountId"/>
+                <entry key="FULL"
+                       value="leadId,title,firstName,lastName,company,leadSource,industryType,annualRevenue,phone,mobile,fax,email,website,leadStatus,leadQualificationLevel,noOfEmployees,campaignSource,description,quantity,price,accountName,accountId"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="reviewWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.ReviewWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,headline,principal,alias,rating,date,comment,orderCode"/>
+                <entry key="DEFAULT"
+                       value="id,headline,principal(DEFAULT),alias,rating,date,comment,orderCode"/>
+                <entry key="FULL"
+                       value="id,headline,principal(FULL),alias,rating,date,comment,orderCode"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="prosDealerWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.ProsDealerWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="basicDetails"/>
+                <entry key="DEFAULT"
+                       value="basicDetails(DEFAULT),applicantDetails(DEFAULT),finanicialDetails(DEFAULT),businessDetails(DEFAULT),panCardDoc,gstDetailsDoc,ddDeailsDoc,godownSpaceDoc,
+                       bankStatementDoc,blankChequeDoc,letterHeadCopyDoc,site,securityDepositAmt,paymentType,transactionID,transactionDate,ddNo,
+                        dated,drawnOn,isDealerContacted,isDealerCapableForFormFilling,isSmsTriggeredToUploadDoc"/>
+                <entry key="FULL"
+                       value="basicDetails(FULL),applicantDetails(FULL),finanicialDetails(FULL),businessDetails(FULL),panCardDoc(FULL),gstDetailsDoc(FULL),ddDeailsDoc(FULL),godownSpaceDoc(FULL),
+                       bankStatementDoc(FULL),blankChequeDoc(FULL),letterHeadCopyDoc(FULL),site,securityDepositAmt,paymentType,transactionID,transactionDate,ddNo,
+                        dated,drawnOn,isDealerContacted,isDealerCapableForFormFilling,isSmsTriggeredToUploadDoc"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="prosDealerListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.ProsDealerListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="prosDealers"/>
+                <entry key="DEFAULT" value="prosDealers(DEFAULT)"/>
+                <entry key="FULL" value="prosDealers(FULL)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="prosDealerCompanyWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.ProsDealerCompanyWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="companyID,nameOfDirector,fathersName,address,panNo,dinNo,banker,uiStatus"/>
+                <entry key="DEFAULT"
+                       value="companyID,nameOfDirector,fathersName,address,panNo,dinNo,banker,uiStatus"/>
+                <entry key="FULL"
+                       value="companyID,nameOfDirector,fathersName,address,panNo,dinNo,banker,uiStatus"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="partnershipWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.PartnershipWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="partnerID,nameOfPartner,relation,uiStatus"/>
+                <entry key="DEFAULT"
+                       value="partnerID,nameOfPartner,relation,uiStatus"/>
+                <entry key="FULL"
+                       value="partnerID,nameOfPartner,relation,uiStatus"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="nominationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.NominationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="nomineeID,name,fathersName,relation,panCard,aadharCard,uiStatus,proofId"/>
+                <entry key="DEFAULT"
+                       value="nomineeID,name,fathersName,relation,panCard,aadharCard,uiStatus,line1,line2,city,state,taluka,district,proofId,panDoc(DEFAULT),uids(DEFAULT)"/>
+                <entry key="FULL"
+                       value="nomineeID,name,fathersName,relation,panCard,aadharCard,uiStatus,proofId"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="presentBusinessWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.PresentBusinessWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="nameOfBusiness,natureOfBusiness,startingYear,currentYearTurnover,capital"/>
+                <entry key="DEFAULT"
+                       value="nameOfBusiness,natureOfBusiness,startingYear,currentYearTurnover,capital"/>
+                <entry key="FULL"
+                       value="nameOfBusiness,natureOfBusiness,startingYear,currentYearTurnover,capital"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="storageInfraWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.StorageAndInfraStructureWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="vehicleType,noOfVehicles,uiStatus,storageID"/>
+                <entry key="DEFAULT"
+                       value="vehicleType,noOfVehicles,uiStatus,storageID"/>
+                <entry key="FULL"
+                       value="vehicleType,noOfVehicles,uiStatus,storageID"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="basicProsDealerWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.BasicProsDealerWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="name,line1,line2,stateCode,districtCode,talukaCode,cityCode,pinCode,mobileNo,email"/>
+                <entry key="DEFAULT"
+                       value="name,line1,line2,stateCode,districtCode,talukaCode,cityCode,pinCode,mobileNo,email"/>
+                <entry key="FULL"
+                       value="name,line1,line2,stateCode,districtCode,talukaCode,cityCode,pinCode,mobileNo,email"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="applicantProsDealerWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.ApplicantProsDealerWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,statusOfApplicant,companies,partnerships"/>
+                <entry key="DEFAULT"
+                       value="code,statusOfApplicant,companies,partnerships"/>
+                <entry key="FULL"
+                       value="code,statusOfApplicant,companies,partnerships"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="financialDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.FinancialDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,panNumber,gstIN,stateOfRegistration,accountNo,ifscCode,nominees"/>
+                <entry key="DEFAULT"
+                       value="code,panNumber,gstIN,stateOfRegistration,accountNo,ifscCode,nominees(DEFAULT)"/>
+                <entry key="FULL"
+                       value="code,panNumber,gstIN,stateOfRegistration,accountNo,ifscCode,nominees(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="brandWiseSalesWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.BrandWiseSaleWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="brandWiseSaleID,brandCode,saleInMT,uiStatus"/>
+                <entry key="DEFAULT"
+                       value="brandWiseSaleID,brandCode,saleInMT,uiStatus,wholeSale,retailSale"/>
+                <entry key="FULL"
+                       value="brandWiseSaleID,brandCode,saleInMT,uiStatus"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="brandWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.BrandWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="isocode,name,selectedBrandIndicator"/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="businessDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.prosdealer.DealerBusinessDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,warehouseSpace,brandWiseSale,storage"/>
+                <entry key="DEFAULT"
+                       value="code,warehouseSpace,brandWiseSale(DEFAULT),storage(DEFAULT)"/>
+                <entry key="FULL"
+                       value="code,warehouseSpace,brandWiseSale(FULL),storage(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="cartWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,guid"/>
+                <entry key="DEFAULT"
+                       value="BASIC,totalQuantity,placedBy,creditLimitBreached,spApprovalStatus,totalItems,totalPrice,totalPriceWithTax,entries(DEFAULT),orderType,orderSource,isDealerProvideOwnTransport,suggestionMap,rejectionReasons,productName,productCode,user(FULL),deliveryAddress(FULL),deliveryMode(FULL),warehouse(DEFAULT),retailerName,retailerCode,erpCityCode,destination,destinationName,uiStatus,routeId,erpOrderNo,statusDisplay,bankAccountNo,stateCode,districtCode,regionCode,subAreaCode,requestedDeliveryDate,requestedDeliverySlot,showApprovalButton,requestDeliverySlotName,isSLABreached,orderRequisitionId,isPartnerCustomer,placedByCustomer"/>
+                <entry key="FULL"
+                       value="DEFAULT,potentialProductPromotions(FULL),potentialOrderPromotions(FULL),totalUnitCount,store,appliedOrderPromotions(FULL),pickupItemsQuantity,net,calculated,appliedVouchers(FULL),productDiscounts(FULL),totalDiscounts(FULL),subTotal(FULL),orderDiscounts(FULL),entries(FULL),appliedProductPromotions(FULL),totalPrice(FULL),site,deliveryMode(FULL),code,deliveryOrderGroups(FULL),guid,paymentInfo(FULL),pickupOrderGroups(FULL),totalItems,totalPriceWithTax(FULL),deliveryItemsQuantity,totalTax(FULL),user(FULL),deliveryAddress(FULL),deliveryCost(FULL),name,description,savedBy,saveTime,expirationTime,erpOrderNo,orderRequisitionId,isPartnerCustomer,placedByCustomer"/>
+            </map>
+        </property>
+    </bean>   
+    
+    <bean parent="fieldSetLevelMapping" id="orderHistoryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderHistoryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="counterName,deliveryAddress(FULL),productCode,productName,quantity,entryNumber,rejectionReason,transporterName,truckNumber,driverName"/>
+                <entry key="DEFAULT"
+                       value="counterName,deliveryAddress(FULL),productCode,productName,quantity,entryNumber,rejectionReason,transporterName,truckNumber,driverName"/>
+                <entry key="FULL" value="counterName,deliveryAddress(FULL),productCode,productName,quantity,entryNumber,rejectionReason,transporterName,truckNumber,driverName"/>
+            </map>
+        </property>
+    </bean>
+
+<bean parent="fieldSetLevelMapping" id="addressWsDTOFieldSetLevelMapping">
+    <property name="dtoClass"
+              value="de.hybris.platform.commercewebservicescommons.dto.user.AddressWsDTO"/>
+    <property name="levelMapping">
+        <map>
+            <entry key="BASIC" value="id"/>
+            <entry key="DEFAULT" value="BASIC,state,erpId,retailerAddressPk,taluka,city,district,latitude,longitude,erpCity,createdDate,modifiedDate,isPrimaryAddress,retailerUid,retailerName,accountName,cellphone,email,transportationZone,line3,line4,line5,CRMaddressStatus"/>
+            <entry key="FULL" value="DEFAULT,state,taluka,city,district,latitude,longitude,erpCity,createdDate,modifiedDate,isPrimaryAddress,retailerUid,retailerName,transportationZone,line3,line4,line5,CRMaddressStatus"/>
+        </map>
+    </property>
+</bean>
+
+    <bean parent="fieldSetLevelMapping" id="orderStagesWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.OrderStagesWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name,index,subStages"/>
+                <entry key="DEFAULT"
+                       value="code,name,index,estimatedTime,actualTime,stageCompleted,subStages(DEFAULT)"/>
+                <entry key="FULL"
+                       value="code,name,index,estimatedTime,actualTime,stageCompleted,subStages(FULL)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="orderSubStagesWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.OrderSubStagesWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name,index"/>
+                <entry key="DEFAULT"
+                       value="code,name,index,estimatedTime,actualTime,stageCompleted"/>
+                <entry key="FULL"
+                       value="code,name,index,estimatedTime,actualTime,stageCompleted"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="productWsDTOFieldSetLevelMapping">
+	    <property name="dtoClass"
+	              value="de.hybris.platform.commercewebservicescommons.dto.product.ProductWsDTO"/>
+	    <property name="levelMapping">
+	        <map>
+	            <entry key="BASIC" value="code,name,price"/>
+	            <entry key="DEFAULT" value="BASIC,minOrderQuantity,maxOrderQuantity,price(DEFAULT),premium"/>
+	            <entry key="FULL" value="DEFAULT,minOrderQuantity,maxOrderQuantity,price(FULL),premium"/>
+	        </map>
+	    </property>
+	</bean>
+
+	<bean parent="fieldSetLevelMapping" id="dealerWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.dealer.DealerWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="uid,name,email,contactNumber,customerId,state,partnerType,potential,lastVisit,dealerCategory,flaggedDate,flaggedBy,flaggedReason,dealerName,dealerCode,dealerContactNumber,defaultAddress(FULL),counterVisitIdforUnFlag,unFlagRequestTime,influencerType,networkType,customerNo,isOrderBlock,isBillingBlock,isDeliveryBlock,isNonSclCounter,line1,line2 "/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+     <bean parent="fieldSetLevelMapping" id="dealerListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.dealer.DealerListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="dealers"/>
+                <entry key="DEFAULT" value="dealers(DEFAULT)"/>
+                <entry key="FULL" value="dealers(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean parent="fieldSetLevelMapping">
+	   <property name="dtoClass"
+	           value="de.hybris.platform.commercewebservicescommons.dto.user.UserWsDTO" />
+	   <property name="levelMapping">
+	      <map>
+	         <entry key="BASIC"
+	               value="employeeId,dateOfJoining,contactNumber,profilePicture(DEFAULT),email,lastVisitDate,isShreeSite,isBangurSite,isRockstrongSite,influencerType,contactPersonName,contactPersonContact,customerNo,state" />
+	         <entry key="DEFAULT"
+	               value="BASIC" />
+	         <entry key="FULL"
+	               value="employeeId,dateOfJoining,contactNumber,profilePicture(FULL),email,influencerType" />
+	      </map>
+	   </property>
+	</bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclOrderWSDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.SCLOrderWSDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,quantity,status"/>
+                <entry key="DEFAULT"
+                       value="code,quantity,status,entryNumber,products(DEFAULT),deliveryAddress(DEFAULT),subAreaMasterId,estimatedDeliveryDate,trackingDetails(DEFAULT),user(DEFAULT),dealerProfilePicture(DEFAULT),erpOrderNo,erpLineItemId,destinationCode,destinationName,expectedDeliveryDate,showApprovalButton,orderRequisitionId,erpEtaDate,deliveryLineNumber,diNumber,erpVehicleNumber,isGpsEnabled,truckNumber,driverPhone,transporterPhone,invoiceNumber,invoiceLineNumber,tokenNumber,isErrorInERP"/>
+                <entry key="FULL"
+                       value="code,quantity,status,entryNumber,products(FULL),deliveryAddress(FULL),subAreaMasterId,estimatedDeliveryDate,trackingDetails(FULL),user(DEFAULT),dealerProfilePicture(DEFAULT),showApprovalButton,orderRequisitionId,erpEtaDate,deliveryLineNumber,diNumber,erpVehicleNumber,isGpsEnabled,isErrorInERP"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="trackingWSDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.TrackingWSDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name,actualTime,isPartnerCustomer,placedByCustomer"/>
+                <entry key="DEFAULT"
+                       value="code,name,actualTime,comment,trackingComments(DEFAULT),estimatedTime,index,parent,isPartnerCustomer,placedByCustomer"/>
+                <entry key="FULL"
+                       value="code,name,actualTime,comment,estimatedTime,index,parent,isPartnerCustomer,placedByCustomer"/>
+			</map>
+        </property>
+	</bean>		
+	
+	<bean parent="fieldSetLevelMapping" id="trackingCommentWSDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.TrackingCommentWSDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="label,value,isGpsEnabled,sequence,isContactNumber"/>
+                <entry key="DEFAULT"
+                       value="label,value,isGpsEnabled,sequence,isContactNumber"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+			</map>
+        </property>
+	</bean>	
+	
+    <bean parent="fieldSetLevelMapping" id="destinationSourceListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.source.DestinationSourceListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="destinationSourceDataList,defaultSource"/>
+                <entry key="DEFAULT" value="destinationSourceDataList,defaultSource"/>
+                <entry key="FULL" value="destinationSourceDataList,defaultSource"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="orderEntryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.OrderEntryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="truckNo,deliveryQty,driverContactNo,selectedDeliveryDate,sequence,selectedDeliverySlot,isDateReduced,calculatedDeliveryDate,calculatedDeliverySlot,entryNumber,quantity,product(DEFAULT),uiAction,truckDispatchDate,erpOrderNo,erpLineItemId,quantityMT,warehouseCode,routeId,warehouseName,status,basePrice,totalPrice,remarks,retailerUid,retailerName,addressPk,incoTerm,orderFor,isDealerProvidingOwnTransport,deliveryMode(DEFAULT),deliveryAddress(DEFAULT),sclIncoTermMaster(DEFAULT),deliveryItems(DEFAULT),cancelReason"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean parent="fieldSetLevelMapping" id="deliveryItemWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.DeliveryItemWSDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="diNumber,deliveryLineNumber,diQuanity,status,invoiceNumber,invoiceLineNumber"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="competitorProductWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.CompetitorProductWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name,grade,packaging,state,active,brand,wholeSale,retailSale,selectedProductIndicator"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="marketMappingDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.MarketMappingDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,brand,product,wholesalePrice,retailsalePrice,discount,billing,stock,wholeSales,retailSales,counterVisitId"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="counterVisitMasterWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.CounterVisitMasterWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,counterName,lastVisitDate,counterPotential,latitude,longitude,counterCode,counterType,customerNo"/>
+                <entry key="DEFAULT" value="id,counterId,customerNo,counterType,lastVisitDate,startVisitTime,endVisitTime,sequence,counterPotential,totalSale,wholeSale,counterSale,counterShare,isShreeCounter,isBangurCounter,isRockstrongCounter,orderGenerated,differenceWholesaleVol,differenceRetailsaleVol,isDealerFlag,remarkForFlag,latitude,longitude"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="leadMasterWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.LeadMasterWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,leadId,leadType,name,contactNo,email,potential,associatedBrandId,comment,siteStage,siteType,address"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="truckModelWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.TruckModelWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,truckModel,capacity"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="dealerFleetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.DealerFleetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,truckModel,count,counter"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="brandingInsightWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.BrandingInsightWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,brandId,brandingType,otherBrandDetails,image"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="dropdownWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.DropdownWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="dropdownListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.DropdownListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="dropdown"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="brandingInsightListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.visit.BrandingInsightListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="brandingInsights"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclOrderHistoryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.SclOrderHistoryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="orderNo,dealerCode,dealerName,spApprovalStatus,status,driverPhone,subAreaMasterId,transporterPhone,productCode,productName,quantity,deliveryAddress(DEFAULT),rejectionReason,vehicleArrivalTime,estimatedArrivalTime,transporterName,truckNumber,driverName,erpOrderNo,erpLineItemId,entryNumber,entries(DEFAULT),totalPrice(DEFAULT),orderDate,dealerProfilePicture(DEFAULT),deliveredDate,destinationCode,destinationName,shortageQuantity,epodInitiateDate,erpEtaDate,expectedDeliveryDate,soContactNumber,dealerContactNumber,cancelledDate,orderRequisitionId,diNumber,deliveryLineNumber,sourceCode,sourceName,erpVehicleNumber,isGpsEnabled,cancelReason,invoiceNumber,invoiceLineNumber,isErrorInERP,erpVehicleNumber,tokenNumber"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclOrderHistoryListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.SclOrderHistoryListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="ordersList"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="visitMasterWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.djp.VisitMasterWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,location,status,counterCount,visitDate,visitedCount,notVisitedCount,objective,approvalStatus,route,salesOfficerName,subArea,routeAdherence,counterAdherence,objectiveAdherence,timerStartTime,timerEndTime,deviations,district,taluka"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="visitMasterListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.djp.VisitMasterListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="visitDetailsList"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="counterVisitMasterListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.djp.CounterVisitMasterListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="counterVisitList"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="counterMappingWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.djp.CounterMappingWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="id,customerName,customerType,address(FULL),totalSale,wholeSale,counterSale,email,contactNumber,contactPersonName,route,routeName,businessInfo(DEFAULT),brand,otherBrands,influencerType"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="schemeDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.marketvisit.scheme.SchemeDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="brand,partenerLevel,schemeObjective,products,schemeType,noOfSlabs,schemeUnit,incentiveType,productPointsInfos(BASIC),slabs,startDate,endDate,marketRating,remark"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="schemeSlabWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.marketvisit.scheme.SchemeSlabWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="slabNo,threshold,incentive,value"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="productPointsInfoWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.marketvisit.scheme.ProductPointsInfoWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="product(DEFAULT),basePoint,bonusPoint,totalPoints"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean parent="fieldSetLevelMapping" id="marketVisitDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.facades.dto.marketvisit.MarketVisitDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="dateOfJourney,route(DEFAULT),objective(DEFAULT),deviations(DEFAULT),countersNotVisited(DEFAULT),adHocVisits(DEFAULT),visited,notVisited,subArea,startTime,endTime,approvalStatus,visitSummary(DEFAULT),visitDetails(DEFAULT),routeAdherence,objectiveAdherence,counterAdherence,counters,influencers,sites,counterDetails"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="marketVisitDeviationWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.facades.dto.marketvisit.MarketVisitDeviationWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="name,suggested,selected,deviationReason"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="counterDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.facades.dto.djp.CounterDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="counterVisitId,customerCode,customerName,customerType,counterPotential,lastVisitDate,deviationReason,deviationComment,customerNo,plannedStatus,visitedStatus"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="visitSummaryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.facades.dto.marketvisit.VisitSummaryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="visitID,routeDeviationReason,objectiveDeviationReason,counterDeviationReason(DEFAULT),routeDeviationComment,objectiveDeviationComment"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="VisitSummaryPlanVsActualsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.facades.data.marketvisit.VisitSummaryPlannedVsActualWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="counterType,plannedVisits,actualVisits,plannedAndVisited,adHocVisited,plannedNotVisited"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerVehicleDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.vehicle.DealerVehicleDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="make,model,capacity"/>
+                <entry key="DEFAULT" value="vehicleNumber,make,model,capacity"/>
+                <entry key="FULL" value="vehicleNumber,make,model,capacity"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerDriverDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.vehicle.DealerDriverDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="driverName,contactNumber"/>
+                <entry key="DEFAULT" value="driverName,contactNumber"/>
+                <entry key="FULL" value="driverName,contactNumber"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="dealerVehicleDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.vehicle.DealerVehicleDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="vehicleDetails(BASIC)"/>
+                <entry key="DEFAULT" value="dealer(DEFAULT),fleetCount,totalCapacity,vehicleDetails(DEFAULT)"/>
+                <entry key="FULL" value="dealer(FULL),fleetCount,totalCapacity,vehicleDetails(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="dealerDriverDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.order.vehicle.DealerDriverDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="dealer(BASIC),noOfDrivers,driverDetails(BASIC)"/>
+                <entry key="DEFAULT" value="dealer(DEFAULT),noOfDrivers,driverDetails(DEFAULT)"/>
+                <entry key="FULL" value="dealer(FULL),noOfDrivers,driverDetails(FULL)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="warehouseWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.warehousingwebservices.dto.store.WarehouseWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name"/>
+                <entry key="DEFAULT" value="code,name"/>
+                <entry key="FULL" value="code,name"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="warehouseListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.warehousing.WarehouseListWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="warehouses"/>
+                <entry key="DEFAULT" value="warehouses"/>
+                <entry key="FULL" value="warehouses"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="territoryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.TerritoryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="state,district,subArea"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+     <bean parent="fieldSetLevelMapping" id="territoryListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.TerritoryListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="territoryList"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="FULL"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclOrgUserWsDTOFieldSetLevelMapping">
+    <property name="dtoClass"
+              value="com.scl.occ.dto.SclOrgUserWsDto"/>
+    <property name="levelMapping">
+        <map>
+             <entry key="BASIC" value="uid,customerId,customerNo,displayUid,name,firstName,lastName,email,employeeId,dateOfJoining,contactNumber,profilePicture(DEFAULT),lastVisitDate,isShreeSite,isBangurSite,isRockstrongSite,influencerType,contactPersonName,contactPersonContact,active,selected,currency(BASIC),orgUnit(BASIC),defaultAddress(DEFAULT),PAN,GST,TAN,password,linkedTsoDetails(DEFAULT)"/>
+             <entry key="DEFAULT" value="BASIC"/>
+             <entry key="FULL" value="DEFAULT"/>
+        </map>
+    </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclImageWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLImageWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="byteStream,fileName,url"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclAddressWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLAddressWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="line1,line2,state,district,city,taluka,pincode,accountName,transportationZone"/>
+                <entry key="FULL" value="line1,line2,state,district,city,taluka,pincode,contactNumber,dateOfBirth,email,accountName,transportationZone"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclRetailerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLRetailerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,gstin,aadharNo,stateOfRegistration,registeredAddress(DEFAULT),shippingAddress(DEFAULT),contactNumber,email,image(DEFAULT),gstinCertificate(DEFAULT),aadharDoc(DEFAULT),brand"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclCompanyDetailsWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLCompanyDetailsWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="retailerId,companyType,directors(DEFAULT),partners(DEFAULT),formSS"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclPartnerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLPartnerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,relationship"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclDirectorWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLDirectorWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,fatherName,line1,line2,city,state,taluka,district,din,panNumber,panDoc(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclBusinessInfoWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLBusinessInfoWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="retailerId,warehouseCapacity,brandWiseSales(DEFAULT),vehicleDetails(DEFAULT),driveDetails(DEFAULT),formSS"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclFinancialInfoWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLFinancialInfoWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="retailerId,firmPan,firmPanDoc(DEFAULT),firmTan,firmAccountNo,firmIFSC,blankChequeDoc(DEFAULT),ddNeftDoc(DEFAULT),nomineeDetails(DEFAULT),formSS"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclNetworkAdditionPlanWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLNetworkAdditionPlanWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT"
+                       value="taluka,totalCounter,shreeCounter,systemProposed,revisedPlan,reason,applicableLead,subAreaName,soName,additionCount,districtName,diName,city,disableFormCompletion"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="uidWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.UIDWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="uidNumber,image(DEFAULT),realFileName"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="influencerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="influencerType,name,address(FULL),brand,leadId"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="endCustomerComplaintWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerComplaintWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="requestId,customerNo,name,siteName,siteId,siteAddressLine1,siteAddressLine2,city,taluka,district,state,pinCode,phoneNumber,dealer,retailer,product,dateOfPurchase,numberOfPurchase,isBillAvailable,batchNo,depot,dateOfUse,natureOfComplaint,areaOfApplication,problemPerceivedByCustomer,problemReportedByDepot,amountOfDamagePerceivedByCustomer,amountOfDamagePerceivedByDepot,commentsAboutSurrounding,requestRaisedDate,raisedBy,status,uploadInvoice,trackingDetails,nextSiteVisit,brand,uploadInvoiceUrl,tsoAssignedName,tsoAssignedEmail "/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="endCustomerComplaintListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerComplaintListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="endCustomerComplaintDataList"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="endCustomerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,contactNumber,doj,emailId,address(FULL),isTermsAndCondition,latitude,longitude"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="endCustomerListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="endCustomerList(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+	<bean parent="fieldSetLevelMapping" id="endCustomerDealerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerDealerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="dealerName,dealerAddress(FULL),dealerBrand,dealerContactNumber,latitude,longitude"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="endCustomerDealerListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.EndCustomerDealerListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="endCustomerDealers(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="productsWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProductsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="productCode,productName,productDescription"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="productsListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProductsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="productsBrand(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="influencerFinanceWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerFinanceWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="influencerId,panNo,panDoc(DEFAULT),aadharNo,aadharDoc(DEFAULT),accountNo,ifscCode"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="influencerNomineeWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerNomineeWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="influencerId,nominee(DEFAULT),leadId"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="influencerSummaryWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerSummaryWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="rank,timesContacted,contactNumber,name,code,salesYtd,growthRate,potential,category,type,bagLifted,daySinceLastLifting,district,taluka,points,bagLiftedNo,bagLiftedQty,reasonOfAbsence,attended,bagLiftedBefore,bagLiftedAfter,growth,lastVisitDate,dealerCategory,leadGenerated"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="influencerSummaryListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerSummaryListWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="influncerSummary(DEFAULT)"/>
+		        <entry key="BASIC" value="influncerSummary(BASIC)"/>
+                <entry key="FULL" value="influncerSummary(FULL)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="meetingScheduleWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.MeetingScheduleWsto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="date,startTime,endTime,category,reason,venue,address(FULL),influencers,attendees,line1,line2,state,city,district,pincode,taluka,meetType,isModify,meetingScheduleId"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sitePreferredBrandWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SitePreferredBrandWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="preferredBrand,reasonOfPreference"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="addNewSiteWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.AddNewSiteWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="siteType,contactPersonName,contactNumber,name,refereeType,refereeName,servicingDealer,address(DEFAULT),completionPeriod,route,areaOfConstruction,balancePotential,monthlyConsumption,targetSale,preferredBrands(DEFAULT),currentStageOfConstruction"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="prospectiveNetworkWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProspectiveNetworkWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,potential,category,stage,nearbyNetwork,counterShareAction,latitude,longitude"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="prospectiveNetworkListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProspectiveNetworkListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="networkDetails(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerCurrentNetworkDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.DealerCurrentNetworkDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,contactNumber,potential,counterShare,target,salesYtd,salesQuantity(DEFAULT),growthRate,outstandingAmount,daySinceLastOrder,district,taluka,customerNo"/>
+                <entry key="FULL" value="name,code,contactNumber,rank,potential,counterShare,target,salesYtd,salesQuantity(DEFAULT),growthRate,outstandingAmount,daySinceLastOrder,district,taluka,customerNo"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerCurrentNetworkListDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.DealerCurrentNetworkListDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="dealerCurrentNetworkList(DEFAULT)"/>
+                <entry key="FULL" value="dealerCurrentNetworkList(FULL)"/>
+                </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="siteStageWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SiteStageSummaryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,count"/>
+            </map>
+        </property>
+    </bean>
+	
+    <bean parent="fieldSetLevelMapping" id="retailerOnboardDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.RetailerOnboardDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,potential,salesQuantity"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="RetailerOnboardListDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.RetailerOnboardListDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="retailerOnboardList(DEFAULT),salesCountMTD"/>
+            </map>
+        </property>
+    </bean>
+	
+    <bean parent="fieldSetLevelMapping" id="siteStageListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SiteStageSummaryListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="siteStages(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="siteDetailWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SiteDetailWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,balance,address,status,consumption,saleMTD"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="siteDetailListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SiteDetailListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                 <entry key="DEFAULT" value="sites(DEFAULT),salesCountMTD"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="disburseHistoryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.DisburseHistoryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="giftCode,entryNumber,schemeCode,schemeName,productName,dateOfReceiving"/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT,point,isSelfRecipient,receiverName,receipts(DEFAULT,photos(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="orderRequisitionWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.OrderRequisitionWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="requisitionId,requisitionDate,profilePicture, deliverySlotName, fromCustomerNo, fromCustomerUid, fromCustomerName, toCustomerNo, toCustomerUid, toCustomerName, deliveryAddress(FULL), productCode, productName, quantityInMT, receivedQuantity, expectedDeliveryDate, expectedDeliverySlot, status, isDraft, trackingDetails(DEFAULT), requisitionEntryDetails, orderCode, erpOrderNo, serviceType, cancelReason, accountName, transportationZone,aliasCode,requisitionType,liftingDate,requisitionRaisedBy,invoiceNumber,quantityInBags,purpose,requisitionFor,shipToParty "/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="pointRequisitionWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.PointRequisitionWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="requisitionId,requisitionCreationDate,rejectionReason,profilePicture,deliveryDate,deliverySlot,deliverySlotName, requestRaisedBy,requestRaisedByName, requestRaisedTo,requestRaisedToType,requestRaisedToName,requestStatus, deliveryAddress(FULL), totalPoints, isRequisitionPlaced, isDelete, isDraft, isCancel, isModify, modificationComment, clientName, productCode, productName, quantity, pointsEarned, pointsPerBag, requestRaisedFor, requestRaisedForName, trackingDetails"/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="pointRequisitionListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.PointRequisitionListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="pointRequisitionData(DEFAULT)"/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="customerCardWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.CustomerCardWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT"
+                       value="name,uid,phone,applicationNo,applicationDate,potential,approvedDate,rejectedDate,requestedBy,requestedDate,status,address(DEFAULT),email,rejectionReason,type "/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="customerCardListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.CustomerCardListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="customerCards(DEFAULT),totalCount"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="inactiveNetworkWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InactiveNetworkWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,potential,lostSale,reason"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="inactiveNetworkListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InactiveNetworkListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="users(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="spSalesWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SPSalesPerformanceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,multiBrand,potential,sales,counterShare"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="spSalesListWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SPSalesPerformanceListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="performanceList(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclPotentialCustomerDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLPotentialCustomerDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="dealer,stage,potential"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="sclPotentialCustomerListDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLPotentialCustomerListDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="sclPotentialCustomer(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean parent="fieldSetLevelMapping" id="networkAssistanceWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.NetworkAssitanceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="requestNo,title,description,assitanceTopic,counterType,status,requestDate,raisedBy,commentBySo,resolvedComment,resolveDate,contactNo,commentByTSM,resolvedBy"/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="techinicalAssistanceWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.TechnicalAssistanceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="name,constructionStage,address,dateOfSupervisionRequired,durationOfSupervisionRequired,expertiseRequired,contactNumber,requestStatus,requestNo,tsoContactNumber,tsoName,tsoAssignedDate,requestDate,serviceStartDate,serviceEndDate,line1,line2,state,district,taluka,city,postalCode,cellPhone,siteId,siteName,raisedBy,constructionAdvisory,isCloseEnabled,lastVisitDate,rejectionReason,modifiedTime,tsoAssignedEmail "/>
+                <entry key="DEFAULT"
+                       value="BASIC"/>
+                <entry key="FULL"
+                       value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="customerStagingWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.CustomerStagingWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT"
+                       value="name,uid,applicationNo,potential,applicationDate,stageStatus,stageSubStatus,pendingWithSoDate,approvedBySoDate,rejectedBySoDate,approvedByStateHeadDate,rejectedByStateHeadDate,approvedBySalesAccountDate,rejectedBySalesAccountDate,approvedByNationalSalesHeadDate,rejectedByNationSalesHeadDate,creditReceivedDate,customerQueryDate"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerDetails360WsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.DealerDetails360WsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT"
+                       value="name,customerNumber,dealerCategory,contactNo,lastOrderDate,lastOrderSize,lastVisitDate,networkType,potential,visits,wholeSale,retailSale,askingRate,growth,isDealerFlag,remarkForFlag,retailerNetwork,influencerNetwork,outstandingDays,outstandingAmount,currentMonthCounterShare,lastMonthCounterShare,availableCredit,creditConsumed,bucketList(DEFAULT),creditBreachCount,salesData,cashDiscountDetail(DEFAULT),ongoingSchemes(DEFAULT),securityDeposit,lastMonthSale,currentYearLastMonthSale,productMixMTD(DEFAULT),productMixYTD(DEFAULT),lastMonthCurrentYear,currentMonthLastYear,lastYearCurrentMonthSales,bucketsTotal,lastUpdateDate"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="monthlySalesWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.MonthlySalesWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="monthYear,growth,percentage,targetSales,actualSales"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="monthlySalesListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.MonthlySalesListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="actual,target,percentage,achievementPercentage,behindTotalTarget,aheadTotalTarget,sales(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="productMixWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProductMixVolumeAndRatioWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="productCode,productName,productVolume,productRatio"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="productMixListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProductMixVolumeAndRatioListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="productVolumeAndRatio(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="bucketWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.OutstandingBucketWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="amount"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="cashDiscountWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.CashDiscountDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="availedMTD,lostMTD,availedPercentage,availableCD,paymentForCD"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="ongoingSchemeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.OngoingSchemeDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,start,expiry,applicableFor"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="dealerDetailsFormWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.DealerDetailsFormWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="category,contactNo,email,latitude,longitude,stage,potential,retailers,brand1,brand2,brand3,city,district,taluka,nearbyNetwork,rejectionReason"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="customerCardDetailedWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.CustomerDetailedWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="partnerDetails(DEFAULT),companyDetails(DEFAULT),businessDetails(DEFAULT),financialDetails(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="influencerDetailedWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencerDetailedWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="partnerDetails(DEFAULT),financialDetails(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="leadSummaryWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.LeadSummaryWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,leadId,contactNo,stateCity,districtTaluka,category,generationDate,generatedBy,stage,address(DEFAULT),enableFormCompletion,email,siteType(DEFAULT),siteStage(DEFAULT),customerCode,customerName"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="leadSummaryListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.LeadSummaryListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="summaryList(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="brandListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.BrandListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="brands(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="inviteeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InviteesWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,reasonOfAbsence,attended,bagLiftedBefore,bagLiftedAfter,growth"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="scheduledMeetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ScheduledMeetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="meetStatus,meetDate,invitees,attendees,meetCode,meetType,isMeetingFormEnabled"/>
+                <entry key="DEFAULT" value="startTime,endTime,meetCode,inviteeList(DEFAULT),meetStatus,address(FULL),
+                associatedCounter,meetType,startDate,proposedBudget,actualSpent,line1,line2,state,district,taluka,city,
+                pincode,meetingForm,meetingScheduleId,venue,employeeCode,nameOnTSO,brand,isMeetingFormEnabled,brandName,typeOfActivityConducted,attendance "/>
+                <entry key="FULL" value="meetStatus,address(FULL),associatedCounter,meetType,startDate,attendees,invitees,proposedBudget,actualSpent,line1,line2,state,district,taluka,city,pincode,meetingForm,meetingScheduleId,venue,employeeCode,nameOnTSO,brand,isMeetingFormEnabled"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="scheduledMeetListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ScheduledMeetListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="meetCards(BASIC)"/>
+                <entry key="DEFAULT" value="meetCards(DEFAULT)"/>
+                <entry key="FULL" value="meetCards(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="giftOrderWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.GiftOrderWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,code,requestId,requestType,scheme,date,rejectionReason,pointsRedeemed,status,photo,address(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="giftOrderListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.GiftOrderListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="giftOrders(DEFAULT)"/>
+                <entry key="DEFAULT" value="giftOrders(DEFAULT)"/>
+                <entry key="FULL" value="giftOrders(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+
+
+    <bean parent="fieldSetLevelMapping" id="giftShopWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.GiftShopWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="schemeCode,schemeName,redeemStartDate,redeemEndDate"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="giftShopListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.GiftShopListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="giftList(DEFAULT)"/>
+                <entry key="DEFAULT" value="giftList(DEFAULT)"/>
+                <entry key="FULL" value="giftList(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="influencerDetails360WsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.InfluencersDetails360WsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="code,name,influencerCategory,lastVisitDate,lastVisitTime,totalAvailablePoints,growth,nirmanMitraCode,potential,visits,sales,lastLiftingDate,lastLiftingQuantity,lastMonth,lastYearCurrentMonth,networkType,sites(DEFAULT)"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="referenceItemWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ReferenceItemWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="code,name"/>
+            </map>
+        </property>
+    </bean>
+
+
+    
+    <bean parent="fieldSetLevelMapping" id="isoVisibilityWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.ISOVisibilityWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="deliveryId, deliveryDetailId, productName, qtyShipped, qtyDelivered, vehicleType, vehicleNo, transporterName,
+                						  transporterName,  transporterMobile, driverName, driverMobile, packagingType, packagingMaterial, deliveryMode, brand, fromOrgName,
+                						  customerCategory, depotCode, plantCode, customer, consignee, shipmentState, depotCode, plantCode, grade, status, actualDepartureDate, receiptDate, erpEtaDate, tokenNumber,isGpsEnabled,depotName "/>
+                <entry key="DEFAULT"
+                       value="deliveryId, deliveryDetailId, productName, qtyShipped, qtyDelivered, vehicleType, vehicleNo, transporterName,
+                						  transporterName,  transporterMobile, driverName, driverMobile, packagingType, packagingMaterial, deliveryMode,  brand, fromOrgName,
+                						  customerCategory, depotCode, plantCode, customer, consignee, shipmentState, depotCode, plantCode, grade, status, actualDepartureDate, receiptDate, erpEtaDate, tokenNumber,isGpsEnabled,depotName "/>
+                <entry key="FULL"
+                       value="deliveryId, deliveryDetailId, productName, qtyShipped, qtyDelivered, vehicleType, vehicleNo, transporterName,
+                						  transporterName,  transporterMobile, driverName, driverMobile, packagingType, packagingMaterial, deliveryMode, brand, fromOrgName,
+                						  customerCategory, depotCode, plantCode, customer, consignee, shipmentState, depotCode, plantCode, grade, status,  actualDepartureDate, receiptDate, erpEtaDate, tokenNumber,isGpsEnabled,depotName "/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="isoVisibilityListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.ISOVisibilityListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="isoVisibilityList"/>
+                <entry key="DEFAULT" value="isoVisibilityList(DEFAULT)"/>
+                <entry key="FULL" value="isoVisibilityList(FULL)"/>
+            </map>
+        </property>
+    </bean>
+
+
+    <bean parent="fieldSetLevelMapping" id="annualSalesMonthWiseTargetListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.AnnualSalesMonthWiseTargetListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="subArea,subAreaId,totalCurrentYearSales,totalPlanSales,totalTargetForAllDealers,totalTargetForAllDealersMonthWise(DEFAULT),annualSalesMonthWiseTargetData(DEFAULT),onbordedTargetSetData(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="totalMonthlyTargetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.TotalMonthlyTargetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="monthYear,totalTargetforMonth"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="annualSalesMonthWiseTargetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.AnnualSalesMonthWiseTargetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customerName,customerCode,customerPotential,customerCategory,currentYearSales,planSales,financialYear,totalTarget,
+                    monthWiseTarget, skuDataList(DEFAULT), retailerData(DEFAULT), isAnnualSalesRevised, isNewRetailerOnboarded, isNewDealerOnboarded, selfCounterSale(DEFAULT), status,isAnnualSalesRevisedForReview,erpCustomerNo"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="monthWiseTargetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.MonthWiseTargetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="monthYear,monthTarget,perMonthPercentage"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="skuWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SKUWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="productName,productCode,cySales,planSales,totalTarget,monthWiseSkuTarget(DEFAULT),isNewSku"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="retailerDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.RetailerDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customerCode,customerName,customerPotential,cySales,planSales,totalTarget,monthWiseSkuTarget(DEFAULT),isNewRetailerOnboarded,erpCustomerNo"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="spOnboardAnnualTargetSettingWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SpOnboardAnnualTargetSettingWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customerName,customerCode,customerPotential,isNewDealerOnboarded,isNewRetailerOnboarded,monthWiseTarget(DEFAULT),skuDataList(DEFAULT),totalTarget,erpCustomerNo,retailerData(DEFAULT),selfCounterSale(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="selfCounterSaleWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SelfCounterSaleWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customerCode,customerName,customerPotential,cySales,planSales,totalTarget,monthWiseTarget(DEFAULT),erpCustomerNo"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="annualSalesTargetSettingWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.AnnualSalesTargetSettingWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customerName,customerCode,customerPotential,customerCategory,currentYearSales,dealerSelfCounterSale,planSales,skuDataList(DEFAULT),retailerData(DEFAULT),isNewRetailerOnboarded,isNewDealerOnboarded,selfCounterSale(DEFAULT),status,erpCustomerNo"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="annualSalesTargetSettingListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.AnnualSalesTargetSettingListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="subArea,subAreaId,totalCurrentYearSales,totalPlanSales,totalTargetForAllDealers(DEFAULT),annualSalesTargetSetting(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="totalTargetWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.totalTargetWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="totalCYSales,totalPlanSales"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+    
+     <bean parent="fieldSetLevelMapping" id="sclDealerWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLDealerWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,gstin,aadharNo,stateOfRegistration,registeredAddress(DEFAULT),shippingAddress(DEFAULT),contactNumber,email,image(DEFAULT),gstinCertificate(DEFAULT),aadharDoc(DEFAULT),brand,formSS"/>
+            </map>
+        </property>
+    </bean>
+    
+   <bean parent="fieldSetLevelMapping" id="customerListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.CustomerListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="customers,totalCount"/>
+                <entry key="DEFAULT" value="customers(DEFAULT),totalCount"/>
+                <entry key="FULL" value="customers(FULL),totalCount"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesQuantityWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesQuantityWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="retailerSaleQuantity,actual,lastMonth,current,lastYear"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesPerformNetworkDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesPerformNetworkDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="rank,code,name,potential,counterSharePercentage,target,salesQuantity(DEFAULT),growthRateYoYPercentage,outstandingAmount,daysSinceLastOrder,district,taluka,mobileNumber,contactNumber,timesContacted,bagLifted,daySinceLastLifting,type,category,points,bagLiftedNo,bagLiftedQty"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesPerformNetworkDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesPerformNetworkDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="networkDetails(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclSalesPromoterWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SCLSalesPromoterWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="name,gstin,aadharNo,stateOfRegistration,registeredAddress(DEFAULT),shippingAddress(DEFAULT),contactNumber,email,image(DEFAULT),gstinCertificate(DEFAULT),aadharDoc(DEFAULT),brand"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="CollectionDealerOutstandingDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.CollectionDealerOutstandingDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="counterName,counterCode,customerNo,securityDeposit,totalOutstanding,daysSaleOutstanding,bucket1,bucket2,bucket3,bucket4,bucket5,bucket6,bucket7,bucket8,bucket9,bucket10,isCreditLimitBreached,creditBreachData,mobileNumber,bucketsTotal,totalCreditLimit,soName,erpCode,tsmName,soEmployeeCode,tsmEmployeeCode"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="CollectionDealerOutstandingDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.CollectionDealerOutstandingDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="collectionDealerOutstandingDetailsData,totalCreditLimitSum,totalCount"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="ProposePlanWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProposePlanWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="soId,subArea,soName,proposedAddition,proposedAdditionByDI,revisionReason,proposedAdditionByRH,districtName,tsmName,revisionReasonByRH,proposedAdditionBySH,revisionReasonBySH,isTargetApproved,raisedByUid,revisedByUid,comments,subAreaMasterId,id,status"/>
+            </map>
+        </property>
+    </bean>
+    <bean parent="fieldSetLevelMapping" id="ProposePlanListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.ProposePlanListWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="diName,districtName,rhName,regionName,soProposedAddition,DIApprovedAddition,rhApprovedAddition,totalCount,proposedPlans(DEFAULT),isTargetSentForUser,DIProposedAddition"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="brandingRequestDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.BrandingRequestDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="brandingRequestDetails(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="brandingRequestDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.BrandingRequestDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="requisitionNumber,requestTitle,brandingSiteType,counterName,counterCode,location,primaryContactNumber,secondaryContactNumber,brandingType,quantity,dimensions,details,siteName,siteAddressLine1,siteAddressLine2,city,taluka,district,state,longitude,latitude,requestRaisedDate,requestStatus,imageUploadStatus,vendorName,vendorDetails,completedOn,length,height,dateOfCompletion,responsiveness,completionTime,qualityOfWork,experience,comments,feedBack,pinLocationVerifiedStatus,uploadInvoice(DEFAULT),photoAfterBranding(DEFAULT),beforeBrandingPhotos(DEFAULT),requestRaisedBy,isModifyRequest,startDate,planningDateOfCompletion,objectiveOfActivity,objectiveTargetPercentage,budgetPlanned,isCancelRequest,rejectedDate,rejectedBy,rejectedReason,enableModify,enableFeedback,isCustomerRaised,enabledInvoiceUpload,requestStatusCode,isViewFeedback,erpCustomerNo,invoiceAmount,reqRaisedRole,slctReqNo,otherBrandingType"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="mediaDetailsListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.MediaDetailsListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="mediaDetails(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+	
+    <bean parent="fieldSetLevelMapping" id="sclSiteMasterWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SclSiteMasterWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name,totalVisits,siteAddress(FULL),constructionStage,orderPlaced,active,lastVisitDate,nextSlabCasting,siteStatus, orderCount"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclSiteMasterListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SclSiteMasterListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="sclSiteMasterDataList(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+	<bean parent="fieldSetLevelMapping" id="priceWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.product.PriceWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="value,currencyIso,formattedValue"/>
+                <entry key="DEFAULT"
+                       value="currencyIso,priceType,value,maxQuantity,minQuantity,formattedValue"/>
+                <entry key="FULL"
+                       value="currencyIso,priceType,value,maxQuantity,minQuantity,formattedValue"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclLeadWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SclLeadWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="leadId,name,mobileNo,address(DEFAULT),type,leadGenerationDate,state,district,generatedBy,status,city,customerCode,customerName,networkPotential,brandAssociatedWith,influencerType,email,onboardedCustomerUid,approvedDate,rejectedDate"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclLeadListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SclLeadListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="leads(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="rejectionReasonWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.RejectionReasonWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+
+
+    <bean parent="fieldSetLevelMapping" id="rejectionReasonListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.RejectionReasonListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="rejectionReasonList(DEFAULT)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+               </map>
+         </property>
+      </bean>     
+                
+                
+    <bean parent="fieldSetLevelMapping" id="mediaDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.MediaDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,altText,url,name"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="tsoBasicDetailsWsDTOFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.TsoBasicDetailsWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="tsoName,tsoMobileNumber,tsoProfilePic"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="deliveryModeWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="de.hybris.platform.commercewebservicescommons.dto.order.DeliveryModeWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="code,name"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+          </map>
+        </property>
+     </bean>
+
+    <bean parent="fieldSetLevelMapping" id="sclUserWsDtoFieldSetLevelMapping">
+        <property name="dtoClass" value="com.scl.occ.dto.SclUserWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="DEFAULT" value="contactNumber,emailId,name,pendingRequest"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="invoiceListWsDTOFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.source.InvoiceListWsDTO"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="invoices"/>
+                <entry key="DEFAULT" value="invoices"/>
+                <entry key="FULL" value="invoices"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesVisibilityWsDtoFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesVisibilityWsDto"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="dealerUid,retailer(BASIC)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesVisibilityWsDtoRetailerFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesVisibilityWsDtoRetailer"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="retailerUid,product(BASIC)"/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean parent="fieldSetLevelMapping" id="salesVisibilityWsDtoProductFieldSetLevelMapping">
+        <property name="dtoClass"
+                  value="com.scl.occ.dto.SalesVisibilityWsDtoProduct"/>
+        <property name="levelMapping">
+            <map>
+                <entry key="BASIC" value="productCode,productAliasName,quantityInBag,quantityInMt,referenceInvoice,liftingId,date,type,dealerName,dealerCode "/>
+                <entry key="DEFAULT" value="BASIC"/>
+                <entry key="FULL" value="DEFAULT"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

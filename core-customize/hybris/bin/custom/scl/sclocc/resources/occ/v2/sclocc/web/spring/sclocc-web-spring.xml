@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2020 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.scl.occ.controllers"/>
+
+    <import resource="config/field-mapping-spring.xml"/>
+
+    <bean id="requiredRoleMatchingFilter" class="com.scl.occ.security.RequiredRoleMatchingFilter">
+        <property name="sessionService" ref="sessionService"/>
+        <property name="regexp" value="^/[^/]+/(?:users|orgUsers)/([^/]+)" />
+    </bean>
+     <bean id="sclOccRequestReponseLoggingFilter" class="com.scl.occ.security.SCLOCCRequestAndResponseLoggingFilter"/>
+ 
+    <bean depends-on="defaultCommerceWebServicesFilterChainListV2" parent="listMergeDirective">
+        <property name="add" ref="requiredRoleMatchingFilter"/>
+    </bean>
+
+    <bean depends-on="defaultCommerceWebServicesFilterChainListV2" parent="listMergeDirective">
+        <property name="add" ref="sclOccRequestReponseLoggingFilter"/>
+    </bean>
+
+   
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+        <property name="maxUploadSize" value="4194304"/>
+    </bean>
+
+    <alias name="defaultSCLB2BPlaceOrderCartValidator" alias="b2BPlaceOrderCartValidator" />
+    <bean id="defaultSCLB2BPlaceOrderCartValidator" class="com.scl.occ.validators.DefaultSCLB2BPlaceOrderCartValidator" />
+
+    <alias name="defaultSCLOrderApprovalDecisionValidator" alias="sclOrderApprovalDecisionValidator" />
+    <bean id="defaultSCLOrderApprovalDecisionValidator" class="com.scl.occ.validators.SCLOrderApprovalDecisionValidator" />
+
+    <alias name="defaultSCLOrderModificationValidator" alias="sclOrderModificationValidator" />
+    <bean id="defaultSCLOrderModificationValidator" class="com.scl.occ.validators.DefaultSCLOrderModificationValidator" />
+
+</beans>

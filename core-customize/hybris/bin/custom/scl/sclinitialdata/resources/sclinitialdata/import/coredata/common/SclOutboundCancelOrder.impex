@@ -1,0 +1,18 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; SclOutboundCancelOrder; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; SclOutboundCancelOrder	; OrderEntryNumber      	; OrderEntryNumber      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; SclOutboundCancelOrder	; SclOutboundCancelOrder	; SclOutboundCancelOrder	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; SclOutboundCancelOrder:OrderEntryNumber      	; entryNumber     	; OrderEntryNumber:entryNumber           	;                                        	; true	;
+                                            ; SclOutboundCancelOrder:OrderEntryNumber      	; crmEntryNumber  	; OrderEntryNumber:crmEntryNumber        	;                                        	; true	;
+                                            ; SclOutboundCancelOrder:OrderEntryNumber      	; rejectReason    	; OrderEntryNumber:rejectReason          	;                                        	; 	;
+                                            ; SclOutboundCancelOrder:SclOutboundCancelOrder	; orderEntriesList	; SclOutboundCancelOrder:orderEntriesList	; SclOutboundCancelOrder:OrderEntryNumber	; 	;
+                                            ; SclOutboundCancelOrder:SclOutboundCancelOrder	; crmOrderNo      	; SclOutboundCancelOrder:crmOrderNo      	;                                        	; true	;
+                                            ; SclOutboundCancelOrder:SclOutboundCancelOrder	; orderNo         	; SclOutboundCancelOrder:orderNo         	;                                        	; true	;
+                                            ; SclOutboundCancelOrder:SclOutboundCancelOrder	; rejectReason    	; SclOutboundCancelOrder:rejectReason    	;                                        	; 	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;SclOutboundCancelOrder

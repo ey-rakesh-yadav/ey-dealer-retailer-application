@@ -1,0 +1,1849 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+
+<config xmlns="http://www.hybris.com/cockpit/config"
+xmlns:editorArea="http://www.hybris.com/cockpitng/component/editorArea"
+xmlns:list-view="http://www.hybris.com/cockpitng/component/listView"
+xmlns:advanced-search="http://www.hybris.com/cockpitng/config/advancedsearch"
+xmlns:df="http://www.hybris.com/cockpitng/component/dynamicForms"
+xmlns:dsb="http://www.hybris.com/cockpitng/config/dashboard"
+xmlns:grid-view="http://www.hybris.com/cockpitng/component/gridView"
+xmlns:na="http://www.hybris.com/cockpitng/config/notifications"
+xmlns:simple-search="http://www.hybris.com/cockpitng/config/simplesearch"
+xmlns:wz="http://www.hybris.com/cockpitng/config/wizard-config"
+xmlns:y="http://www.hybris.com/cockpit/config/hybris"
+xmlns:n="http://www.hybris.com/cockpitng/config/explorertree">
+
+	<context merge-by="module" component="editorareaactions" type="Consignment">
+		<y:actions>
+			<y:group qualifier="common">
+				<y:label>actiongroup.common</y:label>				
+				<y:action action-id="com.scl.backoffice.actions.confirmpickupaction" property="currentObject"/>				
+			</y:group>
+		</y:actions>
+    </context>
+
+	<!-- Notification Area-->
+	<context component="notification-area">
+	    <na:notification-area>	        
+	        <na:notifications eventType="sclbackoffice.confirmpickup.event" level="SUCCESS">
+	            <na:message>hmc.action.confirmpickup.success</na:message>
+	        </na:notifications>
+	   </na:notification-area>
+	</context>
+
+	<context component="explorer-tree" module = "sclbackoffice" merge-by="module">
+		<n:explorer-tree>
+			<n:navigation-node id="scl.treenode" position="26">
+				<n:navigation-node id="scl.treenode.djp">
+					<n:type-node code="RouteMaster" id="scl.treenode.djp.routemaster" position="0"/>
+					<n:type-node code="Objective" id="scl.treenode.djp.objective" position="1"/>
+					<n:type-node code="DJPRunMaster" id="scl.treenode.djp.runmaster" position="2"/>
+					<n:type-node code="DJPRouteScoreMaster" id="scl.treenode.djp.routescoremaster" position="3"/>
+					<n:type-node code="DJPCounterScoreMaster" id="scl.treenode.djp.counterscoremaster" position="4"/>
+					<n:type-node code="VisitMaster" id="scl.treenode.djp.visitmaster" position="5"/>
+					<n:type-node code="CounterVisitMaster" id="scl.treenode.djp.countervisitmaster" position="6"/>
+					<n:navigation-node id="scl.treenode.djp.marketinsight.marketinsight" position="7">
+						<n:type-node code="SchemeDetails" id="scl.treenode.djp.marketinsight.schemedetails" position="0"/>
+					</n:navigation-node>
+				</n:navigation-node>
+
+				<n:navigation-node id="scl.treenode.top.tradeorder">
+					<n:type-node code="SalesOrderDeliverySLA" id="scl.treenode.top.salesorderdeliverysla" position="0"/>
+					<n:type-node code="DestinationSourceMaster" id="scl.treenode.top.destinationsourcemaster" position="1"/>
+					<n:type-node code="DealerRetailerMap" id="scl.treenode.top.dealerretailerordermap" position="2"/>
+					<n:type-node code="DealerDriverDetails" id="scl.treenode.top.driver.dealers" position="3"/>
+					<n:type-node code="DealerVehicleDetails" id="scl.treenode.top.vehicles.dealers" position="4"/>
+				</n:navigation-node>
+				<n:navigation-node id="scl.treenode.feedback.feedback">
+					<n:type-node code="FeedbackAndComplaints" id="scl.treenode.feedback.feedbackandcomplaint" position="0"/>
+				</n:navigation-node>
+				<n:navigation-node id="scl.treenode.tsoadmin">
+					<n:type-node code="ConstructionStage" id="scl.treenode.tsoadmin.stageofconstruction" position="0"/>
+					<n:type-node code="NatureOfComplaint" id="scl.treenode.tsoadmin.natureofcomplaint" position="1"/>
+					<n:type-node code="PersonMetAtSite" id="scl.treenode.tsoadmin.personmetatsite" position="2"/>
+					<n:type-node code="CurrentStageOfSiteConstruction" id="scl.treenode.tsoadmin.currentstageofsiteconstruction" position="3"/>
+					<n:type-node code="SiteServiceType" id="scl.treenode.tsoadmin.siteservicetype" position="4"/>
+					<n:type-node code="SiteServiceTest" id="scl.treenode.tsoadmin.siteservicetest" position="5"/>
+					<n:type-node code="CompetitorProductType" id="scl.treenode.tsoadmin.competitorproducttype" position="6"/>
+					<n:type-node code="PremiumProductType" id="scl.treenode.tsoadmin.premiumproducttype" position="7"/>
+					<n:type-node code="CompetitorProduct" id="scl.treenode.tsoadmin.competitorproduct" position="8"/>
+					<n:type-node code="CompetitionSiteStatus" id="scl.treenode.tsoadmin.competitionsitestatus" position="9"/>
+					<n:type-node code="OwnSiteStatus" id="scl.treenode.tsoadmin.ownsitestatus" position="10"/>
+					<n:type-node code="ReasonOfNotConversion" id="scl.treenode.tsoadmin.reasonofnotconversion" position="11"/>
+					<n:type-node code="MeetingType" id="scl.treenode.tsoadmin.meetingtype" position="12"/>
+					<n:type-node code="SiteType" id="scl.treenode.tsoadmin.sitetype" position="13"/>
+					<n:type-node code="SiteStage" id="scl.treenode.tsoadmin.sitestage" position="14"/>
+					<n:type-node code="SiteRootCause" id="scl.treenode.tsoadmin.siterootcause" position="15"/>
+				</n:navigation-node>
+
+			</n:navigation-node>
+
+		</n:explorer-tree>
+	</context>
+
+	<!--Section for advanced search Starts-->
+
+	<context type="RouteMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="routeId" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="customer" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="district" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="state" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="routeName" operator="contains" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="Objective" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="objectiveId" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="objectiveName" operator="equals" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DataConstraint" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="constraintName" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="day" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="description" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="version" operator="equals" selected="true" position="3"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="DJPRunMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="officer" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="planDate" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DJPRouteScoreMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="route" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="run" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+	<context type="DJPCounterScoreMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="counterID" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="customer" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="objective" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="routeScore" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="VisitMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="user" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="status" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="objective" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="route" operator="equals" selected="true" position="3"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="OrderRequisition" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="product" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="status" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="requisitionId" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="territoryCode" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="districtMaster" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="subAreaMaster" operator="equals" selected="true" position="5"/>
+				<advanced-search:field name="requisitionType" operator="equals" selected="false" position="6"/>
+				<advanced-search:field name="serviceType" operator="equals" selected="false" position="7"/>
+				<advanced-search:field name="cancelledBy" operator="equals" selected="false" position="8"/>
+				<advanced-search:field name="requestRaisedBy" operator="equals" selected="false" position="9"/>
+				<advanced-search:field name="requisitionFor" operator="equals" selected="false" position="10"/>
+				<advanced-search:field name="territoryCode" operator="equals" selected="false" position="11"/>
+				<advanced-search:field name="rejectedBy" operator="equals" selected="false" position="12"/>
+				<advanced-search:field name="toCustomer" operator="equals" selected="false" position="13"/>
+				<advanced-search:field name="fromCustomer" operator="equals" selected="false" position="14"/>
+
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="CounterVisitMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="counterType" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="sclCustomer" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="isAdHoc" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="CompetitorProduct" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="brand" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="state" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="product" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="name" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="code" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SchemeDetails" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="brand" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="partnerLevel" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="schemeType" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="counterVisit" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="startDate" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="endDate" operator="equals" selected="true" position="5"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SalesOrderDeliverySLA" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="code" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="brand" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="source" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="product" operator="equals" selected="true" position="3"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DestinationSourceMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="pincode" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="destinationState" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="destinationCity" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="deliveryMode" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="destinationTaluka" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="productCode" operator="equals" selected="true" position="5"/>
+				<advanced-search:field name="source" operator="equals" selected="true" position="6"/>
+				<advanced-search:field name="transportationZone" operator="equals" selected="true" position="7"/>
+				<advanced-search:field name="destinationDistrict" operator="equals" selected="true" position="8"/>
+				<advanced-search:field name="incoterms" operator="equals" selected="true" position="9"/>
+				<advanced-search:field name="equivalenceProductCode" operator="equals" selected="true" position="10"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DealerRetailerMap" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="dealer" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="retailer" operator="equals" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SclPlantLotSize" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="plant" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="destinationState" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="destinationDistrict" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="lotSize" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="productType" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="FeedbackAndComplaints" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="code" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="feedbackCategory" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="feedbackBy" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="feedbackRaisedBy" operator="equals" selected="true" position="3"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DealerVehicleDetails" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="dealer" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="vehicleNumber" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="make" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="model" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="capacity" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DealerDriverDetails" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="dealer" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="driverName" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="contactNumber" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="CustomerSubAreaMapping" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sclCustomer" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="subAreaMaster" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="TechnicalAssistance" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="requestNo" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="name" operator="equals" selected="false" />
+				<advanced-search:field name="constructionStage" operator="equals" selected="false" />
+				<advanced-search:field name="requestDate" operator="equals" selected="false" />
+				<advanced-search:field name="raisedBy" operator="equals" selected="false" />
+				<advanced-search:field name="tsoAssigned" operator="equals" selected="false" />
+				<advanced-search:field name="subArea" operator="equals" selected="false" />
+				<advanced-search:field name="brand" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="EndCustomerComplaint" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="requestId" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="customerNo" operator="equals" selected="false" />
+				<advanced-search:field name="subArea" operator="equals" selected="false" />
+				<advanced-search:field name="brand" operator="equals" selected="false" />
+				<advanced-search:field name="raisedBy" operator="equals" selected="false" />
+				<advanced-search:field name="tsoAssigned" operator="equals" selected="false" />
+				<advanced-search:field name="tsoStatus" operator="equals" selected="false" />
+				<advanced-search:field name="requestRaisedDate" operator="equals" selected="false" />
+				<advanced-search:field name="customerName" operator="contains" selected="false" />
+				<advanced-search:field name="phoneNumber" operator="contains" selected="false" />
+				<advanced-search:field name="natureOfComplaint" operator="equals" selected="false" />
+				<advanced-search:field name="site" operator="equals" selected="false" />
+				<advanced-search:field name="raisedBy" operator="equals" selected="false" />
+				<advanced-search:field name="nextVisitDate" operator="equals" selected="false" />
+				<advanced-search:field name="status" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SclSiteMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="uid" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="name" operator="contains" selected="false" />
+				<advanced-search:field name="currentMonthSiteVisit" operator="equals" selected="false" />
+				<advanced-search:field name="constructionStage" operator="equals" selected="false" />
+				<advanced-search:field name="currentMonthSale" operator="equals" selected="false" />
+				<advanced-search:field name="siteActive" operator="equals" selected="false" />
+				<advanced-search:field name="siteStatus" operator="equals" selected="false" />
+				<advanced-search:field name="orderCount" operator="equals" selected="false" />
+				<advanced-search:field name="nextSlabCasting" operator="equals" selected="false" />
+				<advanced-search:field name="createdBy" operator="equals" selected="false" />
+				<advanced-search:field name="lastVisitTime" operator="equals" selected="false" />
+				<advanced-search:field name="synced" operator="equals" selected="false"/>
+				<advanced-search:field name="siteConversionSynced" operator="equals" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="InfluencerVisitMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="noOfSiteRunning" operator="greaterOrEquals" selected="true" position="0"/>
+				<advanced-search:field name="noOfShreeSiteRunning" operator="greaterOrEquals" selected="false" />
+				<advanced-search:field name="shreeSalesPerBag" operator="greaterOrEquals" selected="false" />
+				<advanced-search:field name="monthlyPotentialInBags" operator="greaterOrEquals" selected="false" />
+				<advanced-search:field name="sow" operator="greaterOrEquals" selected="false" />
+				<advanced-search:field name="noOfSiteRunning" operator="lessOrEquals" selected="true"/>
+				<advanced-search:field name="noOfShreeSiteRunning" operator="lessOrEquals" selected="false" />
+				<advanced-search:field name="shreeSalesPerBag" operator="lessOrEquals" selected="false" />
+				<advanced-search:field name="monthlyPotentialInBags" operator="lessOrEquals" selected="false" />
+				<advanced-search:field name="sow" operator="lessOrEquals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="MarketMappingDetails" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="brand" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="product" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="synced" operator="equals" selected="false" position="3"/>
+				<advanced-search:field name="wholesalePrice" operator="equals" selected="false" position="4"/>
+				<advanced-search:field name="retailsalePrice" operator="equals" selected="false" position="5"/>
+				<advanced-search:field name="discount" operator="equals" selected="false" position="6"/>
+				<advanced-search:field name="billing" operator="equals" selected="false" position="7"/>
+				<advanced-search:field name="stock" operator="equals" selected="false" position="8"/>
+				<advanced-search:field name="wholeSales" operator="equals" selected="false" position="9"/>
+				<advanced-search:field name="retailSales" operator="equals" selected="false" position="10"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SclBrand" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="code" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="name" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="GiftScheme" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="schemeId" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="schemeName" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="state" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="influencerType" operator="contains" selected="false" position="3"/>
+				<advanced-search:field name="startDate" operator="equals" selected="false" position="4"/>
+				<advanced-search:field name="endDate" operator="equals" selected="false" position="5"/>
+				<advanced-search:field name="brand" operator="contains" selected="false" position="6"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="MasterStockAllocation" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="invoiceNumber" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="id" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="dealerCode" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="dealer" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="invoicedDate" operator="equals" selected="false" position="4"/>
+				<advanced-search:field name="productCode" operator="contains" selected="true" position="5"/>
+				<advanced-search:field name="quantityInMt" operator="equals" selected="false" position="6"/>
+				<advanced-search:field name="quantityInBags" operator="equals" selected="false" position="7"/>
+				<advanced-search:field name="balanceQtyInMt" operator="equals" selected="false" position="8"/>
+				<advanced-search:field name="balanceQtyInBags" operator="equals" selected="false" position="9"/>
+				<advanced-search:field name="shipToPartyCode" operator="contains" selected="false" position="10"/>
+				<advanced-search:field name="shipToParty" operator="contains" selected="false" position="11"/>
+				<advanced-search:field name="shipToDistrict" operator="contains" selected="false" position="12"/>
+				<advanced-search:field name="shipToState" operator="contains" selected="false" position="13"/>
+				<advanced-search:field name="aliasCode" operator="contains" selected="false" position="14"/>
+				<advanced-search:field name="truckNumber" operator="contains" selected="false" position="15"/>
+				<advanced-search:field name="retailer" operator="contains" selected="false" position="16"/>
+				<advanced-search:field name="taxInvoiceNumber" operator="contains" selected="false" position="17"/>
+				<advanced-search:field name="isInvoiceCancelled" operator="equals" selected="false" position="18"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="Gift" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="giftCode" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="giftSchemeId" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="IntegrationSetting" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="integrationName" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="retrievalStrategy" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="syncedColumnName" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="columnName" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="lastXDays" operator="equals" selected="false" position="4"/>
+				<advanced-search:field name="startDate" operator="equals" selected="false" position="5"/>
+				<advanced-search:field name="exclusiveEndDate" operator="equals" selected="false" position="6"/>
+				<advanced-search:field name="dateFormat" operator="contains" selected="false" position="7"/>
+				<advanced-search:field name="uniqueKey" operator="contains" selected="false" position="8"/>
+				<advanced-search:field name="keyValue" operator="contains" selected="false" position="9"/>
+				<advanced-search:field name="appendQuery" operator="contains" selected="false" position="10"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="StateCodes" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="stateName" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="stateCode" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="OutboundEndCustomerComplaint" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="requestId" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="customerName" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="customerNo" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="addressLine1" operator="contains" selected="false" position="3"/>
+				<advanced-search:field name="addressLine2" operator="contains" selected="false" position="4"/>
+				<advanced-search:field name="state" operator="contains" selected="true" position="5"/>
+				<advanced-search:field name="district" operator="contains" selected="true" position="6"/>
+				<advanced-search:field name="taluka" operator="contains" selected="true" position="7"/>
+				<advanced-search:field name="city" operator="contains" selected="true" position="8"/>
+				<advanced-search:field name="pincode" operator="contains" selected="false" position="9"/>
+				<advanced-search:field name="phoneNumber" operator="contains" selected="false" position="10"/>
+				<advanced-search:field name="dealer" operator="contains" selected="true" position="11"/>
+				<advanced-search:field name="retailer" operator="contains" selected="true" position="12"/>
+				<advanced-search:field name="product" operator="contains" selected="false" position="13"/>
+				<advanced-search:field name="dateOfPurchase" operator="contains" selected="false" position="14"/>
+				<advanced-search:field name="numberOfPurchase" operator="equals" selected="false" position="15"/>
+				<advanced-search:field name="isBillAvailable" operator="equals" selected="false" position="16"/>
+				<advanced-search:field name="batchNo" operator="equals" selected="false" position="17"/>
+				<advanced-search:field name="depot" operator="contains" selected="false" position="18"/>
+				<advanced-search:field name="dateOfUse" operator="contains" selected="false" position="19"/>
+				<advanced-search:field name="natureOfComplaint" operator="contains" selected="false" position="20"/>
+				<advanced-search:field name="areaOfApplication" operator="contains" selected="false" position="21"/>
+				<advanced-search:field name="problemPerceivedByCustomer" operator="contains" selected="false" position="22"/>
+				<advanced-search:field name="problemReportedByDepot" operator="contains" selected="false" position="23"/>
+				<advanced-search:field name="amountOfDamagePerceivedByCustomer" operator="contains" selected="false" position="24"/>
+				<advanced-search:field name="amountOfDamagePerceivedByDepot" operator="contains" selected="false" position="25"/>
+				<advanced-search:field name="commentsAboutSurrounding" operator="contains" selected="false" position="26"/>
+				<advanced-search:field name="uploadInvoice" operator="contains" selected="false" position="27"/>
+				<advanced-search:field name="invoiceNo" operator="contains" selected="false" position="28"/>
+				<advanced-search:field name="transporter" operator="contains" selected="false" position="29"/>
+				<advanced-search:field name="productName" operator="contains" selected="false" position="30"/>
+				<advanced-search:field name="quantity" operator="contains" selected="false" position="31"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SalesSummary" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="customerNo" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="territoryMaster" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="sapProductCode" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="month" operator="equals" selected="false" position="3"/>
+				<advanced-search:field name="year" operator="equals" selected="false" position="4"/>
+				<advanced-search:field name="sale" operator="equals" selected="false" position="5"/>
+				<advanced-search:field name="bucket1" operator="equals" selected="false" position="6"/>
+				<advanced-search:field name="bucket2" operator="equals" selected="false" position="7"/>
+				<advanced-search:field name="bucket3" operator="equals" selected="false" position="8"/>
+				<advanced-search:field name="district" operator="contains" selected="false" position="9"/>
+				<advanced-search:field name="state" operator="contains" selected="false" position="10"/>
+				<advanced-search:field name="alias" operator="contains" selected="false" position="11"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="RejectionReason" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="code" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="name" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SclDealerRetailerMappingProcess" component="advanced-search" merge-by="type" parent="BusinessProcess">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="dealerRetailer" operator="contains" selected="true" position="0"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SCLIntSalesHierarchy" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="territoryCode" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="dateFrom" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="dateTo" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="employeeCode" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="employeeName" operator="contains" selected="true" position="4"/>
+				<advanced-search:field name="employeeEmail" operator="contains" selected="false" position="5"/>
+				<advanced-search:field name="tsmCode" operator="contains" selected="false" position="6"/>
+				<advanced-search:field name="tsmName" operator="contains" selected="false" position="7"/>
+				<advanced-search:field name="tsmEmail" operator="contains" selected="false" position="8"/>
+				<advanced-search:field name="regionHeadCode" operator="contains" selected="false" position="9"/>
+				<advanced-search:field name="regionHeadName" operator="contains" selected="false" position="10"/>
+				<advanced-search:field name="regionHeadEmail" operator="contains" selected="false" position="11"/>
+				<advanced-search:field name="stateHeadCode" operator="contains" selected="false" position="12"/>
+				<advanced-search:field name="stateHeadName" operator="contains" selected="false" position="13"/>
+				<advanced-search:field name="stateHeadEmail" operator="contains" selected="false" position="14"/>
+				<advanced-search:field name="clusterHeadCode" operator="contains" selected="false" position="15"/>
+				<advanced-search:field name="clusterHeadName" operator="contains" selected="false" position="16"/>
+				<advanced-search:field name="clusterHeadEmail" operator="contains" selected="false" position="17"/>
+				<advanced-search:field name="zonalHeadCode" operator="contains" selected="false" position="18"/>
+				<advanced-search:field name="zonalHeadName" operator="contains" selected="false" position="19"/>
+				<advanced-search:field name="zonalHeadEmail" operator="contains" selected="false" position="20"/>
+				<advanced-search:field name="nationalHeadCode" operator="contains" selected="false" position="21"/>
+				<advanced-search:field name="nationalHeadName" operator="contains" selected="false" position="22"/>
+				<advanced-search:field name="nationalHeadEmail" operator="contains" selected="false" position="23"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SCLSAPSalesOrganization" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="salesOrganization" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="distributionChannel" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="division" operator="contains" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="PlantIncoTerm" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sapSalesOrganization" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="incoterms" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="deletionIndicator" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="validFrom" operator="contains" selected="false" position="3"/>
+				<advanced-search:field name="validTo" operator="contains" selected="false" position="4"/>
+				<advanced-search:field name="crmIncoTerms" operator="contains" selected="false" position="5"/>
+				<advanced-search:field name="source" operator="contains" selected="true" position="6"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="CustomerGeneratedOtp" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="customer" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="emailId" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="mobileNo" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="otpCode" operator="contains" selected="false" position="3"/>
+				<advanced-search:field name="otpCreationDate" operator="contains" selected="false"  position="4"/>
+				<advanced-search:field name="otpStatus" operator="contains" selected="false" position="5"/>
+				<advanced-search:field name="otpVerifiedDate" operator="contains" selected="true" position="6"/>
+				<advanced-search:field name="partnerCustomer" operator="contains" selected="true" position="7"/>
+				<advanced-search:field name="smsProcess" operator="contains" selected="true" position="8"/>
+				<advanced-search:field name="emailProcess" operator="contains" selected="true" position="9"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+
+	<context type="ProductIncoTerm" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sapSalesOrganization" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="salesDistrict" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="incoterms" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="material" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="validFrom" operator="contains" selected="false" position="4"/>
+				<advanced-search:field name="validTo" operator="contains" selected="false" position="5"/>
+				<advanced-search:field name="deletionIndicator" operator="contains" selected="true" position="6"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="ComplaintCounterVisit" component="advanced-search" merge-by="type" parent="CounterVisitMaster">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="currentSiteVisitNotRequired" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="currentDispatchDetails" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="currentNextScheduleVisit" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="currentRootCause" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="currentDetailsFromSite" operator="contains" selected="true" position="4"/>
+				<advanced-search:field name="currentTestPerformed" operator="contains" selected="true" position="5"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="MeetingCompletionForm" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="meetingFormId" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="typeOfActivityConducted" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="noOfParticipantsAttended" operator="contains" selected="true" position="2"/>
+				<advanced-search:field name="retailer" operator="contains" selected="true" position="3"/>
+				<advanced-search:field name="sp" operator="contains" selected="true" position="4"/>
+				<advanced-search:field name="totalAdminCost" operator="contains" selected="false" position="5"/>
+				<advanced-search:field name="avgLifting" operator="contains" selected="false" position="6"/>
+				<advanced-search:field name="nameOfGiftTypeDistributed" operator="contains" selected="false" position="7"/>
+				<advanced-search:field name="noOfGiftsDistributed" operator="contains" selected="false" position="8"/>
+				<advanced-search:field name="so" operator="contains" selected="false" position="9"/>
+				<advanced-search:field name="syncFlag" operator="contains" selected="false" position="10"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="ComplaintCounterVisit" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="serviceType" operator="contains" selected="true" position="0"/>
+				<advanced-search:field name="serviceTypeTest" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="id" operator="contains" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<!--Section for advanced search Ends-->
+	
+	 <!-- Section for Simple search Starts-->
+
+	<context type="CustomerSubAreaMapping" component="simple-search" merge-by="type" parent="GenericItem">
+		<simple-search:simple-search>
+			<simple-search:field name="sclCustomer" />
+			<simple-search:field name="subAreaMaster" />
+		</simple-search:simple-search>
+	</context>
+
+	<!-- Section for Simple search Ends-->
+    
+    <!-- SCL Order Management Role -->
+	<context merge-mode="none" component="explorer-tree" principal="sclordermanagementrole">
+        <explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+                <explorer-tree:type-node id="hmc_typenode_order" code="Order" />
+        </explorer-tree:explorer-tree>
+    </context>
+    
+    <context merge-mode="none" parent="AbstractOrder" type="Order" component="editor-area" principal="sclordermanagementrole">
+        <editorArea:editorArea logic-handler="sclEditorAreaLogicHandler"> 
+            <editorArea:tab name="hmc.tab.order.custom" position="0">
+                <editorArea:section name="hmc.section.attributes">
+               	    <editorArea:attribute qualifier="deliveryAddress"/>
+               	   <!--  <editorArea:attribute qualifier="deliveryMode"/> -->
+                    <editorArea:attribute qualifier="entries"/>
+                    <editorArea:attribute qualifier="isDealerProvideOwnTransport"/>
+                    <!-- <editorArea:attribute qualifier="warehouse"/> -->
+                    <editorArea:attribute qualifier="retailer"/>
+                    <editorArea:attribute qualifier="rejectionReasons"/>
+                    <editorArea:attribute qualifier="user"/>
+                    <editorArea:attribute qualifier="erpOrderNumber" readonly="true"/>
+                     <editorArea:attribute qualifier="orderAcceptedDate"/>
+                    <editorArea:attribute qualifier="statusDisplay"/>
+                    <editorArea:attribute qualifier="placedBy"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+    
+    <context merge-mode="none" parent="AbstractOrderEntry" type="OrderEntry" component="editor-area" principal="sclordermanagementrole">
+        <editorArea:editorArea logic-handler="sclEditorAreaLogicHandler"> 
+            <editorArea:tab name="hmc.tab.order.custom" position="0">
+                <editorArea:section name="hmc.section.attributes">
+                    <editorArea:attribute qualifier="product"/>
+                    <editorArea:attribute qualifier="order"/>
+                    <editorArea:attribute qualifier="calculatedDeliveryDate"/>
+                    <editorArea:attribute qualifier="calculatedDeliverySlot"/>
+                    <editorArea:attribute qualifier="expectedDeliveryDate"/>
+                    <editorArea:attribute qualifier="expectedDeliverySlot"/>
+                    <editorArea:attribute qualifier="cancelledDate"/>
+                    <editorArea:attribute qualifier="deliveredDate"/>
+                    <editorArea:attribute qualifier="driverContactNo"/>
+                    <editorArea:attribute qualifier="driverName"/>
+                    <editorArea:attribute qualifier="truckNo"/>
+                    <editorArea:attribute qualifier="quantityInMT"/>
+                    <editorArea:attribute qualifier="quantity"/>
+                    <editorArea:attribute qualifier="source"/>
+                    <editorArea:attribute qualifier="statusDisplay"/>
+                    <editorArea:attribute qualifier="truckAllocatedDate"/>
+                    <editorArea:attribute qualifier="truckDispatcheddate"/>
+                    <editorArea:attribute qualifier="truckReachedDate"/>
+                    <editorArea:attribute qualifier="outForDeliveryDate"/>
+                </editorArea:section>
+            </editorArea:tab>
+        </editorArea:editorArea>
+    </context>
+
+	
+	<!-- <context type="Order" component="create-wizard" principal="sclordermanagementrole">
+		<wz:flow id="orderWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="orderPrepare">
+				<wz:initialize property="order" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="order">
+						<wz:property qualifier="code"/>
+						<wz:property qualifier="user"/>
+						<wz:property qualifier="date"/>
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="order"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>	 -->
+
+
+	<context type="DJPRunMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="taluka" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="brand" operator="equals" selected="false" />
+				<advanced-search:field name="state" operator="equals" selected="false" />
+				<advanced-search:field name="district" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DealerRetailerMapping" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="dealer" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="retailer" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="district" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="state" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="shipTo" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="pinCode" operator="equals" selected="true" position="5"/>
+				<advanced-search:field name="taluka" operator="equals" selected="true" position="6"/>
+				<advanced-search:field name="erpCity" operator="equals" selected="true" position="7"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="NeilsonBrandMapping" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="neilson" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="sclBrand" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="validFrom" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="validTo" operator="equals" selected="true" position="3"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="TerritoryUserMapping" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="brand" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="sclUser" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="validFrom" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="validTo" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="territoryMaster" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="Brand" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sclBrand" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="state" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="isocode" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="name" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="active" operator="equals" selected="true" position="4"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="ProductAlias" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="product" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="aliasName" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="district" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="state" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="validTo" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="validFrom" operator="equals" selected="true" position="5"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="DeliverySlotMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="slot" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="displayName" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="centreTime" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SclIncoTermMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="incoTerm" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="incoTermSequence" operator="contains" selected="true" position="1"/>
+				<advanced-search:field name="isDealerProvidingTransport" operator="equals" selected="true" position="2"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="TerritoryMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="territoryCode" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="sclUser" operator="contains" selected="true" position="1"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="GeographicalMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="transportationZone" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="state" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="district" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="territoryCode" operator="equals" selected="true" position="3"/>
+				<advanced-search:field name="pincode" operator="equals" selected="true" position="4"/>
+				<advanced-search:field name="cityCode" operator="equals" selected="true" position="5"/>
+				<advanced-search:field name="districtCode" operator="equals" selected="true" position="6"/>
+				<advanced-search:field name="erpCity" operator="equals" selected="true" position="7"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+
+	<context type="BrandingRequestDetails" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="requisitionNumber" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="requestStatus" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="LeadMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="leadId" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="leadType" operator="equals" selected="false" />
+				<advanced-search:field name="subAreaMaster" operator="equals" selected="false" />
+				<advanced-search:field name="approvedBy" operator="equals" selected="false" />
+				<advanced-search:field name="status" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SubAreaMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sclUser" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="district" operator="equals" selected="false" />
+				<advanced-search:field name="districtMaster" operator="equals" selected="false" />
+				<advanced-search:field name="taluka" operator="equals" selected="false" />
+				<advanced-search:field name="networkAdditionPlans" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="DestinationSourceMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="orderType" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="type" operator="equals" selected="false" />
+				<advanced-search:field name="source" operator="equals" selected="false" />
+				<advanced-search:field name="destination" operator="equals" selected="false" />
+				<advanced-search:field name="sourcePriority" operator="equals" selected="false" />
+				<advanced-search:field name="brand" operator="equals" selected="false" />
+				<advanced-search:field name="productCode" operator="equals" selected="false"/>
+				<advanced-search:field name="incoterms" operator="equals" selected="false"/>
+				<advanced-search:field name="destinationState" operator="equals" selected="false"/>
+				<advanced-search:field name="destinationDistrict" operator="equals" selected="false"/>
+				<advanced-search:field name="destinationCity" operator="equals" selected="false"/>
+				<advanced-search:field name="transportationZone" operator="equals" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="userSubAreaMapping" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="sclUser" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="district" operator="equals" selected="false" />
+				<advanced-search:field name="state" operator="equals" selected="false" />
+				<advanced-search:field name="brand" operator="equals" selected="false" />
+				<advanced-search:field name="subAreaMaster" operator="equals" selected="false" />
+				<advanced-search:field name="subArea" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="ISOMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="brand" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="productCode" operator="equals" selected="false" />
+				<advanced-search:field name="customer" operator="equals" selected="false" />
+				<advanced-search:field name="depotCode" operator="equals" selected="false" />
+				<advanced-search:field name="plantCode" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="DepotStockMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="depot" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="productCode" operator="equals" selected="false" />
+				<advanced-search:field name="custCategory" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SiteVisitMaster" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="sclCustomer" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="constructionStage" operator="equals" selected="false" />
+				<advanced-search:field name="siteStatus" operator="equals" selected="false" />
+				<advanced-search:field name="nextSlabCasting" operator="equals" selected="false" />
+				<advanced-search:field name="siteCategoryType" operator="equals" selected="false" />
+				<advanced-search:field name="cementProduct" operator="equals" selected="false" />
+				<advanced-search:field name="convertedToProduct" operator="equals" selected="false" />
+				<advanced-search:field name="endVisitTime" operator="equals" selected="false" />
+				<advanced-search:field name="synced" operator="equals" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+	<context type="SiteTransaction" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="id" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="site" operator="equals" selected="true" position="1"/>
+				<advanced-search:field name="isPremium" operator="equals" selected="true" position="2"/>
+				<advanced-search:field name="constructionStage" operator="equals" selected="false" />
+				<advanced-search:field name="siteStatus" operator="equals" selected="false" />
+				<advanced-search:field name="nextSlabCasting" operator="equals" selected="false" />
+				<advanced-search:field name="previousSiteCategory" operator="equals" selected="false" />
+				<advanced-search:field name="previousProduct" operator="equals" selected="false" />
+				<advanced-search:field name="convertedSiteCategory" operator="equals" selected="false" />
+				<advanced-search:field name="convertedToProduct" operator="equals" selected="false" />
+				<advanced-search:field name="siteConvertedDate" operator="equals" selected="false" />
+				<advanced-search:field name="siteConversionSynced" operator="equals" selected="false"/>
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+
+
+	<context type="PlantIncoTerm" component="listviewactions" merge-by="type">
+	<y:actions>
+		<y:extended-group qualifier="export" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.excel</y:value>
+				</y:parameter>
+			</y:action>
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.exceltemplate</y:value>
+				</y:parameter>
+			</y:action>
+			<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+		</y:extended-group>
+		<y:group qualifier="import" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.import.excel</y:value>
+				</y:parameter>
+			</y:action>
+		</y:group>
+	</y:actions>
+   </context>
+
+	<context type="DealerRetailerMapping" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+   
+   <context type="CustomerSubAreaMapping" component="listviewactions" merge-by="type">
+	<y:actions>
+		<y:extended-group qualifier="export" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.excel</y:value>
+				</y:parameter>
+			</y:action>
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.exceltemplate</y:value>
+				</y:parameter>
+			</y:action>
+			<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+		</y:extended-group>
+		<y:group qualifier="import" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.import.excel</y:value>
+				</y:parameter>
+			</y:action>
+		</y:group>
+	</y:actions>
+   </context>
+   
+    <context type="CounterRouteMapping" component="listviewactions" merge-by="type">
+	<y:actions>
+		<y:extended-group qualifier="export" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.excel</y:value>
+				</y:parameter>
+			</y:action>
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.exceltemplate</y:value>
+				</y:parameter>
+			</y:action>
+			<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+		</y:extended-group>
+		<y:group qualifier="import" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.import.excel</y:value>
+				</y:parameter>
+			</y:action>
+		</y:group>
+	</y:actions>
+   </context>
+   
+    <context type="RouteMaster" component="listviewactions" merge-by="type">
+	<y:actions>
+		<y:extended-group qualifier="export" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.excel</y:value>
+				</y:parameter>
+			</y:action>
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.export.exceltemplate</y:value>
+				</y:parameter>
+			</y:action>
+			<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+		</y:extended-group>
+		<y:group qualifier="import" show-group-header="false">
+			<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+				<y:parameter>
+					<y:name>actionName</y:name>
+					<y:value>label.import.excel</y:value>
+				</y:parameter>
+			</y:action>
+		</y:group>
+	</y:actions>
+   </context>
+
+	<context type="ProductIncoTerm" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="GeographicalMaster" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="SalesOrderDeliverySLA" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="Warehouse" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="B2BCustomer" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="NeilsonBrandMapping" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="SCLIntSalesHierarchy" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="ProductAlias" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	
+	<context type="DestinationSourceMaster" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="UserSubAreaMapping" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="SubAreaMaster" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	
+	<context type="TerritoryMaster" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	
+	<context type="TerritoryUserMapping" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	
+	<context type="SclBrand" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	<context type="PriceRow" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+	
+	<context type="StockLevel" component="listviewactions" merge-by="type">
+		<y:actions>
+			<y:extended-group qualifier="export" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.export" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.excel</y:value>
+					</y:parameter>
+				</y:action>
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.exporttemplate" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.export.exceltemplate</y:value>
+					</y:parameter>
+				</y:action>
+				<y:extended-action action-id="com.hybris.backoffice.widgets.actions.excel.export"/>
+			</y:extended-group>
+			<y:group qualifier="import" show-group-header="false">
+				<y:action action-id="com.hybris.backoffice.widgets.actions.excel.import" property="pageable.typeCode">
+					<y:parameter>
+						<y:name>actionName</y:name>
+						<y:value>label.import.excel</y:value>
+					</y:parameter>
+				</y:action>
+			</y:group>
+		</y:actions>
+	</context>
+
+	<context type="Order" component="advanced-search" merge-by="type" parent="GenericItem">
+		<advanced-search:advanced-search>
+			<advanced-search:field-list>
+				<advanced-search:field name="erpOrderNo" operator="equals" selected="true" position="0"/>
+				<advanced-search:field name="erpOrderType" operator="equals" selected="false" />
+				<advanced-search:field name="isErpOrder" operator="equals" selected="false" />
+			</advanced-search:field-list>
+		</advanced-search:advanced-search>
+	</context>
+	<context type="SiteCategoryType" component="base" merge-by="type" >
+		<y:base>
+			<y:labels>
+				<y:label>(name?:'')+' ['+code+']'</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+	<context type="SiteCementType" component="base" merge-by="type" >
+		<y:base>
+			<y:labels>
+				<y:label>(name?:'')+' ['+code+']'</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+	<context type="SiteServiceType" component="base" merge-by="type" >
+		<y:base>
+			<y:labels>
+				<y:label>(name?:'')+' ['+code+']'</y:label>
+			</y:labels>
+		</y:base>
+	</context>
+
+	<context component="create-wizard" type="EnumerationValue">
+		<wz:flow id="enumerationValueWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="enumerationValuePrepare">
+				<wz:initialize property="enumerationValue" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.customer.essential.label" sublabel="create.customer.essential.sublabel">
+				<wz:content id="step1.content">
+					<wz:property-list root="enumerationValue">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="enumerationValue"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+	<context component="create-wizard" type="SiteCementBrand">
+		<wz:flow id="siteCementBrandWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="siteCementBrandPrepare">
+				<wz:initialize property="siteCementBrand" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="siteCementBrand">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+						<wz:property qualifier="siteCementType" />
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="siteCementBrand"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context component="create-wizard" type="SiteCementType">
+		<wz:flow id="siteCementTypeWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="siteCementTypePrepare">
+				<wz:initialize property="siteCementType" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="siteCementType">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+						<wz:property qualifier="siteCategoryType" />
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="siteCementType"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context component="create-wizard" type="SiteServiceType">
+		<wz:flow id="siteServiceTypeWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="siteServiceTypePrepare">
+				<wz:initialize property="siteServiceType" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="siteServiceType">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="siteServiceType"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context component="create-wizard" type="SiteCategoryType">
+		<wz:flow id="siteCategoryTypeWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="siteCategoryTypePrepare">
+				<wz:initialize property="siteCategoryType" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="siteCategoryType">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="siteCategoryType"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context component="create-wizard" type="SiteServiceTest">
+		<wz:flow id="siteServiceTestWizard" title="create.title(ctx.TYPE_CODE)">
+			<wz:prepare id="siteServiceTestPrepare">
+				<wz:initialize property="siteServiceTest" type="ctx.TYPE_CODE"/>
+			</wz:prepare>
+			<wz:step id="step1" label="create.discountrow.essential.label">
+				<wz:content id="step1.content">
+					<wz:property-list root="siteServiceTest">
+						<wz:property qualifier="code" />
+						<wz:property qualifier="name" />
+						<wz:property qualifier="serviceType" />
+
+					</wz:property-list>
+				</wz:content>
+				<wz:navigation id="step1.navigation">
+					<wz:cancel/>
+					<wz:done>
+						<wz:save property="siteServiceTest"/>
+					</wz:done>
+				</wz:navigation>
+			</wz:step>
+		</wz:flow>
+	</context>
+
+	<context merge-mode="none" component="explorer-tree" principal="tsoadmin">
+		<explorer-tree:explorer-tree xmlns:explorer-tree="http://www.hybris.com/cockpitng/config/explorertree">
+			<explorer-tree:navigation-node id="hmc_treenode_order" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_catalog" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_marketing" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_pricesettings" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_workflowgroup" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_user" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_system" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_ticketsystemgroup" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_medias" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_treenode_c2l" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc.cms2" merge-mode="REMOVE"/>
+			<explorer-tree:navigation-node id="hmc.cockpit" merge-mode="REMOVE"/>
+			<explorer-tree:navigation-node id="hmc.group.basecommerce" merge-mode ="REMOVE"/>
+			<explorer-tree:navigation-node id="hmc.group.basecommerce.deeplink" merge-mode ="REMOVE"/>
+			<explorer-tree:navigation-node id="hmc.b2bcommercegroup" merge-mode="remove" />
+			<explorer-tree:navigation-node id="merchnode" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc.b2bapprovalprocessgroup" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc.group.sapintegration.name" merge-mode="remove" />
+			<explorer-tree:navigation-node id="scl.treenode" merge-mode="remove" />
+			<explorer-tree:navigation-node id="ruleengine" merge-mode="remove" />
+			<explorer-tree:navigation-node id="cxnode" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_typenode_inboxview" merge-mode="remove" />
+			<explorer-tree:navigation-node id="hmc_backoffice-workflow-inbox" merge-mode="remove" />
+		</explorer-tree:explorer-tree>
+	</context>
+
+	<context principal="tsoadmin" component="explorer-tree" merge-by="principal">
+		<n:explorer-tree>
+			<n:navigation-node id="scl.treenode.tsoadmin">
+				<n:type-node code="ConstructionStage" id="scl.treenode.tsoadmin.stageofconstruction" position="0"/>
+				<n:type-node code="NatureOfComplaint" id="scl.treenode.tsoadmin.natureofcomplaint" position="1"/>
+				<n:type-node code="PersonMetAtSite" id="scl.treenode.tsoadmin.personmetatsite" position="2"/>
+				<n:type-node code="CurrentStageOfSiteConstruction" id="scl.treenode.tsoadmin.currentstageofsiteconstruction" position="3"/>
+				<n:type-node code="SiteServiceType" id="scl.treenode.tsoadmin.siteservicetype" position="4"/>
+				<n:type-node code="SiteServiceTest" id="scl.treenode.tsoadmin.siteservicetest" position="5"/>
+				<n:type-node code="CompetitorProductType" id="scl.treenode.tsoadmin.competitorproducttype" position="6"/>
+				<n:type-node code="PremiumProductType" id="scl.treenode.tsoadmin.premiumproducttype" position="7"/>
+				<n:type-node code="CompetitorProduct" id="scl.treenode.tsoadmin.competitorproduct" position="8"/>
+				<n:type-node code="CompetitionSiteStatus" id="scl.treenode.tsoadmin.competitionsitestatus" position="9"/>
+				<n:type-node code="OwnSiteStatus" id="scl.treenode.tsoadmin.ownsitestatus" position="10"/>
+				<n:type-node code="ReasonOfNotConversion" id="scl.treenode.tsoadmin.reasonofnotconversion" position="11"/>
+				<n:type-node code="MeetingType" id="scl.treenode.tsoadmin.meetingtype" position="12"/>
+				<n:type-node code="SiteType" id="scl.treenode.tsoadmin.sitetype" position="13"/>
+				<n:type-node code="SiteStage" id="scl.treenode.tsoadmin.sitestage" position="14"/>
+				<n:type-node code="SiteRootCause" id="scl.treenode.tsoadmin.siterootcause" position="15"/>
+				<n:type-node code="DataConstraint" id="scl.treenode.tsoadmin.dataconstraint" position="16"/>
+				<n:type-node code="SiteVisitMaster" id="scl.treenode.tsoadmin.SiteVisitMaster" position="17"/>
+				<n:type-node code="SclSiteMaster" id="scl.treenode.tsoadmin.sclsitemaster" position="18"/>
+				<n:type-node code="TsoTalukaMapping" id="scl.treenode.tsoadmin.TsoTalukaMapping" position="19"/>
+				<n:type-node code="CompetitorProduct" id="scl.treenode.tsoadmin.CompetitorProduct" position="20"/>
+			</n:navigation-node>
+		</n:explorer-tree>
+	</context>
+
+</config>

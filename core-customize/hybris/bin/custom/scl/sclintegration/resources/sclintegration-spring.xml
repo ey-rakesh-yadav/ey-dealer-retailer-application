@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/util
+		   http://www.springframework.org/schema/util/spring-util.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--
+    The hybris platform provides one single Spring application context for beans located at the jalo layer.
+    Each extension can add beans to this context by specifying them at this configuration file.
+
+    You can use and/or redefine beans defined at configuration files of other extensions as well as
+    adding new one.
+
+    If you want to locate this file at a different location or want to use several files for better,
+    structuring, please use the '<yourextension>.application-context' property at your project.properties file.
+    There you can specify a comma separated list of files where first is tried to find a file per classpath and
+    then per file system.
+
+
+    If you want to configure beans for your web module please have a look at
+    your web/webroot/WEB-INF/<extname>-web-spring.xml.
+    -->
+
+    <!--  Example how to override a manager -->
+    <!--
+    <bean id="core.productManager"   class="com.scl.integration.jalo.SclintegrationProductManager" 	init-method="init"	destroy-method="destroy" />
+    -->
+
+
+    <!--  Example how to configure the class to use for jalo session creation -->
+    <!--
+    <bean id="jalosession"   class="de.hybris.platform.jalo.JaloSessionFactory">
+        <property name="targetClassName" value="com.scl.integration.jalo.SclintegrationJaloSession"/>
+    </bean>
+    -->
+
+
+    <!--  Example how to override an item  -->
+    <!--
+    <bean id="de.hybris.platform.jalo.product.Product" class="com.scl.integration.jalo.SclintegrationProduct" scope="prototype" />
+     -->
+
+    <!--
+     Example how to register and use an AOP aspect
+     Also see http://static.springframework.org/spring/docs/2.5.x/reference/aop.html	
+     -->
+
+    <!--
+    <bean id="sclintegrationProfBean" class="com.scl.integration.aop.SclintegrationProfilingAspect"/>
+    <aop:config proxy-target-class="true">
+          <aop:aspect id="sclintegrationProfAspect" ref="sclintegrationProfBean" >
+          <aop:pointcut id="profiledMethods"
+              expression="execution(* getModificationTime(..))" />
+               <aop:around pointcut-ref="profiledMethods" method="profile" />
+          </aop:aspect>
+    </aop:config>
+     -->
+
+
+    <!-- some other examples of a pointcut that matches everything:
+
+          <aop:pointcut id="profiledMethods"
+              expression="bean(de.hybris.platform.jalo.user.Customer) &amp;&amp;
+                          !execution(* getPK(..))" />
+           <aop:pointcut id="profiledMethods" expression="execution(* *(..))" />
+      -->
+
+    <bean id="sclintegrationSystemSetup" class="com.scl.integration.setup.SclintegrationSystemSetup">
+        <!-- constructor arg injection example -->
+        <constructor-arg ref="sclintegrationService"/>
+    </bean>
+
+    <bean id="sclintegrationService" class="com.scl.integration.service.impl.DefaultSclintegrationService">
+        <!-- setter injection example -->
+        <property name="modelService" ref="modelService"/>
+        <property name="mediaService" ref="mediaService"/>
+        <property name="addressConverter" ref="addressConverter"/>
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="cmsSiteDao" ref="cmsSiteDao"/>
+    </bean>
+
+
+    <alias name="sclSapCpiOmmOrderOutboundAction" alias="sapSendOrderAction"/>
+    <bean id="sclSapCpiOmmOrderOutboundAction" parent="sapCpiOmmOrderOutboundAction"
+          class="com.scl.integration.cpi.order.SclSapCpiOmmOrderOutboundAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="sclSapCpiOutboundOrderConversionService" ref="sclSapCpiOutboundOrderConversionService"/>
+    </bean>
+
+    <alias name="sclOutboundPriceAction" alias="sclOutboundPriceAction"/>
+    <bean id="sclOutboundPriceAction" class="com.scl.integration.cpi.order.SclInboundPriceAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+    </bean>
+
+    <alias name="sclSapCpiDefaultOutboundService" alias="sapCpiOutboundService" />
+    <bean id="sclSapCpiDefaultOutboundService" class="com.scl.integration.cpi.order.impl.SclSapCpiOutboundServiceImpl" parent="sapCpiDefaultOutboundService">
+        <property name="outboundServiceFacade" ref="outboundServiceFacade" />
+    </bean>
+
+    <alias name="sclSapCpiOutboundOrderConversionService" alias="sclSapCpiOutboundOrderConversionService" />
+    <bean id="sclSapCpiOutboundOrderConversionService" class="com.scl.integration.cpi.order.impl.SclSapCpiOutboundOrderConversionServiceImpl">
+        <property name="sclCpiOrderMappers" ref="sclCpiOrderMappers" />
+    </bean>
+
+    <alias name="sclSapCpiSalesOrderMapperServices" alias="sclCpiOrderMappers"/>
+    <util:list id="sclSapCpiSalesOrderMapperServices" value-type="com.scl.integration.cpi.order.impl.SclSapCpiOmmOrderMapperServiceImpl">
+    </util:list>
+
+    <bean id="sclCpiOrderMapper" depends-on="sclCpiOrderMappers" parent="listMergeDirective">
+        <property name="add" ref="sclDefaultSapCpiOmmOrderMapperService" />
+    </bean>
+
+    <alias name="sclSapCpiOmmOrderMapperService" alias="sclDefaultSapCpiOmmOrderMapperService" />
+    <bean id="sclSapCpiOmmOrderMapperService" class="com.scl.integration.cpi.order.impl.SclSapCpiOmmOrderMapperServiceImpl">
+        <property name="sclSapCpiOmmOrderConversionService" ref="sclSapCpiOmmOrderConversionService" />
+    </bean>
+
+    <alias name="sclSapCpiOmmOrderConversionService" alias="sclSapCpiOmmOrderConversionService" />
+    <bean id="sclSapCpiOmmOrderConversionService" class="com.scl.integration.cpi.order.impl.SclSapCpiOmmOrderConversionServiceImpl">
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <alias name="sclCommerceAddToCartStrategy" alias="commerceAddToCartStrategy"/>
+    <bean id="sclCommerceAddToCartStrategy"
+          class="com.scl.integration.strategy.impl.SclCommerceAddToCartStrategy"
+          parent="selectiveCartAddToCartStrategy">
+        <property name="commerceAddToCartMethodHooks" ref="commerceAddToCartMethodHooks"/>
+        <property name="entryMergeStrategy" ref="entryMergeStrategy"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="selectiveCartService" ref="selectiveCartService"/>
+        <property name="forceInStockMaxQuantity" value="100000"/>
+    </bean>
+
+    <!-- Scl ShipTo Party address outbound start-->
+    <alias name="sclSapCpiOutboundAddressAction" alias="sclDefaultSapCpiOutboundAddressAction"/>
+    <bean id="sclSapCpiOutboundAddressAction" parent="abstractAction"
+          class="com.scl.integration.cpi.address.SclSapCpiOutboundAddressAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="sclSapCpiOutboundAddressConversionService" ref="sclSapCpiOutboundAddressConversionService"/>
+    </bean>
+
+    <alias name="sclSapCpiOutboundAddressConversionService" alias="sclDefaultSapCpiOutboundAddressConversionService" />
+    <bean id="sclSapCpiOutboundAddressConversionService" class="com.scl.integration.cpi.address.impl.SclSapCpiOutboundAddressConversionServiceImpl">
+    </bean>
+
+     <bean id="sclSapCpiOutboundStageGateConversionService" class="com.scl.integration.cpi.stagegate.impl.SclSapCpiOutboundStageGateConversionServiceimpl">
+    </bean>
+
+    <!-- Scl ShipTo Party address outbound end-->
+
+    <!-- Scl Order Cancel outbound start-->
+    <alias name="sclSapCpiOutboundCancelOrderAction" alias="sclDefaultSapCpiOutboundCancelOrderAction"/>
+    <bean id="sclSapCpiOutboundCancelOrderAction" parent="abstractAction"
+          class="com.scl.integration.cpi.cancelorder.SclSapCpiOutboundCancelOrderAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="sclSapCpiOutboundCancelOrderConversionService" ref="sclSapCpiOutboundCancelOrderConversionService"/>
+    </bean>
+
+    <alias name="sclSapCpiOutboundCancelOrderLineAction" alias="sclDefaultSapCpiOutboundCancelOrderLineAction"/>
+    <bean id="sclSapCpiOutboundCancelOrderLineAction" parent="abstractAction"
+          class="com.scl.integration.cpi.cancelorder.SclSapCpiOutboundCancelOrderLineAction">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="sclSapCpiOutboundCancelOrderConversionService" ref="sclSapCpiOutboundCancelOrderConversionService"/>
+    </bean>
+
+    <alias name="sclSapCpiOutboundCancelOrderConversionService" alias="sclDefaultSapCpiOutboundCancelOrderConversionService" />
+    <bean id="sclSapCpiOutboundCancelOrderConversionService" class="com.scl.integration.cpi.cancelorder.impl.SclSapCpiOutboundCancelOrderConversionServiceImpl">
+    </bean>
+
+    <!-- Scl Order Cancel outbound end -->
+
+    <bean id="sclSapCpiUtillityService" class="com.scl.integration.cpi.order.impl.SclSapCpiUtillityServiceImpl">
+    </bean>
+
+
+    <bean id="sclOrderLineCancelPostPersistHook" class="com.scl.integration.cpi.hook.SclOrderLineCancelPostPersistHook">
+    </bean>
+
+    <bean id="sclOrderLineCancelPrePersistHook" class="com.scl.integration.cpi.hook.SclOrderLineCancelPrePersistHook">
+    </bean>
+
+    <bean id="sclOrderPostPersistHook" class="com.scl.integration.cpi.hook.SclOrderPostPersistHook">
+    </bean>
+
+    <bean id="SclOrderProcessingRetriesJob" class="com.scl.integration.cpi.retryorder.SclOrderProcessingRetriesJob">
+        <property name="sclSapCpiDefaultOutboundService" ref="sclSapCpiDefaultOutboundService"/>
+        <property name="sclSapCpiOutboundOrderConversionService" ref="sclSapCpiOutboundOrderConversionService"/>
+        <property name="businessProcessService" ref="businessProcessService"/>
+    </bean>
+
+    <bean id="sclPriceProcessingRetriesJob" class="com.scl.integration.cpi.retryPrice.SclPricePrcoessingRetriesJob">
+    </bean>
+
+    <bean id="destinationSourceProcessingRetriesJob" class="com.scl.integration.cpi.destinationSourceMaster.DestinationSourceProcessingRetriesJob">
+    </bean>
+
+    <bean id="sclBrandingPostPersistHook" class="com.scl.integration.cpi.hook.SclBrandingPostPersistHook">
+    </bean>
+
+    <bean id="sclMissingOrderEntriesToSLCT" class="com.scl.integration.cpi.order.SclMissingOrderEntriesToSLCT">
+    </bean>
+
+    <bean id="orderSalesReplicationJob" class="com.scl.integration.cpi.order.OrderSalesReplicationJob">
+        <property name="flexibleSearchService" ref="flexibleSearchService"/>
+        <property name="sclMissingOrderEntriesToSLCT" ref="sclMissingOrderEntriesToSLCT"/>
+        <property name="modelService" ref="modelService"/>
+    </bean>
+
+    <bean id="sclOrderLineErpCancelRetriesJob" class="com.scl.integration.cpi.cancelorder.SclOrderLineErpCancelRetriesJob">
+    </bean>
+
+    <bean id="sclCustomerPrePersistHook" class="com.scl.integration.cpi.hook.SclCustomerPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="sclOrderStageGatePrePersistHook" class="com.scl.integration.cpi.hook.SclOrderStageGatePrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="sclOrderStageGatePostPersistHook" class="com.scl.integration.cpi.hook.SclOrderStageGatePostPersistHook">
+        <property name="modelService" ref="modelService"/>
+    </bean>
+    
+     <bean id="sclInboundProductIncoTermPrePersistHook" class="com.scl.integration.cpi.hook.SclInboundProductIncoTermPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+    
+
+    <bean id="SclPlantIncoTermPrePersistHook" class="com.scl.integration.cpi.hook.SclPlantIncoTermPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="SclGeographicalMasterPrePersistHook" class="com.scl.integration.cpi.hook.SclGeographicalMasterPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+
+    <bean id="SclSalesOrderDeliverySLAPrePersistHook" class="com.scl.integration.cpi.hook.SclSalesOrderDeliverySLAPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="sclPlantDepotPrePersistHook" class="com.scl.integration.cpi.hook.SclPlantDepotPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="sclProductPrePersistHook" class="com.scl.integration.cpi.hook.SclProductPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+        <property name="warehouseService" ref="warehouseService"/>
+        <property name="unitService" ref="unitService"/>
+        <property name="slctCrmIntegrationDao" ref="slctCrmIntegrationDao"/>
+    </bean>
+    
+     <bean id="sclIntSalesHierarchyPostPersistHook" class="com.scl.integration.cpi.hook.SclIntSalesHierarchyPostPersistHook">
+    </bean>
+
+    <bean id="sclInboundOrderOMMPrePersistHook" class="com.scl.integration.cpi.hook.SclInboundOrderOMMPrePersistHook">
+        <property name="modelService" ref="modelService"/>
+        <property name="configurationService" ref="configurationService"/>
+    </bean>
+
+    <bean id="sclCustomerPostPersistHook" class="com.scl.integration.cpi.hook.SclCustomerPostPersistHook">
+        <property name="cmsAdminSiteService" ref="cmsAdminSiteService"/>
+    </bean>
+
+    <bean id="sclCreditLimitPostPersistHook" class="com.scl.integration.cpi.hook.SclCreditLimitPostPersistHook">
+    </bean>
+
+    <bean id="sclGeographicalMasterPostPersistHook" class="com.scl.integration.cpi.hook.SclGeographicalMasterPostPersistHook">
+    </bean>
+
+    <alias name="sclPersistenceHookExecutor" alias="inboundServicesPersistenceHookExecutor"/>
+    <bean id="sclPersistenceHookExecutor"
+          class="com.scl.integration.cpi.hook.service.SclPersistenceService">
+        <property name="hookProviders" ref="inboundPersistenceHookProviders"/>
+    </bean>
+
+
+   <alias name="sclODataErrorCallback" alias="odataErrorCallback"/>
+    <bean id="sclODataErrorCallback"
+          class="de.hybris.platform.odata2services.odata.errors.CustomODataExceptionAwareErrorCallback">
+        <property name="errorContextPopulators">
+            <list>
+                <bean class="de.hybris.platform.odata2services.odata.errors.ODataRuntimeApplicationExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.VirtualAttributeExecutionExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.IntegrationAttributeExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.PersistenceRuntimeApplicationExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.ODataExceptionContextPopulator">
+                    <property name="runtimeExceptionContextPopulator" ref="odataErrorCallback"/>
+                </bean>
+                <bean class="de.hybris.platform.odata2services.odata.errors.CannotCreateReferenceItemExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.ItemCreationExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.UnmodifiableAttributeExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.NonUniqueItemFoundExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.PathPayloadMismatchExceptionPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.MissingRequiredAttributeValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.MissingKeyReferencedAttributeValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.MissingRequiredMapKeyValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.IntegrationKeyNestedFilteringNotSupportedExceptionPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.FilterByVirtualAttributeNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.FilterByClassificationAttributeNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.LocaleNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.AttributeNotInIntegrationObjectExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.UriNotMatchingExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.MissingRequiredKeyAttributeValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.MissingRequiredMapKeyValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.LocaleNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.OrderByIntegrationKeyNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.OrderByNestedAttributeNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.OrderByVirtualAttributeNotSupportedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.TypeAccessPermissionExceptionErrorPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.InstanceCreationOfAbstractTypeExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.ModelRemovalExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.ItemNotFoundExceptionContextPopulator"/>
+               <!-- <bean class="de.hybris.platform.odata2services.odata.errors.PersistenceHookExceptionContextPopulator"/> -->
+                <bean class="com.scl.integration.cpi.hook.exception.SclPersistenceHookExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.PersistenceFailedExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.InvalidAttributeValueExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.IntegrationObjectItemAndClassConflictExceptionContextPopulator"/>
+                <bean class="de.hybris.platform.odata2services.odata.errors.InvalidClassTypeExceptionContextPopulator"/>
+                </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,24 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code) 
+; InboundPlantDepotMaster; INBOUND 
+ 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code) 
+; InboundPlantDepotMaster	; WarehouseType          	; WarehouseType          	; 	; ALL_SUBTYPES           	;  
+; InboundPlantDepotMaster	; Vendor                 	; Vendor                 	; 	; ALL_SUB_AND_SUPER_TYPES	;  
+; InboundPlantDepotMaster	; SCLSAPSalesOrganization	; SCLSAPSalesOrganization	; 	; ALL_SUB_AND_SUPER_TYPES	;  
+; InboundPlantDepotMaster	; Warehouse              	; Warehouse              	; true	; ALL_SUB_AND_SUPER_TYPES	;  
+ 
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false] 
+; InboundPlantDepotMaster:WarehouseType          	; code                	; WarehouseType:code                         	;                                                	; true	;  
+; InboundPlantDepotMaster:Vendor                 	; code                	; Vendor:code                                	;                                                	; true	;  
+; InboundPlantDepotMaster:SCLSAPSalesOrganization	; division            	; SCLSAPSalesOrganization:division           	;                                                	; true	;  
+; InboundPlantDepotMaster:SCLSAPSalesOrganization	; salesOrganization   	; SCLSAPSalesOrganization:salesOrganization  	;                                                	; true	;  
+; InboundPlantDepotMaster:SCLSAPSalesOrganization	; distributionChannel 	; SCLSAPSalesOrganization:distributionChannel	;                                                	; true	;  
+; InboundPlantDepotMaster:Warehouse              	; name                	; Warehouse:name                             	;                                                	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; workingHourEndTime  	; Warehouse:workingHourEndTime               	;                                                	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; organisationId      	; Warehouse:organisationId                   	;                                                	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; type                	; Warehouse:type                             	; InboundPlantDepotMaster:WarehouseType          	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; vendor              	; Warehouse:vendor                           	; InboundPlantDepotMaster:Vendor                 	; 	; true 
+; InboundPlantDepotMaster:Warehouse              	; sapSalesOrganization	; Warehouse:sapSalesOrganization             	; InboundPlantDepotMaster:SCLSAPSalesOrganization	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; workingHourStartTime	; Warehouse:workingHourStartTime             	;                                                	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; distributionChannel 	; Warehouse:distributionChannel              	;                                                	; 	;  
+; InboundPlantDepotMaster:Warehouse              	; code                	; Warehouse:code                             	;                                                	; true	;  

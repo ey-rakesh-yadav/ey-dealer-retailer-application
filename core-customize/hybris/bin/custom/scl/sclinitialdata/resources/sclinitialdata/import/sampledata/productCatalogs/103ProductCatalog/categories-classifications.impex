@@ -1,0 +1,40 @@
+# -----------------------------------------------------------------------
+# Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Category Classifications
+
+# Macros / Replacement Parameter definitions
+$productCatalog=103ProductCatalog
+$productCatalogName=Bangur Product Catalog
+$classificationCatalog=103ClassificationCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$classCatalogVersion=catalogversion(catalog(id[default='$classificationCatalog']),version[default='1.0'])[unique=true,default='$classificationCatalog:1.0']
+$classSystemVersion=systemVersion(catalog(id[default='$classificationCatalog']),version[default='1.0'])[unique=true]
+$class=classificationClass(ClassificationClass.code,$classCatalogVersion)[unique=true]
+$supercategories=source(code, $classCatalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$attribute=classificationAttribute(code,$classSystemVersion)[unique=true]
+$unit=unit(code,$classSystemVersion)
+
+
+# Insert Classifications
+INSERT_UPDATE ClassificationClass;$classCatalogVersion;code[unique=true];name[$lang] ;allowedPrincipals(uid)[default='customergroup']
+#                                 ;                     ; 10000              ; Technical Details ;
+
+# Insert Classification Attributes
+INSERT_UPDATE ClassificationAttribute;$classSystemVersion;code[unique=true]
+#                                     ;                    ; state, 10001            ; State
+#                                     ;                    ; customerCategory, 10002            ; Customer Category
+#                                     ;                    ; salesType, 10003            ; Sales Type
+#                                     ;                    ; packagingCond, 10004            ; Packaging Condition
+# Links ClassificationClasses to Categories
+INSERT_UPDATE CategoryCategoryRelation;$categories;$supercategories
+#                                      ; cement      ; 10000 ;
+
+INSERT_UPDATE ClassAttributeAssignment;$class;$attribute;position;$unit;attributeType(code[default=string]);multiValued[default=false];range[default=false];localized[default=true]
+#                                      ; 10000 ; state, 10001 ; 1       ;      ;                                      ;                             ;                       ;
+#                                      ; 10000 ; customerCategory, 10002 ; 3       ;      ;                                      ;                             ;                       ;
+#                                      ; 10000 ; salesType, 10003 ; 2       ;      ;                                      ;                             ;                       ;
+#                                      ; 10000 ; packagingCond, 10004 ; 4       ;      ;                                      ;                             ;                       ;
+ 

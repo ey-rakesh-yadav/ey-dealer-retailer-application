@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<process xmlns="http://www.hybris.de/xsd/processdefinition" start="sendDealerRetailerMappingToCpi" name="dealerRetailerMapping-process" processClass="com.scl.core.model.SclDealerRetailerMappingProcessModel">
+
+	<action id="sendDealerRetailerMappingToCpi" bean="sendDealerRetailerMappingToCpiAction">
+		<transition name="OK" to="success"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<end id="error" state="ERROR">DealerRetailerMapping Creation Failed!!</end>
+	<end id="success" state="SUCCEEDED">DealerRetailerMapping Creation completed.</end>
+
+</process>

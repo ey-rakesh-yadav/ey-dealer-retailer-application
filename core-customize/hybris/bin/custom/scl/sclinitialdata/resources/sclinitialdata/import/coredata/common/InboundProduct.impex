@@ -1,0 +1,44 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProduct; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProduct	; CatalogVersion         	; CatalogVersion         	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProduct	; SCLSAPSalesOrganization	; SCLSAPSalesOrganization	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProduct	; SclBrand               	; SclBrand               	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProduct	; Product                	; Product                	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProduct	; Catalog                	; Catalog                	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProduct	; CustomerCategory       	; CustomerCategory       	; 	; ALL_SUBTYPES           	;
+                                   ; InboundProduct	; ArticleApprovalStatus  	; ArticleApprovalStatus  	; 	; ALL_SUBTYPES           	;
+                                   ; InboundProduct	; Category               	; Category               	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProduct:CatalogVersion         	; catalog             	; CatalogVersion:catalog                     	; InboundProduct:Catalog                	; true	;
+                                            ; InboundProduct:CatalogVersion         	; version             	; CatalogVersion:version                     	;                                       	; true	;
+                                            ; InboundProduct:SCLSAPSalesOrganization	; division            	; SCLSAPSalesOrganization:division           	;                                       	; true	;
+                                            ; InboundProduct:SCLSAPSalesOrganization	; salesOrganization   	; SCLSAPSalesOrganization:salesOrganization  	;                                       	; true	;
+                                            ; InboundProduct:SCLSAPSalesOrganization	; distributionChannel 	; SCLSAPSalesOrganization:distributionChannel	;                                       	; true	;
+                                            ; InboundProduct:SclBrand               	; code                	; SclBrand:code                              	;                                       	; true	;
+                                            ; InboundProduct:Product                	; grade               	; Product:grade                              	;                                       	; 	;
+                                            ; InboundProduct:Product                	; approvalStatus      	; Product:approvalStatus                     	; InboundProduct:ArticleApprovalStatus  	; 	;
+                                            ; InboundProduct:Product                	; catalogVersion      	; Product:catalogVersion                     	; InboundProduct:CatalogVersion         	; true	;
+                                            ; InboundProduct:Product                	; name                	; Product:name                               	;                                       	; 	;
+                                            ; InboundProduct:Product                	; sapSalesOrganization	; Product:sapSalesOrganization               	; InboundProduct:SCLSAPSalesOrganization	; 	;
+                                            ; InboundProduct:Product                	; gradeCode           	; Product:gradeCode                          	;                                       	; 	;
+                                            ; InboundProduct:Product                	; supercategories     	; Product:supercategories                    	; InboundProduct:Category               	; 	;
+                                            ; InboundProduct:Product                	; baseGrade           	; Product:baseGrade                          	;                                       	; 	;
+                                            ; InboundProduct:Product                	; bagType             	; Product:bagType                            	;                                       	; 	;
+                                            ; InboundProduct:Product                	; brandCode           	; Product:brandCode                          	; InboundProduct:SclBrand               	; 	;
+                                            ; InboundProduct:Product                	; inventoryId         	; Product:inventoryId                        	;                                       	; 	;
+                                            ; InboundProduct:Product                	; bagTypeCode         	; Product:bagTypeCode                        	;                                       	; 	;
+                                            ; InboundProduct:Product                	; baseGradeCode       	; Product:baseGradeCode                      	;                                       	; 	;
+                                            ; InboundProduct:Product                	; code                	; Product:code                               	;                                       	; true	;
+                                            ; InboundProduct:Product                	; custCategory        	; Product:custCategory                       	; InboundProduct:CustomerCategory       	; 	;
+                                            ; InboundProduct:Product                	; brand               	; Product:brand                              	;                                       	; 	;
+                                            ; InboundProduct:Catalog                	; id                  	; Catalog:id                                 	;                                       	; true	;
+                                            ; InboundProduct:CustomerCategory       	; code                	; CustomerCategory:code                      	;                                       	; true	;
+                                            ; InboundProduct:ArticleApprovalStatus  	; code                	; ArticleApprovalStatus:code                 	;                                       	; true	;
+                                            ; InboundProduct:Category               	; catalogVersion      	; Category:catalogVersion                    	; InboundProduct:CatalogVersion         	; true	;
+                                            ; InboundProduct:Category               	; code                	; Category:code                              	;                                       	; true	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundProduct

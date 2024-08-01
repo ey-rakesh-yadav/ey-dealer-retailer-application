@@ -1,0 +1,16 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code) 
+; InboundSclCustomerBlockStatus; INBOUND 
+ 
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code) 
+; InboundSclCustomerBlockStatus	; SclCustomer	; SclCustomer	; true	; ALL_SUB_AND_SUPER_TYPES	;  
+ 
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false] 
+; InboundSclCustomerBlockStatus:SclCustomer	; uid       	; SclCustomer:uid       	;                               	; true	;  
+; InboundSclCustomerBlockStatus:SclCustomer	; active    	; SclCustomer:active    	;                               	; 	;  
+; InboundSclCustomerBlockStatus:SclCustomer	; email     	; SclCustomer:email     	;                               	; 	;  
+; InboundSclCustomerBlockStatus:SclCustomer	; customerID	; SclCustomer:customerID	;                               	; 	;  
+; InboundSclCustomerBlockStatus:SclCustomer	; name      	; SclCustomer:name      	;                               	; 	;
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundSclCustomerBlockStatus

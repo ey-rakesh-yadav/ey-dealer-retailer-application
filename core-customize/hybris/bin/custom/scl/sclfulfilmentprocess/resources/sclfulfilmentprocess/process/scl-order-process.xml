@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved.
+-->
+<process xmlns="http://www.hybris.de/xsd/processdefinition" start="orderAutoValidation" name="scl-order-process" processClass="de.hybris.platform.orderprocessing.model.OrderProcessModel">
+
+	<action id="orderAutoValidation" bean="orderAutoValidation">
+		<transition name="OK" to="success"/>
+		<transition name="NOK" to="failed"/>
+	</action>
+
+<!-- 	<action id="sendOrderHeaderToERP" bean="sendOrderHeaderToERP">
+		<transition name="OK" to="waitForOrderHeaderSuccess"/>
+		<transition name="NOK" to="error"/>
+	</action>
+	<wait id="waitForOrderHeaderSuccess" then="checkOrderHeaderResponse" prependProcessCode="false">
+		<event>${process.order.code}_ORDER_HEADER_TO_ERP_SUCCESS_EVENT</event>
+	</wait>
+
+	<action id="checkOrderHeaderResponse" bean="checkOrderHeaderResponse">
+		<transition name="OK" to="sendLineItemToERP"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<action id="sendLineItemToERP" bean="sendLineItemToERP">
+		<transition name="OK" to="waitForLineItemSuccess"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<wait id="waitForLineItemSuccess" then="checkLineItemResponse" prependProcessCode="false">
+		<event>${process.order.code}_ORDER_LINE_ITEM_TO_ERP_SUCCESS_EVENT</event>
+	</wait>
+
+	<action id="checkLineItemResponse" bean="checkLineItemResponse">
+		<transition name="OK" to="orderBookingToERP"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<action id="orderBookingToERP" bean="orderBookingToERP">
+		<transition name="OK" to="success"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<action id="sendForOrderReview" bean="sendForOrderReview">
+		<transition name="OK" to="waitForOrderReviewDecision"/>
+		<transition name="NOK" to="error"/>
+	</action>
+	<wait id="waitForOrderReviewDecision" then="checkOrderReviewStatus" prependProcessCode="false">
+  		<event>${process.order.code}_ORDER_REVIEW_DECISION</event>
+	</wait>
+
+	<action id="checkOrderReviewStatus" bean="checkOrderReviewStatus">
+		<transition name="OK" to="sendOrderHeaderToERP"/>
+		<transition name="NOK" to="cancelOrder" />
+		<transition name="MODIFY" to="orderAutoValidation" />
+	</action>
+
+	<action id="cancelOrder" bean="cancelOrder">
+		<transition name="OK" to="success"/>
+		<transition name="NOK" to="error" />
+	</action> -->
+<!--<action id="fraudCheck" bean="fraudCheckOrderInternalAction">
+		<transition name="OK" to="sendOrderPlacedNotification"/>
+		<transition name="POTENTIAL" to="manualOrderCheckCSA" />
+		<transition name="FRAUD" to="notifyCustomer" />
+	</action>
+	
+	<action id="manualOrderCheckCSA" bean="prepareOrderForManualCheckAction">
+		<transition name="OK" to="waitForManualOrderCheckCSA"/>
+	</action>
+
+	<wait id="waitForManualOrderCheckCSA" then="orderManualChecked" prependProcessCode="false" >
+		<event>${process.code}_CSAOrderVerified</event>
+	</wait>
+	
+	<action id="orderManualChecked" bean="orderManualCheckedAction">
+		<transition name="OK" to="sendOrderPlacedNotification"/>
+		<transition name="NOK" to="waitForCleanUp"/>
+		<transition name="UNDEFINED" to="waitForManualOrderCheckCSA"/>
+	</action>
+	
+	<action id="notifyCustomer" bean="notifyCustomerAboutFraudAction">
+		<transition name="OK" to="waitForCleanUp"/>
+	</action>
+	
+	<wait id="waitForCleanUp" then="scheduleForCleanUp" prependProcessCode="false">
+		<event>${process.code}_CleanUpEvent</event>
+	</wait>
+	
+	<action id="scheduleForCleanUp" bean="scheduleForCleanUpAction">
+		<transition name="OK" to="cancelOrder"/>
+		<transition name="NOK" to="orderManualChecked" /> 
+	</action>
+
+	<action id="sendOrderPlacedNotification" bean="sendOrderPlacedNotificationAction">
+		<transition name="OK" to="takePayment"/>
+	</action>
+	
+	<action id="takePayment" bean="takePaymentAction">
+		<transition name="OK" to="splitOrder"/>
+		<transition name="NOK" to="sendPaymentFailedNotification"/>
+	</action>
+
+	<action id="cancelOrder" bean="cancelWholeOrderAuthorizationAction">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="authorizationFailedNotification" bean="sendAuthorizationFailedNotificationAction">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="sendPaymentFailedNotification" bean="sendPaymentFailedNotificationAction">
+		<transition name="OK" to="failed"/>
+	</action>
+
+	<action id="splitOrder" bean="splitOrderAction">
+		<transition name="OK" to="waitForWarehouseSubprocessEnd"/>
+	</action>
+
+	<wait id="waitForWarehouseSubprocessEnd" then="isProcessCompleted" prependProcessCode="false" >
+		<event>${process.code}_ConsignmentSubprocessEnd</event>
+	</wait>
+
+	<action id="isProcessCompleted" bean="subprocessesCompletedAction">
+		<transition name="OK" to="setOrderExpirationTime"/>
+		<transition name="NOK" to="waitForWarehouseSubprocessEnd"/>
+	</action>
+	
+	<action id="setOrderExpirationTime" bean="setOrderExpirationTimeAction">
+		<transition name="OK" to="sendOrderCompletedNotification"/>
+		<transition name="NOK" to="error"/>
+	</action>
+
+	<action id="sendOrderCompletedNotification" bean="sendOrderCompletedNotificationAction">
+		<transition name="OK" to="success"/>
+	</action>-->
+
+	<end id="error" state="ERROR">All went wrong.</end>
+	<end id="failed" state="FAILED">Order not placed.</end>
+	<end id="success" state="SUCCEEDED">Order placed.</end>
+
+</process>

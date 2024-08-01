@@ -1,0 +1,44 @@
+# TSO ADMIN CUSTOMIZED/ACCESS BACKOFFICE IMPEX
+
+$defaultPassword=1234
+
+INSERT_UPDATE UserGroup; UID[unique=true]; name
+                       ; tsogroup        ; TSO User Group
+
+INSERT_UPDATE BackofficeRole; UID[unique = true] ; groups(uid)[mode = append]; locName                              ; name                                ; backOfficeLoginDisabled ; authorities
+                            ; tsoadmin           ; tsogroup                  ; Backoffice Workflow tso admin Group  ; Backoffice Workflow tso admin Group ; FALSE                   ; backofficeworkflowuser
+
+$START_USERRIGHTS; ; ; ; ; ; ; ; ;
+Type      ; UID      ; MemberOfGroups ; Password     ; Target                    ; read ; change ; create ; remove ; change_perm
+UserGroup ; tsoadmin ;                ; 1234         ;                           ;      ;        ;        ;        ;
+
+# Access Rights for Workflow Users ;;;;;;;;;
+          ;       ;                ;          ; Type                             ; +    ;+        ;+      ;+
+          ;       ;                ;          ; DataConstraint                   ; +    ;+        ;+      ;+
+          ;       ;                ;          ; NatureOfComplaint                ; +    ;+        ;+      ;+
+          ;       ;                ;          ; PersonMetAtSite                  ; +    ;+        ;+      ;+
+          ;       ;                ;          ; CurrentStageOfSiteConstruction   ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteServiceType                  ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteServiceTest                  ; +    ;+        ;+      ;+
+          ;       ;                ;          ; CompetitorProductType            ; +    ;+        ;+      ;+
+          ;       ;                ;          ; PremiumProductType               ; +    ;+        ;+      ;+
+          ;       ;                ;          ; CompetitorProduct                ; +    ;+        ;+      ;+
+          ;       ;                ;          ; CompetitionSiteStatus            ; +    ;+        ;+      ;+
+          ;       ;                ;          ; OwnSiteStatus                    ; +    ;+        ;+      ;+
+          ;       ;                ;          ; ReasonOfNotConversion            ; +    ;+        ;+      ;+
+          ;       ;                ;          ; MeetingType			             ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteType			             ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteStage					     ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteRootCause	                 ; +    ;+        ;+      ;+
+          ;       ;                ;          ; DataConstraint                   ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SclSiteMaster	                 ; +    ;+        ;+      ;+
+          ;       ;                ;          ; SiteVisitMaster	                 ; +    ;+        ;+      ;+
+          ;       ;                ;          ; TsoTalukaMapping	             ; +    ;+        ;+      ;+
+          ;       ;                ;          ; CompetitorProduct	             ; +    ;+        ;+      ;+
+
+$END_USERRIGHTS; ; ; ; ;
+
+
+INSERT_UPDATE Employee;UID[unique=true];groups(uid)[mode=append];description        ;name;password[default=$defaultPassword]
+                      ;tsoAdminEmp1    ;tsoadmin                ;TSO Admin Employee ;TSO Admin Employee1;
+                      ;tsoAdminEmp2    ;tsoadmin                ;TSO Admin Employee ;TSO Admin Employee2;

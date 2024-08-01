@@ -1,0 +1,33 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; SclOutboundShipToPartyAddress; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; SclOutboundShipToPartyAddress	; CustomerGrouping      	; CustomerGrouping      	; 	; ALL_SUBTYPES           	;
+                                   ; SclOutboundShipToPartyAddress	; SclOutboundShipToParty	; SclOutboundShipToParty	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; SclOutboundShipToPartyAddress:CustomerGrouping      	; code            	; CustomerGrouping:code                  	;                                               	; true	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerEmail   	; SclOutboundShipToParty:customerEmail   	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; country         	; SclOutboundShipToParty:country         	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; latitude        	; SclOutboundShipToParty:latitude        	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerAddress3	; SclOutboundShipToParty:customerAddress3	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerAddress1	; SclOutboundShipToParty:customerAddress1	;                                               	; 	;
+                   #                         ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; state           	; SclOutboundShipToParty:state           	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; region          	; SclOutboundShipToParty:region          	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; accountName     	; SclOutboundShipToParty:accountName     	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerAddress2	; SclOutboundShipToParty:customerAddress2	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerAddress5	; SclOutboundShipToParty:customerAddress5	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerNo      	; SclOutboundShipToParty:customerNo      	;                                               	; true	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; retailerUid     	; SclOutboundShipToParty:retailerUid     	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; title           	; SclOutboundShipToParty:title           	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; postalCode      	; SclOutboundShipToParty:postalCode      	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; city            	; SclOutboundShipToParty:city            	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; transportationZone ; SclOutboundShipToParty:transportationZone          	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; longitude       	; SclOutboundShipToParty:longitude       	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerMobileNo	; SclOutboundShipToParty:customerMobileNo	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerGrouping	; SclOutboundShipToParty:customerGrouping	; SclOutboundShipToPartyAddress:CustomerGrouping	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; district        	; SclOutboundShipToParty:district        	;                                               	; 	;
+                                            ; SclOutboundShipToPartyAddress:SclOutboundShipToParty	; customerAddress4	; SclOutboundShipToParty:customerAddress4	;                                               	; 	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;SclOutboundShipToPartyAddress

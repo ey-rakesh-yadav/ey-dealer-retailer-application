@@ -1,0 +1,54 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundOrderStageGate; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundOrderStageGate	; DeliveryItem      	; DeliveryItem      	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOrderStageGate	; DeliveryItemStatus	; DeliveryItemStatus	; 	; ALL_SUBTYPES           	;
+                                   ; InboundOrderStageGate	; StageGateType     	; StageGateType     	; 	; ALL_SUBTYPES           	;
+                                   ; InboundOrderStageGate	; Order             	; Order             	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundOrderStageGate	; OrderEntry        	; OrderEntry        	; true	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundOrderStageGate:DeliveryItem      	; diNumber                  	; DeliveryItem:diNumber                  	;                                         	; true	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; truckDispatchedDateAndTime    ; DeliveryItem:truckDispatchedDateAndTime   ;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; truckAllocatedDate        	; DeliveryItem:truckAllocatedDate        	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; creationtime              	; DeliveryItem:creationtime              	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceCancelQuantity     	; DeliveryItem:invoiceCancelQuantity     	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; parentId                  	; DeliveryItem:parentId                  	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceQuantity           	; DeliveryItem:invoiceQuantity           	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; transporterName           	; DeliveryItem:transporterName           	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; status                    	; DeliveryItem:status                    	; InboundOrderStageGate:DeliveryItemStatus	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; erpOrderNumber            	; DeliveryItem:erpOrderNumber            	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceCreationDateAndTime	; DeliveryItem:invoiceCreationDateAndTime	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; transporterPhoneNumber    	; DeliveryItem:transporterPhoneNumber    	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; consigneeId               	; DeliveryItem:consigneeId               	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceCancelDate         	; DeliveryItem:invoiceCancelDate         	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; modifiedtime              	; DeliveryItem:modifiedtime              	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; truckAllocatedQty         	; DeliveryItem:truckAllocatedQty         	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; carrierId                 	; DeliveryItem:carrierId                 	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; truckNo                   	; DeliveryItem:truckNo                   	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceLineNumber           	; DeliveryItem:invoiceLineNumber           ;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; deliveryLineNumber           	; DeliveryItem:deliveryLineNumber           ;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; diQuantity                	; DeliveryItem:diQuantity                	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; invoiceNumber             	; DeliveryItem:invoiceNumber             	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; stageGateType             	; DeliveryItem:stageGateType             	; InboundOrderStageGate:StageGateType     	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; orderCreationDateAndTime  	; DeliveryItem:orderCreationDateAndTime  	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; diCreationDateAndTime     	; DeliveryItem:diCreationDateAndTime     	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; erpOrderType              	; DeliveryItem:erpOrderType              	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; erpDriverNumber           	; DeliveryItem:erpDriverNumber           	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; tokenNumber               	; DeliveryItem:tokenNumber               	;                                         	; 	;
+                                            ; InboundOrderStageGate:DeliveryItemStatus	; code                      	; DeliveryItemStatus:code                	;                                         	; true	;
+                                            ; InboundOrderStageGate:StageGateType     	; code                      	; StageGateType:code                     	;                                         	; true	;
+                                            ; InboundOrderStageGate:Order             	; code                      	; Order:code                             	;                                         	; true	;
+                                            ; InboundOrderStageGate:Order             	; erpOrderNumber            	; Order:erpOrderNumber                   	;                                         	; 	;
+                                            ; InboundOrderStageGate:OrderEntry        	; quantityShipped           	; OrderEntry:quantityShipped             	;                                         	; 	;
+                                            ; InboundOrderStageGate:OrderEntry        	; quantityUnallocated       	; OrderEntry:quantityUnallocated         	;                                         	; 	;
+                                            ; InboundOrderStageGate:OrderEntry        	; order                     	; OrderEntry:order                       	; InboundOrderStageGate:Order             	; true	;
+                                            ; InboundOrderStageGate:OrderEntry        	; deliveriesItem            	; OrderEntry:deliveriesItem              	; InboundOrderStageGate:DeliveryItem      	; 	; true
+                                            ; InboundOrderStageGate:OrderEntry        	; erpLineItemId             	; OrderEntry:erpLineItemId               	;                                         	; 	;
+                                            ; InboundOrderStageGate:OrderEntry        	; entryNumber               	; OrderEntry:entryNumber                 	;                                         	; true	;
+                                            ; InboundOrderStageGate:DeliveryItem      	; taxInvoiceNumber          	; DeliveryItem:taxInvoiceNumber          	;                                         	; 	;
+
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundOrderStageGate

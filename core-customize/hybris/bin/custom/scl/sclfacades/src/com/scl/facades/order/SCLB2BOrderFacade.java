@@ -1,0 +1,91 @@
+package com.scl.facades.order;
+
+import com.scl.core.model.SclUserModel;
+import com.scl.facades.data.*;
+import com.scl.facades.order.data.SCLOrderData;
+
+import com.scl.facades.order.data.SclOrderHistoryData;
+import de.hybris.platform.b2bacceleratorfacades.order.B2BOrderFacade;
+import de.hybris.platform.b2bacceleratorfacades.order.data.B2BOrderApprovalData;
+import de.hybris.platform.commercefacades.order.data.OrderData;
+import de.hybris.platform.commercefacades.order.data.CartData;
+import de.hybris.platform.commerceservices.order.CommerceCartModificationException;
+import de.hybris.platform.commercewebservicescommons.dto.order.CartWsDTO;
+import de.hybris.platform.core.servicelayer.data.PaginationData;
+import de.hybris.platform.core.servicelayer.data.SearchPageData;
+import de.hybris.platform.order.exceptions.CalculationException;
+
+import java.util.List;
+
+public interface SCLB2BOrderFacade extends B2BOrderFacade {
+
+    B2BOrderApprovalData updateOrderWithApprovalDecision(final String orderCode , final B2BOrderApprovalData b2BOrderApprovalData);
+
+
+    SCLOrderData getOrderDetails(final String orderCode , final String entryNumber, String diNumber, String deliveryLineNumber);
+
+    /**
+     * Method to map order statuses with input status
+     * @param inputStatus
+     * @return
+     */
+    String validateAndMapOrderStatuses(final String inputStatus);
+
+    PaginationData getPaginationDataForSOOrdersEntriesByCustomerAndStore(final SearchPageData searchPageData,final String statuses);
+    
+    boolean cancelOrderEntry(String orderCode, Integer orderEntryNo, String reason);
+    
+    DeliveryDateAndSlotListData fetchOptimalDeliveryDateAndSlot(final int orderQtyfinal, final String routeId , final String userId, final String sourceCode);
+    boolean cancelOrderByCode(String orderCode, String reason);
+
+    void modifyOrder(OrderData orderData) throws CommerceCartModificationException, CalculationException;
+
+    SearchPageData<SclOrderHistoryData> getOrderHistoryForOrder(SearchPageData searchPageData, String orderStatus, String filter,String productName,String orderType, Boolean isCreditLimitBreached, String spApprovalFilter, Boolean approvalPending);
+
+    SearchPageData<SclOrderHistoryData> getOrderHistoryForOrderEntry(SearchPageData searchPageData, String orderStatus, String filter,String productCode,String orderType, String spApprovalFilter);
+
+
+	CartData getOrderForCode(String code);
+	
+    DeliveryDateAndSlotListData fetchOptimalDeliveryWindow(final double orderQtyfinal, final String routeId , final String userId, final String sourceCode, String isDealerProvidingTruck);
+
+
+	List<DeliverySlotMasterData> getDeliverySlotList();
+
+
+	void updateTotalQuantity(long quantity);
+
+    SearchPageData<SclOrderHistoryData> getCancelOrderHistoryForOrder(SearchPageData searchPageData, String orderStatus, String filter,String productName,String orderType, String spApprovalFilter, Integer month, Integer year);
+
+    SearchPageData<SclOrderHistoryData> getCancelOrderHistoryForOrderEntry(SearchPageData searchPageData, String orderStatus, String filter,String productName,String orderType, String spApprovalFilter, Integer month, Integer year);
+
+
+	DeliveryDateAndSlotListData fetchOptimalISODeliveryWindow(Double orderQty, String routeId, String userId,
+			String sourceCode, String depotCode);
+
+    Boolean getVehicleArrivalConfirmationForOrder(boolean vehicleArrived, String orderCode, String entryNumber, String deliveryItemCode, String deliveryLineNumber);
+
+    Boolean updateEpodStatusForOrder(double shortageQuantity, String orderCode, int entryNumber, String deliveryItemCode, String deliveryLineNumber);
+
+    Boolean getOrderFromRetailersRequest(String requisitionId, String status);
+
+    SearchPageData<SclOrderHistoryData> getEpodListBasedOnOrderStatus(SearchPageData searchPageData, List<String> Status, String filter);
+
+    Boolean getEpodFeedback(EpodFeedbackData epodFeedbackData);
+
+    boolean updateSpApprovalStatus(String orderCode, String status, String spRejectionReason);
+    
+    B2BOrderApprovalData approveOrder(String orderCode, B2BOrderApprovalData b2bOrderApprovalData);
+
+    List<RejectionReasonData> getRejectionReasons();
+
+
+	SearchPageData<SclOrderHistoryData> getOrderHistoryForDeliveryItem(SearchPageData searchPageData,
+			String orderStatus, String filter, String spApprovalFilter);
+
+
+	Boolean updateTripEndedForDeliveryItem(String orderCode, String entryNumber, String deliveryItemCode,
+			String deliveryLineNumber);
+
+    ValidateOrderData validateOrder(String orderNumber, Integer entryNumber, String userId);
+}

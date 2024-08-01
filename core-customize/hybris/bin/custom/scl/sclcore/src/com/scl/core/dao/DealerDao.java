@@ -1,0 +1,38 @@
+package com.scl.core.dao;
+
+import java.util.Date;
+import java.util.List;
+
+import com.scl.core.model.*;
+import de.hybris.platform.core.model.product.ProductModel;
+
+public interface DealerDao {
+
+	List<List<Object>> getMonthWiseForRetailerMTD(List<SclCustomerModel> cusUids, List<String> districtList, List<String> subAreaList, Date startDate, Date endDate);
+	
+	List<List<Object>> getMonthWiseForInfluencerMTD(List<SclCustomerModel> cusUids, Date startDate, Date endDate);
+	
+	Double getMonthWiseForRetailerYTD(List<SclCustomerModel> cusUids, List<String> districtList, List<String> subAreaList, Date startDate, Date endDate);
+	
+	Double getMonthWiseForInfluencerYTD(List<SclCustomerModel> cusUids, Date startDate, Date endDate);
+	
+	ReceiptAllocaltionModel getDealerAllocation(ProductModel productCode, SclCustomerModel dealerCode);
+	
+	List<List<Integer>>  getDealerTotalAllocation(SclCustomerModel dealerCode);
+	
+	RetailerRecAllocateModel getRetailerAllocation(ProductModel productCode, SclCustomerModel dealerCode);
+	
+	List<List<Integer>>  getRetailerTotalAllocation(SclCustomerModel dealerModel);
+
+	List<SclCustomerModel>  getDealerFromTerritoryCode(TerritoryMasterModel territoryMasterModel);
+
+	List<SclUserModel> getSclUserUsingTerritoryCode(String trriId);
+
+	List<SclUserModel> getSclUserUsingTerritoryusermap(TerritoryMasterModel trriId);
+
+	PartnerCustomerModel getPartnerCustomerById(String id);
+
+	boolean isPartnerActiveMobilePresent(Boolean active, String mobileNumber, String partnerId, SclCustomerModel dealer);
+
+	boolean isCustomerMobileNumberPresent(String dealerMobileNumber);
+}

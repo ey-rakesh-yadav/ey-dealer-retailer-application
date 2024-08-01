@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2019 SAP SE or an SAP affiliate company. All rights reserved. -->
+<process xmlns="http://www.hybris.de/xsd/processdefinition"
+         start="sclSapCpiOutboundCancelOrderLineAction" name="sclOrderLineCancel-process"
+         processClass="com.scl.core.model.SclOrderLineCancelProcessModel">
+
+    <action id="sclSapCpiOutboundCancelOrderLineAction" bean="sclSapCpiOutboundCancelOrderLineAction">
+        <transition name="OK" to="success" />
+        <transition name="NOK" to="failed" />
+    </action>
+
+    <end id="error" state="ERROR">All went wrong.</end>
+    <end id="failed" state="FAILED"> </end>
+    <end id="success" state="SUCCEEDED"> </end>
+
+</process>

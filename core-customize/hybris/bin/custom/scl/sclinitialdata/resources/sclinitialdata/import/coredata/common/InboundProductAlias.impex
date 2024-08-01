@@ -1,0 +1,26 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundProductAlias; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundProductAlias	; Catalog       	; Catalog       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductAlias	; Product       	; Product       	; 	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductAlias	; ProductAlias  	; ProductAlias  	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundProductAlias	; CatalogVersion	; CatalogVersion	; 	; ALL_SUB_AND_SUPER_TYPES	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundProductAlias:Catalog       	; id            	; Catalog:id               	;                                   	; true	;
+                                            ; InboundProductAlias:Product       	; catalogVersion	; Product:catalogVersion   	; InboundProductAlias:CatalogVersion	; true	;
+                                            ; InboundProductAlias:Product       	; code          	; Product:code             	;                                   	; true	;
+                                            ; InboundProductAlias:ProductAlias  	; validTo       	; ProductAlias:validTo     	;                                   	; true 	;
+                                            ; InboundProductAlias:ProductAlias  	; aliasName     	; ProductAlias:aliasName   	;                                   	; 	;
+                                            ; InboundProductAlias:ProductAlias  	; modifiedtime  	; ProductAlias:modifiedtime	;                                   	; 	;
+                                            ; InboundProductAlias:ProductAlias  	; state         	; ProductAlias:state       	;                                   	; true	;
+                                            ; InboundProductAlias:ProductAlias  	; validFrom     	; ProductAlias:validFrom   	;                                   	; true	;
+                                            ; InboundProductAlias:ProductAlias  	; product       	; ProductAlias:product     	; InboundProductAlias:Product       	; true 	;
+                                            ; InboundProductAlias:ProductAlias  	; district      	; ProductAlias:district    	;                                   	; true	;
+                                            ; InboundProductAlias:CatalogVersion	; catalog       	; CatalogVersion:catalog   	; InboundProductAlias:Catalog       	; true	;
+                                            ; InboundProductAlias:CatalogVersion	; version       	; CatalogVersion:version   	;                                   	; true	;
+                                            ; InboundProductAlias:ProductAlias  	; isPremium     	; ProductAlias:isPremium   	;                                   	; 	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundProductAlias

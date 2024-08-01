@@ -1,0 +1,148 @@
+######### SendDealerRetailerMappingToCpiJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclSendDealerRetailerMappingToCpiJob;sclSendDealerRetailerMappingToCpiJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclSendDealerRetailerMappingToCpiJobCronJob;sclSendDealerRetailerMappingToCpiJob;false;en
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;sclSendDealerRetailerMappingToCpiJobCronJob; 0 0 0 * * ?
+
+
+
+######### PopulateUserSubareaMappingJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;populateUserSubareaMappingJob;populateUserSubareaMappingJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage;active
+                     ;populateUserSubareaMappingJobCronJob;populateUserSubareaMappingJob;false;en;false
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;populateUserSubareaMappingJobCronJob; 0 0 0 * * ?
+
+
+######### populateTSMUserMappingJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;populateTSMUserMappingJob;populateTSMUserMappingJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;populateTSMUserMappingJobCronJob;populateTSMUserMappingJob;false;en;false
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;populateTSMUserMappingJobCronJob; 0 0 0 * * ?
+
+######### SendDealerRetailerMappingToCpiJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclSendDealerRetailerMappingToCpiJob;sclSendDealerRetailerMappingToCpiJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclSendDealerRetailerMappingToCpiJobCronJob;sclSendDealerRetailerMappingToCpiJob;false;en
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;sclSendDealerRetailerMappingToCpiJobCronJob; 0 0 0 * * ?
+
+
+
+######### PopulateUserSubareaMappingJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;populateUserSubareaMappingJob;populateUserSubareaMappingJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;populateUserSubareaMappingJobCronJob;populateUserSubareaMappingJob;false;en
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;populateUserSubareaMappingJobCronJob; 0 0 0 * * ?
+
+
+######### populateRHMappingJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;populateRHMappingJob;populateRHMappingJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;populateRHMappingJobCronJob;populateRHMappingJob;false;en;false
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;populateRHMappingJobCronJob; 0 0 0 * * ?
+
+
+
+######### SclInternalSalesHeirarchyCreationJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclInternalSalesHeirarchyCreationJob;sclInternalSalesHeirarchyCreationJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);
+                     ;sclInternalSalesHeirarchyCreationJobCronJob;sclInternalSalesHeirarchyCreationJob;false;en
+
+#INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+      #               ;sclInternalSalesHeirarchyCreationJobCronJob; 0 0 0 * * ?
+
+
+
+##### SclInternalSalesHeirarchyCreationJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclCustomerPostPersistJob;sclCustomerPostPersistJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclCustomerPostPersistJobCronJob;sclCustomerPostPersistJob;false;en
+
+#INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+              #       ;sclCustomerPostPersistJobCronJob; 0 0 0 * * ?
+
+##### sclGeographicalMasterUpdateJobCronJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclGeographicalMasterUpdateJob;sclGeographicalMasterUpdateJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode)
+                     ;sclGeographicalMasterUpdateJobCronJob;sclGeographicalMasterUpdateJob;false;en
+
+#INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+ #                    ;sclGeographicalMasterUpdateJobCronJob; 0 0 0 * * ?
+
+
+######### SclGeoPostLogicMasterCreationJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclGeoPostLogicMasterCreationJob;sclGeoPostLogicMasterCreationJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;sclGeoPostLogicMasterCreationJobCronJob;sclGeoPostLogicMasterCreationJob;false;en;false
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;sclGeoPostLogicMasterCreationJobCronJob; 0 0 0 * * ?
+
+
+
+######### populateTSMUserMappingJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;cleanUpUserSubareaMappingJob;cleanUpUserSubareaMappingJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;cleanUpUserSubareaMappingJobCronJob;cleanUpUserSubareaMappingJob;false;en;false
+
+
+
+######### SclGeoPostLogicMasterCreationJob Job ###############
+INSERT_UPDATE ServicelayerJob;code[unique=true];springId[unique=true]
+                             ;sclGeoPostLogicMasterCreationJob;sclGeoPostLogicMasterCreationJob
+
+INSERT_UPDATE CronJob;code[unique=true];job(code);singleExecutable;sessionLanguage(isocode);active
+                     ;sclGeoPostLogicMasterCreationJobCronJob;sclGeoPostLogicMasterCreationJob;false;en;false
+
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];cronExpression
+                     ;sclGeoPostLogicMasterCreationJobCronJob; 0 0 0 * * ?
+
+
+# Composite Cron Job
+INSERT_UPDATE CompositeCronJob;code[unique=true];job(code);sessionLanguage(isocode);compositeEntries(code)
+                              ;sclCompositeCronjob;compositeJobPerformable;en;entry1,entry2,entry3,entry4
+
+# Items to run from the Composite Cron Job
+INSERT_UPDATE CompositeEntry;code[unique=true];executableCronJob(code);compositecronjobpos
+                            ;entry1;sclGeographicalMasterUpdateJobCronJob           ;1
+                            ;entry2;sclCustomerPostPersistJobCronJob                ;2
+                            ;entry3;sclInternalSalesHeirarchyCreationJobCronJob     ;3
+                            ;entry4;cleanUpUserSubareaMappingJobCronJob             ;4
+
+
+# Trigger for Composite Cron Job
+INSERT_UPDATE Trigger;cronjob(code)[unique=true];active;cronExpression
+                     ;sclCompositeCronjob;true; 0 30 18 * * ?

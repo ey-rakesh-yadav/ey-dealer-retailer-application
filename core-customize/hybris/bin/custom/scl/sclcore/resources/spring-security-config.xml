@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+			 xmlns:beans="http://www.springframework.org/schema/beans"
+			 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			 xsi:schemaLocation="http://www.springframework.org/schema/security
+           https://www.springframework.org/schema/security/spring-security.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd"
+>
+
+
+	<!-- <authentication-manager>
+		<authentication-provider ref="sclOtpAuthenticationProvider"/>
+	</authentication-manager> -->
+
+
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider ref="sclOtpAuthenticationProvider"/>
+	</authentication-manager>
+
+
+	
+	<beans:alias name="sclOtpAuthenticationProvider" alias="sclOtpAuthenticationProvider" />
+	<beans:bean id="sclOtpAuthenticationProvider" class="com.scl.core.region.service.impl.SclOtpAuthenticationProvider" parent="defaultWsAuthenticationProvider">
+	</beans:bean>
+
+
+	<beans:alias name="sclAuthenticationProvider" alias="wsAuthenticationProvider" />
+	<beans:bean id="sclAuthenticationProvider" class="com.scl.core.oauth.SclAuthenticationProvider" parent="defaultWsAuthenticationProvider">
+	</beans:bean>
+
+
+	<beans:alias name="otpCustomTokenGranter" alias="customTokenGranter" />
+	<beans:bean id="otpCustomTokenGranter" class="com.scl.core.region.service.impl.SclOtpCustomTokenGranter"  parent="defaultCustomTokenGranter">
+		<beans:constructor-arg name="authenticationManager" ref="authenticationManager" />
+		<beans:constructor-arg name="tokenServices" ref="oauthTokenServices" />
+		<beans:constructor-arg name="clientDetailsService" ref="oauthClientDetails" />
+		<beans:constructor-arg name="requestFactory" ref="oAuth2RequestFactory" />
+		<beans:property name="sclEndCustomerDao" ref="sclEndCustomerDao" />
+		<beans:property name="slctCrmIntegrationService" ref="slctCrmIntegrationService" />
+	</beans:bean>
+	
+</beans:beans>

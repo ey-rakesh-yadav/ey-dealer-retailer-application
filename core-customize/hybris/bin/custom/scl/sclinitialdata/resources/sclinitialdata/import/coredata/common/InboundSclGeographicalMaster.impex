@@ -1,0 +1,36 @@
+INSERT_UPDATE IntegrationObject; code[unique = true]; integrationType(code)
+                               ; InboundSclGeographicalMaster; INBOUND
+
+INSERT_UPDATE IntegrationObjectItem; integrationObject(code)[unique = true]; code[unique = true]; type(code); root[default = false]; itemTypeMatch(code)
+                                   ; InboundSclGeographicalMaster	; GeographicalMaster          	; GeographicalMaster          	; true	; ALL_SUB_AND_SUPER_TYPES	;
+                                   ; InboundSclGeographicalMaster	; GeographicalMasterUpdateFlag	; GeographicalMasterUpdateFlag	; 	; ALL_SUBTYPES           	;
+
+INSERT_UPDATE IntegrationObjectItemAttribute; integrationObjectItem(integrationObject(code), code)[unique = true]; attributeName[unique = true]; attributeDescriptor(enclosingType(code), qualifier); returnIntegrationObjectItem(integrationObject(code), code); unique[default = false]; autoCreate[default = false]
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; updateFlag              	; GeographicalMaster:updateFlag              	; InboundSclGeographicalMaster:GeographicalMasterUpdateFlag	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; countryCode             	; GeographicalMaster:countryCode             	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; transportationZone      	; GeographicalMaster:transportationZone      	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; region                  	; GeographicalMaster:region                  	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; fromDate                	; GeographicalMaster:fromDate                	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; districtCode            	; GeographicalMaster:districtCode            	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; territoryCodeDescription	; GeographicalMaster:territoryCodeDescription	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; talukaCode              	; GeographicalMaster:talukaCode              	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; territoryCode           	; GeographicalMaster:territoryCode           	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; erpCity                 	; GeographicalMaster:erpCity                 	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; state                   	; GeographicalMaster:state                   	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; transporterZoneName     	; GeographicalMaster:transporterZoneName     	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; zoneDescription         	; GeographicalMaster:zoneDescription         	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; toDate                  	; GeographicalMaster:toDate                  	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; stateCode               	; GeographicalMaster:stateCode               	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; district                	; GeographicalMaster:district                	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; cityCode                	; GeographicalMaster:cityCode                	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; regionManMade           	; GeographicalMaster:regionManMade           	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; regionNameManMade       	; GeographicalMaster:regionNameManMade       	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; country                 	; GeographicalMaster:country                 	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; pincode                 	; GeographicalMaster:pincode                 	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; taluka                  	; GeographicalMaster:taluka                  	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; zone                    	; GeographicalMaster:zone                    	;                                                          	; true	;
+                                            ; InboundSclGeographicalMaster:GeographicalMaster          	; creationtime            	; GeographicalMaster:creationtime            	;                                                          	; 	;
+                                            ; InboundSclGeographicalMaster:GeographicalMasterUpdateFlag	; code                    	; GeographicalMasterUpdateFlag:code          	;                                                          	; true	;
+
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;InboundSclGeographicalMaster

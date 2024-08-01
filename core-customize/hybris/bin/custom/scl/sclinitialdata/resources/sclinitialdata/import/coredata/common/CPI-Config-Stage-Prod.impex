@@ -1,0 +1,141 @@
+#SCL CPI Integration Configurations
+$username=sb-53c6dbfb-9a4d-46f4-a207-fbab9b92e242!b554|it-rt-prd-cpi-001-y55tewon!b148
+$password=25f28d9e-3088-42a7-8818-4185dac4d708$n4Lwl8c8rzWArYP1giDxAgB64lEaSjiQ4HirKpbBe20=
+
+#Order Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; prod-ordercreate-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiOrderCreateEndpoint      ; v1               ;SCL Order Create Integration API; https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/OrderRequest_CRM_to_S4
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-ordercreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclScpiOrderDestination ;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/OrderRequest_CRM_to_S4; sclScpiOrderCreateEndpoint:v1   ; prod-ordercreate-cpi; prod-ordercreate-cpi-target
+
+#Order Cancel Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; prod-ordercancel-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiOrderCancelEndpoint      ; v1               ;SCL Order Cancel Integration API; https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/ordercancellation
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-ordercancel-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclScpiOrderCancelDestination ;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/ordercancellation; sclScpiOrderCancelEndpoint:v1   ; prod-ordercancel-cpi; prod-ordercancel-cpi-target
+
+#ShipTo Party Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; prod-shiptopartyaddress-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiShipToPartyAddressEndpoint      ; v1               ;SCL Order Create Integration API; https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/CRMOutbound/ShipTo
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-shiptopartyaddress-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclShipToPartyAddressDestination ;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/CRMOutbound/ShipTo; sclScpiOrderCreateEndpoint:v1   ; prod-shiptopartyaddress-cpi; prod-shiptopartyaddress-cpi-target
+
+
+#ISO Order Create Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; dev-isoordercreate-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiIsoOrderCreateEndpoint      ; v1               ;SCL ISO Order Create Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderCreation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; dev-isoordercreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclScpiISOOrderDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderCreation_QA; sclScpiIsoOrderCreateEndpoint:v1   ; dev-isoordercreate-cpi; dev-isoordercreate-cpi-target
+
+#ISO Order Cancel Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; dev-isoordercancel-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiIsoOrderCancelEndpoint      ; v1               ;SCL ISO Order Cancel Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderLineCancellation_QA
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; dev-isoordercancel-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclScpiOrderCancelISODestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/ISOOrderLineCancellation_QA; sclScpiIsoOrderCancelEndpoint:v1   ; dev-isoordercancel-cpi; dev-isoordercancel-cpi-target
+
+#SCL Price Inbound
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiPriceCreateEndpointPROD      ; v1               ;SCL Price Create Integration API; https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/Pricefunction_Prod
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-pricecreate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclScpiPriceDestination ;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/Pricefunction_Prod; sclScpiPriceCreateEndpointPROD:v1   ; prod-ordercreate-cpi; prod-pricecreate-cpi-target
+
+
+#Order Sales Replication Configuration ccv2 dev
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; prod-ordersalesreplication-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiOrderReplicationEndpointprod      ; v1               ;SCL Order Replication Integration API;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/LineItemBatchUpdate
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-ordersalesreplication-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; SclOutboundLineItemIdDestination ;https://prd-cpi-001-y55tewon.it-cpi021-rt.cfapps.in30.hana.ondemand.com/http/LineItemBatchUpdate
+                                 ; sclScpiOrderReplicationEndpointprod:v1   ; prod-ordersalesreplication-cpi; prod-ordersalesreplication-cpi-target
+
+
+
+#SclSapCpiOutboundStageGateAction Replication Configuration ccv2 PROD
+INSERT_UPDATE BasicCredential; id[unique = true] ; username; password
+                             ; prod-stageGate-cpi ; $username   ; $password
+
+INSERT_UPDATE Endpoint; id[unique = true]; version[unique = true]; name                 ; specUrl
+                      ; sclScpiStageGateEndpointprod      ; v1               ;SCL Stage Gate Integration API; https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CRMOutbound/StageGate
+
+INSERT_UPDATE DestinationTarget; id[unique = true]
+                               ; prod-stageGate-cpi-target
+
+INSERT_UPDATE ConsumedDestination; id[unique = true]; url; endpoint(id, version); credential(id)    ; destinationTarget(id); active[default=true]
+                                 ; sclStageGateDestination ;https://dev-cpi-001-785gayb0.it-cpi012-rt.cfapps.ap21.hana.ondemand.com/http/CRMOutbound/StageGate; sclScpiStageGateEndpointprod:v1   ; prod-stageGate-cpi; prod-stageGate-cpi-target ;
+
+
+#Inbound Channel Configuration
+INSERT_UPDATE InboundChannelConfiguration; integrationObject(code)[unique = true]; authenticationType(code)[default=BASIC];
+                                         ;SclOutboundCancelISOOrder
+                                         ;SclOutboundISOOrder
+                                         ;SclOutboundShipToPartyAddress
+                                         ;SclOutboundCancelOrder
+                                         ;InboundShipToPartyAddress
+                                         ;SclOutboundOrder
+                                         ;MarketMappingInbound
+                                         ;InboundDJPRunMaster
+                                         ;InboundDJPRouteScoreMaster
+                                         ;InboundDJPCounterScoreMaster
+                                         ;InboundDJPVisit
+                                         ;InboundDJPCounterVisit
+                                         ;InboundBillingPriceMaster
+                                         ;InboundCreditAndOutstanding
+                                         ;InboundDepotStockMaster
+                                         ;InboundDestinationSourceMaster
+                                         ;InboundDailyAverageSales
+                                         ;InboundProspectiveNetworksList
+                                         ;InboundOrderFlow
+                                         ;InboundOrderLineScheduler
+                                         ;InboundSclCustomerMarketMapping
+                                         ;InboundSalesPlanningBottomUp
+                                         ;SclOutboundLineItemId
+                                         ;InboundDealerMonthlyTargets
+                                         ;InboundPointRequistition
+                                         ;InboundInfluencerOnboarding
+                                         ;InboundSiteVisitMaster
+                                         ;InboundDeliveryItemEpod
