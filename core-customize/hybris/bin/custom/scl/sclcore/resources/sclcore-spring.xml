@@ -1446,9 +1446,9 @@
         <property name="territoryMasterService" ref="territoryMasterService"/>
     </bean>
 
-    <bean id="europe1.manager" class="com.scl.core.jalo.SclCatalogAwareEurope1PriceFactory" init-method="init" destroy-method="destroy">
+  <!--  <bean id="europe1.manager" class="com.scl.core.jalo.SclCatalogAwareEurope1PriceFactory" init-method="init" destroy-method="destroy">
         <property name="retrieveChannelStrategy" ref="retrieveChannelStrategy"/>
-    </bean>
+    </bean> --> 
 
     <bean id="salesPerformanceDao" class="com.scl.core.dao.impl.SalesPerformanceDaoImpl">
         <property name="flexibleSearchService" ref="flexibleSearchService"/>
